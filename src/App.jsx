@@ -3,6 +3,7 @@ import "@fontsource/michroma/400.css";
 import "@fontsource-variable/inter/wght.css";
 import { ArrowLeftIcon } from "@phosphor-icons/react/dist/csr/ArrowLeft";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/csr/ArrowRight";
+import { ArrowUpIcon } from "@phosphor-icons/react/dist/csr/ArrowUp";
 import { CheckCircleIcon } from "@phosphor-icons/react/dist/csr/CheckCircle";
 import { CpuIcon } from "@phosphor-icons/react/dist/csr/Cpu";
 import { GlobeHemisphereWestIcon } from "@phosphor-icons/react/dist/csr/GlobeHemisphereWest";
@@ -44,9 +45,9 @@ const content = {
     menuClose: "Fechar menu",
     navLabel: "Navegação principal",
     languageLabel: "Idioma",
+    backToTopLabel: "Voltar ao topo",
     nav: { solutions: "Soluções", method: "Método", about: "Sobre", contact: "Contato" },
     slogan: "Tecnologia com propósito. Oportunidades sem fronteiras.",
-    heroCta: "Conversar com a Tetelestai",
     servicesLabel: "Soluções Tetelestai",
     services: [
       {
@@ -137,6 +138,7 @@ const content = {
     privacy: "Privacidade",
     privacyPath: "/privacidade/",
     footerNote: "Tecnologia com propósito. Oportunidades sem fronteiras.",
+    footerVerse: "Está consumado! (João 19:30)",
     privacyPage: {
       kicker: "Privacidade",
       title: "Privacidade e proteção de dados",
@@ -174,9 +176,9 @@ const content = {
     menuClose: "Close menu",
     navLabel: "Primary navigation",
     languageLabel: "Language",
+    backToTopLabel: "Back to top",
     nav: { solutions: "Solutions", method: "Method", about: "About", contact: "Contact" },
     slogan: "Technology with purpose. Opportunities without borders.",
-    heroCta: "Contact Tetelestai",
     servicesLabel: "Tetelestai solutions",
     services: [
       {
@@ -261,6 +263,7 @@ const content = {
     privacy: "Privacy",
     privacyPath: "/en/privacy/",
     footerNote: "Technology with purpose. Opportunities without borders.",
+    footerVerse: "It is finished! (John 19:30)",
     privacyPage: {
       kicker: "Privacy",
       title: "Privacy and data protection",
@@ -337,19 +340,30 @@ function Header({ t, locale, page }) {
   );
 }
 
+function BackToTop({ label }) {
+  return (
+    <div className="back-to-top-row">
+      <a className="back-to-top" href="#home" aria-label={label}>
+        <ArrowUpIcon size={24} weight="light" aria-hidden="true" />
+      </a>
+    </div>
+  );
+}
+
 function Footer({ t, locale }) {
   const homePath = locale === "en" ? "/en/" : "/";
   return (
     <footer className="site-footer">
       <div className="site-footer__inner">
         <a className="brand-link" href={homePath} aria-label={t.homeLabel}><Brand compact /></a>
-        <p>{t.footerNote}</p>
+        <p className="site-footer__note">{t.footerNote}</p>
         <div className="site-footer__company">
           <span>Tetelestai Soluções em Tecnologia Ltda.</span>
           <span>CNPJ 58.138.258/0001-39</span>
           <span>Carlos Viegas — {locale === "en" ? "technical lead" : "responsável técnico"}</span>
           <span>Gabriela Rosa — {locale === "en" ? "administrator" : "administradora"}</span>
         </div>
+        <p className="site-footer__verse">{t.footerVerse}</p>
         <a className="footer-link" href={t.privacyPath}>{t.privacy}</a>
       </div>
     </footer>
@@ -394,7 +408,6 @@ function HomePage({ t, locale }) {
               <span className="hero__wordmark">TETELESTAI</span>
               <span className="hero__slogan">{t.slogan}</span>
             </h1>
-            <a className="button button--primary" href="#contact">{t.heroCta}</a>
           </div>
         </section>
 
@@ -416,13 +429,14 @@ function HomePage({ t, locale }) {
 
         <section className="intro-section" aria-labelledby="intro-title">
           <div className="section-shell intro-section__inner">
-            <div>
+            <div className="intro-section__copy">
               <h2 id="intro-title">{t.introTitle[0]}<br />{t.introTitle[1]}</h2>
               <span className="short-rule" aria-hidden="true" />
               <p>{t.introText}</p>
             </div>
             <img src="/assets/circuit-network.png" width="836" height="471" alt="" aria-hidden="true" />
           </div>
+          <BackToTop label={t.backToTopLabel} />
         </section>
 
         <section className="solutions-detail" aria-labelledby="solutions-title">
@@ -444,6 +458,7 @@ function HomePage({ t, locale }) {
               })}
             </div>
           </div>
+          <BackToTop label={t.backToTopLabel} />
         </section>
 
         <section id="method" className="method-section" aria-labelledby="method-title">
@@ -459,6 +474,7 @@ function HomePage({ t, locale }) {
               ))}
             </ol>
           </div>
+          <BackToTop label={t.backToTopLabel} />
         </section>
 
         <section id="about" className="about-section" aria-labelledby="about-title">
@@ -477,6 +493,7 @@ function HomePage({ t, locale }) {
               ))}
             </div>
           </div>
+          <BackToTop label={t.backToTopLabel} />
         </section>
 
         <section className="faq-section" aria-labelledby="faq-title">
@@ -488,6 +505,7 @@ function HomePage({ t, locale }) {
               ))}
             </div>
           </div>
+          <BackToTop label={t.backToTopLabel} />
         </section>
 
         <section id="contact" className="contact-section" aria-labelledby="contact-title">
@@ -498,6 +516,7 @@ function HomePage({ t, locale }) {
               <p>{t.safety}</p>
             </div>
           </div>
+          <BackToTop label={t.backToTopLabel} />
         </section>
       </main>
       <Footer t={t} locale={locale} />

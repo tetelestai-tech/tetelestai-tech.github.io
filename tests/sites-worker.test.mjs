@@ -100,12 +100,22 @@ test("publishes only the confirmed WhatsApp contact channel", async () => {
     scriptNames.map((name) => readFile(new URL(name, assetsDirectory), "utf8")),
   );
   const productionJavaScript = scriptContents.join("\n");
+  const appSource = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
 
   assert.match(productionJavaScript, /https:\/\/wa\.me\/5561998821206/);
   assert.match(productionJavaScript, /Conversar pelo WhatsApp/);
   assert.match(productionJavaScript, /Chat on WhatsApp/);
+  assert.doesNotMatch(productionJavaScript, /Conversar com a Tetelestai/);
+  assert.doesNotMatch(productionJavaScript, /Contact Tetelestai/);
+  assert.match(productionJavaScript, /Está consumado! \(João 19:30\)/);
+  assert.match(productionJavaScript, /It is finished! \(John 19:30\)/);
+  assert.match(productionJavaScript, /Voltar ao topo/);
+  assert.match(productionJavaScript, /Back to top/);
   assert.doesNotMatch(productionJavaScript, /tel:\+5561998821206/);
   assert.doesNotMatch(productionJavaScript, /\(61\) 99882-1206/);
   assert.doesNotMatch(productionJavaScript, /Ligar para a Tetelestai/);
   assert.doesNotMatch(productionJavaScript, /Call Tetelestai/);
+  assert.equal(appSource.match(/<BackToTop\b/g)?.length ?? 0, 6);
+  assert.match(appSource, /function BackToTop[\s\S]*?href="#home"/);
+  assert.match(appSource, /className="button button--primary" href=\{WHATSAPP_LINK\}/);
 });

@@ -180,7 +180,7 @@ When GitHub's DNS check succeeds, enable **Enforce HTTPS** under repository **Se
 - `https://www.tetelestai.tech/` redirects correctly.
 - PT and EN pages load with correct titles and language.
 - The cross/T logo and local fonts load.
-- The contact CTA reaches the contact section.
+- The hero has no CTA; contact remains available through the WhatsApp button in the `#contact` section.
 - The contact button opens `https://wa.me/5561998821206` and the telephone number is not displayed in the contact card or footer.
 - Unknown URLs return 404 rather than the homepage.
 - No analytics, form or non-essential cookies appear unexpectedly.

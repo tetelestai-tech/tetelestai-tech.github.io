@@ -108,3 +108,17 @@ Follow-up polish (P3):
 - [x] Repeat browser and visual comparison after P1/P2 fixes.
 
 final result: WhatsApp build/test and local visual recheck passed
+
+## Approved visual adjustment round
+
+- The hero CTA is removed while the confirmed WhatsApp button remains the primary conversion in the contact section.
+- The circuit introduction and detailed solution cards each end with an accessible back-to-top link; method, about, FAQ and contact keep theirs in normal desktop flow. Desktop spacing above and below each control is equal, and all six are hidden without residual space at `900 px` and below.
+- The company-information group and localized verse are centered while the slogan and privacy link remain separate.
+- At `620 px` and below, the existing circuit image remains an image element and becomes a low-opacity, contained decorative layer behind the solutions introduction.
+- The protected symbol asset remains unchanged. The whole wordmark remains Michroma 400; the appearance of the `S` comes from the font glyph and receives no isolated styling.
+- Build: approved (`npm run build`, `55` modules transformed, exit `0`).
+- Configured test suite: approved (`npm run test:sites`, exit `0`).
+- Individual six-test verification: approved (`6/6` passed, `0` failed, exit `0`).
+- The Codex browser automation remained unavailable, but the subsequent manual visual inspection passed for PT and EN at desktop, `412 × 858 px` and `320 × 740 px`. At `320 × 740 px`, the tested hero, contact card, footer and mobile navigation showed no horizontal overflow or lateral clipping; the open English menu fit the viewport and preserved a visible focus state.
+
+final result: build, configured tests and manual visual inspection passed

@@ -135,3 +135,16 @@ final result: build, configured tests and manual visual inspection passed
 - The screenshots are local QA evidence and are not versioned.
 
 final result: localized digital-solutions build, tests, preview and manual visual inspection passed
+
+## Approved purpose and marketing-role copy round
+
+- The localized introduction now reads `Tecnologia com direção. Propósito em cada solução.` and `Technology with direction. Purpose in every solution.`, replacing the previous people-centered wording.
+- Gabriela Rosa is identified consistently as responsible for marketing and social media in the PT and EN profile cards and company footer.
+- Production build: approved (`npm run build`, `55` modules transformed, exit `0`).
+- Configured test suite: approved (`npm run test:sites`, `6/6` tests passed, `0` failed, exit `0`).
+- The regenerated production bundle contains the new localized introduction, role and biography copy while the superseded introduction and administrator biography are absent.
+- Manual visual inspection passed across twelve PT and EN captures covering the introduction, profile cards and footer at desktop and `412 × 740 px`. No visible clipping, overlap, broken wrapping or hierarchy regression was observed.
+- The screenshots do not independently verify DOM semantics, keyboard behavior, accessible names, exact contrast ratios, zoom reflow or behavior at `320 px`.
+- The screenshots are local QA evidence and are not versioned.
+
+final result: localized purpose and marketing-role build, tests and manual visual inspection passed

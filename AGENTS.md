@@ -17,7 +17,7 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - Confirmed offers: international career consulting for technology professionals; business automation and digital solutions; practical AI training for people and companies.
 - For digital solutions, prioritize WhatsApp automation, conversion-focused websites and scoped systems or MVPs; treat graphic design as part of the delivery and native mobile apps as case-dependent.
 - Do not claim guaranteed interviews, hiring, visas, immigration legal services, client relationships, metrics, or outcomes.
-- Carlos Viegas is the technical lead; Gabriela Rosa is the administrator.
+- Carlos Viegas is the technical lead; Gabriela Rosa leads marketing and social media.
 - Do not state a number of years of experience unless Carlos confirms it.
 - Do not label the conversion path as scheduling while the only available action is direct WhatsApp contact.
 - The hero has no CTA; the WhatsApp button in the contact section is the primary conversion path.

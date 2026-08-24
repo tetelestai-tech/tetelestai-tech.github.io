@@ -79,7 +79,7 @@ const content = {
         Icon: GraduationCapIcon,
       },
     ],
-    introTitle: ["Tecnologia com direção.", "Pessoas no centro."],
+    introTitle: ["Tecnologia com direção.", "Propósito em cada solução."],
     introText:
       "A Tetelestai combina experiência técnica, visão global e propósito para aproximar profissionais e organizações de novas possibilidades.",
     solutionsKicker: "Três frentes. Um compromisso com clareza.",
@@ -105,8 +105,8 @@ const content = {
       },
       {
         name: "Gabriela Rosa",
-        role: "Administradora",
-        bio: "Responsável pela administração e organização institucional da Tetelestai.",
+        role: "Marketing e mídias sociais",
+        bio: "Responsável pelo marketing e pelas mídias sociais da Tetelestai.",
       },
     ],
     faqKicker: "Perguntas frequentes",
@@ -210,7 +210,7 @@ const content = {
         Icon: GraduationCapIcon,
       },
     ],
-    introTitle: ["Technology with direction.", "People at the center."],
+    introTitle: ["Technology with direction.", "Purpose in every solution."],
     introText:
       "Tetelestai combines technical experience, global perspective and purpose to connect professionals and organizations with new possibilities.",
     solutionsKicker: "Three areas. One commitment to clarity.",
@@ -235,8 +235,8 @@ const content = {
       },
       {
         name: "Gabriela Rosa",
-        role: "Administrator",
-        bio: "Responsible for Tetelestai’s administration and institutional organization.",
+        role: "Marketing and social media",
+        bio: "Responsible for Tetelestai’s marketing and social media.",
       },
     ],
     faqKicker: "Frequently asked questions",
@@ -366,7 +366,7 @@ function Footer({ t, locale }) {
           <span>Tetelestai Soluções em Tecnologia Ltda.</span>
           <span>CNPJ 58.138.258/0001-39</span>
           <span>Carlos Viegas — {locale === "en" ? "technical lead" : "responsável técnico"}</span>
-          <span>Gabriela Rosa — {locale === "en" ? "administrator" : "administradora"}</span>
+          <span>Gabriela Rosa — {locale === "en" ? "marketing and social media" : "marketing e mídias sociais"}</span>
         </div>
         <p className="site-footer__verse">
           {t.footerVerse}

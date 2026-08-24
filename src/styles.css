@@ -430,7 +430,8 @@ p {
 
 .site-footer__note { margin: 10px 0 0; text-align: right; }
 .site-footer__company { display: flex; flex-wrap: wrap; grid-column: 1 / -1; justify-content: center; gap: 8px 24px; padding-top: 26px; border-top: 1px solid var(--line-soft); color: var(--text-muted); font-size: 0.82rem; line-height: 1.5; text-align: center; overflow-wrap: anywhere; }
-.site-footer__verse { grid-column: 1 / -1; margin: 0; color: var(--accent-bright); text-align: center; }
+.site-footer__verse { grid-column: 1 / -1; margin: 0; color: var(--accent-bright); font-size: 1rem; text-align: center; }
+.site-footer__verse-reference { color: var(--text-primary); font-size: inherit; white-space: nowrap; }
 .site-footer__company a:hover, .footer-link:hover { color: var(--accent-bright); }
 .footer-link { grid-column: 1 / -1; color: var(--text-secondary); font-size: 0.86rem; }
 

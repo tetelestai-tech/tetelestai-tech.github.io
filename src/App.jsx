@@ -138,7 +138,8 @@ const content = {
     privacy: "Privacidade",
     privacyPath: "/privacidade/",
     footerNote: "Tecnologia com propósito. Oportunidades sem fronteiras.",
-    footerVerse: "Está consumado! (João 19:30)",
+    footerVerse: "Está consumado!",
+    footerVerseReference: "João 19:30",
     privacyPage: {
       kicker: "Privacidade",
       title: "Privacidade e proteção de dados",
@@ -263,7 +264,8 @@ const content = {
     privacy: "Privacy",
     privacyPath: "/en/privacy/",
     footerNote: "Technology with purpose. Opportunities without borders.",
-    footerVerse: "It is finished! (John 19:30)",
+    footerVerse: "It is finished!",
+    footerVerseReference: "John 19:30",
     privacyPage: {
       kicker: "Privacy",
       title: "Privacy and data protection",
@@ -363,7 +365,13 @@ function Footer({ t, locale }) {
           <span>Carlos Viegas — {locale === "en" ? "technical lead" : "responsável técnico"}</span>
           <span>Gabriela Rosa — {locale === "en" ? "administrator" : "administradora"}</span>
         </div>
-        <p className="site-footer__verse">{t.footerVerse}</p>
+        <p className="site-footer__verse">
+          {t.footerVerse}
+          <span className="site-footer__verse-reference">
+            {"\u00A0"}
+            {t.footerVerseReference}
+          </span>
+        </p>
         <a className="footer-link" href={t.privacyPath}>{t.privacy}</a>
       </div>
     </footer>

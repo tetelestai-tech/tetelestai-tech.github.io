@@ -23,7 +23,7 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - On desktop, place back-to-top links after the circuit introduction, after the detailed solution cards, and at the end of method, about, FAQ and contact.
 - Keep every back-to-top control borderless and visually quiet: use the same muted-gray arrow at rest while preserving its `44 × 44 px` target, visible keyboard focus, and equal spacing above and below each desktop control.
 - On desktop, keep a generous responsive gap between the service index and the circuit introduction so the image does not begin immediately after item `03`.
-- Center the company-information group and the localized verse: `Está consumado! (João 19:30)` / `It is finished! (John 19:30)`.
+- Center the company-information group and localized verse: `Está consumado! João 19:30` / `It is finished! John 19:30`; render both parts at `1rem`, keep the phrase cyan and the non-wrapping reference in the primary text color, separated only by a non-breaking space.
 - On mobile, use the existing circuit image behind the solutions introduction with `contain` sizing and low image-only opacity.
 - Protect `public/assets/tetelestai-symbol.png`; set the entire wordmark in Michroma 400 without isolated treatment of the letter `S`.
 - Privacy and not-found routes remain `noindex,nofollow`; only the PT and EN homepages belong in the sitemap.

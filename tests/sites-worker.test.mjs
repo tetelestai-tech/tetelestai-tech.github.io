@@ -107,8 +107,12 @@ test("publishes only the confirmed WhatsApp contact channel", async () => {
   assert.match(productionJavaScript, /Chat on WhatsApp/);
   assert.doesNotMatch(productionJavaScript, /Conversar com a Tetelestai/);
   assert.doesNotMatch(productionJavaScript, /Contact Tetelestai/);
-  assert.match(productionJavaScript, /Está consumado! \(João 19:30\)/);
-  assert.match(productionJavaScript, /It is finished! \(John 19:30\)/);
+  assert.match(productionJavaScript, /Está consumado!/);
+  assert.match(productionJavaScript, /João 19:30/);
+  assert.match(productionJavaScript, /It is finished!/);
+  assert.match(productionJavaScript, /John 19:30/);
+  assert.doesNotMatch(productionJavaScript, /Está consumado! \(João 19:30\)/);
+  assert.doesNotMatch(productionJavaScript, /It is finished! \(John 19:30\)/);
   assert.match(productionJavaScript, /Voltar ao topo/);
   assert.match(productionJavaScript, /Back to top/);
   assert.doesNotMatch(productionJavaScript, /tel:\+5561998821206/);

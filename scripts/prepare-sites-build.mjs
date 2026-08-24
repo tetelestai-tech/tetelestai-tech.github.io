@@ -17,8 +17,8 @@ const routeShells = [
   {
     output: "index.html",
     lang: "pt-BR",
-    title: "Tetelestai | Carreira internacional e inteligência artificial",
-    description: "Consultoria para carreiras internacionais em tecnologia, treinamento e avaliação de modelos de IA e capacitação prática em inteligência artificial.",
+    title: "Tetelestai | Carreira internacional, soluções digitais e IA",
+    description: "Consultoria para carreiras internacionais em tecnologia, automação e soluções digitais para negócios e capacitação prática em inteligência artificial.",
     canonical: "https://tetelestai.tech/",
     alternatePt: "https://tetelestai.tech/",
     alternateEn: "https://tetelestai.tech/en/",
@@ -27,8 +27,8 @@ const routeShells = [
   {
     output: "en/index.html",
     lang: "en",
-    title: "Tetelestai | International careers and artificial intelligence",
-    description: "International career consulting for technology professionals, AI model training and evaluation, and practical AI training.",
+    title: "Tetelestai | International careers, digital solutions and AI",
+    description: "International career consulting for technology professionals, business automation and digital solutions, and practical artificial intelligence training.",
     canonical: "https://tetelestai.tech/en/",
     alternatePt: "https://tetelestai.tech/",
     alternateEn: "https://tetelestai.tech/en/",

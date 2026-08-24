@@ -90,7 +90,7 @@ test("emits the files required by Sites packaging", async () => {
   await access(new URL("../dist/.openai/hosting.json", import.meta.url));
 });
 
-test("publishes only the confirmed WhatsApp contact channel", async () => {
+test("publishes the confirmed service and contact content", async () => {
   const assetsDirectory = new URL("../dist/client/assets/", import.meta.url);
   const assetNames = await readdir(assetsDirectory);
   const scriptNames = assetNames.filter((name) => name.endsWith(".js"));
@@ -115,6 +115,24 @@ test("publishes only the confirmed WhatsApp contact channel", async () => {
   assert.doesNotMatch(productionJavaScript, /It is finished! \(John 19:30\)/);
   assert.match(productionJavaScript, /Voltar ao topo/);
   assert.match(productionJavaScript, /Back to top/);
+  assert.match(productionJavaScript, /Automação e soluções digitais/);
+  assert.match(productionJavaScript, /Automation and digital solutions/);
+  assert.match(productionJavaScript, /design visual sob medida/);
+  assert.match(productionJavaScript, /tailored visual design/);
+  assert.match(productionJavaScript, /WhatsApp customer service automation/);
+  assert.doesNotMatch(productionJavaScript, /design aplicado/);
+  assert.doesNotMatch(productionJavaScript, /with applied design/);
+  assert.doesNotMatch(productionJavaScript, /customer-service automation/);
+  assert.match(productionJavaScript, /Que tipos de soluções digitais a Tetelestai desenvolve\?/);
+  assert.match(productionJavaScript, /What types of digital solutions does Tetelestai build\?/);
+  assert.doesNotMatch(productionJavaScript, /Treinamento e avaliação de modelos/);
+  assert.doesNotMatch(productionJavaScript, /AI model training and evaluation/);
+  assert.doesNotMatch(productionJavaScript, /Qual é a diferença entre as duas ofertas de IA\?/);
+  assert.doesNotMatch(productionJavaScript, /What is the difference between the two AI offers\?/);
+  assert.match(appSource, /id: "solucoes-digitais"/);
+  assert.match(appSource, /id: "digital-solutions"/);
+  assert.doesNotMatch(appSource, /id: "modelos-ia"/);
+  assert.doesNotMatch(appSource, /id: "ai-models"/);
   assert.doesNotMatch(productionJavaScript, /tel:\+5561998821206/);
   assert.doesNotMatch(productionJavaScript, /\(61\) 99882-1206/);
   assert.doesNotMatch(productionJavaScript, /Ligar para a Tetelestai/);

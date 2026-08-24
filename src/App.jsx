@@ -36,9 +36,9 @@ function resolveRoute(pathname) {
 const content = {
   pt: {
     lang: "pt-BR",
-    title: "Tetelestai | Carreira internacional e inteligência artificial",
+    title: "Tetelestai | Carreira internacional, soluções digitais e IA",
     description:
-      "Consultoria para carreiras internacionais em tecnologia, treinamento e avaliação de modelos de IA e capacitação prática em inteligência artificial.",
+      "Consultoria para carreiras internacionais em tecnologia, automação e soluções digitais para negócios e capacitação prática em inteligência artificial.",
     skip: "Pular para o conteúdo",
     homeLabel: "Tetelestai — início",
     menuOpen: "Abrir menu",
@@ -60,12 +60,13 @@ const content = {
         Icon: GlobeHemisphereWestIcon,
       },
       {
-        id: "modelos-ia",
-        title: "Treinamento e avaliação de modelos",
-        summary: "Serviços especializados em modelos de inteligência artificial, com qualidade e rigor.",
+        id: "solucoes-digitais",
+        title: "Automação e soluções digitais",
+        summary:
+          "Sites, sistemas e automações de atendimento no WhatsApp para reduzir tarefas manuais e apoiar o crescimento do negócio.",
         detail:
-          "Escopo definido conforme o modelo, a tarefa, os critérios de avaliação e as necessidades de cada projeto.",
-        cta: "Converse sobre um projeto",
+          "Desenvolvimento de sites e landing pages com design visual sob medida, sistemas web, MVPs, aplicativos móveis e automações integradas ao WhatsApp. O escopo é definido conforme os objetivos e as prioridades de cada projeto.",
+        cta: "Converse sobre uma solução",
         Icon: CpuIcon,
       },
       {
@@ -124,8 +125,8 @@ const content = {
         a: "Não. O serviço não inclui assessoria jurídica relacionada a vistos ou imigração.",
       },
       {
-        q: "Qual é a diferença entre as duas ofertas de IA?",
-        a: "Uma oferta é voltada ao treinamento e à avaliação de modelos. A outra capacita pessoas e empresas a compreender e aplicar IA no trabalho.",
+        q: "Que tipos de soluções digitais a Tetelestai desenvolve?",
+        a: "A Tetelestai desenvolve sites e landing pages, sistemas web, MVPs e automações integradas ao WhatsApp. Aplicativos móveis são avaliados conforme a necessidade e o escopo de cada projeto.",
       },
     ],
     contactKicker: "Contato",
@@ -168,9 +169,9 @@ const content = {
   },
   en: {
     lang: "en",
-    title: "Tetelestai | International careers and artificial intelligence",
+    title: "Tetelestai | International careers, digital solutions and AI",
     description:
-      "International career consulting for technology professionals, AI model training and evaluation, and practical AI training.",
+      "International career consulting for technology professionals, business automation and digital solutions, and practical artificial intelligence training.",
     skip: "Skip to content",
     homeLabel: "Tetelestai — home",
     menuOpen: "Open menu",
@@ -191,11 +192,13 @@ const content = {
         Icon: GlobeHemisphereWestIcon,
       },
       {
-        id: "ai-models",
-        title: "AI model training and evaluation",
-        summary: "Specialized services for artificial intelligence models, delivered with quality and rigor.",
-        detail: "Scope defined around the model, task, evaluation criteria and the needs of each project.",
-        cta: "Discuss a project",
+        id: "digital-solutions",
+        title: "Automation and digital solutions",
+        summary:
+          "Websites, systems and WhatsApp customer service automation that reduce manual work and support business growth.",
+        detail:
+          "Development of websites and landing pages with tailored visual design, web systems, MVPs, mobile apps and WhatsApp integrations. Scope is defined around each project’s goals and priorities.",
+        cta: "Discuss a digital solution",
         Icon: CpuIcon,
       },
       {
@@ -252,8 +255,8 @@ const content = {
         a: "No. The service does not include legal advice related to visas or immigration.",
       },
       {
-        q: "What is the difference between the two AI offers?",
-        a: "One focuses on training and evaluating models. The other helps people and companies understand and apply AI at work.",
+        q: "What types of digital solutions does Tetelestai build?",
+        a: "Tetelestai builds websites and landing pages, web systems, MVPs and WhatsApp integrations. Mobile apps are evaluated according to each project’s needs and scope.",
       },
     ],
     contactKicker: "Contact",

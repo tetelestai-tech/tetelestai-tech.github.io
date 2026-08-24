@@ -14,7 +14,8 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - Preserve the approved dark institutional direction, explicit Christian cross / letter T symbol, cyan-on-navy palette, horizontal service rows, and centered hero composition.
 - Wordmark typography: Michroma 400. Body/UI typography: Inter Variable.
 - Approved slogan: `Tecnologia com propósito. Oportunidades sem fronteiras.`
-- Confirmed offers: international career consulting for technology professionals; AI model training and evaluation; practical AI training for people and companies.
+- Confirmed offers: international career consulting for technology professionals; business automation and digital solutions; practical AI training for people and companies.
+- For digital solutions, prioritize WhatsApp automation, conversion-focused websites and scoped systems or MVPs; treat graphic design as part of the delivery and native mobile apps as case-dependent.
 - Do not claim guaranteed interviews, hiring, visas, immigration legal services, client relationships, metrics, or outcomes.
 - Carlos Viegas is the technical lead; Gabriela Rosa is the administrator.
 - Do not state a number of years of experience unless Carlos confirms it.

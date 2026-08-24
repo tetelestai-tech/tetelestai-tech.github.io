@@ -122,3 +122,16 @@ final result: WhatsApp build/test and local visual recheck passed
 - The Codex browser automation remained unavailable, but the subsequent manual visual inspection passed for PT and EN at desktop, `412 × 858 px` and `320 × 740 px`. At `320 × 740 px`, the tested hero, contact card, footer and mobile navigation showed no horizontal overflow or lateral clipping; the open English menu fit the viewport and preserved a visible focus state.
 
 final result: build, configured tests and manual visual inspection passed
+
+## Approved automation and digital solutions round
+
+- Solution 02 now uses the localized titles `Automação e soluções digitais` and `Automation and digital solutions`; its summaries, detailed descriptions, identifiers and FAQ copy replace the previous AI model training and evaluation offer.
+- The localized metadata now describes international career consulting, business automation and digital solutions, and practical AI training.
+- Production build: approved (`npm run build`, `55` modules transformed, exit `0`).
+- Configured test suite: approved (`npm run test:sites`, `6/6` tests passed, `0` failed, exit `0`).
+- The local preview served the PT and EN routes with status `200` from the expected production bundle. The corrected PT and EN microcopy was present, while `design aplicado`, `with applied design` and `customer-service automation` were absent.
+- Manual visual inspection passed for the PT and EN service index and detailed cards at desktop and mobile widths. The eight accepted captures showed no horizontal overflow, internal clipping, overlap or misplaced CTA.
+- The localized FAQ disclosures and mobile menu were reported as working during the manual interaction check. These states, keyboard focus, hover behavior and exact CSS viewport dimensions are not independently demonstrated by the submitted screenshots.
+- The screenshots are local QA evidence and are not versioned.
+
+final result: localized digital-solutions build, tests, preview and manual visual inspection passed

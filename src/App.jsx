@@ -100,13 +100,13 @@ const content = {
     people: [
       {
         name: "Carlos Viegas",
-        role: "Responsável técnico",
-        bio: "Responsável pela direção técnica dos trabalhos de tecnologia e inteligência artificial.",
+        role: "Co-Founder & CTO",
+        bio: "Co-fundador. Lidera a direção técnica dos projetos de tecnologia, e-commerce e inteligência artificial.",
       },
       {
         name: "Gabriela Rosa",
-        role: "Marketing e mídias sociais",
-        bio: "Responsável pelo marketing e pelas mídias sociais da Tetelestai.",
+        role: "Co-Founder & CEO",
+        bio: "Co-fundadora e administradora da Tetelestai. Lidera o negócio, o marketing e o relacionamento com clientes.",
       },
     ],
     faqKicker: "Perguntas frequentes",
@@ -230,13 +230,13 @@ const content = {
     people: [
       {
         name: "Carlos Viegas",
-        role: "Technical lead",
-        bio: "Responsible for the technical direction of technology and artificial intelligence engagements.",
+        role: "Co-Founder & CTO",
+        bio: "Co-founder. Leads the technical direction of technology, e-commerce and AI engagements.",
       },
       {
         name: "Gabriela Rosa",
-        role: "Marketing and social media",
-        bio: "Responsible for Tetelestai’s marketing and social media.",
+        role: "Co-Founder & CEO",
+        bio: "Co-founder and Tetelestai’s managing partner. Leads the business, marketing and client relations.",
       },
     ],
     faqKicker: "Frequently asked questions",
@@ -365,8 +365,8 @@ function Footer({ t, locale }) {
         <div className="site-footer__company">
           <span>Tetelestai Soluções em Tecnologia Ltda.</span>
           <span>CNPJ 58.138.258/0001-39</span>
-          <span>Carlos Viegas — {locale === "en" ? "technical lead" : "responsável técnico"}</span>
-          <span>Gabriela Rosa — {locale === "en" ? "marketing and social media" : "marketing e mídias sociais"}</span>
+          <span>Carlos Viegas — Co-Founder & CTO</span>
+          <span>Gabriela Rosa — Co-Founder & CEO</span>
         </div>
         <p className="site-footer__verse">
           {t.footerVerse}

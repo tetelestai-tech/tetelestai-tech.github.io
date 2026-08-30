@@ -119,10 +119,14 @@ test("publishes the confirmed service and contact content", async () => {
   assert.match(productionJavaScript, /Propósito em cada solução\./);
   assert.match(productionJavaScript, /Technology with direction\./);
   assert.match(productionJavaScript, /Purpose in every solution\./);
-  assert.match(productionJavaScript, /Marketing e mídias sociais/);
-  assert.match(productionJavaScript, /Marketing and social media/);
-  assert.match(productionJavaScript, /Responsável pelo marketing e pelas mídias sociais da Tetelestai\./);
-  assert.match(productionJavaScript, /Responsible for Tetelestai’s marketing and social media\./);
+  assert.match(productionJavaScript, /Co-Founder & CTO/);
+  assert.match(productionJavaScript, /Co-Founder & CEO/);
+  assert.match(productionJavaScript, /Co-fundadora e administradora da Tetelestai\. Lidera o negócio, o marketing e o relacionamento com clientes\./);
+  assert.match(productionJavaScript, /Co-founder and Tetelestai’s managing partner\. Leads the business, marketing and client relations\./);
+  assert.doesNotMatch(productionJavaScript, /Marketing e mídias sociais/);
+  assert.doesNotMatch(productionJavaScript, /Marketing and social media/);
+  assert.doesNotMatch(productionJavaScript, /Responsável técnico/);
+  assert.doesNotMatch(productionJavaScript, /Technical lead/);
   assert.doesNotMatch(productionJavaScript, /Pessoas no centro\./);
   assert.doesNotMatch(productionJavaScript, /People at the center\./);
   assert.doesNotMatch(appSource, /role: "Administradora"/);

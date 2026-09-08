@@ -102,7 +102,8 @@ test("publishes the confirmed service and contact content", async () => {
   const productionJavaScript = scriptContents.join("\n");
   const appSource = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
 
-  assert.match(productionJavaScript, /https:\/\/wa\.me\/5561984711930/);
+  assert.match(productionJavaScript, /https:\/\/wa\.me\/556184711930/);
+  assert.doesNotMatch(productionJavaScript, /https:\/\/wa\.me\/5561984711930/);
   assert.doesNotMatch(productionJavaScript, /5561998821206/);
   assert.match(productionJavaScript, /Conversar pelo WhatsApp/);
   assert.match(productionJavaScript, /Chat on WhatsApp/);

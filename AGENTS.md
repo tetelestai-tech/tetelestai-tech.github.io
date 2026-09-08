@@ -21,6 +21,7 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - Do not state a number of years of experience unless Carlos confirms it.
 - Do not label the conversion path as scheduling while the only available action is direct WhatsApp contact.
 - The hero has no CTA; the WhatsApp button in the contact section is the primary conversion path.
+- Confirmed company WhatsApp (2026-09-08): `+55 61 98471-1930`; use `https://wa.me/5561984711930`. Updating this link does not connect the Chatwoot/n8n automation to WhatsApp.
 - On desktop, place back-to-top links after the circuit introduction, after the detailed solution cards, and at the end of method, about, FAQ and contact.
 - Keep every back-to-top control borderless and visually quiet: use the same muted-gray arrow at rest while preserving its `44 × 44 px` target, visible keyboard focus, and equal spacing above and below each desktop control.
 - On desktop, keep a generous responsive gap between the service index and the circuit introduction so the image does not begin immediately after item `03`.

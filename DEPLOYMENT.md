@@ -26,7 +26,7 @@ Official references:
 
 ## Gate 0 — confirm before publishing
 
-- WhatsApp contact and its use as the interim privacy channel are confirmed for `https://wa.me/5561998821206`.
+- WhatsApp contact and its use as the interim privacy channel are confirmed for `https://wa.me/5561984711930`.
 - GitHub Pages is the confirmed hosting provider; the privacy notice identifies GitHub, Inc. and its visitor IP logging for security.
 - Review the PT and EN copy one final time.
 
@@ -181,7 +181,7 @@ When GitHub's DNS check succeeds, enable **Enforce HTTPS** under repository **Se
 - PT and EN pages load with correct titles and language.
 - The cross/T logo and local fonts load.
 - The hero has no CTA; contact remains available through the WhatsApp button in the `#contact` section.
-- The contact button opens `https://wa.me/5561998821206` and the telephone number is not displayed in the contact card or footer.
+- The contact button opens `https://wa.me/5561984711930` and the telephone number is not displayed in the contact card or footer.
 - Unknown URLs return 404 rather than the homepage.
 - No analytics, form or non-essential cookies appear unexpectedly.
 

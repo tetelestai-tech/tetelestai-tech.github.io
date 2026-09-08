@@ -102,7 +102,8 @@ test("publishes the confirmed service and contact content", async () => {
   const productionJavaScript = scriptContents.join("\n");
   const appSource = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
 
-  assert.match(productionJavaScript, /https:\/\/wa\.me\/5561998821206/);
+  assert.match(productionJavaScript, /https:\/\/wa\.me\/5561984711930/);
+  assert.doesNotMatch(productionJavaScript, /5561998821206/);
   assert.match(productionJavaScript, /Conversar pelo WhatsApp/);
   assert.match(productionJavaScript, /Chat on WhatsApp/);
   assert.doesNotMatch(productionJavaScript, /Conversar com a Tetelestai/);
@@ -150,8 +151,8 @@ test("publishes the confirmed service and contact content", async () => {
   assert.match(appSource, /id: "digital-solutions"/);
   assert.doesNotMatch(appSource, /id: "modelos-ia"/);
   assert.doesNotMatch(appSource, /id: "ai-models"/);
-  assert.doesNotMatch(productionJavaScript, /tel:\+5561998821206/);
-  assert.doesNotMatch(productionJavaScript, /\(61\) 99882-1206/);
+  assert.doesNotMatch(productionJavaScript, /tel:\+5561984711930/);
+  assert.doesNotMatch(productionJavaScript, /\(61\) 98471-1930/);
   assert.doesNotMatch(productionJavaScript, /Ligar para a Tetelestai/);
   assert.doesNotMatch(productionJavaScript, /Call Tetelestai/);
   assert.equal(appSource.match(/<BackToTop\b/g)?.length ?? 0, 6);

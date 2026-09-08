@@ -46,8 +46,8 @@ The GitHub Pages artifact is `dist/client`. The build also prepares the Sites pa
 
 - Preserve the explicit Christian cross / letter-T symbol.
 - Approved slogan: `Tecnologia com propósito. Oportunidades sem fronteiras.`
-- Keep the three offers distinct: international career consulting, AI model training/evaluation and practical AI training.
-- Use WhatsApp only through the confirmed contact link `https://wa.me/5561998821206`; do not claim guaranteed interviews, hiring, visas, immigration advice, client relationships, metrics or outcomes.
+- Keep the three offers distinct: international career consulting, business automation and digital solutions and practical AI training.
+- Use WhatsApp only through the confirmed contact link `https://wa.me/5561984711930`; do not claim guaranteed interviews, hiring, visas, immigration advice, client relationships, metrics or outcomes.
 - Do not state a number of years of experience unless Carlos confirms it.
 
 ## Verification

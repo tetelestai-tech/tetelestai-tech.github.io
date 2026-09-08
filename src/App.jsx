@@ -13,7 +13,7 @@ import { ShieldCheckIcon } from "@phosphor-icons/react/dist/csr/ShieldCheck";
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/csr/WhatsappLogo";
 import { XIcon } from "@phosphor-icons/react/dist/csr/X";
 
-const WHATSAPP_LINK = "https://wa.me/5561998821206";
+const WHATSAPP_LINK = "https://wa.me/5561984711930";
 
 const ROUTES = {
   "/": { locale: "pt", page: "home" },

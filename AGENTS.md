@@ -29,4 +29,5 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - On mobile, use the existing circuit image behind the solutions introduction with `contain` sizing and low image-only opacity.
 - Protect `public/assets/tetelestai-symbol.png`; set the entire wordmark in Michroma 400 without isolated treatment of the letter `S`.
 - Privacy and not-found routes remain `noindex,nofollow`; only the PT and EN homepages belong in the sitemap.
+- Confirmed privacy and data deletion channels (2026-09-11): company WhatsApp and `contato@tetelestai.tech`. Keep both available in the PT/EN privacy, terms and deletion pages. Terms and deletion routes also remain `noindex,nofollow`; do not add them to the sitemap. Describe WhatsApp automation as in preparation until the integration is verified live.
 - The local prototype must be verified before any publish, GitHub, Hostinger, domain, or DNS action.

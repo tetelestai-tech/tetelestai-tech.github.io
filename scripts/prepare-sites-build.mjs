@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { createElement } from "react";
+import { renderToString } from "react-dom/server";
+import { createServer } from "vite";
+import { LEGAL_CONTENT, LEGAL_PATHS } from "../src/legal-content.mjs";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -34,26 +38,19 @@ const routeShells = [
     alternateEn: "https://tetelestai.tech/en/",
     robots: "index,follow",
   },
-  {
-    output: "privacidade/index.html",
-    lang: "pt-BR",
-    title: "Privacidade | Tetelestai",
-    description: "Como o site Tetelestai trata dados pessoais e informações técnicas.",
-    canonical: "https://tetelestai.tech/privacidade/",
-    alternatePt: "https://tetelestai.tech/privacidade/",
-    alternateEn: "https://tetelestai.tech/en/privacy/",
-    robots: "noindex,nofollow",
-  },
-  {
-    output: "en/privacy/index.html",
-    lang: "en",
-    title: "Privacy | Tetelestai",
-    description: "How the Tetelestai website handles personal data and technical information.",
-    canonical: "https://tetelestai.tech/en/privacy/",
-    alternatePt: "https://tetelestai.tech/privacidade/",
-    alternateEn: "https://tetelestai.tech/en/privacy/",
-    robots: "noindex,nofollow",
-  },
+  ...Object.entries(LEGAL_PATHS).flatMap(([page, paths]) =>
+    Object.entries(paths).map(([locale, pathname]) => ({
+      output: `${pathname.slice(1)}index.html`,
+      pathname,
+      lang: locale === "pt" ? "pt-BR" : "en",
+      title: LEGAL_CONTENT[locale][page].metaTitle,
+      description: LEGAL_CONTENT[locale][page].metaDescription,
+      canonical: `https://tetelestai.tech${pathname}`,
+      alternatePt: `https://tetelestai.tech${paths.pt}`,
+      alternateEn: `https://tetelestai.tech${paths.en}`,
+      robots: "noindex,nofollow",
+    })),
+  ),
 ];
 
 function escapeHtml(value) {
@@ -90,10 +87,29 @@ function buildRouteShell(baseHtml, route) {
 }
 
 const baseHtml = readFileSync(index, "utf8");
-for (const route of routeShells) {
-  const output = path.join(dist, "client", route.output);
-  mkdirSync(path.dirname(output), { recursive: true });
-  writeFileSync(output, buildRouteShell(baseHtml, route));
+// Render legal text into the static HTML so it is accessible without JavaScript.
+// The same React component is used by the browser, avoiding duplicate policy copy.
+const renderer = await createServer({
+  root,
+  appType: "custom",
+  server: { middlewareMode: true, hmr: false, ws: false, watch: null, warmup: { clientFiles: [] } },
+  optimizeDeps: { noDiscovery: true, include: [] },
+});
+try {
+  const { App } = await renderer.ssrLoadModule("/src/App.jsx");
+  for (const route of routeShells) {
+    const output = path.join(dist, "client", route.output);
+    let html = buildRouteShell(baseHtml, route);
+    if (route.pathname) {
+      const markup = renderToString(createElement(App, { pathname: route.pathname }));
+      if (!html.includes('<div id="root"></div>')) throw new Error("Missing app root for legal prerender");
+      html = html.replace('<div id="root"></div>', `<div id="root">${markup}</div>`);
+    }
+    mkdirSync(path.dirname(output), { recursive: true });
+    writeFileSync(output, html);
+  }
+} finally {
+  await renderer.close();
 }
 
 mkdirSync(path.join(dist, "server"), { recursive: true });

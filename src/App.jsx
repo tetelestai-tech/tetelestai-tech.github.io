@@ -9,17 +9,18 @@ import { CpuIcon } from "@phosphor-icons/react/dist/csr/Cpu";
 import { GlobeHemisphereWestIcon } from "@phosphor-icons/react/dist/csr/GlobeHemisphereWest";
 import { GraduationCapIcon } from "@phosphor-icons/react/dist/csr/GraduationCap";
 import { ListIcon } from "@phosphor-icons/react/dist/csr/List";
-import { ShieldCheckIcon } from "@phosphor-icons/react/dist/csr/ShieldCheck";
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/csr/WhatsappLogo";
 import { XIcon } from "@phosphor-icons/react/dist/csr/X";
+import { LEGAL_CONTENT, LEGAL_PATHS, PRIVACY_CONTACT } from "./legal-content.mjs";
 
 const WHATSAPP_LINK = "https://wa.me/556184711930";
 
 const ROUTES = {
   "/": { locale: "pt", page: "home" },
   "/en": { locale: "en", page: "home" },
-  "/privacidade": { locale: "pt", page: "privacy" },
-  "/en/privacy": { locale: "en", page: "privacy" },
+  ...Object.fromEntries(Object.entries(LEGAL_PATHS).flatMap(([page, paths]) =>
+    Object.entries(paths).map(([locale, pathname]) => [pathname.replace(/\/$/, ""), { locale, page }]),
+  )),
 };
 
 function normalizePathname(pathname) {
@@ -136,29 +137,9 @@ const content = {
     whatsappLabel: "Conversar pelo WhatsApp",
     safety:
       "No primeiro contato, não envie senhas, dados bancários, documentos de identidade, currículos completos ou outras informações sensíveis.",
-    privacy: "Privacidade",
-    privacyPath: "/privacidade/",
     footerNote: "Tecnologia com propósito. Oportunidades sem fronteiras.",
     footerVerse: "Está consumado!",
     footerVerseReference: "João 19:30",
-    privacyPage: {
-      kicker: "Privacidade",
-      title: "Privacidade e proteção de dados",
-      metaTitle: "Privacidade | Tetelestai",
-      metaDescription: "Como o site Tetelestai trata dados pessoais e informações técnicas.",
-      intro:
-        "Nesta versão, o site é informativo: não possui formulário, não utiliza analytics e não instala cookies não essenciais.",
-      items: [
-        "Ao iniciar uma conversa pelo WhatsApp, o contato ocorre fora deste site e depende das informações que você decidir fornecer.",
-        "Dados de contato e o conteúdo da conversa podem ser usados para responder à solicitação, preparar uma proposta e cumprir obrigações legais. Eles serão mantidos apenas pelo tempo necessário para essas finalidades.",
-        "Este site é hospedado pelo GitHub Pages, serviço da GitHub, Inc. Quando o site é visitado, o GitHub registra e armazena o endereço IP do visitante para fins de segurança.",
-        "Até a definição de um canal específico de privacidade, solicitações podem ser iniciadas pelo WhatsApp da Tetelestai.",
-        "Não envie informações sensíveis antes de receber orientação sobre o canal adequado.",
-      ],
-      warning:
-        "Este aviso deverá ser atualizado se forem adicionados formulário, agenda, analytics, novos cookies ou outros provedores.",
-      back: "Voltar ao site",
-    },
     notFound: {
       kicker: "Página não encontrada",
       title: "Este endereço não existe",
@@ -264,27 +245,9 @@ const content = {
     contactText: "Tell us which of the three solutions fits your need and ask about scope, availability and conditions.",
     whatsappLabel: "Chat on WhatsApp",
     safety: "Do not send passwords, banking details, identity documents, full CVs or other sensitive information in the first contact.",
-    privacy: "Privacy",
-    privacyPath: "/en/privacy/",
     footerNote: "Technology with purpose. Opportunities without borders.",
     footerVerse: "It is finished!",
     footerVerseReference: "John 19:30",
-    privacyPage: {
-      kicker: "Privacy",
-      title: "Privacy and data protection",
-      metaTitle: "Privacy | Tetelestai",
-      metaDescription: "How the Tetelestai website handles personal data and technical information.",
-      intro: "This version of the website is informational: it has no form, uses no analytics and installs no non-essential cookies.",
-      items: [
-        "When you start a conversation through WhatsApp, contact takes place outside this website and depends on the information you choose to provide.",
-        "Contact details and conversation content may be used to respond to your request, prepare a proposal and meet legal obligations. They will be kept only as long as necessary for those purposes.",
-        "This website is hosted on GitHub Pages, a service provided by GitHub, Inc. When the site is visited, GitHub logs and stores the visitor's IP address for security purposes.",
-        "Until a dedicated privacy channel is defined, requests may be initiated through Tetelestai’s WhatsApp contact.",
-        "Do not send sensitive information before receiving instructions about the appropriate channel.",
-      ],
-      warning: "This notice must be updated if forms, scheduling, analytics, new cookies or other providers are added.",
-      back: "Back to the site",
-    },
     notFound: {
       kicker: "Page not found",
       title: "This address does not exist",
@@ -310,9 +273,7 @@ function Brand({ compact = false }) {
 function Header({ t, locale, page }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const homePath = locale === "en" ? "/en/" : "/";
-  const languagePaths = page === "privacy"
-    ? { pt: "/privacidade/", en: "/en/privacy/" }
-    : { pt: "/", en: "/en/" };
+  const languagePaths = LEGAL_PATHS[page] ?? { pt: "/", en: "/en/" };
   const closeMenu = () => setMenuOpen(false);
 
   return (
@@ -375,31 +336,57 @@ function Footer({ t, locale }) {
             {t.footerVerseReference}
           </span>
         </p>
-        <a className="footer-link" href={t.privacyPath}>{t.privacy}</a>
+        <nav className="footer-legal-links" aria-label={LEGAL_CONTENT[locale].navigation}>
+          {Object.entries(LEGAL_PATHS).map(([page, paths]) => (
+            <a className="footer-link" href={paths[locale]} key={page}>{LEGAL_CONTENT[locale][page].label}</a>
+          ))}
+        </nav>
       </div>
     </footer>
   );
 }
 
-function PrivacyPage({ t, locale }) {
+function PrivacyContact({ locale, page }) {
+  const legal = LEGAL_CONTENT[locale];
+  const subject = locale === "pt" ? "Exclusão de dados — TETELESTAI Atendimento" : "Data deletion — TETELESTAI Atendimento";
+  const emailHref = `mailto:${PRIVACY_CONTACT.email}${page === "deletion" ? `?subject=${encodeURIComponent(subject)}` : ""}`;
+  return (
+    <section className="legal-contact" aria-labelledby="legal-contact-title">
+      <h2 id="legal-contact-title">{page === "terms" ? (locale === "pt" ? "Fale com a Tetelestai" : "Get in touch with Tetelestai") : legal.contactTitle}</h2>
+      <p>{legal.contactText}</p>
+      <div className="legal-contact__links">
+        <a href={PRIVACY_CONTACT.whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp: {PRIVACY_CONTACT.phone}</a>
+        <a href={emailHref}>{PRIVACY_CONTACT.email}</a>
+      </div>
+    </section>
+  );
+}
+
+function LegalPage({ t, locale, page }) {
   const homePath = locale === "en" ? "/en/" : "/";
+  const legal = LEGAL_CONTENT[locale];
+  const document = legal[page];
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main-content">{t.skip}</a>
-      <Header t={t} locale={locale} page="privacy" />
+      <Header t={t} locale={locale} page={page} />
       <main id="main-content" className="legal-page">
-        <div className="section-shell legal-page__inner">
-          <p className="eyebrow">{t.privacyPage.kicker}</p>
-          <h1>{t.privacyPage.title}</h1>
-          <p className="legal-page__intro">{t.privacyPage.intro}</p>
-          <ul className="legal-list">
-            {t.privacyPage.items.map((item) => (
-              <li key={item}><ShieldCheckIcon size={24} aria-hidden="true" /><span>{item}</span></li>
-            ))}
-          </ul>
-          <div className="legal-warning">{t.privacyPage.warning}</div>
-          <a className="text-link" href={homePath}><ArrowLeftIcon size={20} aria-hidden="true" />{t.privacyPage.back}</a>
-        </div>
+        <article className="section-shell legal-page__inner">
+          <p className="eyebrow">{legal.navigation}</p>
+          <h1>{document.title}</h1>
+          <p className="legal-page__updated"><time dateTime="2026-09-11">{legal.updated}</time></p>
+          <p className="legal-page__intro">{document.intro}</p>
+          {document.contactFirst && <PrivacyContact locale={locale} page={page} />}
+          {document.sections.map((section, index) => (
+            <section className="legal-section" aria-labelledby={`legal-section-${index}`} key={section.title}>
+              <h2 id={`legal-section-${index}`}>{section.title}</h2>
+              {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              {section.link && <a className="text-link" href={section.link.href}>{section.link.label}<ArrowRightIcon size={19} aria-hidden="true" /></a>}
+            </section>
+          ))}
+          {!document.contactFirst && <PrivacyContact locale={locale} page={page} />}
+          <a className="text-link" href={homePath}><ArrowLeftIcon size={20} aria-hidden="true" />{legal.back}</a>
+        </article>
       </main>
       <Footer t={t} locale={locale} />
     </div>
@@ -559,32 +546,34 @@ function updateMeta(selector, attribute, value) {
   if (element) element.setAttribute(attribute, value);
 }
 
-export function App() {
-  const route = resolveRoute(window.location.pathname);
+export function App({ pathname = window.location.pathname }) {
+  const route = resolveRoute(pathname);
   const { locale, page } = route;
   const t = content[locale];
 
   useEffect(() => {
-    const isPrivacy = page === "privacy";
+    const legal = LEGAL_PATHS[page] ? LEGAL_CONTENT[locale][page] : null;
     const isNotFound = page === "notFound";
-    const title = isPrivacy ? t.privacyPage.metaTitle : isNotFound ? t.notFound.metaTitle : t.title;
-    const description = isPrivacy ? t.privacyPage.metaDescription : isNotFound ? t.notFound.text : t.description;
-    const canonicalPath = isPrivacy
-      ? (locale === "en" ? "/en/privacy/" : "/privacidade/")
-      : (locale === "en" ? "/en/" : "/");
+    const title = legal ? legal.metaTitle : isNotFound ? t.notFound.metaTitle : t.title;
+    const description = legal ? legal.metaDescription : isNotFound ? t.notFound.text : t.description;
+    const languagePaths = LEGAL_PATHS[page] ?? { pt: "/", en: "/en/" };
+    const canonicalPath = languagePaths[locale];
     const canonicalUrl = `https://tetelestai.tech${canonicalPath}`;
 
     document.documentElement.lang = t.lang;
     document.title = title;
     updateMeta('meta[name="description"]', "content", description);
-    updateMeta('meta[name="robots"]', "content", isPrivacy || isNotFound ? "noindex,nofollow" : "index,follow");
+    updateMeta('meta[name="robots"]', "content", legal || isNotFound ? "noindex,nofollow" : "index,follow");
     updateMeta('meta[property="og:title"]', "content", title);
     updateMeta('meta[property="og:description"]', "content", description);
     updateMeta('meta[property="og:url"]', "content", canonicalUrl);
     updateMeta('link[rel="canonical"]', "href", canonicalUrl);
+    updateMeta('link[hreflang="pt-BR"]', "href", `https://tetelestai.tech${languagePaths.pt}`);
+    updateMeta('link[hreflang="en"]', "href", `https://tetelestai.tech${languagePaths.en}`);
+    updateMeta('link[hreflang="x-default"]', "href", `https://tetelestai.tech${languagePaths.pt}`);
   }, [locale, page, t]);
 
-  if (page === "privacy") return <PrivacyPage t={t} locale={locale} />;
+  if (LEGAL_PATHS[page]) return <LegalPage t={t} locale={locale} page={page} />;
   if (page === "notFound") return <NotFoundPage t={t} locale={locale} />;
   return <HomePage t={t} locale={locale} />;
 }

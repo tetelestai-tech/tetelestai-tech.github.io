@@ -6,6 +6,14 @@ const routeShells = new Map([
   ["/privacidade/", "/privacidade/index.html"],
   ["/en/privacy", "/en/privacy/index.html"],
   ["/en/privacy/", "/en/privacy/index.html"],
+  ["/termos", "/termos/index.html"],
+  ["/termos/", "/termos/index.html"],
+  ["/en/terms", "/en/terms/index.html"],
+  ["/en/terms/", "/en/terms/index.html"],
+  ["/exclusao-de-dados", "/exclusao-de-dados/index.html"],
+  ["/exclusao-de-dados/", "/exclusao-de-dados/index.html"],
+  ["/en/data-deletion", "/en/data-deletion/index.html"],
+  ["/en/data-deletion/", "/en/data-deletion/index.html"],
 ]);
 
 export default {

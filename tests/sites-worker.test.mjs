@@ -3,6 +3,81 @@ import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 import worker from "../worker/index.js";
 
+const legalRoutes = [
+  { path: "/privacidade/", lang: "pt-BR", title: "Privacidade e proteção de dados", alternate: "/en/privacy/" },
+  { path: "/en/privacy/", lang: "en", title: "Privacy and data protection", alternate: "/privacidade/" },
+  { path: "/termos/", lang: "pt-BR", title: "Termos de Serviço", alternate: "/en/terms/" },
+  { path: "/en/terms/", lang: "en", title: "Terms of Service", alternate: "/termos/" },
+  { path: "/exclusao-de-dados/", lang: "pt-BR", title: "Solicitar exclusão de dados", alternate: "/en/data-deletion/" },
+  { path: "/en/data-deletion/", lang: "en", title: "Request data deletion", alternate: "/exclusao-de-dados/" },
+];
+
+test("serves every legal route with or without a trailing slash for GET and HEAD", async () => {
+  for (const { path } of legalRoutes) {
+    for (const pathname of [path, path.slice(0, -1)]) {
+      for (const method of ["GET", "HEAD"]) {
+        const calls = [];
+        const response = await worker.fetch(new Request(`https://example.test${pathname}?preview=1`, {
+          method, headers: { accept: "text/html" },
+        }), {
+          ASSETS: { fetch: async (request) => {
+            const url = new URL(request.url);
+            calls.push([request.method, url.pathname + url.search]);
+            return new Response(null, { status: url.pathname === `${path}index.html` ? 200 : 404 });
+          } },
+        });
+        assert.equal(response.status, 200, `${method} ${pathname}`);
+        assert.deepEqual(calls, [[method, `${pathname}?preview=1`], [method, `${path}index.html`]]);
+      }
+    }
+  }
+});
+
+test("keeps nested, malformed, non-HTML and write requests outside the legal fallback", async () => {
+  for (const request of [
+    new Request("https://example.test/termos/missing", { headers: { accept: "text/html" } }),
+    new Request("https://example.test/en/data-deletion//", { headers: { accept: "text/html" } }),
+    new Request("https://example.test/termos/", { headers: { accept: "application/json" } }),
+    new Request("https://example.test/exclusao-de-dados/", { method: "POST", headers: { accept: "text/html" } }),
+  ]) {
+    let calls = 0;
+    const response = await worker.fetch(request, { ASSETS: { fetch: async () => {
+      calls++;
+      return new Response("missing", { status: 404 });
+    } } });
+    assert.equal(response.status, 404);
+    assert.equal(calls, 1);
+  }
+});
+
+test("legal HTML is readable without JavaScript, localized and excluded from search indexing", async () => {
+  const sitemap = await readFile(new URL("../dist/client/sitemap.xml", import.meta.url), "utf8");
+  for (const { path, lang, title, alternate } of legalRoutes) {
+    const html = await readFile(new URL(`../dist/client${path}index.html`, import.meta.url), "utf8");
+    assert.ok(html.includes(`<html lang="${lang}">`));
+    assert.ok(html.includes(`<h1>${title}</h1>`));
+    assert.equal((html.match(/<h1>/g) ?? []).length, 1);
+    assert.match(html, /<meta name="robots" content="noindex,nofollow"/);
+    assert.ok(html.includes(`<link rel="canonical" href="https://tetelestai.tech${path}"`));
+    assert.ok(html.includes(`href="${alternate}"`));
+    assert.match(html, /href="mailto:contato@tetelestai\.tech(?:\?subject=[^"]+)?"/);
+    assert.match(html, /href="https:\/\/wa\.me\/556184711930"/);
+    assert.match(html, /\+55 61 98471-1930/);
+    assert.match(html, /58\.138\.258\/0001-39/);
+    assert.match(html, /TETELESTAI Atendimento/);
+    assert.doesNotMatch(html, /https:\/\/www\.facebook\.com\//);
+    assert.doesNotMatch(sitemap, new RegExp(path));
+    const localePrefix = lang === "en" ? "/en/" : "/";
+    const localRoutes = legalRoutes.filter((route) => route.lang === lang);
+    for (const route of localRoutes) assert.ok(html.includes(`href="${route.path}"`));
+    assert.ok(html.includes(`href="${localePrefix}"`));
+    if (path.includes("deletion") || path.includes("exclusao")) {
+      assert.ok(html.indexOf('class="legal-contact"') < html.indexOf('class="legal-section"'));
+      assert.match(html, /href="mailto:contato@tetelestai\.tech\?subject=/);
+    }
+  }
+});
+
 test("serves existing static assets without a fallback", async () => {
   const calls = [];
   const response = await worker.fetch(new Request("https://example.test/assets/app.js"), {
@@ -107,7 +182,7 @@ test("publishes the confirmed service and contact content", async () => {
   assert.doesNotMatch(productionJavaScript, /5561998821206/);
   assert.match(productionJavaScript, /Conversar pelo WhatsApp/);
   assert.match(productionJavaScript, /Chat on WhatsApp/);
-  assert.doesNotMatch(productionJavaScript, /Conversar com a Tetelestai/);
+  assert.doesNotMatch(productionJavaScript, /["']Conversar com a Tetelestai["']/);
   assert.doesNotMatch(productionJavaScript, /Contact Tetelestai/);
   assert.match(productionJavaScript, /Está consumado!/);
   assert.match(productionJavaScript, /João 19:30/);

@@ -451,6 +451,12 @@ p {
 .legal-contact__links { display: flex; flex-wrap: wrap; gap: 4px 28px; margin-top: 16px; }
 .legal-contact__links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent-bright); text-decoration: underline; text-underline-offset: 4px; overflow-wrap: anywhere; }
 
+.recarga-header .site-header__inner { flex-wrap: wrap; gap: 8px 20px; padding-block: 12px; }
+.recarga-header .text-link { min-height: 44px; }
+.recarga-navigation { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 24px; }
+.recarga-navigation a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-secondary); text-decoration: underline; text-underline-offset: 5px; }
+.recarga-navigation a[aria-current="page"] { color: var(--accent-bright); }
+
 @media (min-width: 901px) {
   .solutions-detail, .method-section, .about-section, .faq-section, .contact-section {
     padding-bottom: var(--back-to-top-spacing);

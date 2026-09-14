@@ -12,6 +12,7 @@ import { ListIcon } from "@phosphor-icons/react/dist/csr/List";
 import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/csr/WhatsappLogo";
 import { XIcon } from "@phosphor-icons/react/dist/csr/X";
 import { LEGAL_CONTENT, LEGAL_PATHS, PRIVACY_CONTACT } from "./legal-content.mjs";
+import { RECARGA_PAGES, RECARGA_UPDATED } from "./recarga-content.mjs";
 
 const WHATSAPP_LINK = "https://wa.me/556184711930";
 
@@ -21,6 +22,9 @@ const ROUTES = {
   ...Object.fromEntries(Object.entries(LEGAL_PATHS).flatMap(([page, paths]) =>
     Object.entries(paths).map(([locale, pathname]) => [pathname.replace(/\/$/, ""), { locale, page }]),
   )),
+  ...Object.fromEntries(Object.entries(RECARGA_PAGES).map(([page, document]) =>
+    [document.path.replace(/\/$/, ""), { locale: "pt", page }],
+  )),
 };
 
 function normalizePathname(pathname) {
@@ -29,6 +33,7 @@ function normalizePathname(pathname) {
 }
 
 function resolveRoute(pathname) {
+  if (pathname.startsWith("/recarga/") && pathname.endsWith("//")) return { locale: "pt", page: "notFound" };
   const normalizedPath = normalizePathname(pathname);
   if (ROUTES[normalizedPath]) return ROUTES[normalizedPath];
   return { locale: normalizedPath.startsWith("/en/") ? "en" : "pt", page: "notFound" };
@@ -393,6 +398,50 @@ function LegalPage({ t, locale, page }) {
   );
 }
 
+function RecargaPage({ page }) {
+  const document = RECARGA_PAGES[page];
+  return (
+    <div className="app-shell">
+      <a className="skip-link" href="#main-content">Ir para o conteúdo</a>
+      <header className="site-header recarga-header">
+        <div className="site-header__inner">
+          <a className="brand-link" href="/" aria-label="Site da Tetelestai"><Brand compact /></a>
+          <a className="text-link" href="/"><ArrowLeftIcon size={20} aria-hidden="true" />Site da Tetelestai</a>
+        </div>
+      </header>
+      <main id="main-content" className="legal-page">
+        <article className="section-shell legal-page__inner">
+          <p className="eyebrow">Tetelestai Recarga</p>
+          <h1>{document.title}</h1>
+          <p className="legal-page__updated"><time dateTime="2026-09-14">Atualizado em {RECARGA_UPDATED}</time></p>
+          <p className="legal-page__intro">{document.intro}</p>
+          <nav className="recarga-navigation" aria-label="Informações do aplicativo">
+            {Object.entries(RECARGA_PAGES).map(([key, value]) =>
+              <a href={value.path} key={key} aria-current={page === key ? "page" : undefined}>{value.label}</a>,
+            )}
+          </nav>
+          <section className="legal-contact" aria-labelledby="recarga-contact-title">
+            <h2 id="recarga-contact-title">Contato com a Tetelestai</h2>
+            <p>Para suporte, privacidade ou exclusão de mensagens de atendimento, use um destes canais:</p>
+            <div className="legal-contact__links">
+              <a className="text-link" href={PRIVACY_CONTACT.whatsapp}><WhatsappLogoIcon size={22} aria-hidden="true" />WhatsApp {PRIVACY_CONTACT.phone}</a>
+              <a className="text-link" href={`mailto:${PRIVACY_CONTACT.email}`}>{PRIVACY_CONTACT.email}</a>
+            </div>
+          </section>
+          {document.sections.map((section, index) => (
+            <section className="legal-section" aria-labelledby={`recarga-section-${index}`} key={section.title}>
+              <h2 id={`recarga-section-${index}`}>{section.title}</h2>
+              {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              {section.link && <a className="text-link" href={section.link.href}>{section.link.label}<ArrowRightIcon size={19} aria-hidden="true" /></a>}
+            </section>
+          ))}
+          <a className="text-link" href="/"><ArrowLeftIcon size={20} aria-hidden="true" />Voltar ao site</a>
+        </article>
+      </main>
+    </div>
+  );
+}
+
 function HomePage({ t, locale }) {
   return (
     <div className="app-shell">
@@ -552,12 +601,13 @@ export function App({ pathname = window.location.pathname }) {
   const t = content[locale];
 
   useEffect(() => {
-    const legal = LEGAL_PATHS[page] ? LEGAL_CONTENT[locale][page] : null;
+    const recarga = RECARGA_PAGES[page];
+    const legal = recarga ?? (LEGAL_PATHS[page] ? LEGAL_CONTENT[locale][page] : null);
     const isNotFound = page === "notFound";
     const title = legal ? legal.metaTitle : isNotFound ? t.notFound.metaTitle : t.title;
     const description = legal ? legal.metaDescription : isNotFound ? t.notFound.text : t.description;
     const languagePaths = LEGAL_PATHS[page] ?? { pt: "/", en: "/en/" };
-    const canonicalPath = languagePaths[locale];
+    const canonicalPath = recarga?.path ?? languagePaths[locale];
     const canonicalUrl = `https://tetelestai.tech${canonicalPath}`;
 
     document.documentElement.lang = t.lang;
@@ -571,8 +621,10 @@ export function App({ pathname = window.location.pathname }) {
     updateMeta('link[hreflang="pt-BR"]', "href", `https://tetelestai.tech${languagePaths.pt}`);
     updateMeta('link[hreflang="en"]', "href", `https://tetelestai.tech${languagePaths.en}`);
     updateMeta('link[hreflang="x-default"]', "href", `https://tetelestai.tech${languagePaths.pt}`);
+    if (recarga) document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => link.remove());
   }, [locale, page, t]);
 
+  if (RECARGA_PAGES[page]) return <RecargaPage page={page} />;
   if (LEGAL_PATHS[page]) return <LegalPage t={t} locale={locale} page={page} />;
   if (page === "notFound") return <NotFoundPage t={t} locale={locale} />;
   return <HomePage t={t} locale={locale} />;

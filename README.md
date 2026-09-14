@@ -30,6 +30,10 @@ Institutional bilingual website for Tetelestai Soluções em Tecnologia Ltda.
 | `/en/` | English homepage | allowed |
 | `/privacidade/` | Portuguese privacy notice | noindex |
 | `/en/privacy/` | English privacy notice | noindex |
+| `/recarga/suporte/` | Tetelestai Recarga app support, in Portuguese | noindex |
+| `/recarga/privacidade/` | Tetelestai Recarga app privacy, in Portuguese | noindex |
+
+The Recarga pages use `src/recarga-content.mjs` and are prerendered into the production HTML, so support and privacy remain readable without JavaScript. Both contact channels are available near the top. Only the two institutional homepages remain in the sitemap. The new routes are prepared locally; their public URLs must be verified after deployment before entering them in App Store Connect.
 
 ## Local commands
 

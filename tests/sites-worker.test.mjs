@@ -12,6 +12,71 @@ const legalRoutes = [
   { path: "/en/data-deletion/", lang: "en", title: "Request data deletion", alternate: "/exclusao-de-dados/" },
 ];
 
+const recargaRoutes = [
+  { path: "/recarga/suporte/", title: "Suporte — Tetelestai Recarga", sibling: "/recarga/privacidade/" },
+  { path: "/recarga/privacidade/", title: "Privacidade — Tetelestai Recarga", sibling: "/recarga/suporte/" },
+];
+
+test("serves Recarga support and privacy through the exact GET and HEAD fallback", async () => {
+  for (const { path, title } of recargaRoutes) {
+    for (const pathname of [path, path.slice(0, -1)]) {
+      for (const method of ["GET", "HEAD"]) {
+        const response = await worker.fetch(new Request(`https://example.test${pathname}?source=store`, {
+          method, headers: { accept: "text/html" },
+        }), { ASSETS: { fetch: async (request) => {
+          const url = new URL(request.url);
+          if (url.pathname !== `${path}index.html` || url.search) return new Response(null, { status: 404 });
+          return new Response(method === "HEAD" ? null : title, { status: 200 });
+        } } });
+        assert.equal(response.status, 200, `${method} ${pathname}`);
+        assert.equal(await response.text(), method === "HEAD" ? "" : title);
+      }
+    }
+  }
+});
+
+test("keeps unsupported Recarga paths and methods outside the route fallback", async () => {
+  for (const request of [
+    new Request("https://example.test/recarga/"),
+    new Request("https://example.test/recarga/suporte/missing", { headers: { accept: "text/html" } }),
+    new Request("https://example.test/recarga/privacidade//", { headers: { accept: "text/html" } }),
+    new Request("https://example.test/en/recarga/privacy/", { headers: { accept: "text/html" } }),
+    new Request("https://example.test/recarga/suporte/", { method: "POST", headers: { accept: "text/html" } }),
+    new Request("https://example.test/recarga/privacidade/", { headers: { accept: "application/json" } }),
+  ]) {
+    const response = await worker.fetch(request, { ASSETS: { fetch: async (value) =>
+      new Response(null, { status: new URL(value.url).pathname.endsWith("index.html") ? 200 : 404 }),
+    } });
+    assert.equal(response.status, 404, `${request.method} ${request.url}`);
+  }
+});
+
+test("builds readable Recarga pages with correct contacts, sibling links and indexing", async () => {
+  const sitemap = await readFile(new URL("../dist/client/sitemap.xml", import.meta.url), "utf8");
+  for (const { path, title, sibling } of recargaRoutes) {
+    const html = await readFile(new URL(`../dist/client${path}index.html`, import.meta.url), "utf8");
+    assert.match(html, /<html lang="pt-BR">/);
+    assert.ok(html.includes(`<h1>${title}</h1>`));
+    assert.equal((html.match(/<h1>/g) ?? []).length, 1);
+    assert.match(html, /<meta name="robots" content="noindex,nofollow"/);
+    assert.ok(html.includes(`<link rel="canonical" href="https://tetelestai.tech${path}"`));
+    assert.ok(html.includes(`href="${sibling}"`));
+    assert.match(html, /href="mailto:contato@tetelestai\.tech"/);
+    assert.match(html, /href="https:\/\/wa\.me\/556184711930"/);
+    assert.match(html, /\+55 61 98471-1930/);
+    assert.doesNotMatch(html, /hreflang="en"/);
+    assert.doesNotMatch(sitemap, /recarga/);
+    if (path.includes("privacidade")) {
+      assert.match(html, /perfis/);
+      assert.match(html, /histórico/);
+      assert.match(html, /lembrete/i);
+    } else {
+      assert.match(html, /07:01/);
+      assert.match(html, /Copiar horário/);
+    }
+  }
+});
+
 test("serves every legal route with or without a trailing slash for GET and HEAD", async () => {
   for (const { path } of legalRoutes) {
     for (const pathname of [path, path.slice(0, -1)]) {

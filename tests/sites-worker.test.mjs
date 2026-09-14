@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
-import { access, readFile, readdir } from "node:fs/promises";
+import { access, cp, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import test from "node:test";
 import worker from "../worker/index.js";
 
@@ -16,6 +18,58 @@ const recargaRoutes = [
   { path: "/recarga/suporte/", title: "Suporte — Tetelestai Recarga", sibling: "/recarga/privacidade/" },
   { path: "/recarga/privacidade/", title: "Privacidade — Tetelestai Recarga", sibling: "/recarga/suporte/" },
 ];
+
+test("serves the Recarga calculator only through its exact GET and HEAD fallback", async () => {
+  for (const pathname of ["/recarga", "/recarga/"]) {
+    for (const method of ["GET", "HEAD"]) {
+      const calls = [];
+      const response = await worker.fetch(new Request(`https://example.test${pathname}?source=share`, {
+        method, headers: { accept: "text/html" },
+      }), { ASSETS: { fetch: async (request) => {
+        const url = new URL(request.url);
+        calls.push([request.method, url.pathname + url.search]);
+        if (url.pathname !== "/recarga/index.html" || url.search) return new Response(null, { status: 404 });
+        return new Response(method === "HEAD" ? null : "calculator", { status: 200 });
+      } } });
+      assert.equal(response.status, 200, `${method} ${pathname}`);
+      assert.equal(await response.text(), method === "HEAD" ? "" : "calculator");
+      assert.deepEqual(calls, [[method, `${pathname}?source=share`], [method, "/recarga/index.html"]]);
+    }
+  }
+});
+
+test("packages the independent Recarga web release with its own bundled resources", async () => {
+  const artifact = new URL("../dist/client/recarga/", import.meta.url);
+  const html = await readFile(new URL("index.html", artifact), "utf8");
+  assert.match(html, /<html\b[^>]*lang="pt-BR"/);
+  assert.match(html, /<title>Tetelestai Recarga — Planejar recarga<\/title>/);
+  assert.match(html, /<meta name="robots" content="noindex,nofollow"/);
+  assert.match(html, /<link rel="canonical" href="https:\/\/tetelestai\.tech\/recarga\/"/);
+  assert.match(html, /<script\b[^>]*src="\/recarga\/_expo\//);
+  assert.doesNotMatch(html, /<script\b[^>]*src="\/assets\//);
+  const { verifyRecargaWeb } = await import("../scripts/verify-recarga-web.mjs");
+  const release = verifyRecargaWeb(artifact);
+  assert.equal(release.version, "1.0.5");
+  assert.ok(release.files.length > 1);
+});
+
+test("rejects a damaged Recarga release before deployment", async () => {
+  const { verifyRecargaWeb } = await import("../scripts/verify-recarga-web.mjs");
+  const directory = await mkdtemp(path.join(tmpdir(), "recarga-release-test-"));
+  try {
+    await cp(new URL("../public/recarga/", import.meta.url), directory, { recursive: true });
+    const release = verifyRecargaWeb(directory);
+    const script = release.files.find((file) => file.path.endsWith(".js"));
+    assert.ok(script, "A runnable release must include its JavaScript bundle");
+    const scriptFile = path.join(directory, script.path);
+    await writeFile(scriptFile, "damaged bundle");
+    assert.throws(() => verifyRecargaWeb(directory), /hash mismatch/i);
+    await rm(scriptFile);
+    assert.throws(() => verifyRecargaWeb(directory), /missing.*release file/i);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
 
 test("serves Recarga support and privacy through the exact GET and HEAD fallback", async () => {
   for (const { path, title } of recargaRoutes) {
@@ -38,6 +92,12 @@ test("serves Recarga support and privacy through the exact GET and HEAD fallback
 test("keeps unsupported Recarga paths and methods outside the route fallback", async () => {
   for (const request of [
     new Request("https://example.test/recarga/"),
+    new Request("https://example.test/recarga//", { headers: { accept: "text/html" } }),
+    new Request("https://example.test/recarga/missing", { headers: { accept: "text/html" } }),
+    new Request("https://example.test/recarga/_expo/missing.js", { headers: { accept: "text/html" } }),
+    new Request("https://example.test/en/recarga/", { headers: { accept: "text/html" } }),
+    new Request("https://example.test/recarga/", { method: "POST", headers: { accept: "text/html" } }),
+    new Request("https://example.test/recarga/", { headers: { accept: "application/json" } }),
     new Request("https://example.test/recarga/suporte/missing", { headers: { accept: "text/html" } }),
     new Request("https://example.test/recarga/privacidade//", { headers: { accept: "text/html" } }),
     new Request("https://example.test/en/recarga/privacy/", { headers: { accept: "text/html" } }),

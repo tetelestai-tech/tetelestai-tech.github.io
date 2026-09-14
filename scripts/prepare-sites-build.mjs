@@ -7,6 +7,7 @@ import { createServer } from "vite";
 import { LEGAL_CONTENT, LEGAL_PATHS } from "../src/legal-content.mjs";
 import { RECARGA_PAGES } from "../src/recarga-content.mjs";
 import { fileURLToPath } from "node:url";
+import { verifyRecargaWeb } from "./verify-recarga-web.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
@@ -17,6 +18,9 @@ const hosting = path.join(root, ".openai", "hosting.json");
 for (const file of [index, worker, hosting]) {
   if (!existsSync(file)) throw new Error("Missing Sites build input: " + file);
 }
+
+verifyRecargaWeb(path.join(root, "public", "recarga"));
+verifyRecargaWeb(path.join(dist, "client", "recarga"));
 
 const routeShells = [
   ...Object.values(RECARGA_PAGES).map((page) => ({

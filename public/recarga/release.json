@@ -1,0 +1,54 @@
+{
+  "version": "1.0.5",
+  "basePath": "/recarga/",
+  "files": [
+    {
+      "path": "_expo/static/js/web/index-240fd387ea197c7cb4056284305927df.js",
+      "sha256": "53262d5eb1189bc5155fb4d5d5d402f4e5e5d88322a3b111a7e91c25f7646a5b"
+    },
+    {
+      "path": "_expo/static/js/web/index-2a6e531599ac8f5b5d897ea19190edfb.js",
+      "sha256": "3b5112859cdf1fa1ebd3d1be6b15d4c15693c4941302de39645af84773959431"
+    },
+    {
+      "path": "assets/assets/circuit-network.b87a587cfd0c0ef807c9e5a101173826.png",
+      "sha256": "c3ecb4a6b71115df91bb0b6bc793a53d16ab167faaddcb582093cf73b14a769d"
+    },
+    {
+      "path": "assets/assets/tetelestai-symbol.f5758661fa278a9c20952ff483cf3260.png",
+      "sha256": "2d9c7c3c12403aa55de0b8092cb78c7898615d084e0fd7bfedcb922dd7c063fd"
+    },
+    {
+      "path": "assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.b4eb097d35f44ed943676fd56f6bdc51.ttf",
+      "sha256": "fa2ab7d2557819b2bfe5009e46844efa7170cf177be7735d43aa2ac1295f1d54"
+    },
+    {
+      "path": "assets/node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.51b6ad87261f18b6433ec52871ddfabc.ttf",
+      "sha256": "a414b48aa577ef2c62ebb135341ddeef33ee26a4f5dc9f787f93c1aab08ebb50"
+    },
+    {
+      "path": "assets/node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.137ab18bace28dd0bd83eb3b8ed2bc54.ttf",
+      "sha256": "f1738576525e86db1d5cf63a6c1b56e0a7e2a2898b499ac93db95f2e7a9f9cd5"
+    },
+    {
+      "path": "assets/node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.a5f35888d2da465de352e0dcfaf33324.ttf",
+      "sha256": "f30e9d2574c3bec5144347ff965f9841c8f06857f0b7383000f8c9489a161841"
+    },
+    {
+      "path": "assets/node_modules/@expo-google-fonts/inter/700Bold/Inter_700Bold.6e237de4f1f413afa2fcc45c77ac343a.ttf",
+      "sha256": "fbe825cbfc749317f57a1433d3905aa9d3f388732fd29b8e8a36f34845e3bc3e"
+    },
+    {
+      "path": "assets/node_modules/@expo-google-fonts/michroma/400Regular/Michroma_400Regular.8ec1f1c2b4c0477cb9356dd35957dca9.ttf",
+      "sha256": "aeb90da44b9f39fd7df446507f4109a39e0b8ffcad76ad428a0f737e9860e3ec"
+    },
+    {
+      "path": "favicon.ico",
+      "sha256": "f609ddafaec61cb7b9a99d5ef9b8ad1a98291b0c58a7ae921ea46e19e137e171"
+    },
+    {
+      "path": "index.html",
+      "sha256": "31a2df9bfdc025febedbcb33f421fd3b5fc53d2cbf645401248e2cdda925c2b9"
+    }
+  ]
+}

@@ -1,5 +1,8 @@
 # Dependencies
 node_modules/
+# Expo exports bundled browser fonts under this path; these are release assets.
+!public/recarga/assets/node_modules/
+!public/recarga/assets/node_modules/**
 
 # Production and test output
 dist/

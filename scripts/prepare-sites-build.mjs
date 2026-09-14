@@ -5,6 +5,7 @@ import { createElement } from "react";
 import { renderToString } from "react-dom/server";
 import { createServer } from "vite";
 import { LEGAL_CONTENT, LEGAL_PATHS } from "../src/legal-content.mjs";
+import { RECARGA_PAGES } from "../src/recarga-content.mjs";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -18,6 +19,15 @@ for (const file of [index, worker, hosting]) {
 }
 
 const routeShells = [
+  ...Object.values(RECARGA_PAGES).map((page) => ({
+    output: `${page.path.slice(1)}index.html`,
+    pathname: page.path,
+    lang: "pt-BR",
+    title: page.metaTitle,
+    description: page.metaDescription,
+    canonical: `https://tetelestai.tech${page.path}`,
+    robots: "noindex,nofollow",
+  })),
   {
     output: "index.html",
     lang: "pt-BR",
@@ -78,10 +88,10 @@ function buildRouteShell(baseHtml, route) {
   html = replaceMeta(html, "property", "og:description", route.description);
   html = replaceMeta(html, "property", "og:url", route.canonical);
 
-  html = html.replace(
+  html = route.alternatePt ? html.replace(
     /<link rel="alternate" hreflang="pt-BR" href="[^"]+" \/>\s*<link rel="alternate" hreflang="en" href="[^"]+" \/>\s*<link rel="alternate" hreflang="x-default" href="[^"]+" \/>/,
     `<link rel="alternate" hreflang="pt-BR" href="${route.alternatePt}" />\n    <link rel="alternate" hreflang="en" href="${route.alternateEn}" />\n    <link rel="alternate" hreflang="x-default" href="${route.alternatePt}" />`,
-  );
+  ) : html.replace(/\s*<link rel="alternate" hreflang="[^"]+" href="[^"]+" \/>/g, "");
 
   return html;
 }

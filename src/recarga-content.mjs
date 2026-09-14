@@ -7,12 +7,12 @@ export const RECARGA_PAGES = {
     title: "Suporte — Tetelestai Recarga",
     metaTitle: "Suporte — Tetelestai Recarga",
     metaDescription: "Ajuda e contato de suporte para o aplicativo Tetelestai Recarga.",
-    intro: "Ajuda para planejar sua recarga e ajustar a estimativa. Estas orientações se referem à versão 1.0.5 do Tetelestai Recarga, um aplicativo gratuito, sem anúncios e sem cadastro.",
+    intro: "Ajuda para planejar sua recarga e ajustar a estimativa. Estas orientações se referem à versão 1.0.5 do Tetelestai Recarga e à calculadora web, gratuitas, sem anúncios e sem cadastro.",
     sections: [
       {
         title: "Para solicitar ajuda",
         paragraphs: [
-          "Informe a versão do aplicativo, o modelo do iPhone e o que aconteceu. Para conferir um cálculo, envie o percentual usado, a referência de carga, o horário de conclusão e a margem. Não envie senhas nem dados de acesso ao veículo.",
+          "Informe a versão do aplicativo, o modelo do aparelho e o que aconteceu. Se estiver usando a calculadora web, informe também o navegador. Para conferir um cálculo, envie o percentual usado, a referência de carga, o horário de conclusão e a margem. Não envie senhas nem dados de acesso ao veículo.",
           "Nenhum dado da calculadora é incluído automaticamente na conversa. O atendimento ocorre fora do aplicativo e segue também as regras de privacidade do WhatsApp.",
         ],
       },
@@ -38,7 +38,8 @@ export const RECARGA_PAGES = {
         title: "Histórico, perfis e lembretes",
         paragraphs: [
           "Em Histórico e perfis, salve combinações de carro/carregador e registre cargas. A comparação usa a referência do momento do registro, não uma previsão coletada automaticamente do carro. Usar uma carga como referência exige sua escolha.",
-          "O lembrete opcional está disponível no aplicativo instalado no iPhone; a prévia web não agenda notificações. A entrega depende da permissão e das configurações de notificações do aparelho.",
+          "O lembrete opcional está disponível no aplicativo instalado no iPhone; a calculadora web não agenda notificações. A entrega depende da permissão e das configurações de notificações do aparelho.",
+          "Na calculadora web, os ajustes, perfis e histórico ficam salvos neste navegador. Eles não são sincronizados automaticamente com outro navegador, outro aparelho ou o aplicativo iOS.",
         ],
       },
       {
@@ -52,12 +53,14 @@ export const RECARGA_PAGES = {
         title: "Restaurar e apagar os dados locais",
         paragraphs: [
           "Abra Sua recarga → Restaurar e apagar dados locais e confirme a operação. A porcentagem, os ajustes, os perfis e o histórico serão apagados e o lembrete será cancelado. Isso não apaga mensagens de atendimento ou cópias mantidas nos backups do sistema.",
+          "Na versão web, essa opção apaga os dados da calculadora salvos neste navegador. Limpar os dados do site nas configurações do navegador também os remove.",
         ],
       },
       {
-        title: "Uso sem internet",
+        title: "Conexão com a internet",
         paragraphs: [
-          "Os cálculos e os ajustes locais funcionam sem internet. Para conversar pelo WhatsApp ou abrir páginas externas, será necessária conexão.",
+          "No aplicativo instalado no iPhone, os cálculos e os ajustes locais funcionam sem internet. Na versão web, é necessária conexão para abrir a página. Os cálculos acontecem no navegador, mas não há garantia de abrir ou recarregar a calculadora sem internet.",
+          "Para conversar pelo WhatsApp ou abrir páginas externas, será necessária conexão.",
           "Tetelestai Recarga é um aplicativo independente, sem integração ou vínculo com a BYD.",
         ],
       },
@@ -76,7 +79,7 @@ export const RECARGA_PAGES = {
     title: "Privacidade — Tetelestai Recarga",
     metaTitle: "Privacidade — Tetelestai Recarga",
     metaDescription: "Como o Tetelestai Recarga trata seus dados locais e as informações de suporte.",
-    intro: "Esta política descreve o tratamento de dados no Tetelestai Recarga, versão 1.0.5, e no suporte do aplicativo.",
+    intro: "Esta política descreve o tratamento de dados no Tetelestai Recarga, versão 1.0.5, na calculadora web e no suporte do aplicativo.",
     sections: [
       {
         title: "Sobre o aplicativo",
@@ -88,14 +91,17 @@ export const RECARGA_PAGES = {
         title: "Informações no aparelho",
         paragraphs: [
           "O aplicativo guarda localmente o percentual informado, o nome do veículo, a carga observada, o horário de conclusão e a margem. Também guarda perfis de carro/carregador e histórico de cargas com as estimativas registradas. Esses dados permitem retomar o uso sem preencher tudo novamente.",
+          "Na versão web, esses dados ficam salvos no navegador usado para acessar a calculadora. Não há sincronização automática entre navegadores, aparelhos ou com o aplicativo iOS.",
           "Os cálculos são realizados no aparelho. O aplicativo não envia sua bateria, seus horários ou sua calibração para servidores e não exige cadastro. Esta versão é gratuita e não inclui publicidade, rastreamento, ferramentas de análise de uso ou sincronização com uma conta remota.",
           "O aplicativo não acessa localização, contatos, fotos ou dados de acesso ao veículo. A porcentagem da bateria é informada por você; não é obtida automaticamente do carro.",
+          "Ao abrir a versão web, a hospedagem do site pode registrar dados técnicos de acesso, como endereço IP e horário. Esses registros são distintos dos valores preenchidos na calculadora.",
         ],
       },
       {
         title: "Lembretes locais",
         paragraphs: [
           "O lembrete opcional usa notificações locais do iPhone, mediante permissão. Não solicitamos token de push nem usamos notificações remotas. A entrega depende das configurações do sistema. Você pode cancelar o lembrete no aplicativo.",
+          "A calculadora web não agenda lembretes nem solicita permissão de notificações.",
         ],
       },
       {
@@ -109,13 +115,14 @@ export const RECARGA_PAGES = {
         title: "Retenção e exclusão",
         paragraphs: [
           "Os valores locais ficam disponíveis até que você os altere ou use Sua recarga → Restaurar e apagar dados locais. Depois da confirmação, essa opção restaura a referência inicial, remove os ajustes, perfis e histórico e cancela o lembrete.",
+          "Na versão web, limpar os dados do site nas configurações do navegador também remove os dados da calculadora. A restauração pelo aplicativo ou a limpeza do navegador não apaga dados que estejam guardados em outro navegador ou no aplicativo iOS.",
           "Recursos de backup e restauração do aparelho podem manter cópias de dados locais conforme suas configurações do sistema. Caso queira eliminar também essas cópias, confira os controles de backup e armazenamento da Apple.",
         ],
       },
       {
         title: "Links externos e suporte",
         paragraphs: [
-          "Os cálculos não dependem da internet. A abertura de páginas e do suporte externo poderá depender de conexão.",
+          "Os cálculos são realizados localmente. A versão web precisa de conexão para abrir a página e não oferece garantia de acesso sem internet. Abrir páginas externas e o suporte também depende de conexão.",
           "O contato por WhatsApp é voluntário. Nenhum dado da calculadora é incluído automaticamente na conversa. As informações que você decidir enviar nesse atendimento serão usadas para responder à sua solicitação e tratar o problema relatado. O WhatsApp e os serviços utilizados para acessar páginas externas também têm suas próprias práticas de privacidade.",
           "Mensagens de atendimento não são apagadas pela opção que remove os dados locais do aplicativo. Para solicitar informações sobre um atendimento ou pedir a exclusão de mensagens mantidas pela Tetelestai, use os canais de contato desta página. Eventuais registros necessários para cumprir obrigações aplicáveis poderão ser conservados pelo período correspondente.",
         ],

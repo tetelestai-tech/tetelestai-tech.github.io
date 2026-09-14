@@ -14,6 +14,8 @@ const routeShells = new Map([
   ["/exclusao-de-dados/", "/exclusao-de-dados/index.html"],
   ["/en/data-deletion", "/en/data-deletion/index.html"],
   ["/en/data-deletion/", "/en/data-deletion/index.html"],
+  ["/recarga", "/recarga/index.html"],
+  ["/recarga/", "/recarga/index.html"],
   ["/recarga/suporte", "/recarga/suporte/index.html"],
   ["/recarga/suporte/", "/recarga/suporte/index.html"],
   ["/recarga/privacidade", "/recarga/privacidade/index.html"],

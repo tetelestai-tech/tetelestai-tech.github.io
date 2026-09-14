@@ -416,6 +416,7 @@ function RecargaPage({ page }) {
           <p className="legal-page__updated"><time dateTime="2026-09-14">Atualizado em {RECARGA_UPDATED}</time></p>
           <p className="legal-page__intro">{document.intro}</p>
           <nav className="recarga-navigation" aria-label="Informações do aplicativo">
+            <a href="/recarga/">Calculadora</a>
             {Object.entries(RECARGA_PAGES).map(([key, value]) =>
               <a href={value.path} key={key} aria-current={page === key ? "page" : undefined}>{value.label}</a>,
             )}

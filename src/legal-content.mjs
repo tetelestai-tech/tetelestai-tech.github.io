@@ -20,6 +20,8 @@ export const LEGAL_CONTENT = {
     privacy: {
       label: "Privacidade",
       title: "Privacidade e proteção de dados",
+      updated: "Atualizado em 28 de setembro de 2026",
+      updatedDate: "2026-09-28",
       metaTitle: "Privacidade | Tetelestai",
       metaDescription: "Como a Tetelestai trata dados no site e no atendimento e como exercer seus direitos de privacidade.",
       intro: "Esta política explica o tratamento de dados pessoais no site e nos canais de atendimento da TETELESTAI SOLUCOES EM TECNOLOGIA LTDA, CNPJ 58.138.258/0001-39, identificada também como Tetelestai Tech Solutions e TETELESTAI Atendimento.",
@@ -27,9 +29,19 @@ export const LEGAL_CONTENT = {
         {
           title: "Site e contato pelo WhatsApp",
           paragraphs: [
-            "Nesta versão, o site é informativo: não possui formulário, não utiliza analytics e não instala cookies não essenciais.",
+            "O site é informativo e não possui formulário. O uso de analytics nas páginas indicadas abaixo depende do seu consentimento.",
             "Ao iniciar uma conversa pelo WhatsApp, o contato ocorre fora deste site e depende das informações que você decidir fornecer. Podemos receber seu nome de perfil, número de telefone, mensagens e os arquivos que você enviar. Se você entrar em contato por email, também recebemos seu endereço de email e o conteúdo enviado.",
             "Não envie senhas, dados bancários, documentos de identidade ou outras informações sensíveis antes de receber orientação sobre o canal adequado.",
+          ],
+        },
+        {
+          title: "Analytics e suas preferências",
+          paragraphs: [
+            "Usamos o Google Analytics 4 para entender as visitas e a navegação e avaliar o uso do site. A medição se limita às páginas iniciais em português e inglês e às páginas de criação de sites e de landing pages. As páginas legais e as páginas do Recarga não carregam o Analytics.",
+            "A tag do Analytics só é carregada depois que você aceita. Antes de aceitar, ou se você recusar, não enviamos dados ao Google Analytics. Recusar não impede o acesso ao site ou o contato com a Tetelestai.",
+            "Com seu consentimento, são enviados dados sobre visualizações de páginas, eventos de navegação, características técnicas do navegador e do dispositivo e origem da visita, limitada ao domínio de referência. O clique no WhatsApp também é registrado, mas o Analytics não recebe o conteúdo das conversas. Um clique não confirma uma conversa, um contato qualificado ou uma venda.",
+            "Sua escolha é guardada localmente neste navegador por 180 dias. Novas visitas não prorrogam automaticamente a validade do consentimento. Os cookies do Analytics têm duração inicial configurada de até 180 dias; em novas visitas, a duração configurada é limitada ao prazo restante do consentimento. O Google pode atualizar o cookie de sessão enquanto o consentimento estiver válido. Ao detectar que o consentimento expirou, o site interrompe a medição e remove os cookies do Analytics acessíveis a ele. Esses prazos se referem ao armazenamento no navegador, não ao período de conservação dos dados já recebidos pelo Google Analytics.",
+            "Você pode mudar sua escolha nas preferências de cookies disponíveis no rodapé. Ao revogar o consentimento, o site remove os cookies do Analytics acessíveis a ele e recarrega a página para interromper a medição. Isso não exclui automaticamente os dados já enviados ao Google Analytics.",
           ],
         },
         {
@@ -52,12 +64,13 @@ export const LEGAL_CONTENT = {
           paragraphs: [
             "A equipe da Tetelestai pode acessar as informações necessárias ao atendimento. Serviços de comunicação e de infraestrutura envolvidos também podem tratar dados para viabilizar seu funcionamento, conforme suas responsabilidades e políticas.",
             "Este site é hospedado pelo GitHub Pages, serviço da GitHub, Inc. Quando o site é visitado, o GitHub registra e armazena o endereço IP do visitante para fins de segurança. O uso do WhatsApp também envolve o tratamento de dados pelo WhatsApp/Meta, conforme as políticas desse serviço.",
+            "Quando você aceita o Analytics, o Google recebe as requisições de medição, os identificadores dos cookies utilizados pelo serviço e os dados de navegação descritos acima.",
           ],
         },
         {
           title: "Conservação e proteção",
           paragraphs: [
-            "Os dados serão mantidos apenas pelo tempo necessário às finalidades do atendimento e às hipóteses legais de conservação aplicáveis. A necessidade de manter um registro depende do andamento da solicitação, da relação contratual e das obrigações envolvidas; não adotamos aqui um prazo único para todos os dados.",
+            "Os dados serão mantidos apenas pelo tempo necessário às finalidades informadas nesta política e às hipóteses legais de conservação aplicáveis. A necessidade de manter um registro depende do andamento da solicitação, da relação contratual e das obrigações envolvidas; não adotamos aqui um prazo único para todos os dados.",
             "Pedidos de exclusão serão avaliados em relação aos registros sob controle da Tetelestai. Quando houver uma hipótese legal de conservação, informaremos o motivo e o alcance da retenção.",
           ],
         },
@@ -177,6 +190,8 @@ export const LEGAL_CONTENT = {
     privacy: {
       label: "Privacy",
       title: "Privacy and data protection",
+      updated: "Updated on September 28, 2026",
+      updatedDate: "2026-09-28",
       metaTitle: "Privacy | Tetelestai",
       metaDescription: "How Tetelestai handles website and customer service data and how to exercise your privacy rights.",
       intro: "This policy explains how personal data is handled on the website and through the customer service channels of TETELESTAI SOLUCOES EM TECNOLOGIA LTDA, CNPJ 58.138.258/0001-39, also identified as Tetelestai Tech Solutions and TETELESTAI Atendimento.",
@@ -184,9 +199,19 @@ export const LEGAL_CONTENT = {
         {
           title: "Website and WhatsApp contact",
           paragraphs: [
-            "This version of the website is informational: it has no form, uses no analytics and installs no non-essential cookies.",
+            "The website is informational and has no form. Analytics on the pages listed below depends on your consent.",
             "When you start a conversation through WhatsApp, contact takes place outside this website and depends on the information you choose to provide. We may receive your profile name, phone number, messages and any files you send. If you contact us by email, we also receive your email address and the content you send.",
             "Do not send passwords, banking details, identity documents or other sensitive information before receiving guidance about the appropriate channel.",
+          ],
+        },
+        {
+          title: "Analytics and your preferences",
+          paragraphs: [
+            "We use Google Analytics 4 to understand visits and navigation and assess how the website is used. Measurement is limited to the Portuguese and English homepages and the website development and landing page development pages. Legal pages and Recarga pages do not load Analytics.",
+            "The Analytics tag only loads after you accept. Before you accept, or if you decline, we do not send data to Google Analytics. Declining does not prevent you from accessing the website or contacting Tetelestai.",
+            "With your consent, data is sent about page views, navigation events, technical characteristics of your browser and device, and the source of your visit, limited to the referring domain. WhatsApp clicks are also recorded, but Analytics does not receive conversation content. A click does not confirm a conversation, a qualified contact or a sale.",
+            "Your choice is stored locally in this browser for 180 days. Subsequent visits do not automatically extend the validity of consent. Analytics cookies are initially configured to last up to 180 days; on subsequent visits, the configured duration is limited to the time remaining on consent. Google may update the session cookie while consent remains valid. When the website detects that consent has expired, it stops measurement and removes the Analytics cookies it can access. These periods apply to browser storage, not to the retention of data already received by Google Analytics.",
+            "You can change your choice through the cookie preferences in the footer. When you withdraw consent, the website removes the Analytics cookies it can access and reloads the page to stop measurement. This does not automatically delete data already sent to Google Analytics.",
           ],
         },
         {
@@ -209,12 +234,13 @@ export const LEGAL_CONTENT = {
           paragraphs: [
             "Tetelestai’s team may access information needed to handle your request. The communication and infrastructure services involved may also process data to operate, according to their responsibilities and policies.",
             "This website is hosted on GitHub Pages, a service provided by GitHub, Inc. When the site is visited, GitHub logs and stores the visitor’s IP address for security purposes. Using WhatsApp also involves processing by WhatsApp/Meta under that service’s policies.",
+            "When you accept Analytics, Google receives measurement requests, the identifiers of the cookies used by the service and the navigation data described above.",
           ],
         },
         {
           title: "Retention and protection",
           paragraphs: [
-            "Data will be kept only as long as necessary for the purposes of the service and the applicable legal grounds for retention. Whether a record needs to be retained depends on the progress of the request, the contractual relationship and the obligations involved; this policy does not set a single retention period for every type of data.",
+            "Data will be kept only as long as necessary for the purposes described in this policy and the applicable legal grounds for retention. Whether a record needs to be retained depends on the progress of the request, the contractual relationship and the obligations involved; this policy does not set a single retention period for every type of data.",
             "Deletion requests will be assessed in relation to records under Tetelestai’s control. Where a legal ground for retention applies, we will explain the reason and scope of that retention.",
           ],
         },

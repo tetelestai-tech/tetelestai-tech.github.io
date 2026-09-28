@@ -14,6 +14,8 @@ import { XIcon } from "@phosphor-icons/react/dist/csr/X";
 import { LEGAL_CONTENT, LEGAL_PATHS, PRIVACY_CONTACT } from "./legal-content.mjs";
 import { RECARGA_PAGES, RECARGA_UPDATED } from "./recarga-content.mjs";
 import { SERVICE_PAGES } from "./service-content.mjs";
+import { AnalyticsConsent, AnalyticsPreferencesButton } from "./AnalyticsConsent.jsx";
+import { getAnalytics } from "./analytics.mjs";
 
 const WHATSAPP_LINK = "https://wa.me/556184711930";
 
@@ -355,6 +357,7 @@ function Footer({ t, locale }) {
           {Object.entries(LEGAL_PATHS).map(([page, paths]) => (
             <a className="footer-link" href={paths[locale]} key={page}>{LEGAL_CONTENT[locale][page].label}</a>
           ))}
+          <AnalyticsPreferencesButton locale={locale} />
         </nav>
       </div>
     </footer>
@@ -433,7 +436,7 @@ function ServicePage({ t, page }) {
           <div className="section-shell contact-section__inner">
             <div><p className="eyebrow">Vamos conversar</p><h2 id="contact-title">{service.contactTitle}</h2><p>{service.contactText}</p></div>
             <div className="contact-panel">
-              <a className="button button--primary" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"><WhatsappLogoIcon size={22} aria-hidden="true" />{service.ctaLabel}</a>
+              <a className="button button--primary" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" onClick={() => getAnalytics().trackWhatsApp()}><WhatsappLogoIcon size={22} aria-hidden="true" />{service.ctaLabel}</a>
               <p>{t.safety}</p>
             </div>
           </div>
@@ -477,7 +480,7 @@ function LegalPage({ t, locale, page }) {
         <article className="section-shell legal-page__inner">
           <p className="eyebrow">{legal.navigation}</p>
           <h1>{document.title}</h1>
-          <p className="legal-page__updated"><time dateTime="2026-09-11">{legal.updated}</time></p>
+          <p className="legal-page__updated"><time dateTime={document.updatedDate ?? "2026-09-11"}>{document.updated ?? legal.updated}</time></p>
           <p className="legal-page__intro">{document.intro}</p>
           {document.contactFirst && <PrivacyContact locale={locale} page={page} />}
           {document.sections.map((section, index) => (
@@ -663,7 +666,7 @@ function HomePage({ t, locale }) {
           <div className="section-shell contact-section__inner">
             <div><p className="eyebrow">{t.contactKicker}</p><h2 id="contact-title">{t.contactTitle}</h2><p>{t.contactText}</p></div>
             <div className="contact-panel">
-              <a className="button button--primary" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"><WhatsappLogoIcon size={22} aria-hidden="true" />{t.whatsappLabel}</a>
+              <a className="button button--primary" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" onClick={() => getAnalytics().trackWhatsApp()}><WhatsappLogoIcon size={22} aria-hidden="true" />{t.whatsappLabel}</a>
               <p>{t.safety}</p>
             </div>
           </div>
@@ -730,9 +733,9 @@ export function App({ pathname = window.location.pathname }) {
     if (recarga || service) document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => link.remove());
   }, [locale, page, t]);
 
-  if (SERVICE_PAGES[page]) return <ServicePage t={t} page={page} />;
   if (RECARGA_PAGES[page]) return <RecargaPage page={page} />;
-  if (LEGAL_PATHS[page]) return <LegalPage t={t} locale={locale} page={page} />;
-  if (page === "notFound") return <NotFoundPage t={t} locale={locale} />;
-  return <HomePage t={t} locale={locale} />;
+  const pageView = SERVICE_PAGES[page] ? <ServicePage t={t} page={page} /> :
+    LEGAL_PATHS[page] ? <LegalPage t={t} locale={locale} page={page} /> :
+    page === "notFound" ? <NotFoundPage t={t} locale={locale} /> : <HomePage t={t} locale={locale} />;
+  return <>{pageView}<AnalyticsConsent locale={locale} pathname={pathname} /></>;
 }

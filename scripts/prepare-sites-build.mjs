@@ -6,6 +6,7 @@ import { renderToString } from "react-dom/server";
 import { createServer } from "vite";
 import { LEGAL_CONTENT, LEGAL_PATHS } from "../src/legal-content.mjs";
 import { RECARGA_PAGES } from "../src/recarga-content.mjs";
+import { SERVICE_PAGES } from "../src/service-content.mjs";
 import { fileURLToPath } from "node:url";
 import { verifyRecargaWeb } from "./verify-recarga-web.mjs";
 
@@ -23,6 +24,15 @@ verifyRecargaWeb(path.join(root, "public", "recarga"));
 verifyRecargaWeb(path.join(dist, "client", "recarga"));
 
 const routeShells = [
+  ...Object.values(SERVICE_PAGES).map((page) => ({
+    output: `${page.path.slice(1)}index.html`,
+    pathname: page.path,
+    lang: "pt-BR",
+    title: page.metaTitle,
+    description: page.metaDescription,
+    canonical: `https://tetelestai.tech${page.path}`,
+    robots: "index,follow",
+  })),
   ...Object.values(RECARGA_PAGES).map((page) => ({
     output: `${page.path.slice(1)}index.html`,
     pathname: page.path,
@@ -34,6 +44,7 @@ const routeShells = [
   })),
   {
     output: "index.html",
+    pathname: "/",
     lang: "pt-BR",
     title: "Tetelestai | Carreira internacional, soluções digitais e IA",
     description: "Consultoria para carreiras internacionais em tecnologia, automação e soluções digitais para negócios e capacitação prática em inteligência artificial.",
@@ -101,8 +112,8 @@ function buildRouteShell(baseHtml, route) {
 }
 
 const baseHtml = readFileSync(index, "utf8");
-// Render legal text into the static HTML so it is accessible without JavaScript.
-// The same React component is used by the browser, avoiding duplicate policy copy.
+// Render page content into static HTML so it is accessible without JavaScript.
+// The browser hydrates the same React components, avoiding duplicate copy.
 const renderer = await createServer({
   root,
   appType: "custom",
@@ -116,7 +127,7 @@ try {
     let html = buildRouteShell(baseHtml, route);
     if (route.pathname) {
       const markup = renderToString(createElement(App, { pathname: route.pathname }));
-      if (!html.includes('<div id="root"></div>')) throw new Error("Missing app root for legal prerender");
+      if (!html.includes('<div id="root"></div>')) throw new Error("Missing app root for prerender");
       html = html.replace('<div id="root"></div>', `<div id="root">${markup}</div>`);
     }
     mkdirSync(path.dirname(output), { recursive: true });

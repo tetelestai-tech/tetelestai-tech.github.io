@@ -356,7 +356,11 @@ test("publishes the confirmed service and contact content", async () => {
   assert.doesNotMatch(productionJavaScript, /\(61\) 98471-1930/);
   assert.doesNotMatch(productionJavaScript, /Ligar para a Tetelestai/);
   assert.doesNotMatch(productionJavaScript, /Call Tetelestai/);
-  assert.equal(appSource.match(/<BackToTop\b/g)?.length ?? 0, 6);
+  const homeHtml = await readFile(new URL("../dist/client/index.html", import.meta.url), "utf8");
+  const backToTopLinks = (homeHtml.match(/<a\b[^>]*>/g) ?? [])
+    .filter((tag) => /class="back-to-top"/.test(tag));
+  assert.equal(backToTopLinks.length, 6);
+  assert.ok(backToTopLinks.every((tag) => /href="#home"/.test(tag) && /aria-label="Voltar ao topo"/.test(tag)));
   assert.match(appSource, /function BackToTop[\s\S]*?href="#home"/);
   assert.match(appSource, /className="button button--primary" href=\{WHATSAPP_LINK\}/);
 });

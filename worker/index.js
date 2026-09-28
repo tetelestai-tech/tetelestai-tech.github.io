@@ -1,5 +1,9 @@
 const routeShells = new Map([
   ["/", "/index.html"],
+  ["/criacao-de-sites", "/criacao-de-sites/index.html"],
+  ["/criacao-de-sites/", "/criacao-de-sites/index.html"],
+  ["/criacao-de-landing-pages", "/criacao-de-landing-pages/index.html"],
+  ["/criacao-de-landing-pages/", "/criacao-de-landing-pages/index.html"],
   ["/en", "/en/index.html"],
   ["/en/", "/en/index.html"],
   ["/privacidade", "/privacidade/index.html"],

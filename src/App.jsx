@@ -287,7 +287,7 @@ function Brand({ compact = false }) {
 function Header({ t, locale, page }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const homePath = locale === "en" ? "/en/" : "/";
-  const languagePaths = LEGAL_PATHS[page] ?? { pt: "/", en: "/en/" };
+  const languagePaths = LEGAL_PATHS[page] ?? { pt: SERVICE_PAGES[page]?.path ?? "/", en: "/en/" };
   const closeMenu = () => setMenuOpen(false);
   const isService = Boolean(SERVICE_PAGES[page]);
 
@@ -310,11 +310,11 @@ function Header({ t, locale, page }) {
           <a href={isService ? "#method" : `${homePath}#method`} onClick={closeMenu}>{t.nav.method}</a>
           <a href={`${homePath}#about`} onClick={closeMenu}>{t.nav.about}</a>
           <a href={isService ? "#contact" : `${homePath}#contact`} onClick={closeMenu}>{t.nav.contact}</a>
-          {isService ? <a href="/en/" lang="en">English site</a> : <span className="locale-switch" aria-label={t.languageLabel}>
+          <span className="locale-switch" aria-label={t.languageLabel}>
             <a href={languagePaths.pt} lang="pt-BR" aria-current={locale === "pt" ? "page" : undefined}>PT</a>
             <span aria-hidden="true">|</span>
-            <a href={languagePaths.en} lang="en" aria-current={locale === "en" ? "page" : undefined}>EN</a>
-          </span>}
+            <a href={languagePaths.en} lang="en" title={isService ? "Página inicial em inglês" : undefined} aria-current={locale === "en" ? "page" : undefined}>EN</a>
+          </span>
         </nav>
       </div>
     </header>

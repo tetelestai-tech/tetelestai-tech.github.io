@@ -13,12 +13,16 @@ import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/csr/WhatsappLogo";
 import { XIcon } from "@phosphor-icons/react/dist/csr/X";
 import { LEGAL_CONTENT, LEGAL_PATHS, PRIVACY_CONTACT } from "./legal-content.mjs";
 import { RECARGA_PAGES, RECARGA_UPDATED } from "./recarga-content.mjs";
+import { SERVICE_PAGES } from "./service-content.mjs";
 
 const WHATSAPP_LINK = "https://wa.me/556184711930";
 
 const ROUTES = {
   "/": { locale: "pt", page: "home" },
   "/en": { locale: "en", page: "home" },
+  ...Object.fromEntries(Object.entries(SERVICE_PAGES).map(([page, service]) =>
+    [service.path.replace(/\/$/, ""), { locale: "pt", page }],
+  )),
   ...Object.fromEntries(Object.entries(LEGAL_PATHS).flatMap(([page, paths]) =>
     Object.entries(paths).map(([locale, pathname]) => [pathname.replace(/\/$/, ""), { locale, page }]),
   )),
@@ -28,6 +32,11 @@ const ROUTES = {
 };
 
 function normalizePathname(pathname) {
+  if (pathname.endsWith("/index.html")) {
+    const directory = pathname.slice(0, -"index.html".length);
+    if (directory.endsWith("//")) return pathname;
+    pathname = directory;
+  }
   if (pathname === "/") return pathname;
   return pathname.replace(/\/+$/, "");
 }
@@ -280,6 +289,7 @@ function Header({ t, locale, page }) {
   const homePath = locale === "en" ? "/en/" : "/";
   const languagePaths = LEGAL_PATHS[page] ?? { pt: "/", en: "/en/" };
   const closeMenu = () => setMenuOpen(false);
+  const isService = Boolean(SERVICE_PAGES[page]);
 
   return (
     <header className="site-header">
@@ -297,14 +307,14 @@ function Header({ t, locale, page }) {
         </button>
         <nav id="primary-navigation" className={`primary-nav ${menuOpen ? "primary-nav--open" : ""}`} aria-label={t.navLabel}>
           <a href={`${homePath}#solutions`} onClick={closeMenu}>{t.nav.solutions}</a>
-          <a href={`${homePath}#method`} onClick={closeMenu}>{t.nav.method}</a>
+          <a href={isService ? "#method" : `${homePath}#method`} onClick={closeMenu}>{t.nav.method}</a>
           <a href={`${homePath}#about`} onClick={closeMenu}>{t.nav.about}</a>
-          <a href={`${homePath}#contact`} onClick={closeMenu}>{t.nav.contact}</a>
-          <span className="locale-switch" aria-label={t.languageLabel}>
+          <a href={isService ? "#contact" : `${homePath}#contact`} onClick={closeMenu}>{t.nav.contact}</a>
+          {isService ? <a href="/en/" lang="en">English site</a> : <span className="locale-switch" aria-label={t.languageLabel}>
             <a href={languagePaths.pt} lang="pt-BR" aria-current={locale === "pt" ? "page" : undefined}>PT</a>
             <span aria-hidden="true">|</span>
             <a href={languagePaths.en} lang="en" aria-current={locale === "en" ? "page" : undefined}>EN</a>
-          </span>
+          </span>}
         </nav>
       </div>
     </header>
@@ -348,6 +358,94 @@ function Footer({ t, locale }) {
         </nav>
       </div>
     </footer>
+  );
+}
+
+function ServicePage({ t, page }) {
+  const service = SERVICE_PAGES[page];
+  const related = SERVICE_PAGES[service.relatedKey];
+  return (
+    <div className="app-shell service-page">
+      <a className="skip-link" href="#main-content">{t.skip}</a>
+      <Header t={t} locale="pt" page={page} />
+      <main id="main-content">
+        <section id="home" className="service-hero" aria-labelledby="service-title">
+          <div className="section-shell">
+            <nav className="service-breadcrumb" aria-label="Caminho da página">
+              <a href="/">Início</a><span aria-hidden="true">/</span><span aria-current="page">{service.label}</span>
+            </nav>
+            <p className="eyebrow">Soluções digitais</p>
+            <h1 id="service-title">{service.title}</h1>
+            <p className="service-hero__intro">{service.intro}</p>
+          </div>
+        </section>
+        <section className="service-section" aria-labelledby="use-cases-title">
+          <div className="section-shell">
+            <p className="eyebrow">Seu objetivo</p>
+            <h2 id="use-cases-title">O que você quer apresentar?</h2>
+            <div className="service-feature-grid">
+              {service.useCases.map((item, index) => (
+                <article key={item.title}>
+                  <span className="service-feature__number" aria-hidden="true">0{index + 1}</span>
+                  <h3>{item.title}</h3><p>{item.text}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+          <BackToTop label={t.backToTopLabel} />
+        </section>
+        <section className="service-section service-section--surface" aria-labelledby="scope-title">
+          <div className="section-shell method-section__grid">
+            <div>
+              <p className="eyebrow">Escopo do projeto</p>
+              <h2 id="scope-title">O que vamos definir juntos</h2>
+              <p className="section-intro">Cada projeto parte dos objetivos e das prioridades da empresa. A proposta registra as entregas, as responsabilidades e as condições do trabalho.</p>
+            </div>
+            <ul className="method-list">
+              {service.scope.map((item, index) => (
+                <li key={item.title}><span aria-hidden="true">0{index + 1}</span><div><h3>{item.title}</h3><p>{item.text}</p></div></li>
+              ))}
+            </ul>
+          </div>
+          <BackToTop label={t.backToTopLabel} />
+        </section>
+        <section id="method" className="method-section" aria-labelledby="method-title">
+          <div className="section-shell method-section__grid">
+            <div><p className="eyebrow">{t.methodKicker}</p><h2 id="method-title">{t.methodTitle}</h2><p className="section-intro">{t.methodIntro}</p></div>
+            <ol className="method-list">
+              {t.method.map((step) => (
+                <li key={step.number}><span>{step.number}</span><div><h3>{step.title}</h3><p>{step.text}</p></div></li>
+              ))}
+            </ol>
+          </div>
+          <BackToTop label={t.backToTopLabel} />
+        </section>
+        <section className="faq-section" aria-labelledby="faq-title">
+          <div className="section-shell faq-section__grid">
+            <div><p className="eyebrow">Perguntas frequentes</p><h2 id="faq-title">Antes de começar</h2></div>
+            <div className="faq-list">
+              {service.faqs.map((faq) => <details key={faq.q}><summary>{faq.q}</summary><p>{faq.a}</p></details>)}
+            </div>
+          </div>
+          <BackToTop label={t.backToTopLabel} />
+        </section>
+        <section id="contact" className="contact-section" aria-labelledby="contact-title">
+          <div className="section-shell contact-section__inner">
+            <div><p className="eyebrow">Vamos conversar</p><h2 id="contact-title">{service.contactTitle}</h2><p>{service.contactText}</p></div>
+            <div className="contact-panel">
+              <a className="button button--primary" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer"><WhatsappLogoIcon size={22} aria-hidden="true" />{service.ctaLabel}</a>
+              <p>{t.safety}</p>
+            </div>
+          </div>
+          <BackToTop label={t.backToTopLabel} />
+        </section>
+        <nav className="section-shell service-related" aria-label="Outro serviço digital">
+          <p>Conheça também</p>
+          <a className="text-link" href={related.path}>{related.label}<ArrowRightIcon size={20} aria-hidden="true" /></a>
+        </nav>
+      </main>
+      <Footer t={t} locale="pt" />
+    </div>
   );
 }
 
@@ -500,6 +598,11 @@ function HomePage({ t, locale }) {
                     <Icon size={38} weight="light" aria-hidden="true" />
                     <h3>{service.title}</h3>
                     <p>{service.detail}</p>
+                    {locale === "pt" && service.id === "solucoes-digitais" && (
+                      <nav className="service-links" aria-label="Serviços para empresas">
+                        {Object.values(SERVICE_PAGES).map((item) => <a className="text-link" key={item.path} href={item.path}>{item.label}<ArrowRightIcon size={19} aria-hidden="true" /></a>)}
+                      </nav>
+                    )}
                     <a className="text-link" href="#contact">{service.cta}<ArrowRightIcon size={19} aria-hidden="true" /></a>
                   </article>
                 );
@@ -602,13 +705,15 @@ export function App({ pathname = window.location.pathname }) {
   const t = content[locale];
 
   useEffect(() => {
+    const service = SERVICE_PAGES[page];
     const recarga = RECARGA_PAGES[page];
     const legal = recarga ?? (LEGAL_PATHS[page] ? LEGAL_CONTENT[locale][page] : null);
+    const pageContent = service ?? legal;
     const isNotFound = page === "notFound";
-    const title = legal ? legal.metaTitle : isNotFound ? t.notFound.metaTitle : t.title;
-    const description = legal ? legal.metaDescription : isNotFound ? t.notFound.text : t.description;
+    const title = pageContent ? pageContent.metaTitle : isNotFound ? t.notFound.metaTitle : t.title;
+    const description = pageContent ? pageContent.metaDescription : isNotFound ? t.notFound.text : t.description;
     const languagePaths = LEGAL_PATHS[page] ?? { pt: "/", en: "/en/" };
-    const canonicalPath = recarga?.path ?? languagePaths[locale];
+    const canonicalPath = service?.path ?? recarga?.path ?? languagePaths[locale];
     const canonicalUrl = `https://tetelestai.tech${canonicalPath}`;
 
     document.documentElement.lang = t.lang;
@@ -622,9 +727,10 @@ export function App({ pathname = window.location.pathname }) {
     updateMeta('link[hreflang="pt-BR"]', "href", `https://tetelestai.tech${languagePaths.pt}`);
     updateMeta('link[hreflang="en"]', "href", `https://tetelestai.tech${languagePaths.en}`);
     updateMeta('link[hreflang="x-default"]', "href", `https://tetelestai.tech${languagePaths.pt}`);
-    if (recarga) document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => link.remove());
+    if (recarga || service) document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => link.remove());
   }, [locale, page, t]);
 
+  if (SERVICE_PAGES[page]) return <ServicePage t={t} page={page} />;
   if (RECARGA_PAGES[page]) return <RecargaPage page={page} />;
   if (LEGAL_PATHS[page]) return <LegalPage t={t} locale={locale} page={page} />;
   if (page === "notFound") return <NotFoundPage t={t} locale={locale} />;

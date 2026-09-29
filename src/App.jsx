@@ -14,6 +14,7 @@ import { XIcon } from "@phosphor-icons/react/dist/csr/X";
 import { LEGAL_CONTENT, LEGAL_PATHS, PRIVACY_CONTACT } from "./legal-content.mjs";
 import { RECARGA_PAGES, RECARGA_UPDATED } from "./recarga-content.mjs";
 import { SERVICE_PAGES } from "./service-content.mjs";
+import { OwnProjects } from "./OwnProjects.jsx";
 import { AnalyticsConsent, AnalyticsPreferencesButton } from "./AnalyticsConsent.jsx";
 import { getAnalytics } from "./analytics.mjs";
 
@@ -423,6 +424,9 @@ function ServicePage({ t, page }) {
           </div>
           <BackToTop label={t.backToTopLabel} />
         </section>
+        <OwnProjects>
+          <BackToTop label={t.backToTopLabel} />
+        </OwnProjects>
         <section className="faq-section" aria-labelledby="faq-title">
           <div className="section-shell faq-section__grid">
             <div><p className="eyebrow">Perguntas frequentes</p><h2 id="faq-title">Antes de começar</h2></div>

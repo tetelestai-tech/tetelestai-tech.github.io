@@ -1,0 +1,62 @@
+.inner-page .preview-bar>a{color:inherit;font-size:12px;text-decoration:underline;text-underline-offset:4px;white-space:nowrap}
+.inner-page .preview-bar>a:focus-visible{outline-color:#fff}
+.inner-page .site-header nav a{display:inline-block}
+.inner-page .site-header nav [aria-current=page]{border-bottom:1px solid var(--ink);padding-bottom:5px}
+.back-link{display:inline-block;margin:10px 0 32px;font-size:13px;color:var(--muted);text-decoration:none}
+.back-link:hover,.source-note a:hover{color:var(--ink);text-decoration:underline}
+.inner-page h1{font:400 clamp(40px,4.6vw,68px)/1.06 Georgia,serif;letter-spacing:-.035em;margin:24px 0}
+.inner-page h1 em{color:var(--muted);font-weight:400}
+.inner-page h2{font:400 clamp(30px,3vw,44px)/1.12 Georgia,serif;letter-spacing:-.025em}
+.page-intro{max-width:530px;font-size:18px;line-height:1.75;color:var(--muted)}
+.story-hero{display:grid;grid-template-columns:1fr 1.15fr;gap:6vw;align-items:center;padding-bottom:65px}
+.story-photo{margin:0;background:#e8e8e6}
+.story-photo img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
+.story-photo figcaption{font-size:12px;line-height:1.6;color:var(--muted);padding:12px 16px}
+.story-body{display:grid;grid-template-columns:1fr 1.15fr;gap:6vw;padding-top:60px;padding-bottom:70px;border-top:1px solid var(--line)}
+.story-body h2{margin:22px 0}
+.story-prose p{font-size:17px;line-height:1.85;margin:0 0 22px}
+.story-prose .source-note{font-size:12px;color:var(--muted);margin-top:30px}
+.source-note a{color:inherit;text-underline-offset:3px}
+.page-invitation{background:#e8e8e6;padding:55px 0}
+.page-invitation .wrap{display:flex;gap:36px;align-items:center;justify-content:space-between}
+.page-invitation h2{margin:20px 0 16px}
+.page-invitation p{line-height:1.7}
+.page-actions{display:flex;flex-direction:column;gap:12px;flex-shrink:0}
+.consignment-layout{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.2fr);gap:7vw;padding-bottom:80px}
+.consignment-intro h1{font-size:clamp(40px,4vw,60px)}
+.consignment-intro .page-intro{font-size:17px}
+.demo-note{background:#e8e8e6;border-left:3px solid var(--ink);padding:24px;margin:30px 0}
+.demo-note strong{font-size:15px}
+.demo-note p{font-size:14px;line-height:1.8;margin:10px 0 0;color:var(--muted)}
+.contact-note{font-size:13px;line-height:1.9;color:var(--muted)}
+.contact-note .text-link{display:inline;color:var(--ink)}
+#consignment-fields{border:0;padding:0;margin:0;min-width:0}
+.required-note{font-size:12px;color:var(--muted);margin:0 0 24px}
+.form-section{border-top:1px solid var(--line);padding:26px 0 30px}
+.form-section h2{font:500 21px/1.4 Inter,Arial,sans-serif;letter-spacing:0;margin:0 0 25px;display:flex;gap:14px;align-items:baseline}
+.form-section h2 span{font-size:12px;color:var(--muted);font-weight:400;letter-spacing:.08em}
+.form-section label:not(.photo-picker){display:block;font-size:13px;margin:0 0 8px}
+.form-section input:not([type=file]),.form-section textarea{box-sizing:border-box;font:400 15px/1.5 Inter,Arial,sans-serif;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:0;padding:12px 14px;min-height:48px;width:100%;margin:0 0 20px}
+.form-section input::placeholder,.form-section textarea::placeholder{color:#666}
+.form-section textarea{display:block;resize:vertical;min-height:120px;margin-bottom:0}
+.form-section input:focus,.form-section textarea:focus{outline:2px solid var(--ink);outline-offset:2px}
+.page-field-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
+.page-field-grid>div{min-width:0}
+.photo-picker{display:block;padding:18px;border:1px dashed #8a8a86;font-size:14px;line-height:1.6;background:#f5f5f3}
+.photo-picker input{display:block;width:100%;font:inherit;font-size:12px;margin-top:12px;color:var(--muted)}
+.photo-picker input::file-selector-button{border:1px solid var(--ink);background:#fff;color:var(--ink);padding:10px;margin-right:12px;cursor:pointer;font:inherit}
+.consignment-photo-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.consignment-photo{margin:0;min-width:0;border:1px solid var(--line);padding:8px}
+.consignment-photo img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;background:#e8e8e6}
+.consignment-photo figcaption{font-size:12px;line-height:1.5;overflow-wrap:anywhere;margin:8px 0}
+.consignment-photo-remove{background:#fff;border:1px solid var(--line);min-height:36px;padding:6px 12px;font:inherit;font-size:12px;cursor:pointer}
+.consignment-actions{display:flex;gap:12px;flex-wrap:wrap}
+.consignment-form-column .field-help{font-size:12px;line-height:1.7;color:var(--muted)}
+.consignment-summary{margin-top:32px;padding:28px;background:#e8e8e6;scroll-margin-top:25px}
+.consignment-summary h2{font-size:30px;margin:18px 0}
+.consignment-summary>p:not(.eyebrow){font-size:14px;line-height:1.8}
+.consignment-summary dl{display:grid;grid-template-columns:minmax(85px,.45fr) minmax(0,1fr);gap:12px 20px;font-size:14px;line-height:1.6}
+.consignment-summary dt{color:var(--muted)}
+.consignment-summary dd{margin:0;overflow-wrap:anywhere;white-space:pre-wrap}
+@media(max-width:850px){.story-hero,.story-body{gap:35px}.consignment-layout{grid-template-columns:1fr;gap:36px}.consignment-intro h1 br{display:none}.consignment-intro h1{max-width:600px}.consignment-intro .page-intro{max-width:650px}.demo-note{max-width:650px}.page-invitation .wrap{align-items:flex-start;flex-direction:column}.page-actions{flex-direction:row;flex-wrap:wrap}}
+@media(max-width:600px){.inner-page .preview-bar{gap:12px}.inner-page .preview-bar>a{font-size:11px}.inner-page .site-header{height:auto;min-height:120px;flex-wrap:wrap;padding-block:16px;gap:15px}.inner-page .site-header nav{display:flex;width:100%;order:3;justify-content:space-between;gap:12px}.inner-page .site-header nav a{font-size:12px}.inner-page .site-header .brand img{width:105px;height:55px}.inner-page .contact-link{font-size:11px}.back-link{margin:18px 0 28px}.story-hero,.story-body{grid-template-columns:1fr;gap:28px}.story-hero{padding-bottom:38px}.story-body{padding-top:38px;padding-bottom:35px}.story-body h2 br{display:none}.story-prose p{font-size:16px}.page-intro{font-size:16px}.inner-page h1{font-size:42px}.page-invitation{padding:38px 0}.page-actions{width:100%;flex-direction:column}.page-actions .button{width:100%;text-align:center}.consignment-layout{padding-bottom:45px;gap:24px}.page-field-grid{grid-template-columns:1fr}.demo-note{padding:20px;margin:25px 0}.consignment-actions{flex-direction:column}.consignment-summary{padding:20px}.consignment-summary dl{grid-template-columns:1fr;gap:5px}.consignment-summary dd{margin-bottom:14px}}

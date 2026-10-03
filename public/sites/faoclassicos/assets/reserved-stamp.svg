@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="300" viewBox="0 0 900 300">
+  <title>Reservado</title>
+  <g fill="none" stroke="#171717">
+    <rect x="18" y="27" width="864" height="246" rx="9" stroke-width="16"/>
+    <rect x="41" y="50" width="818" height="200" rx="2" stroke-width="3"/>
+  </g>
+  <text x="450" y="194" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="126" font-weight="900" textLength="770" lengthAdjust="spacingAndGlyphs" fill="#171717">RESERVADO</text>
+</svg>

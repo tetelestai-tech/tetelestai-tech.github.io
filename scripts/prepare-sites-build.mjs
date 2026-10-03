@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { createElement } from "react";
 import { renderToString } from "react-dom/server";
@@ -141,5 +141,8 @@ mkdirSync(path.join(dist, "server"), { recursive: true });
 mkdirSync(path.join(dist, ".openai"), { recursive: true });
 copyFileSync(worker, path.join(dist, "server", "index.js"));
 copyFileSync(hosting, path.join(dist, ".openai", "hosting.json"));
+
+// Isolated, noindex FAO presentation preview. No institutional Analytics code.
+cpSync(path.join(root, "src", "fao-preview"), path.join(dist, "client", "sites", "faoclassicos"), { recursive: true });
 
 console.log("Prepared Sites build: localized route shells, dist/server/index.js and dist/.openai/hosting.json");

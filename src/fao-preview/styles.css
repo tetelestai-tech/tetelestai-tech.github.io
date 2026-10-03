@@ -18,7 +18,7 @@ img[src$='/speedster-3.webp']{object-position:50% 70%}
 .status-stamp{--stamp-width:42%;--stamp-height:34%;position:absolute;inset:auto;z-index:1;display:flex;width:var(--stamp-width);height:var(--stamp-height);pointer-events:none;user-select:none}
 .status-stamp[data-size="small"]{--stamp-width:32%;--stamp-height:24%}.status-stamp[data-size="large"]{--stamp-width:52%;--stamp-height:44%}
 .status-stamp[data-position="top-left"]{top:18px;left:18px;align-items:flex-start;justify-content:flex-start}.status-stamp[data-position="top-right"]{top:18px;right:18px;align-items:flex-start;justify-content:flex-end}.status-stamp[data-position="bottom-left"]{bottom:18px;left:18px;align-items:flex-end;justify-content:flex-start}.status-stamp[data-position="bottom-right"]{bottom:18px;right:18px;align-items:flex-end;justify-content:flex-end}
-.status-stamp img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}.status-stamp--default img{transform:rotate(-7deg) scale(.9);border-radius:2px;background:rgba(255,255,255,.76)}
+.status-stamp img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
 .car-image:has(.status-stamp[data-position="bottom-left"]) .year-label{left:auto;right:12px}
 /* Neutral control boundaries and focus remain distinct on light and dark sections. */
 .filters input,.filters select,.manager input,.manager select,.manager textarea,.gallery-controls button,.close,.manager .upload-button,.edit-photo-actions button{border-color:#858582;background-color:#fff}

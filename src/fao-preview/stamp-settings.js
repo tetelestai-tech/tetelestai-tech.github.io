@@ -2,19 +2,19 @@ export const STAMP_STORAGE_KEY = 'fao-preview-stamp-v1';
 export const RESERVED_STAMP_STORAGE_KEY = 'fao-preview-reserved-stamp-v1';
 export const MAX_STAMP_DATA_LENGTH = 1800000;
 export const DEFAULT_STAMP_SETTINGS = Object.freeze({
-  src: './assets/sold-stamp.png',
+  src: './assets/sold-stamp-soft-white.png',
   position: 'top-left',
   size: 'medium',
-  width: 2184,
-  height: 720,
+  width: 1536,
+  height: 1024,
 });
 
 const reservedStampSettings = Object.freeze({
-  src: './assets/reserved-stamp.svg',
+  src: './assets/reserved-stamp-soft-white.png',
   position: 'top-left',
   size: 'medium',
-  width: 900,
-  height: 300,
+  width: 1536,
+  height: 1024,
 });
 const stampConfigurations = {
   sold: { storageKey: STAMP_STORAGE_KEY, defaults: DEFAULT_STAMP_SETTINGS },

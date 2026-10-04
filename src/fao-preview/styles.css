@@ -103,3 +103,14 @@ img[src$='/speedster-3.webp']{object-position:50% 70%}
 @media(max-width:820px){.showcase-editor-grid{grid-template-columns:1fr}.order-item{grid-template-columns:16px 20px 52px minmax(0,1fr) 92px;gap:8px;padding:10px}.order-thumb,.order-item>img{width:52px;height:40px}}
 @media(max-width:720px){.hero-open{min-height:0;aspect-ratio:3/2;flex:auto}.hero--empty{min-height:0}.showcase-editor{padding:24px 18px}.showcase-editor h2{font-size:29px}.showcase-editor-heading>p:last-child{font-size:13px}.showcase-panel{padding:18px 14px}.showcase-panel h3{font-size:25px}.showcase-panel>.button,.showcase-panel form>.button{width:100%}.showcase-editor-actions{display:block}.showcase-editor-actions .button{width:100%;line-height:1.5}.order-item{grid-template-columns:14px 18px 44px minmax(0,1fr);gap:8px}.order-thumb,.order-item>img{width:44px;height:36px}.order-actions{grid-column:3/-1;justify-content:flex-end}.featured-options{max-height:260px}}
 :is(#save-vehicle,#save-featured,#save-order,#save-stamp):disabled{background:#e8e8e6;color:#666;border-color:#b8b8b4;opacity:1;cursor:not-allowed;transform:none}
+.hero-carousel-controls{display:flex;align-items:center;gap:8px;justify-content:flex-end;padding:6px 8px;border-top:1px solid #d6d6d3;background:#e8e8e6}
+.hero-carousel-controls[hidden]{display:none}
+.hero-carousel-controls button{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:8px 12px;border:1px solid transparent;background:transparent;color:var(--ink);font:inherit;font-size:13px;line-height:1}
+.hero-carousel-controls button:hover{background:#fff;border-color:var(--line)}
+.hero-carousel-controls button:focus-visible{outline:2px solid var(--ink);outline-offset:1px;background:#fff}
+#hero-previous,#hero-next{font-size:23px}
+#hero-toggle{min-width:102px}
+.hero-count{margin-right:auto;min-width:48px;text-align:center;color:var(--muted);font-size:12px;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+#featured-carousel-fields{padding-top:18px;border-top:1px solid var(--line)}
+#featured-carousel-fields .showcase-checkbox{margin-top:18px}
+@media(max-width:720px){.hero-carousel-controls{padding:4px 6px;gap:4px}.hero-photo figcaption{min-height:42px}}

@@ -1,7 +1,8 @@
 export const SHOWCASE_KEY = 'fao-preview-showcase-v1';
 export const ROTATION_KEY = 'fao-preview-rotation-v1';
 
-const settingsFields = ['mode', 'featuredId', 'participants', 'selectedIds', 'includeUnavailable'];
+const legacySettingsFields = ['mode', 'featuredId', 'participants', 'selectedIds', 'includeUnavailable'];
+const settingsFields = [...legacySettingsFields, 'intervalSeconds', 'autoplay'];
 const rotationFields = ['seenIds', 'lastId'];
 const idPattern = /^[A-Za-z0-9_-]{1,90}$/;
 const validId = value => typeof value === 'string' && idPattern.exec(value)?.[0] === value;
@@ -37,15 +38,17 @@ function copyIds(input) {
 }
 
 export function getDefaultShowcaseSettings() {
-  return { mode: 'manual', featuredId: null, participants: 'all', selectedIds: [], includeUnavailable: false };
+  return { mode: 'carousel', featuredId: null, participants: 'all', selectedIds: [], includeUnavailable: false, intervalSeconds: 6, autoplay: true };
 }
 
 function validateSettings(input) {
   const settings = readFields(input, settingsFields);
-  if (settings.mode !== 'manual' && settings.mode !== 'automatic') invalid();
+  if (settings.mode !== 'manual' && settings.mode !== 'automatic' && settings.mode !== 'carousel') invalid();
   if (settings.featuredId !== null && !validId(settings.featuredId)) invalid();
   if (settings.participants !== 'all' && settings.participants !== 'selected') invalid();
   if (typeof settings.includeUnavailable !== 'boolean') invalid();
+  if (![4, 6, 8, 10, 15].includes(settings.intervalSeconds)) invalid();
+  if (typeof settings.autoplay !== 'boolean') invalid();
   settings.selectedIds = copyIds(settings.selectedIds);
   return settings;
 }
@@ -68,7 +71,12 @@ export function readShowcaseSettings(storage) {
   try {
     if (typeof raw !== 'string') invalid();
     const saved = readFields(JSON.parse(raw), ['version', 'settings']);
-    if (saved.version !== 1) invalid();
+    if (saved.version === 1) {
+      const legacy = readFields(saved.settings, legacySettingsFields);
+      if (legacy.mode !== 'manual' && legacy.mode !== 'automatic') invalid();
+      return { settings: validateSettings({ ...legacy, intervalSeconds: 6, autoplay: true }), error: null, raw };
+    }
+    if (saved.version !== 2) invalid();
     return { settings: validateSettings(saved.settings), error: null, raw };
   } catch {
     return { settings: getDefaultShowcaseSettings(), error: 'invalid', raw: typeof raw === 'string' ? raw : null };
@@ -80,7 +88,7 @@ export function persistShowcaseSettings(storage, input, expectedRaw) {
   let settings, raw;
   try {
     settings = validateSettings(input);
-    raw = JSON.stringify({ version: 1, settings });
+    raw = JSON.stringify({ version: 2, settings });
   } catch {
     return { ok: false, error: 'invalid' };
   }
@@ -105,13 +113,14 @@ export function getEligibleCars(cars, input) {
 
 export function selectFeatured(cars, settings, rotation = emptyRotation(), random = Math.random) {
   const eligible = getEligibleCars(cars, settings);
-  if (!eligible.length) return { car: null, rotation: emptyRotation() };
+  if (!eligible.length && settings.mode !== 'carousel') return { car: null, rotation: emptyRotation() };
   let history;
   try {
     history = validateRotation(rotation);
   } catch {
     history = emptyRotation();
   }
+  if (settings.mode === 'carousel') return { car: eligible[0] ?? null, rotation: history };
   if (settings.mode === 'manual') {
     return { car: eligible.find(car => car.id === settings.featuredId) ?? eligible[0], rotation: history };
   }

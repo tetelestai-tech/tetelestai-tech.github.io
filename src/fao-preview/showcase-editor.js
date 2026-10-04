@@ -1,5 +1,6 @@
 import { SHOWCASE_KEY, getDefaultShowcaseSettings, readShowcaseSettings, persistShowcaseSettings, getEligibleCars, selectFeatured, readRotation, persistRotation, reorderVehicles } from './showcase-settings.js';
 import { attachOrderDrag } from './order-drag.js';
+import { createHeroCarousel } from './hero-carousel.js';
 
 const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const situation = { showcase: 'Disponível', reserved: 'Reservado', sold: 'Vendido' };
@@ -13,12 +14,23 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
   let settings = initial.settings, baseline = initial.raw, settingsError = initial.error;
   let featuredId = null, chosen = false, draft = null, orderIds = [], draggedId = null;
   let featuredBaseline = null;
+  const hero = $('hero-featured');
+  const reducedMotion = Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
+  const carousel = createHeroCarousel({
+    onChange(id) {
+      if (settings.mode !== 'carousel') return;
+      featuredId = id;
+      renderHero();
+    },
+    onStateChange: renderCarouselControls,
+  });
 
   function featuredSnapshot(value) {
     return JSON.stringify(value.mode === 'manual'
       ? [value.mode, value.includeUnavailable, value.featuredId]
       : [value.mode, value.includeUnavailable, value.participants,
-        value.participants === 'selected' ? [...value.selectedIds].sort() : []]);
+        value.participants === 'selected' ? [...value.selectedIds].sort() : [],
+        ...(value.mode === 'carousel' ? [value.intervalSeconds, value.autoplay] : [])]);
   }
   function hasFeaturedChanges() {
     return Boolean(draft && featuredBaseline !== null && featuredSnapshot(draft) !== featuredBaseline);
@@ -39,11 +51,9 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
     }
   }
 
-  function refresh(force = false) {
-    const eligible = getEligibleCars(getCars(), settings);
-    if (settings.mode === 'manual' || force || !chosen || !eligible.some(car => car.id === featuredId)) choose();
+  function renderHero() {
     const car = getCars().find(item => item.id === featuredId);
-    $('hero-featured').hidden = !car;
+    hero.hidden = !car;
     $('inicio').classList.toggle('hero--empty', !car);
     $('hero-open').disabled = !car;
     if (car) {
@@ -55,9 +65,76 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
       $('hero-stage').querySelector('.status-stamp')?.remove();
       $('hero-stage').insertAdjacentHTML('beforeend', stampMarkup(car.status));
     }
+  }
+  function renderCarouselControls(state = carousel.getState()) {
+    const multiple = settings.mode === 'carousel' && state.ids.length > 1;
+    $('hero-carousel-controls').hidden = !multiple;
+    $('hero-previous').disabled = !multiple;
+    $('hero-next').disabled = !multiple;
+    $('hero-toggle').disabled = !multiple;
+    $('hero-previous').setAttribute('aria-label', 'Veículo anterior');
+    $('hero-next').setAttribute('aria-label', 'Próximo veículo');
+    $('hero-toggle').textContent = state.paused ? 'Reproduzir' : 'Pausar';
+    $('hero-toggle').setAttribute('aria-label', state.paused ? 'Reproduzir carrossel' : 'Pausar carrossel');
+    $('hero-count').textContent = multiple ? `${state.index + 1} / ${state.ids.length}` : '';
+    if (multiple) {
+      hero.setAttribute('role', 'region');
+      hero.setAttribute('aria-roledescription', 'carrossel');
+      hero.setAttribute('aria-label', 'Veículos em destaque');
+    } else {
+      hero.removeAttribute?.('role');
+      hero.removeAttribute?.('aria-roledescription');
+      hero.removeAttribute?.('aria-label');
+    }
+    const announcement = $('hero-announcement');
+    announcement.setAttribute('aria-live', state.running ? 'off' : 'polite');
+    const car = getCars().find(item => item.id === state.id);
+    announcement.textContent = multiple && car ? `${state.index + 1} de ${state.ids.length}: ${car.make} ${car.title}, ${car.year}.` : '';
+  }
+  function refresh(force = false) {
+    const eligible = getEligibleCars(getCars(), settings);
+    if (settings.mode === 'carousel') {
+      const state = carousel.configure({
+        ids: eligible.map(car => car.id), initialId: eligible[0]?.id,
+        intervalMs: settings.intervalSeconds * 1000, autoplay: settings.autoplay && !reducedMotion, reset: force,
+      });
+      featuredId = state.id;
+      chosen = true;
+    } else {
+      carousel.configure({ ids: [], autoplay: false });
+      if (settings.mode === 'manual' || force || !chosen || !eligible.some(car => car.id === featuredId)) choose();
+    }
+    renderHero();
+    renderCarouselControls();
     if (dialog.open) sync();
   }
   $('hero-open').onclick = () => { if (featuredId) openVehicle(featuredId); };
+  $('hero-previous').onclick = () => carousel.previous();
+  $('hero-next').onclick = () => carousel.next();
+  $('hero-toggle').onclick = () => {
+    if (carousel.getState().paused) carousel.setBlocked('focus', false);
+    carousel.togglePause();
+  };
+  hero.onmouseenter = () => carousel.setBlocked('hover', true);
+  hero.onmouseleave = () => carousel.setBlocked('hover', false);
+  const updateFocus = target => carousel.setBlocked('focus', Boolean(target && hero.contains?.(target)));
+  hero.addEventListener('focusin', event => updateFocus(event.target));
+  hero.addEventListener('focusout', event => updateFocus(event.relatedTarget));
+  const syncDialogs = () => carousel.setBlocked('dialog', Boolean(document.querySelectorAll?.('dialog[open]')?.length || dialog.open));
+  const syncVisibility = () => carousel.setBlocked('hidden', Boolean(document.hidden));
+  document.addEventListener?.('visibilitychange', syncVisibility);
+  if (typeof MutationObserver === 'function' && document.body) {
+    new MutationObserver(syncDialogs).observe(document.body, { attributes: true, attributeFilter: ['open'], childList: true, subtree: true });
+  }
+  if (typeof IntersectionObserver === 'function') {
+    carousel.setBlocked('viewport', true);
+    new IntersectionObserver(entries => {
+      const entry = entries[entries.length - 1];
+      if (entry) carousel.setBlocked('viewport', !entry.isIntersecting);
+    }).observe(hero);
+  }
+  syncDialogs();
+  syncVisibility();
 
   function message(error) {
     return error === 'stale' ? 'A vitrine mudou em outra aba. Recarregue a prévia antes de salvar.' : 'Não foi possível ler ou guardar a configuração da vitrine. Nenhuma alteração foi aplicada. Confira o armazenamento do navegador.';
@@ -87,8 +164,14 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
     $('featured-mode').value = draft.mode;
     $('featured-participants').value = draft.participants;
     $('featured-include-unavailable').checked = draft.includeUnavailable;
+    $('featured-interval').value = String(draft.intervalSeconds);
+    $('featured-autoplay').checked = draft.autoplay;
     $('featured-manual-field').hidden = draft.mode !== 'manual';
-    $('featured-automatic-fields').hidden = draft.mode !== 'automatic';
+    $('featured-automatic-fields').hidden = draft.mode === 'manual';
+    $('featured-carousel-fields').hidden = draft.mode !== 'carousel';
+    $('featured-pool-help').textContent = draft.mode === 'carousel'
+      ? 'O carrossel segue a Ordem da coleção. Escolha quais veículos participam.'
+      : 'O modo automático sorteia um veículo apenas ao abrir a página. Escolha quais veículos participam.';
     $('featured-options').hidden = draft.participants !== 'selected';
     const available = getCars().filter(car => draft.includeUnavailable || car.status === 'showcase');
     $('featured-car').replaceChildren(new Option('Primeiro disponível na vitrine', ''));
@@ -121,7 +204,7 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
     $('order-status').textContent = '';
     renderFeatured();
     featuredBaseline = featuredSnapshot(draft);
-    renderOrder(); dialog.showModal();
+    renderOrder(); dialog.showModal(); syncDialogs();
   }
   function featuredChanged(render = false) {
     $('featured-status').textContent = '';
@@ -134,11 +217,13 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
   }
   $('open-showcase-editor').onclick = open;
   $('close-showcase').onclick = () => dialog.close();
-  dialog.addEventListener('close', () => { draft = null; featuredBaseline = null; orderIds = []; draggedId = null; });
+  dialog.addEventListener('close', () => { draft = null; featuredBaseline = null; orderIds = []; draggedId = null; syncDialogs(); });
   $('featured-mode').onchange = () => { draft.mode = $('featured-mode').value; featuredChanged(true); };
   $('featured-car').onchange = () => { draft.featuredId = $('featured-car').value || null; featuredChanged(); };
   $('featured-participants').onchange = () => { draft.participants = $('featured-participants').value; featuredChanged(true); };
   $('featured-include-unavailable').onchange = () => { draft.includeUnavailable = $('featured-include-unavailable').checked; featuredChanged(true); };
+  $('featured-interval').onchange = () => { draft.intervalSeconds = Number($('featured-interval').value); featuredChanged(); };
+  $('featured-autoplay').onchange = () => { draft.autoplay = $('featured-autoplay').checked; featuredChanged(); };
   $('featured-options').onchange = () => {
     draft.selectedIds = [...$('featured-options').querySelectorAll('input:checked')].map(input => input.value);
     featuredChanged();
@@ -146,8 +231,8 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
   $('featured-form').onsubmit = event => {
     event.preventDefault();
     if (!hasFeaturedChanges() || settingsError || getInventoryError() || !verifyInventory()) { sync(); return; }
-    if (draft.mode === 'automatic' && draft.participants === 'selected' && !getEligibleCars(getCars(), draft).length) {
-      $('featured-status').textContent = 'Selecione pelo menos um veículo elegível para o destaque automático.'; return;
+    if (draft.mode !== 'manual' && draft.participants === 'selected' && !getEligibleCars(getCars(), draft).length) {
+      $('featured-status').textContent = 'Selecione pelo menos um veículo elegível para os destaques.'; return;
     }
     let result;
     try { result = persistShowcaseSettings(localStorage, draft, baseline); }
@@ -159,7 +244,7 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
     settings = result.settings; baseline = result.raw;
     featuredBaseline = featuredSnapshot(draft);
     refresh(true);
-    $('featured-status').textContent = featuredId ? 'Destaque salvo apenas neste navegador.' : 'Configuração salva. Sem veículos elegíveis, a imagem de destaque fica oculta.';
+    $('featured-status').textContent = featuredId ? 'Destaques salvos apenas neste navegador.' : 'Configuração salva. Sem veículos elegíveis, a imagem de destaque fica oculta.';
   };
   $('order-list').onclick = event => {
     const button = event.target.closest('[data-direction]');
@@ -207,7 +292,7 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
     let result;
     try { result = saveOrder(reorderVehicles(getCars(), orderIds)); }
     catch { result = { ok: false, error: 'invalid' }; }
-    $('order-status').textContent = result.ok ? 'Ordem salva. A vitrine está em “Nossa seleção”.' : message(result.error);
+    $('order-status').textContent = result.ok ? 'Ordem salva. Aplicada à coleção e à sequência do carrossel.' : message(result.error);
     sync();
   };
   window.addEventListener('storage', event => {

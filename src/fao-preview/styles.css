@@ -134,3 +134,21 @@ img[src$='/speedster-3.webp']{object-position:50% 70%}
 .featured-promo-options legend{padding:0 10px 0 0;font-size:13px;font-weight:600}
 .featured-promo-options>.field-help{margin-top:0}
 @media(max-width:720px){.hero-photo figcaption{gap:12px;font-size:10px;letter-spacing:.08em}.hero-photo figcaption span:last-child{flex-shrink:0}}
+.fao-contact-footer{background:#202022;color:#fff;border-top:0}
+.fao-contact-footer .footer-top{display:grid;grid-template-columns:minmax(160px,.9fr) minmax(230px,1.2fr) minmax(120px,.7fr) minmax(300px,1.5fr);align-items:start;gap:28px;padding-top:52px;padding-bottom:44px}
+.fao-contact-footer .footer-brand img{filter:none;width:140px;height:76px}
+.fao-contact-footer .footer-identity p{color:#d3d3d0;font-size:12px;line-height:1.8;margin:16px 0 8px}
+.fao-contact-footer .footer-title{font:600 11px/1.5 Inter,Arial,sans-serif;letter-spacing:.15em;text-transform:uppercase;color:#b8b8b4;margin:8px 0 12px}
+.fao-contact-footer .footer-link{display:flex;align-items:center;min-height:44px;width:fit-content;max-width:100%;font-size:13px;line-height:1.6;color:#fff;text-decoration-color:#8b8b8b;text-underline-offset:5px;overflow-wrap:anywhere}
+.fao-contact-footer .footer-link:hover,.fao-contact-footer .footer-bottom a:hover{text-decoration:underline}
+.fao-contact-footer a:focus-visible{outline-color:#fff}
+.fao-contact-footer .footer-whatsapp{align-items:flex-start;flex-direction:column;justify-content:center;gap:2px;margin-bottom:8px}
+.fao-contact-footer .footer-whatsapp span:first-child{font-size:12px;color:#d3d3d0}
+.fao-contact-footer .footer-whatsapp span:last-child{font-size:15px}
+.fao-contact-footer address{font-style:normal;font-size:12px;line-height:1.8;color:#d3d3d0;margin-top:14px}
+.fao-contact-footer .footer-delivery{align-self:center;min-width:0}
+.fao-contact-footer .footer-delivery img{width:100%;height:auto;object-fit:contain}
+.fao-contact-footer .footer-bottom{border-color:#ffffff30;color:#b8b8b4;align-items:center;padding-top:12px;padding-bottom:12px;font-size:11px}
+.fao-contact-footer .footer-bottom a{display:flex;align-items:center;min-height:44px;margin:0;color:#d3d3d0}
+@media(max-width:1100px){.fao-contact-footer .footer-top{grid-template-columns:1fr 1fr;gap:36px 48px}.fao-contact-footer .footer-delivery{max-width:460px}}
+@media(max-width:620px){.fao-contact-footer .footer-top{grid-template-columns:1fr;gap:26px;padding-top:36px;padding-bottom:28px}.fao-contact-footer .footer-brand img{width:120px;height:65px}.fao-contact-footer .footer-identity p{margin-top:12px}.fao-contact-footer .footer-delivery{width:100%;max-width:420px;justify-self:center}.fao-contact-footer .footer-bottom{line-height:1.8}.fao-contact-footer .footer-bottom a{margin-top:6px}}

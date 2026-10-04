@@ -2,7 +2,8 @@ export const SHOWCASE_KEY = 'fao-preview-showcase-v1';
 export const ROTATION_KEY = 'fao-preview-rotation-v1';
 
 const legacySettingsFields = ['mode', 'featuredId', 'participants', 'selectedIds', 'includeUnavailable'];
-const settingsFields = [...legacySettingsFields, 'intervalSeconds', 'autoplay'];
+const version2SettingsFields = [...legacySettingsFields, 'intervalSeconds', 'autoplay'];
+const settingsFields = [...version2SettingsFields, 'showHistory', 'showConsignment', 'promoPlacement'];
 const rotationFields = ['seenIds', 'lastId'];
 const idPattern = /^[A-Za-z0-9_-]{1,90}$/;
 const validId = value => typeof value === 'string' && idPattern.exec(value)?.[0] === value;
@@ -38,7 +39,8 @@ function copyIds(input) {
 }
 
 export function getDefaultShowcaseSettings() {
-  return { mode: 'carousel', featuredId: null, participants: 'all', selectedIds: [], includeUnavailable: false, intervalSeconds: 6, autoplay: true };
+  return { mode: 'carousel', featuredId: null, participants: 'all', selectedIds: [], includeUnavailable: false, intervalSeconds: 6, autoplay: true,
+    showHistory: false, showConsignment: false, promoPlacement: 'after' };
 }
 
 function validateSettings(input) {
@@ -49,6 +51,8 @@ function validateSettings(input) {
   if (typeof settings.includeUnavailable !== 'boolean') invalid();
   if (![4, 6, 8, 10, 15].includes(settings.intervalSeconds)) invalid();
   if (typeof settings.autoplay !== 'boolean') invalid();
+  if (typeof settings.showHistory !== 'boolean' || typeof settings.showConsignment !== 'boolean') invalid();
+  if (settings.promoPlacement !== 'after' && settings.promoPlacement !== 'interleaved') invalid();
   settings.selectedIds = copyIds(settings.selectedIds);
   return settings;
 }
@@ -74,9 +78,14 @@ export function readShowcaseSettings(storage) {
     if (saved.version === 1) {
       const legacy = readFields(saved.settings, legacySettingsFields);
       if (legacy.mode !== 'manual' && legacy.mode !== 'automatic') invalid();
-      return { settings: validateSettings({ ...legacy, intervalSeconds: 6, autoplay: true }), error: null, raw };
+      return { settings: validateSettings({ ...legacy, intervalSeconds: 6, autoplay: true,
+        showHistory: false, showConsignment: false, promoPlacement: 'after' }), error: null, raw };
     }
-    if (saved.version !== 2) invalid();
+    if (saved.version === 2) {
+      const previous = readFields(saved.settings, version2SettingsFields);
+      return { settings: validateSettings({ ...previous, showHistory: false, showConsignment: false, promoPlacement: 'after' }), error: null, raw };
+    }
+    if (saved.version !== 3) invalid();
     return { settings: validateSettings(saved.settings), error: null, raw };
   } catch {
     return { settings: getDefaultShowcaseSettings(), error: 'invalid', raw: typeof raw === 'string' ? raw : null };
@@ -88,7 +97,7 @@ export function persistShowcaseSettings(storage, input, expectedRaw) {
   let settings, raw;
   try {
     settings = validateSettings(input);
-    raw = JSON.stringify({ version: 2, settings });
+    raw = JSON.stringify({ version: 3, settings });
   } catch {
     return { ok: false, error: 'invalid' };
   }
@@ -109,6 +118,24 @@ export function getEligibleCars(cars, input) {
       || (settings.includeUnavailable && (car.status === 'sold' || car.status === 'reserved'));
     return statusEligible && (settings.mode === 'manual' || settings.participants === 'all' || selected.has(car.id));
   });
+}
+
+export function getCarouselSlides(cars, input) {
+  const settings = validateSettings(input);
+  if (settings.mode !== 'carousel') return [];
+  const vehicles = getEligibleCars(cars, settings).map(car => ({ id: `vehicle:${car.id}`, kind: 'vehicle', carId: car.id }));
+  const promotions = [];
+  if (settings.showHistory) promotions.push({ id: 'promo:history', kind: 'history' });
+  if (settings.showConsignment) promotions.push({ id: 'promo:consignment', kind: 'consignment' });
+  if (settings.promoPlacement === 'after' || !vehicles.length) return [...vehicles, ...promotions];
+  const slides = [];
+  let from = 0;
+  for (const [index, promotion] of promotions.entries()) {
+    const to = Math.ceil((index + 1) * vehicles.length / (promotions.length + 1));
+    slides.push(...vehicles.slice(from, to), promotion);
+    from = to;
+  }
+  return [...slides, ...vehicles.slice(from)];
 }
 
 export function selectFeatured(cars, settings, rotation = emptyRotation(), random = Math.random) {

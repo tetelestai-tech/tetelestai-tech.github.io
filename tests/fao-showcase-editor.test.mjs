@@ -19,6 +19,8 @@ class Field extends EventTarget {
   dataset = {};
   attributes = new Map();
   classes = new Set();
+  complete = true;
+  naturalWidth = 800;
   classList = {
     toggle: (name, enabled) => enabled ? this.classes.add(name) : this.classes.delete(name),
     add: (...names) => names.forEach(name => this.classes.add(name)),
@@ -27,7 +29,27 @@ class Field extends EventTarget {
   constructor(id = '', ownerDocument) { super(); this.id = id; this.ownerDocument = ownerDocument; }
   add(option) { this.options.push(option); }
   replaceChildren(...options) { this.options = options; }
-  append(...children) { this.children.push(...children); }
+  append(...children) { children.forEach(child => child.parent = this); this.children.push(...children); }
+  remove() { if (this.parent) this.parent.children = this.parent.children.filter(child => child !== this); }
+  set src(value) {
+    this.source = value;
+    this.complete = !this.ownerDocument?.loadingSources?.has(value);
+    this.naturalWidth = this.complete ? 800 : 0;
+    if (this.preload) this.ownerDocument.preloadedSources.add(value);
+  }
+  get src() { return this.source; }
+  cloneNode(deep) {
+    const clone = new Field(this.id, this.ownerDocument);
+    clone.className = this.className; clone.html = this.html; clone.source = this.source;
+    clone.attributes = new Map(this.attributes);
+    if (deep) clone.append(...this.children.map(child => child.cloneNode(true)));
+    return clone;
+  }
+  animate(keyframes, options) {
+    const animation = { keyframes, options, cancel() {}, finish() { this.onfinish?.(); } };
+    this.ownerDocument.animations.push(animation);
+    return animation;
+  }
   set innerHTML(html) {
     this.html = html;
     if (this.id === 'featured-options') {
@@ -55,13 +77,18 @@ class Field extends EventTarget {
   }
   get innerHTML() { return this.html || ''; }
   querySelectorAll(selector) {
+    if (selector === '[id]') return this.children.flatMap(child => [...(child.id ? [child] : []), ...child.querySelectorAll('[id]')]);
     if (selector.includes('#featured-form')) return this.ownerDocument.featuredControls();
     if (selector === '.order-item') return this.children;
     if (selector === 'input:checked') return this.children.filter(input => input.checked);
     return [];
   }
   querySelector(selector) {
+    if (selector === '.hero-media' && this.id === 'hero-featured') return this.ownerDocument.getElementById('hero-media');
     if (selector === 'button:not(:disabled)') return this.children.find(button => !button.disabled);
+    if (selector === '.status-stamp' && this.innerHTML.includes('class="status-stamp"')) {
+      return { remove: () => { this.html = this.innerHTML.replace(/<span class="status-stamp">.*?<\/span>/g, ''); } };
+    }
     const direction = /data-direction="(up|down)"/.exec(selector)?.[1];
     return direction ? this.children.find(button => button.dataset.direction === direction) : null;
   }
@@ -73,8 +100,8 @@ class Field extends EventTarget {
   }
   contains(node) { return node === this || Boolean(node?.parent && this.contains(node.parent)); }
   setAttribute(name, value) { this.attributes.set(name, String(value)); }
-  removeAttribute(name) { this.attributes.delete(name); }
-  insertAdjacentHTML(_where, html) { this.html = html; }
+  removeAttribute(name) { this.attributes.delete(name); if (name === 'id') this.id = ''; }
+  insertAdjacentHTML(_where, html) { this.html = this.innerHTML + html; }
   focus() {}
   showModal() { this.open = true; this.ownerDocument?.notifyDialogs(); }
   close() { this.open = false; this.dispatchEvent(new Event('close')); this.ownerDocument?.notifyDialogs(); }
@@ -89,31 +116,36 @@ function fixture(t, settingsOverrides = {}, { openEditor = true, reducedMotion =
   const mutationObservers = [], intersectionObservers = [];
   const document = Object.assign(new EventTarget(), {
     body: {}, hidden: false, activeElement: null,
+    animations: [], loadingSources: new Set(), preloadedSources: new Set(),
     getElementById(id) {
       if (!fields.has(id)) fields.set(id, new Field(id, document));
       return fields.get(id);
     },
-    createElement: () => new Field(),
+    createElement: () => new Field('', document),
     featuredControls: () => [
-      'featured-mode', 'featured-car', 'featured-participants', 'featured-include-unavailable', 'featured-interval', 'featured-autoplay', 'save-featured',
+      'featured-mode', 'featured-car', 'featured-participants', 'featured-include-unavailable', 'featured-interval', 'featured-autoplay',
+      'featured-show-history', 'featured-show-consignment', 'featured-promo-placement', 'save-featured',
     ].map(id => document.getElementById(id)).concat(fields.get('featured-options')?.children || []),
     elementFromPoint: (_x, y) => fields.get('order-list').children[Math.floor(y / 100)],
     querySelectorAll: selector => selector === 'dialog[open]' ? [...fields.values()].filter(field => field.open) : [],
     notifyDialogs: () => mutationObservers.forEach(callback => callback([])),
   });
-  for (const id of ['hero-carousel-controls', 'hero-previous', 'hero-next', 'hero-toggle', 'hero-count', 'hero-announcement', 'featured-carousel-fields', 'featured-interval', 'featured-autoplay', 'featured-pool-help']) document.getElementById(id);
+  for (const id of ['hero-carousel-controls', 'hero-previous', 'hero-next', 'hero-toggle', 'hero-count', 'hero-announcement', 'hero-promo-link', 'hero-promo-image', 'featured-carousel-fields', 'featured-interval', 'featured-autoplay', 'featured-pool-help', 'featured-show-history', 'featured-show-consignment', 'featured-promo-placement', 'featured-promo-placement-field']) document.getElementById(id);
   fields.get('hero-carousel-controls').hidden = true;
-  for (const id of ['hero-open', 'hero-previous', 'hero-next', 'hero-toggle']) document.getElementById(id).parent = document.getElementById('hero-featured');
+  fields.get('hero-promo-link').hidden = true;
+  document.getElementById('hero-stage').append(document.getElementById('hero-image'));
+  for (const id of ['hero-open', 'hero-promo-link', 'hero-previous', 'hero-next', 'hero-toggle']) document.getElementById(id).parent = document.getElementById('hero-featured');
   const settings = {
     mode: 'manual', featuredId: 'available', participants: 'all', selectedIds: [], includeUnavailable: true,
-    intervalSeconds: 6, autoplay: true, ...settingsOverrides,
+    intervalSeconds: 6, autoplay: true, showHistory: false, showConsignment: false, promoPlacement: 'after', ...settingsOverrides,
   };
-  const values = new Map([[showcaseKey, JSON.stringify({ version: 2, settings })]]);
+  const values = new Map([[showcaseKey, JSON.stringify({ version: 3, settings })]]);
   const writes = [], opened = [];
   let storageFailure = false, orderFailure = false, inventoryError = null;
   const globals = {
     document,
     window: Object.assign(new EventTarget(), { matchMedia: () => ({ matches: reducedMotion }) }),
+    Image: class extends Field { constructor() { super('', document); this.preload = true; } },
     MutationObserver: class {
       constructor(callback) { mutationObservers.push(callback); }
       observe() {}
@@ -228,6 +260,16 @@ function fixture(t, settingsOverrides = {}, { openEditor = true, reducedMotion =
       if (target) dispatch('focusin', target, previous);
     },
     dialog(id, open) { const element = document.getElementById(id); open ? element.showModal() : element.close(); },
+    transitionLayers: () => fields.get('hero-media')?.children || [],
+    animations: document.animations,
+    preloadedSources: document.preloadedSources,
+    delayImage(src) { document.loadingSources.add(src); },
+    finishImage(id, success = true) {
+      const image = fields.get(id);
+      document.loadingSources.delete(image.src);
+      image.complete = true; image.naturalWidth = success ? 800 : 0;
+      image.dispatchEvent(new Event(success ? 'load' : 'error'));
+    },
   };
 }
 
@@ -447,6 +489,7 @@ test('carousel navigation updates the current photo, description, stamp and vehi
   assert.equal(f.fields.get('hero-year').textContent, 1971);
   assert.match(f.fields.get('hero-stage').innerHTML, /sold/);
   assert.equal(f.fields.get('hero-count').textContent, '2 / 2');
+  f.animations.at(-1).finish();
   f.fields.get('hero-open').onclick();
   assert.deepEqual(f.opened, ['sold']);
   f.fields.get('hero-previous').onclick?.();
@@ -615,4 +658,217 @@ test('cancel discards carousel draft controls and manual mode removes carousel s
   assert.equal(f.fields.get('hero-carousel-controls').hidden, true);
   assert.equal(f.fields.get('hero-featured').attributes.has('aria-roledescription'), false);
   assert.deepEqual(f.writes, []);
+});
+
+test('promotional slides after vehicles use their own artwork and links without stale vehicle details or stamps', t => {
+  const f = fixture(t, { mode: 'carousel', autoplay: false, showHistory: true, showConsignment: true }, { openEditor: false });
+  assert.equal(f.fields.get('hero-count').textContent, '1 / 4');
+  assert.equal(f.fields.get('hero-featured').attributes.get('aria-label'), 'Destaques da página inicial');
+  f.fields.get('hero-next').onclick();
+  assert.equal(f.fields.get('hero-image').src, 'sold.jpg');
+  assert.match(f.fields.get('hero-stage').innerHTML, /sold/);
+  f.fields.get('hero-next').onclick();
+  assert.equal(f.fields.get('hero-promo-link').hidden, false);
+  assert.equal(f.fields.get('hero-promo-link').href, './historia/');
+  assert.equal(f.fields.get('hero-promo-image').src, './assets/carousel-history.webp');
+  assert.equal(f.fields.get('hero-promo-image').alt, 'Conheça a nossa história');
+  assert.equal(f.fields.get('hero-name').textContent, 'Conheça a nossa história');
+  assert.equal(f.fields.get('hero-year').textContent, 'A FAO');
+  assert.equal(f.fields.get('hero-open').hidden, true);
+  assert.equal(f.fields.get('hero-open').disabled, true);
+  assert.doesNotMatch(f.fields.get('hero-stage').innerHTML, /status-stamp/);
+  assert.equal(f.fields.get('hero-count').textContent, '3 / 4');
+  assert.match(f.fields.get('hero-announcement').textContent, /^Destaque 3 de 4: Conheça a nossa história/);
+  f.fields.get('hero-open').onclick();
+  assert.deepEqual(f.opened, []);
+  f.fields.get('hero-next').onclick();
+  assert.equal(f.fields.get('hero-promo-link').href, './consignacao/');
+  assert.equal(f.fields.get('hero-promo-image').src, './assets/carousel-consignment.webp');
+  assert.equal(f.fields.get('hero-promo-image').alt, 'Apresentar meu veículo');
+  assert.equal(f.fields.get('hero-name').textContent, 'Apresentar meu veículo');
+  assert.equal(f.fields.get('hero-year').textContent, 'Consignação');
+  f.fields.get('hero-next').onclick();
+  assert.equal(f.fields.get('hero-open').hidden, false);
+  assert.equal(f.fields.get('hero-promo-link').hidden, true);
+  f.animations.at(-1).finish();
+  f.fields.get('hero-open').onclick();
+  assert.deepEqual(f.opened, ['available']);
+  assert.deepEqual(f.writes, []);
+});
+
+test('interleaved promotions preserve vehicle order and a promotional slide across refresh', t => {
+  const f = fixture(t, { mode: 'carousel', autoplay: false, showHistory: true, showConsignment: true, promoPlacement: 'interleaved' }, { openEditor: false });
+  f.fields.get('hero-next').onclick();
+  assert.equal(f.fields.get('hero-promo-link').hidden, false);
+  assert.equal(f.fields.get('hero-promo-link').href, './historia/');
+  f.editor.refresh();
+  assert.equal(f.fields.get('hero-promo-link').href, './historia/');
+  f.fields.get('hero-next').onclick();
+  assert.equal(f.fields.get('hero-image').src, 'sold.jpg');
+  assert.equal(f.fields.get('hero-promo-link').hidden, true);
+  f.fields.get('hero-next').onclick();
+  assert.equal(f.fields.get('hero-promo-link').href, './consignacao/');
+  assert.deepEqual(f.writes, []);
+});
+
+test('promotion options are dirty only when effective and reverting them prevents storage writes', t => {
+  const f = fixture(t, { mode: 'carousel' });
+  assert.equal(f.fields.get('featured-show-history').checked, false);
+  assert.equal(f.fields.get('featured-show-consignment').checked, false);
+  assert.equal(f.fields.get('featured-promo-placement-field').hidden, true);
+  f.change('featured-promo-placement', 'interleaved');
+  assert.equal(f.fields.get('save-featured').disabled, true);
+  f.change('featured-show-history', true);
+  assert.equal(f.fields.get('featured-promo-placement-field').hidden, false);
+  assert.equal(f.fields.get('save-featured').disabled, false);
+  f.change('featured-show-history', false);
+  assert.equal(f.fields.get('save-featured').disabled, true);
+  f.change('featured-show-consignment', true);
+  assert.equal(f.fields.get('save-featured').disabled, false);
+  f.change('featured-show-consignment', false);
+  f.save();
+  assert.deepEqual(f.writes, []);
+  f.change('featured-show-history', true);
+  f.change('featured-show-consignment', true);
+  const saved = f.save();
+  assert.equal(saved.showHistory, true);
+  assert.equal(saved.showConsignment, true);
+  assert.equal(saved.promoPlacement, 'interleaved');
+  assert.equal(f.fields.get('save-featured').disabled, true);
+  f.change('featured-promo-placement', 'after');
+  assert.equal(f.fields.get('save-featured').disabled, false);
+  f.change('featured-promo-placement', 'interleaved');
+  assert.equal(f.fields.get('save-featured').disabled, true);
+});
+
+test('selected vehicles may be empty when enabled promotional slides can still be shown', t => {
+  const f = fixture(t, { mode: 'carousel' });
+  f.change('featured-participants', 'selected');
+  f.change('featured-show-history', true);
+  f.change('featured-show-consignment', true);
+  const saved = f.save();
+  assert.equal(saved.participants, 'selected');
+  assert.deepEqual(saved.selectedIds, []);
+  assert.equal(saved.showHistory, true);
+  assert.equal(f.fields.get('save-featured').disabled, true);
+  f.fields.get('close-showcase').onclick();
+  f.setCars([]);
+  assert.equal(f.fields.get('hero-featured').hidden, false);
+  assert.equal(f.fields.get('hero-count').textContent, '1 / 2');
+  assert.equal(f.fields.get('hero-promo-link').href, './historia/');
+  f.tick(6000);
+  assert.equal(f.fields.get('hero-promo-link').href, './consignacao/');
+  assert.deepEqual(f.writes, [showcaseKey]);
+});
+
+test('cancel discards unsaved promotion choices and an enabled single promotion survives an empty collection', t => {
+  const f = fixture(t, { mode: 'carousel', showHistory: true });
+  f.change('featured-show-history', false);
+  f.change('featured-show-consignment', true);
+  f.change('featured-promo-placement', 'interleaved');
+  f.fields.get('close-showcase').onclick();
+  f.fields.get('open-showcase-editor').onclick();
+  assert.equal(f.fields.get('featured-show-history').checked, true);
+  assert.equal(f.fields.get('featured-show-consignment').checked, false);
+  assert.equal(f.fields.get('featured-promo-placement').value, 'after');
+  assert.equal(f.fields.get('save-featured').disabled, true);
+  f.fields.get('close-showcase').onclick();
+  f.setCars([]);
+  assert.equal(f.fields.get('hero-featured').hidden, false);
+  assert.equal(f.fields.get('hero-promo-link').href, './historia/');
+  assert.equal(f.fields.get('hero-carousel-controls').hidden, true);
+  assert.deepEqual(f.writes, []);
+});
+
+for (const mode of ['manual', 'automatic']) {
+  test(`${mode} mode ignores saved promotions while preserving their preferences`, t => {
+    const f = fixture(t, { mode, showHistory: true, showConsignment: true, promoPlacement: 'interleaved' });
+    const photo = f.fields.get('hero-image').src;
+    assert.equal(f.fields.get('featured-show-history').checked, true);
+    assert.equal(f.fields.get('featured-show-consignment').checked, true);
+    assert.equal(f.fields.get('hero-promo-link').hidden, true);
+    f.fields.get('close-showcase').onclick();
+    f.tick(6000);
+    assert.equal(f.fields.get('hero-image').src, photo);
+    f.fields.get('open-showcase-editor').onclick();
+    f.change('featured-mode', 'carousel');
+    f.change('featured-show-history', false);
+    f.change('featured-show-consignment', false);
+    f.change('featured-mode', mode);
+    assert.equal(f.fields.get('save-featured').disabled, true);
+    f.save();
+    assert.deepEqual(f.writes, []);
+    f.fields.get('close-showcase').onclick();
+    f.fields.get('open-showcase-editor').onclick();
+    f.change('featured-include-unavailable', false);
+    const saved = f.save();
+    assert.equal(saved.mode, mode);
+    assert.equal(saved.showHistory, true);
+    assert.equal(saved.showConsignment, true);
+    assert.equal(saved.promoPlacement, 'interleaved');
+  });
+}
+
+test('a changed carousel slide fades a noninteractive visual snapshot and removes it when finished', t => {
+  const f = fixture(t, { mode: 'carousel', autoplay: false }, { openEditor: false });
+  assert.equal(f.transitionLayers().length, 0);
+  f.editor.refresh();
+  assert.equal(f.transitionLayers().length, 0);
+  f.fields.get('hero-next').onclick();
+  assert.equal(f.transitionLayers().length, 1);
+  const layer = f.transitionLayers()[0];
+  assert.equal(layer.attributes.get('aria-hidden'), 'true');
+  assert.equal(layer.inert, true);
+  assert.equal(layer.querySelectorAll('[id]').length, 0);
+  assert.equal(layer.children[0].children[0].src, 'available.jpg');
+  assert.equal(f.fields.get('hero-open').disabled, true);
+  f.fields.get('hero-open').onclick();
+  assert.deepEqual(f.opened, []);
+  assert.equal(f.animations.at(-1).options.duration, 300);
+  f.animations.at(-1).finish();
+  assert.equal(f.transitionLayers().length, 0);
+  assert.equal(f.fields.get('hero-open').disabled, false);
+  f.fields.get('hero-open').onclick();
+  assert.deepEqual(f.opened, ['sold']);
+});
+
+test('a pending image keeps the outgoing photo until loading completes and replacement cancels stale transitions', t => {
+  const f = fixture(t, { mode: 'carousel', autoplay: false }, { openEditor: false });
+  assert.equal(f.preloadedSources.has('sold.jpg'), true);
+  f.delayImage('sold.jpg');
+  f.fields.get('hero-next').onclick();
+  assert.equal(f.transitionLayers().length, 1);
+  assert.equal(f.animations.length, 0);
+  f.finishImage('hero-image');
+  assert.equal(f.animations.length, 1);
+  const previousAnimation = f.animations[0];
+  f.fields.get('hero-previous').onclick();
+  assert.equal(f.transitionLayers().length, 1);
+  previousAnimation.finish();
+  assert.equal(f.transitionLayers().length, 1);
+  f.animations.at(-1).finish();
+  assert.equal(f.transitionLayers().length, 0);
+});
+
+test('promotional transitions preserve contain styling and release the real link after animation or image error', t => {
+  const f = fixture(t, { mode: 'carousel', autoplay: false, showHistory: true, showConsignment: true, participants: 'selected' }, { openEditor: false });
+  f.fields.get('hero-next').onclick();
+  assert.match(f.transitionLayers()[0]?.className || '', /hero-transition--promo/);
+  assert.equal(f.fields.get('hero-promo-link').inert, true);
+  f.animations.at(-1).finish();
+  assert.equal(f.fields.get('hero-promo-link').inert, false);
+  f.delayImage('./assets/carousel-history.webp');
+  f.fields.get('hero-next').onclick();
+  assert.equal(f.transitionLayers().length, 1);
+  f.finishImage('hero-promo-image', false);
+  assert.equal(f.transitionLayers().length, 0);
+  assert.equal(f.fields.get('hero-promo-link').inert, false);
+});
+
+test('reduced motion changes slides without adding a fade snapshot', t => {
+  const f = fixture(t, { mode: 'carousel' }, { openEditor: false, reducedMotion: true });
+  f.fields.get('hero-next').onclick();
+  assert.equal(f.fields.get('hero-image').src, 'sold.jpg');
+  assert.equal(f.transitionLayers().length, 0);
+  assert.equal(f.fields.get('hero-open').disabled, false);
 });

@@ -28,6 +28,7 @@
       <figure class="hero-photo" id="hero-featured">
         <div class="hero-media">
           <button type="button" class="hero-open" id="hero-open" aria-label="Conhecer Chamonix Speedster"><span class="photo-stage" id="hero-stage"><img id="hero-image" src="./assets/hero.webp" alt="Chamonix Speedster preto no showroom da FAO Clássicos" width="1400" height="933" fetchpriority="high" /></span></button>
+          <a class="hero-open hero-promo-link" id="hero-promo-link" hidden><img id="hero-promo-image" alt="" width="1536" height="1024" /></a>
           <div class="hero-carousel-controls" id="hero-carousel-controls" hidden>
             <button type="button" id="hero-toggle">Pausar</button>
             <button type="button" id="hero-previous" aria-label="Destaque anterior"><img src="./assets/carousel-caret-left.svg" width="22" height="22" alt="" aria-hidden="true" /></button>
@@ -84,9 +85,9 @@
     <div class="showcase-editor-grid">
       <section class="showcase-panel" aria-labelledby="featured-title">
         <h3 id="featured-title">Destaques da página inicial</h3>
-        <p class="showcase-intro">Apresente vários clássicos em sequência ou escolha um único destaque.</p>
+        <p class="showcase-intro">Apresente clássicos e artes em sequência ou escolha um único veículo em destaque.</p>
         <form id="featured-form">
-          <label for="featured-mode">Como apresentar os destaques</label><select id="featured-mode"><option value="carousel">Carrossel de veículos</option><option value="manual">Um veículo fixo</option><option value="automatic">Um veículo aleatório por visita</option></select>
+          <label for="featured-mode">Como apresentar os destaques</label><select id="featured-mode"><option value="carousel">Carrossel de destaques</option><option value="manual">Um veículo fixo</option><option value="automatic">Um veículo aleatório por visita</option></select>
           <div id="featured-manual-field" class="showcase-field"><label for="featured-car">Veículo em destaque</label><select id="featured-car"></select></div>
           <div id="featured-automatic-fields" class="showcase-field" hidden>
             <label for="featured-participants">Veículos participantes</label><select id="featured-participants"><option value="all">Toda a coleção</option><option value="selected">Escolher veículos</option></select>
@@ -97,6 +98,16 @@
             <label for="featured-interval">Tempo de cada destaque</label><select id="featured-interval"><option value="4">4 segundos</option><option value="6">6 segundos</option><option value="8">8 segundos</option><option value="10">10 segundos</option><option value="15">15 segundos</option></select>
             <label class="showcase-checkbox" for="featured-autoplay"><input type="checkbox" id="featured-autoplay" /><span>Trocar automaticamente</span></label>
             <p class="field-help">O visitante pode pausar e usar as setas para navegar no próprio ritmo.</p>
+            <fieldset id="featured-promo-options" class="featured-promo-options">
+              <legend>Artes no carrossel</legend>
+              <p class="field-help">Ative as chamadas que deseja incluir. Cada arte abre sua página na demonstração.</p>
+              <label class="showcase-checkbox" for="featured-show-history"><input type="checkbox" id="featured-show-history" /><span>Conheça a nossa história</span></label>
+              <label class="showcase-checkbox" for="featured-show-consignment"><input type="checkbox" id="featured-show-consignment" /><span>Apresentar meu veículo</span></label>
+              <div id="featured-promo-placement-field" class="showcase-field" hidden>
+                <label for="featured-promo-placement">Posição das artes</label><select id="featured-promo-placement"><option value="after">Após os veículos</option><option value="interleaved">Intercaladas com veículos</option></select>
+                <p class="field-help">Para priorizar a seleção, coloque as artes após os veículos. A ordem da coleção é preservada nas duas opções.</p>
+              </div>
+            </fieldset>
           </div>
           <label class="showcase-checkbox" for="featured-include-unavailable"><input type="checkbox" id="featured-include-unavailable" /><span>Incluir reservados e vendidos</span></label>
           <p class="field-help">Por padrão, apenas os veículos disponíveis podem aparecer em destaque.</p>

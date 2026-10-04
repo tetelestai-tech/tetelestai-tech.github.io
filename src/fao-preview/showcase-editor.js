@@ -1,9 +1,13 @@
-import { SHOWCASE_KEY, getDefaultShowcaseSettings, readShowcaseSettings, persistShowcaseSettings, getEligibleCars, selectFeatured, readRotation, persistRotation, reorderVehicles } from './showcase-settings.js';
+import { SHOWCASE_KEY, getDefaultShowcaseSettings, readShowcaseSettings, persistShowcaseSettings, getEligibleCars, getCarouselSlides, selectFeatured, readRotation, persistRotation, reorderVehicles } from './showcase-settings.js';
 import { attachOrderDrag } from './order-drag.js';
 import { createHeroCarousel } from './hero-carousel.js';
 
 const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const situation = { showcase: 'Disponível', reserved: 'Reservado', sold: 'Vendido' };
+const promotions = {
+  history: { title: 'Conheça a nossa história', category: 'A FAO', href: './historia/', image: './assets/carousel-history.webp' },
+  consignment: { title: 'Apresentar meu veículo', category: 'Consignação', href: './consignacao/', image: './assets/carousel-consignment.webp' },
+};
 
 export function createShowcaseEditor({ getCars, getInventoryError, verifyInventory, saveOrder, openVehicle, stampMarkup }) {
   const $ = id => document.getElementById(id);
@@ -14,6 +18,9 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
   let settings = initial.settings, baseline = initial.raw, settingsError = initial.error;
   let featuredId = null, chosen = false, draft = null, orderIds = [], draggedId = null;
   let featuredBaseline = null;
+  let slides = [];
+  let renderedId = null, transition = null;
+  const preloadedImages = new Map();
   const hero = $('hero-featured');
   const reducedMotion = Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
   const carousel = createHeroCarousel({
@@ -30,7 +37,8 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
       ? [value.mode, value.includeUnavailable, value.featuredId]
       : [value.mode, value.includeUnavailable, value.participants,
         value.participants === 'selected' ? [...value.selectedIds].sort() : [],
-        ...(value.mode === 'carousel' ? [value.intervalSeconds, value.autoplay] : [])]);
+        ...(value.mode === 'carousel' ? [value.intervalSeconds, value.autoplay, value.showHistory, value.showConsignment,
+          ...(value.showHistory || value.showConsignment ? [value.promoPlacement] : [])] : [])]);
   }
   function hasFeaturedChanges() {
     return Boolean(draft && featuredBaseline !== null && featuredSnapshot(draft) !== featuredBaseline);
@@ -51,20 +59,107 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
     }
   }
 
+  function featuredContent(id = featuredId) {
+    const slide = settings.mode === 'carousel' ? slides.find(item => item.id === id) : { kind: 'vehicle', carId: id };
+    return {
+      car: slide?.kind === 'vehicle' ? getCars().find(item => item.id === slide.carId) : null,
+      promotion: slide && Object.hasOwn(promotions, slide.kind) ? promotions[slide.kind] : null,
+    };
+  }
+  function syncHeroInteraction() {
+    const { car } = featuredContent();
+    $('hero-open').disabled = !car || Boolean(transition);
+    $('hero-promo-link').inert = Boolean(transition);
+    if (transition) $('hero-promo-link').setAttribute('aria-disabled', 'true');
+    else $('hero-promo-link').removeAttribute('aria-disabled');
+  }
+  function clearTransition() {
+    const previous = transition;
+    transition = null;
+    if (previous) {
+      previous.image?.removeEventListener('load', previous.onLoad);
+      previous.image?.removeEventListener('error', previous.onError);
+      previous.animation?.cancel();
+      previous.layer.remove();
+    }
+    syncHeroInteraction();
+  }
+  function prepareTransition(nextId) {
+    if (nextId === renderedId) return null;
+    clearTransition();
+    if (!renderedId || !nextId || reducedMotion || settings.mode !== 'carousel') return null;
+    const promotion = !$('hero-promo-link').hidden;
+    const source = promotion ? $('hero-promo-image') : $('hero-stage');
+    const image = promotion ? source : $('hero-image');
+    const media = hero.querySelector('.hero-media');
+    if (!media || !source.cloneNode || !image.complete || !image.naturalWidth) return null;
+    const layer = document.createElement('div');
+    if (typeof layer.animate !== 'function') return null;
+    layer.className = `hero-transition${promotion ? ' hero-transition--promo' : ''}`;
+    layer.setAttribute('aria-hidden', 'true');
+    layer.inert = true;
+    const snapshot = source.cloneNode(true);
+    snapshot.removeAttribute('id');
+    snapshot.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
+    const snapshotImage = promotion ? snapshot : snapshot.querySelector('img');
+    if (snapshotImage?.style && window.getComputedStyle) {
+      const style = window.getComputedStyle(image);
+      snapshotImage.style.objectFit = style.objectFit;
+      snapshotImage.style.objectPosition = style.objectPosition;
+    }
+    layer.append(snapshot);
+    media.append(layer);
+    transition = { layer, animation: null, image: null, onLoad: null, onError: null };
+    return transition;
+  }
+  function finishTransitionWhenReady(current, image) {
+    if (!current) return;
+    current.image = image;
+    current.onLoad = () => {
+      if (transition !== current) return;
+      image.removeEventListener('load', current.onLoad);
+      image.removeEventListener('error', current.onError);
+      current.animation = current.layer.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, easing: 'ease-out', fill: 'forwards' });
+      current.animation.onfinish = () => { if (transition === current) clearTransition(); };
+    };
+    current.onError = () => { if (transition === current) clearTransition(); };
+    if (image.complete) {
+      if (image.naturalWidth) current.onLoad();
+      else current.onError();
+    } else {
+      image.addEventListener('load', current.onLoad, { once: true });
+      image.addEventListener('error', current.onError, { once: true });
+    }
+  }
   function renderHero() {
-    const car = getCars().find(item => item.id === featuredId);
-    hero.hidden = !car;
-    $('inicio').classList.toggle('hero--empty', !car);
+    const { car, promotion } = featuredContent();
+    const nextId = car ? `vehicle:${car.id}` : promotion ? featuredId : null;
+    const nextTransition = prepareTransition(nextId);
+    hero.hidden = !car && !promotion;
+    $('inicio').classList.toggle('hero--empty', !car && !promotion);
+    $('hero-open').hidden = !car;
     $('hero-open').disabled = !car;
+    $('hero-promo-link').hidden = !promotion;
+    $('hero-stage').querySelector('.status-stamp')?.remove();
+    if (promotion) {
+      $('hero-promo-link').href = promotion.href;
+      $('hero-promo-link').setAttribute('aria-label', promotion.title);
+      $('hero-promo-image').src = promotion.image;
+      $('hero-promo-image').alt = promotion.title;
+      $('hero-name').textContent = promotion.title;
+      $('hero-year').textContent = promotion.category;
+    }
     if (car) {
       $('hero-image').src = car.photos[0];
       $('hero-image').alt = `${car.make} ${car.title} ${car.year} — veículo em destaque`;
       $('hero-name').textContent = `${car.make} ${car.title}`.toUpperCase();
       $('hero-year').textContent = car.year;
       $('hero-open').setAttribute('aria-label', `Conhecer ${car.title} ${car.year}${car.status === 'showcase' ? '' : ' — '+situation[car.status].toLowerCase()}`);
-      $('hero-stage').querySelector('.status-stamp')?.remove();
       $('hero-stage').insertAdjacentHTML('beforeend', stampMarkup(car.status));
     }
+    renderedId = nextId;
+    syncHeroInteraction();
+    finishTransitionWhenReady(nextTransition, promotion ? $('hero-promo-image') : $('hero-image'));
   }
   function renderCarouselControls(state = carousel.getState()) {
     const multiple = settings.mode === 'carousel' && state.ids.length > 1;
@@ -72,15 +167,15 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
     $('hero-previous').disabled = !multiple;
     $('hero-next').disabled = !multiple;
     $('hero-toggle').disabled = !multiple;
-    $('hero-previous').setAttribute('aria-label', 'Veículo anterior');
-    $('hero-next').setAttribute('aria-label', 'Próximo veículo');
+    $('hero-previous').setAttribute('aria-label', 'Destaque anterior');
+    $('hero-next').setAttribute('aria-label', 'Próximo destaque');
     $('hero-toggle').textContent = state.paused ? 'Reproduzir' : 'Pausar';
     $('hero-toggle').setAttribute('aria-label', state.paused ? 'Reproduzir carrossel' : 'Pausar carrossel');
     $('hero-count').textContent = multiple ? `${state.index + 1} / ${state.ids.length}` : '';
     if (multiple) {
       hero.setAttribute('role', 'region');
       hero.setAttribute('aria-roledescription', 'carrossel');
-      hero.setAttribute('aria-label', 'Veículos em destaque');
+      hero.setAttribute('aria-label', 'Destaques da página inicial');
     } else {
       hero.removeAttribute?.('role');
       hero.removeAttribute?.('aria-roledescription');
@@ -88,19 +183,32 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
     }
     const announcement = $('hero-announcement');
     announcement.setAttribute('aria-live', state.running ? 'off' : 'polite');
-    const car = getCars().find(item => item.id === state.id);
-    announcement.textContent = multiple && car ? `${state.index + 1} de ${state.ids.length}: ${car.make} ${car.title}, ${car.year}.` : '';
+    const { car, promotion } = featuredContent(state.id);
+    const description = promotion?.title || (car ? `${car.make} ${car.title}, ${car.year}` : '');
+    announcement.textContent = multiple && description ? `Destaque ${state.index + 1} de ${state.ids.length}: ${description}.` : '';
+    if (multiple && typeof Image === 'function') {
+      const next = featuredContent(state.ids[(state.index + 1) % state.ids.length]);
+      const src = next.promotion?.image || next.car?.photos[0];
+      if (src && !preloadedImages.has(src)) {
+        const preload = new Image();
+        preload.decoding = 'async';
+        preloadedImages.set(src, preload);
+        preload.src = src;
+      }
+    }
   }
   function refresh(force = false) {
     const eligible = getEligibleCars(getCars(), settings);
     if (settings.mode === 'carousel') {
+      slides = getCarouselSlides(getCars(), settings);
       const state = carousel.configure({
-        ids: eligible.map(car => car.id), initialId: eligible[0]?.id,
+        ids: slides.map(slide => slide.id), initialId: slides[0]?.id,
         intervalMs: settings.intervalSeconds * 1000, autoplay: settings.autoplay && !reducedMotion, reset: force,
       });
       featuredId = state.id;
       chosen = true;
     } else {
+      slides = [];
       carousel.configure({ ids: [], autoplay: false });
       if (settings.mode === 'manual' || force || !chosen || !eligible.some(car => car.id === featuredId)) choose();
     }
@@ -108,7 +216,10 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
     renderCarouselControls();
     if (dialog.open) sync();
   }
-  $('hero-open').onclick = () => { if (featuredId) openVehicle(featuredId); };
+  $('hero-open').onclick = () => {
+    const { car } = featuredContent();
+    if (car && !transition) openVehicle(car.id);
+  };
   $('hero-previous').onclick = () => carousel.previous();
   $('hero-next').onclick = () => carousel.next();
   $('hero-toggle').onclick = () => {
@@ -166,6 +277,10 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
     $('featured-include-unavailable').checked = draft.includeUnavailable;
     $('featured-interval').value = String(draft.intervalSeconds);
     $('featured-autoplay').checked = draft.autoplay;
+    $('featured-show-history').checked = draft.showHistory;
+    $('featured-show-consignment').checked = draft.showConsignment;
+    $('featured-promo-placement').value = draft.promoPlacement;
+    $('featured-promo-placement-field').hidden = !draft.showHistory && !draft.showConsignment;
     $('featured-manual-field').hidden = draft.mode !== 'manual';
     $('featured-automatic-fields').hidden = draft.mode === 'manual';
     $('featured-carousel-fields').hidden = draft.mode !== 'carousel';
@@ -224,6 +339,9 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
   $('featured-include-unavailable').onchange = () => { draft.includeUnavailable = $('featured-include-unavailable').checked; featuredChanged(true); };
   $('featured-interval').onchange = () => { draft.intervalSeconds = Number($('featured-interval').value); featuredChanged(); };
   $('featured-autoplay').onchange = () => { draft.autoplay = $('featured-autoplay').checked; featuredChanged(); };
+  $('featured-show-history').onchange = () => { draft.showHistory = $('featured-show-history').checked; featuredChanged(true); };
+  $('featured-show-consignment').onchange = () => { draft.showConsignment = $('featured-show-consignment').checked; featuredChanged(true); };
+  $('featured-promo-placement').onchange = () => { draft.promoPlacement = $('featured-promo-placement').value; featuredChanged(); };
   $('featured-options').onchange = () => {
     draft.selectedIds = [...$('featured-options').querySelectorAll('input:checked')].map(input => input.value);
     featuredChanged();
@@ -231,8 +349,11 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
   $('featured-form').onsubmit = event => {
     event.preventDefault();
     if (!hasFeaturedChanges() || settingsError || getInventoryError() || !verifyInventory()) { sync(); return; }
-    if (draft.mode !== 'manual' && draft.participants === 'selected' && !getEligibleCars(getCars(), draft).length) {
-      $('featured-status').textContent = 'Selecione pelo menos um veículo elegível para os destaques.'; return;
+    if (draft.mode !== 'manual' && draft.participants === 'selected') {
+      const available = draft.mode === 'carousel' ? getCarouselSlides(getCars(), draft) : getEligibleCars(getCars(), draft);
+      if (!available.length) {
+        $('featured-status').textContent = 'Selecione pelo menos um veículo elegível para os destaques.'; return;
+      }
     }
     let result;
     try { result = persistShowcaseSettings(localStorage, draft, baseline); }

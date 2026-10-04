@@ -11,7 +11,8 @@ function api(name) {
   return showcase[name];
 }
 
-const defaults = { mode: 'carousel', featuredId: null, participants: 'all', selectedIds: [], includeUnavailable: false, intervalSeconds: 6, autoplay: true };
+const version2Defaults = { mode: 'carousel', featuredId: null, participants: 'all', selectedIds: [], includeUnavailable: false, intervalSeconds: 6, autoplay: true };
+const defaults = { ...version2Defaults, showHistory: false, showConsignment: false, promoPlacement: 'after' };
 const manual = { ...defaults, mode: 'manual' };
 const automatic = { ...defaults, mode: 'automatic' };
 const cars = [
@@ -22,7 +23,7 @@ const cars = [
   { id: 'sold_car', status: 'sold', title: 'Sold', photos: ['sold.jpg'] },
 ];
 const emptyRotation = { seenIds: [], lastId: null };
-const envelope = settings => JSON.stringify({ version: 2, settings });
+const envelope = settings => JSON.stringify({ version: 3, settings });
 
 function memoryStorage(entries = []) {
   const values = new Map(entries);
@@ -51,7 +52,8 @@ test('showcase settings round-trip and preserve every unrelated storage key', ()
     ['fao-preview-rotation-v1', 'rotation history'],
   ]);
   const before = new Map(storage.values);
-  const settings = { ...defaults, participants: 'selected', selectedIds: ['alpha', 'deleted-id'], featuredId: 'sold_car', intervalSeconds: 10, autoplay: false };
+  const settings = { ...defaults, participants: 'selected', selectedIds: ['alpha', 'deleted-id'], featuredId: 'sold_car', intervalSeconds: 10, autoplay: false,
+    showHistory: true, showConsignment: true, promoPlacement: 'interleaved' };
   const result = api('persistShowcaseSettings')(storage, settings, null);
   assert.deepEqual(result, { ok: true, settings, raw: envelope(settings) });
   assert.deepEqual(api('readShowcaseSettings')(storage), { settings, error: null, raw: envelope(settings) });
@@ -67,7 +69,7 @@ for (const mode of ['manual', 'automatic']) {
     const legacy = { mode, featuredId: 'charlie', participants: 'selected', selectedIds: ['bravo', 'alpha'], includeUnavailable: true };
     const raw = JSON.stringify({ version: 1, settings: legacy });
     const storage = memoryStorage([['fao-preview-showcase-v1', raw], ['fao-preview-rotation-v1', 'existing history']]);
-    const migrated = { ...legacy, intervalSeconds: 6, autoplay: true };
+    const migrated = { ...legacy, intervalSeconds: 6, autoplay: true, showHistory: false, showConsignment: false, promoPlacement: 'after' };
     assert.deepEqual(api('readShowcaseSettings')(storage), { settings: migrated, error: null, raw });
     assert.deepEqual(storage.writes, []);
     assert.equal(storage.getItem('fao-preview-showcase-v1'), raw);
@@ -86,7 +88,68 @@ test('saving a version-1 shape directly is rejected instead of silently choosing
   assert.equal(storage.getItem('fao-preview-showcase-v1'), raw);
 });
 
-test('migrated settings cannot overwrite a newer version-2 save using the old version-1 baseline', () => {
+for (const mode of ['manual', 'automatic', 'carousel']) {
+  test(`version-2 ${mode} preserves every preference and keeps both promotions disabled without writes`, () => {
+    const oldSettings = { ...version2Defaults, mode, featuredId: 'bravo', participants: 'selected', selectedIds: ['charlie', 'alpha'],
+      includeUnavailable: true, intervalSeconds: 15, autoplay: false };
+    const raw = JSON.stringify({ version: 2, settings: oldSettings });
+    const storage = memoryStorage([['fao-preview-showcase-v1', raw]]);
+    const expected = { ...oldSettings, showHistory: false, showConsignment: false, promoPlacement: 'after' };
+    assert.deepEqual(api('readShowcaseSettings')(storage), { settings: expected, error: null, raw });
+    assert.deepEqual(storage.writes, []);
+    assert.equal(storage.getItem('fao-preview-showcase-v1'), raw);
+    assert.deepEqual(api('persistShowcaseSettings')(storage, oldSettings, raw), { ok: false, error: 'invalid' });
+    assert.deepEqual(storage.writes, []);
+    assert.deepEqual(api('persistShowcaseSettings')(storage, expected, raw), { ok: true, settings: expected, raw: envelope(expected) });
+  });
+}
+
+test('version-2 migration retains its raw baseline and cannot overwrite a newer save', () => {
+  const raw = JSON.stringify({ version: 2, settings: version2Defaults });
+  const storage = memoryStorage([['fao-preview-showcase-v1', raw]]);
+  const original = api('readShowcaseSettings')(storage);
+  const newer = envelope({ ...defaults, showHistory: true });
+  storage.values.set('fao-preview-showcase-v1', newer);
+  assert.deepEqual(api('persistShowcaseSettings')(storage, original.settings, original.raw), { ok: false, error: 'stale' });
+  assert.deepEqual(storage.writes, []);
+  assert.equal(storage.getItem('fao-preview-showcase-v1'), newer);
+});
+
+test('version-3 promotional controls require booleans and an exact placement value', () => {
+  const invalidSettings = [
+    ...['false', 0, 1, null, undefined].map(showHistory => ({ ...defaults, showHistory })),
+    ...['true', 0, 1, null, undefined].map(showConsignment => ({ ...defaults, showConsignment })),
+    ...['before', 'Interleaved', '', false, null, undefined].map(promoPlacement => ({ ...defaults, promoPlacement })),
+    { ...defaults, historyImage: 'https://example.test/art.jpg' },
+  ];
+  for (const settings of invalidSettings) {
+    const storage = memoryStorage();
+    assert.deepEqual(api('persistShowcaseSettings')(storage, settings, null), { ok: false, error: 'invalid' });
+    const raw = envelope(settings);
+    storage.values.set('fao-preview-showcase-v1', raw);
+    assert.deepEqual(api('readShowcaseSettings')(storage), { settings: defaults, error: 'invalid', raw });
+    assert.deepEqual(storage.writes, []);
+    assert.equal(storage.getItem('fao-preview-showcase-v1'), raw);
+  }
+});
+
+test('version-3 rejects missing fields and older envelopes reject premature promotional fields', () => {
+  const invalidSaved = [{ version: 3, settings: version2Defaults }];
+  for (const field of ['showHistory', 'showConsignment', 'promoPlacement']) {
+    const missing = { ...defaults };
+    delete missing[field];
+    invalidSaved.push({ version: 3, settings: missing });
+    invalidSaved.push({ version: 2, settings: { ...version2Defaults, [field]: defaults[field] } });
+  }
+  for (const saved of invalidSaved) {
+    const raw = JSON.stringify(saved);
+    const storage = memoryStorage([['fao-preview-showcase-v1', raw]]);
+    assert.deepEqual(api('readShowcaseSettings')(storage), { settings: defaults, error: 'invalid', raw });
+    assert.deepEqual(storage.writes, []);
+  }
+});
+
+test('migrated settings cannot overwrite a newer version-3 save using the old version-1 baseline', () => {
   const legacy = { mode: 'automatic', featuredId: null, participants: 'all', selectedIds: [], includeUnavailable: false };
   const raw = JSON.stringify({ version: 1, settings: legacy });
   const storage = memoryStorage([['fao-preview-showcase-v1', raw]]);
@@ -109,7 +172,7 @@ test('each supported carousel interval and autoplay setting survives saving and 
   }
 });
 
-test('unsupported intervals and non-boolean autoplay fail closed on saving and version-2 reading', () => {
+test('unsupported intervals and non-boolean autoplay fail closed on saving and version-3 reading', () => {
   const invalidSettings = [
     ...['6', false, null, undefined, 0, -1, 5, 12, 6.5, Infinity, NaN].map(intervalSeconds => ({ ...defaults, intervalSeconds })),
     ...['true', 'false', 0, 1, null, undefined].map(autoplay => ({ ...defaults, autoplay })),
@@ -126,7 +189,7 @@ test('unsupported intervals and non-boolean autoplay fail closed on saving and v
   }
 });
 
-test('version-1 accepts only its old modes and fields while version-2 requires every new field', () => {
+test('legacy formats accept only their exact fields and mode contracts', () => {
   const legacy = { mode: 'manual', featuredId: null, participants: 'all', selectedIds: [], includeUnavailable: false };
   const invalidSaved = [
     { version: 1, settings: { ...legacy, mode: 'carousel' } },
@@ -177,7 +240,7 @@ test('valid deleted IDs and safe IDs up to 90 characters remain persistable', ()
 
 test('corrupt or unsupported saved envelopes report the original raw value without writing', () => {
   for (const raw of ['', '{broken', 'null', '[]', '{}', envelope({ ...defaults, mode: 'bad' }),
-    JSON.stringify({ version: 3, settings: defaults }), JSON.stringify({ version: 2, settings: defaults, extra: true })]) {
+    JSON.stringify({ version: 4, settings: defaults }), JSON.stringify({ version: 3, settings: defaults, extra: true })]) {
     const storage = memoryStorage([['fao-preview-showcase-v1', raw]]);
     assert.deepEqual(api('readShowcaseSettings')(storage), { settings: defaults, error: 'invalid', raw });
     assert.equal(storage.getItem('fao-preview-showcase-v1'), raw);
@@ -235,6 +298,111 @@ test('carousel participants follow inventory order and include unavailable vehic
   assert.deepEqual(api('getEligibleCars')(cars, { ...settings, includeUnavailable: true }).map(car => car.id),
     ['alpha', 'bravo', 'reserved-car', 'sold_car']);
   assert.deepEqual(api('getEligibleCars')(cars, { ...settings, selectedIds: [] }), []);
+});
+
+test('default carousel slides contain only eligible vehicles and no promotional art', () => {
+  assert.deepEqual(api('getCarouselSlides')(cars, defaults), [
+    { id: 'vehicle:alpha', kind: 'vehicle', carId: 'alpha' },
+    { id: 'vehicle:bravo', kind: 'vehicle', carId: 'bravo' },
+    { id: 'vehicle:charlie', kind: 'vehicle', carId: 'charlie' },
+  ]);
+});
+
+test('after placement appends history then consignment and keeps original vehicle order', () => {
+  assert.deepEqual(api('getCarouselSlides')(cars, { ...defaults, showHistory: true, showConsignment: true }), [
+    { id: 'vehicle:alpha', kind: 'vehicle', carId: 'alpha' },
+    { id: 'vehicle:bravo', kind: 'vehicle', carId: 'bravo' },
+    { id: 'vehicle:charlie', kind: 'vehicle', carId: 'charlie' },
+    { id: 'promo:history', kind: 'history' },
+    { id: 'promo:consignment', kind: 'consignment' },
+  ]);
+});
+
+for (const [count, expected] of [
+  [0, ['promo:history', 'promo:consignment']],
+  [1, ['vehicle:alpha', 'promo:history', 'promo:consignment']],
+  [2, ['vehicle:alpha', 'promo:history', 'vehicle:bravo', 'promo:consignment']],
+  [3, ['vehicle:alpha', 'promo:history', 'vehicle:bravo', 'promo:consignment', 'vehicle:charlie']],
+  [5, ['vehicle:alpha', 'vehicle:bravo', 'promo:history', 'vehicle:charlie', 'vehicle:reserved-car', 'promo:consignment', 'vehicle:sold_car']],
+]) {
+  test(`interleaving two promotions among ${count} vehicles preserves both orders`, () => {
+    const settings = { ...defaults, includeUnavailable: true, showHistory: true, showConsignment: true, promoPlacement: 'interleaved' };
+    assert.deepEqual(api('getCarouselSlides')(cars.slice(0, count), settings).map(slide => slide.id), expected);
+  });
+}
+
+for (const [flag, id] of [['showHistory', 'promo:history'], ['showConsignment', 'promo:consignment']]) {
+  test(`only ${flag} adds one promotion using the chosen placement`, () => {
+    assert.deepEqual(api('getCarouselSlides')(cars, { ...defaults, [flag]: true }).map(slide => slide.id),
+      ['vehicle:alpha', 'vehicle:bravo', 'vehicle:charlie', id]);
+    assert.deepEqual(api('getCarouselSlides')(cars, { ...defaults, [flag]: true, promoPlacement: 'interleaved' }).map(slide => slide.id),
+      ['vehicle:alpha', 'vehicle:bravo', id, 'vehicle:charlie']);
+    assert.deepEqual(api('getCarouselSlides')([], { ...defaults, [flag]: true }).map(slide => slide.id), [id]);
+  });
+}
+
+test('promotions remain available when selected participants yield no vehicles', () => {
+  const settings = { ...defaults, participants: 'selected', selectedIds: ['missing'], showHistory: true, showConsignment: true };
+  assert.deepEqual(api('getCarouselSlides')(cars, settings), [
+    { id: 'promo:history', kind: 'history' }, { id: 'promo:consignment', kind: 'consignment' },
+  ]);
+  assert.deepEqual(api('getEligibleCars')(cars, settings), []);
+  assert.equal(api('selectFeatured')(cars, settings).car, null);
+});
+
+test('carousel slide eligibility honors selected IDs and reserved/sold opt-in without changing promotion flags', () => {
+  const settings = { ...defaults, participants: 'selected', selectedIds: ['sold_car', 'reserved-car', 'bravo'], showHistory: true };
+  assert.deepEqual(api('getCarouselSlides')(cars, settings).map(slide => slide.id), ['vehicle:bravo', 'promo:history']);
+  assert.deepEqual(api('getCarouselSlides')(cars, { ...settings, includeUnavailable: true }).map(slide => slide.id),
+    ['vehicle:bravo', 'vehicle:reserved-car', 'vehicle:sold_car', 'promo:history']);
+});
+
+test('vehicle IDs named after promotional kinds keep distinct slide identifiers', () => {
+  const namedCars = [{ id: 'history', status: 'showcase' }, { id: 'consignment', status: 'showcase' }];
+  assert.deepEqual(api('getCarouselSlides')(namedCars, { ...defaults, showHistory: true, showConsignment: true }), [
+    { id: 'vehicle:history', kind: 'vehicle', carId: 'history' },
+    { id: 'vehicle:consignment', kind: 'vehicle', carId: 'consignment' },
+    { id: 'promo:history', kind: 'history' },
+    { id: 'promo:consignment', kind: 'consignment' },
+  ]);
+});
+
+test('manual and automatic modes do not produce carousel slides or choose promotional art', () => {
+  for (const mode of ['manual', 'automatic']) {
+    const settings = { ...defaults, mode, featuredId: 'bravo', showHistory: true, showConsignment: true };
+    assert.deepEqual(api('getCarouselSlides')(cars, settings), []);
+    assert.deepEqual(api('getEligibleCars')(cars, settings).map(car => car.id), ['alpha', 'bravo', 'charlie']);
+    assert.equal(api('selectFeatured')(cars, settings, emptyRotation, () => 0).car.id, mode === 'manual' ? 'bravo' : 'alpha');
+  }
+});
+
+test('slide assembly is pure and returns independent descriptors without accessing browser storage', t => {
+  const previous = Object.getOwnPropertyDescriptor(globalThis, 'localStorage');
+  Object.defineProperty(globalThis, 'localStorage', { configurable: true, get() { throw new Error('Slide assembly must not access storage'); } });
+  t.after(() => {
+    if (previous) Object.defineProperty(globalThis, 'localStorage', previous);
+    else delete globalThis.localStorage;
+  });
+  const inputCars = Object.freeze(cars.map(car => Object.freeze({ ...car, photos: Object.freeze([...car.photos]) })));
+  const settings = Object.freeze({ ...defaults, showHistory: true, selectedIds: Object.freeze([]) });
+  const slides = api('getCarouselSlides')(inputCars, settings);
+  slides[0].carId = 'changed';
+  slides.pop();
+  assert.equal(inputCars[0].id, 'alpha');
+  assert.deepEqual(settings.selectedIds, []);
+  assert.deepEqual(api('getCarouselSlides')(inputCars, settings), [
+    { id: 'vehicle:alpha', kind: 'vehicle', carId: 'alpha' },
+    { id: 'vehicle:bravo', kind: 'vehicle', carId: 'bravo' },
+    { id: 'vehicle:charlie', kind: 'vehicle', carId: 'charlie' },
+    { id: 'promo:history', kind: 'history' },
+  ]);
+});
+
+test('slide assembly rejects malformed settings before producing any content', () => {
+  const slides = api('getCarouselSlides');
+  for (const settings of [undefined, version2Defaults, { ...defaults, showHistory: 'true' }, { ...defaults, promoPlacement: 'before' }]) {
+    assert.throws(() => slides(cars, settings), TypeError);
+  }
 });
 
 test('carousel starts at the first eligible vehicle without drawing or consuming automatic history', () => {

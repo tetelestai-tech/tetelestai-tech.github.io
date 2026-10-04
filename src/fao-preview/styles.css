@@ -121,3 +121,16 @@ img[src$='/speedster-3.webp']{object-position:50% 70%}
 #featured-carousel-fields .showcase-checkbox{margin-top:18px}
 @media(max-width:720px){.hero-carousel-controls{padding:24px 8px 8px;gap:2px}.hero-photo figcaption{min-height:42px}}
 @media(prefers-reduced-motion:reduce){.hero-carousel-controls button,.hero-carousel-controls button img{transition:none}}
+.hero-promo-link{background:#151515}
+.hero-open[hidden]{display:none}
+.hero-open:disabled{opacity:1;cursor:progress}
+#hero-promo-image{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.hero-transition{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;background:#e8e8e6}
+.hero-transition>.photo-stage{position:absolute;inset:0;width:100%;height:100%}
+.hero-transition>.photo-stage>img{width:100%;height:100%;object-fit:cover;object-position:48% 50%}
+.hero-transition--promo{background:#151515}
+.hero-transition--promo>img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.featured-promo-options{min-width:0;border:0;border-top:1px solid var(--line);padding:18px 0 0;margin:24px 0 0}
+.featured-promo-options legend{padding:0 10px 0 0;font-size:13px;font-weight:600}
+.featured-promo-options>.field-help{margin-top:0}
+@media(max-width:720px){.hero-photo figcaption{gap:12px;font-size:10px;letter-spacing:.08em}.hero-photo figcaption span:last-child{flex-shrink:0}}

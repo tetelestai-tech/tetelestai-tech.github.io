@@ -5,7 +5,7 @@ import { createHeroCarousel } from './hero-carousel.js';
 const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const situation = { showcase: 'Disponível', reserved: 'Reservado', sold: 'Vendido' };
 const promotions = {
-  history: { title: 'Conheça a nossa história', category: 'A FAO', href: './historia/', image: './assets/carousel-history-v2.webp' },
+  history: { title: 'Conheça a nossa história', category: 'A FAO', href: './historia/', image: './assets/carousel-history-alisson.webp' },
   consignment: { title: 'Apresentar meu veículo', category: 'Consignação', href: './consignacao/', image: './assets/carousel-consignment.webp' },
 };
 

@@ -670,7 +670,7 @@ test('promotional slides after vehicles use their own artwork and links without 
   f.fields.get('hero-next').onclick();
   assert.equal(f.fields.get('hero-promo-link').hidden, false);
   assert.equal(f.fields.get('hero-promo-link').href, './historia/');
-  assert.equal(f.fields.get('hero-promo-image').src, './assets/carousel-history-v2.webp');
+  assert.equal(f.fields.get('hero-promo-image').src, './assets/carousel-history-alisson.webp');
   assert.equal(f.fields.get('hero-promo-image').alt, 'Conheça a nossa história');
   assert.equal(f.fields.get('hero-name').textContent, 'Conheça a nossa história');
   assert.equal(f.fields.get('hero-year').textContent, 'A FAO');
@@ -857,7 +857,7 @@ test('promotional transitions preserve contain styling and release the real link
   assert.equal(f.fields.get('hero-promo-link').inert, true);
   f.animations.at(-1).finish();
   assert.equal(f.fields.get('hero-promo-link').inert, false);
-  f.delayImage('./assets/carousel-history-v2.webp');
+  f.delayImage('./assets/carousel-history-alisson.webp');
   f.fields.get('hero-next').onclick();
   assert.equal(f.transitionLayers().length, 1);
   f.finishImage('hero-promo-image', false);

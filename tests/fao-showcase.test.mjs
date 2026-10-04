@@ -12,7 +12,9 @@ function api(name) {
 }
 
 const version2Defaults = { mode: 'carousel', featuredId: null, participants: 'all', selectedIds: [], includeUnavailable: false, intervalSeconds: 6, autoplay: true };
+// Explicit saved preferences keep the previous choices; new visitors use startupDefaults.
 const defaults = { ...version2Defaults, showHistory: false, showConsignment: false, promoPlacement: 'after' };
+const startupDefaults = { ...defaults, intervalSeconds: 4, showHistory: true, showConsignment: true, promoPlacement: 'interleaved' };
 const manual = { ...defaults, mode: 'manual' };
 const automatic = { ...defaults, mode: 'automatic' };
 const cars = [
@@ -35,12 +37,12 @@ function memoryStorage(entries = []) {
   };
 }
 
-test('missing showcase preferences start an independent six-second autoplay carousel without writing', () => {
+test('missing showcase preferences start a four-second carousel with interleaved arts without writing', () => {
   const storage = memoryStorage();
   const result = api('readShowcaseSettings')(storage);
-  assert.deepEqual(result, { settings: defaults, error: null, raw: null });
+  assert.deepEqual(result, { settings: startupDefaults, error: null, raw: null });
   result.settings.selectedIds.push('alpha');
-  assert.deepEqual(api('getDefaultShowcaseSettings')(), defaults);
+  assert.deepEqual(api('getDefaultShowcaseSettings')(), startupDefaults);
   assert.equal(storage.values.size, 0);
 });
 
@@ -127,7 +129,7 @@ test('version-3 promotional controls require booleans and an exact placement val
     assert.deepEqual(api('persistShowcaseSettings')(storage, settings, null), { ok: false, error: 'invalid' });
     const raw = envelope(settings);
     storage.values.set('fao-preview-showcase-v1', raw);
-    assert.deepEqual(api('readShowcaseSettings')(storage), { settings: defaults, error: 'invalid', raw });
+    assert.deepEqual(api('readShowcaseSettings')(storage), { settings: startupDefaults, error: 'invalid', raw });
     assert.deepEqual(storage.writes, []);
     assert.equal(storage.getItem('fao-preview-showcase-v1'), raw);
   }
@@ -144,7 +146,7 @@ test('version-3 rejects missing fields and older envelopes reject premature prom
   for (const saved of invalidSaved) {
     const raw = JSON.stringify(saved);
     const storage = memoryStorage([['fao-preview-showcase-v1', raw]]);
-    assert.deepEqual(api('readShowcaseSettings')(storage), { settings: defaults, error: 'invalid', raw });
+    assert.deepEqual(api('readShowcaseSettings')(storage), { settings: startupDefaults, error: 'invalid', raw });
     assert.deepEqual(storage.writes, []);
   }
 });
@@ -183,7 +185,7 @@ test('unsupported intervals and non-boolean autoplay fail closed on saving and v
     assert.deepEqual(storage.writes, []);
     const raw = envelope(settings);
     storage.values.set('fao-preview-showcase-v1', raw);
-    assert.deepEqual(api('readShowcaseSettings')(storage), { settings: defaults, error: 'invalid', raw });
+    assert.deepEqual(api('readShowcaseSettings')(storage), { settings: startupDefaults, error: 'invalid', raw });
     assert.deepEqual(storage.writes, []);
     assert.equal(storage.getItem('fao-preview-showcase-v1'), raw);
   }
@@ -204,7 +206,7 @@ test('legacy formats accept only their exact fields and mode contracts', () => {
   for (const saved of invalidSaved) {
     const raw = JSON.stringify(saved);
     const storage = memoryStorage([['fao-preview-showcase-v1', raw]]);
-    assert.deepEqual(api('readShowcaseSettings')(storage), { settings: defaults, error: 'invalid', raw });
+    assert.deepEqual(api('readShowcaseSettings')(storage), { settings: startupDefaults, error: 'invalid', raw });
     assert.deepEqual(storage.writes, []);
     assert.equal(storage.getItem('fao-preview-showcase-v1'), raw);
   }
@@ -242,7 +244,7 @@ test('corrupt or unsupported saved envelopes report the original raw value witho
   for (const raw of ['', '{broken', 'null', '[]', '{}', envelope({ ...defaults, mode: 'bad' }),
     JSON.stringify({ version: 4, settings: defaults }), JSON.stringify({ version: 3, settings: defaults, extra: true })]) {
     const storage = memoryStorage([['fao-preview-showcase-v1', raw]]);
-    assert.deepEqual(api('readShowcaseSettings')(storage), { settings: defaults, error: 'invalid', raw });
+    assert.deepEqual(api('readShowcaseSettings')(storage), { settings: startupDefaults, error: 'invalid', raw });
     assert.equal(storage.getItem('fao-preview-showcase-v1'), raw);
   }
 });
@@ -271,8 +273,8 @@ test('saving preferences requires an explicit valid read baseline', () => {
 
 test('unavailable reads and quota failures cannot report saved preferences', () => {
   const denied = { getItem() { throw new Error('SecurityError'); }, setItem() { throw new Error('Unexpected write'); } };
-  assert.deepEqual(api('readShowcaseSettings')(denied), { settings: defaults, error: 'unavailable', raw: null });
-  assert.deepEqual(api('readShowcaseSettings')(undefined), { settings: defaults, error: 'unavailable', raw: null });
+  assert.deepEqual(api('readShowcaseSettings')(denied), { settings: startupDefaults, error: 'unavailable', raw: null });
+  assert.deepEqual(api('readShowcaseSettings')(undefined), { settings: startupDefaults, error: 'unavailable', raw: null });
   assert.deepEqual(api('persistShowcaseSettings')(denied, defaults, null), { ok: false, error: 'unavailable' });
   const quota = { getItem() { return null; }, setItem() { throw new Error('QuotaExceededError'); } };
   assert.deepEqual(api('persistShowcaseSettings')(quota, defaults, null), { ok: false, error: 'unavailable' });
@@ -300,7 +302,7 @@ test('carousel participants follow inventory order and include unavailable vehic
   assert.deepEqual(api('getEligibleCars')(cars, { ...settings, selectedIds: [] }), []);
 });
 
-test('default carousel slides contain only eligible vehicles and no promotional art', () => {
+test('saved preferences with both artworks disabled contain only eligible vehicles', () => {
   assert.deepEqual(api('getCarouselSlides')(cars, defaults), [
     { id: 'vehicle:alpha', kind: 'vehicle', carId: 'alpha' },
     { id: 'vehicle:bravo', kind: 'vehicle', carId: 'bravo' },

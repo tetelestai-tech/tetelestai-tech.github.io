@@ -39,8 +39,8 @@ function copyIds(input) {
 }
 
 export function getDefaultShowcaseSettings() {
-  return { mode: 'carousel', featuredId: null, participants: 'all', selectedIds: [], includeUnavailable: false, intervalSeconds: 6, autoplay: true,
-    showHistory: false, showConsignment: false, promoPlacement: 'after' };
+  return { mode: 'carousel', featuredId: null, participants: 'all', selectedIds: [], includeUnavailable: false, intervalSeconds: 4, autoplay: true,
+    showHistory: true, showConsignment: true, promoPlacement: 'interleaved' };
 }
 
 function validateSettings(input) {

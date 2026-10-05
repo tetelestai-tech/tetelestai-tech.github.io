@@ -21,6 +21,7 @@ class Field extends EventTarget {
   classes = new Set();
   complete = true;
   naturalWidth = 800;
+  focusVisible = true;
   classList = {
     toggle: (name, enabled) => enabled ? this.classes.add(name) : this.classes.delete(name),
     add: (...names) => names.forEach(name => this.classes.add(name)),
@@ -99,6 +100,7 @@ class Field extends EventTarget {
     return this.parent?.closest(selector) ?? null;
   }
   contains(node) { return node === this || Boolean(node?.parent && this.contains(node.parent)); }
+  matches(selector) { assert.equal(selector, ':focus-visible'); return this.focusVisible; }
   setAttribute(name, value) { this.attributes.set(name, String(value)); }
   removeAttribute(name) { this.attributes.delete(name); if (name === 'id') this.id = ''; }
   insertAdjacentHTML(_where, html) { this.html = this.innerHTML + html; }
@@ -247,8 +249,18 @@ function fixture(t, settingsOverrides = {}, { openEditor = true, reducedMotion =
       document.dispatchEvent(new Event('visibilitychange'));
     },
     inViewport(value) { intersectionObservers.forEach(callback => callback([{ isIntersecting: value }])); },
-    focus(id) {
+    pointer(type, pointerType = 'mouse') {
+      const hero = fields.get('hero-featured');
+      const event = new Event(type);
+      Object.assign(event, { pointerType });
+      hero.dispatchEvent(event);
+      // Touch browsers may also emit compatibility mouse events.
+      if (type === 'pointerenter') hero.onmouseenter?.();
+      if (type === 'pointerleave') hero.onmouseleave?.();
+    },
+    focus(id, { visible = true } = {}) {
       const target = id ? fields.get(id) : null, previous = document.activeElement;
+      if (target) target.focusVisible = visible;
       document.activeElement = target;
       const hero = fields.get('hero-featured');
       const dispatch = (type, from, relatedTarget) => {
@@ -555,7 +567,7 @@ for (const blocker of ['hover', 'focus', 'dialog', 'visibility', 'viewport']) {
   test(`${blocker} pauses carousel timing until that interruption ends`, t => {
     const f = fixture(t, { mode: 'carousel' }, { openEditor: false });
     const block = value => {
-      if (blocker === 'hover') f.fields.get('hero-featured')[value ? 'onmouseenter' : 'onmouseleave']?.();
+      if (blocker === 'hover') f.pointer(value ? 'pointerenter' : 'pointerleave');
       if (blocker === 'focus') f.focus(value ? 'hero-next' : null);
       if (blocker === 'dialog') f.dialog('vehicle-dialog', value);
       if (blocker === 'visibility') f.visible(!value);
@@ -592,6 +604,65 @@ test('reduced motion starts paused but explicit Play works with its button focus
   assert.equal(f.fields.get('hero-image').src, 'sold.jpg');
   assert.deepEqual(f.writes, []);
 });
+
+test('touch Play advances despite a compatibility mouseenter that never receives mouseleave', t => {
+  const f = fixture(t, { mode: 'carousel' }, { openEditor: false, reducedMotion: true });
+  assert.equal(f.fields.get('hero-toggle').textContent, 'Reproduzir');
+  f.pointer('pointerenter', 'touch');
+  f.focus('hero-toggle', { visible: false });
+  f.fields.get('hero-toggle').onclick();
+  assert.equal(f.fields.get('hero-toggle').textContent, 'Pausar');
+  f.tick(6000);
+  assert.equal(f.fields.get('hero-image').src, 'sold.jpg');
+  f.tick(6000);
+  assert.equal(f.fields.get('hero-image').src, 'available.jpg');
+  assert.deepEqual(f.writes, []);
+});
+
+test('touch focus left on an arrow does not prevent the next automatic slide', t => {
+  const f = fixture(t, { mode: 'carousel' }, { openEditor: false });
+  f.focus('hero-next', { visible: false });
+  f.fields.get('hero-next').onclick();
+  assert.equal(f.fields.get('hero-image').src, 'sold.jpg');
+  f.tick(6000);
+  assert.equal(f.fields.get('hero-image').src, 'available.jpg');
+});
+
+test('explicit Play overrides an existing mouse hover until a new hover interaction', t => {
+  const f = fixture(t, { mode: 'carousel', autoplay: false }, { openEditor: false });
+  f.pointer('pointerenter');
+  f.focus('hero-toggle');
+  f.fields.get('hero-toggle').onclick();
+  f.tick(6000);
+  assert.equal(f.fields.get('hero-image').src, 'sold.jpg');
+  f.pointer('pointerleave');
+  f.pointer('pointerenter');
+  f.tick(6000);
+  assert.equal(f.fields.get('hero-image').src, 'sold.jpg');
+  f.pointer('pointerleave');
+  f.tick(6000);
+  assert.equal(f.fields.get('hero-image').src, 'available.jpg');
+});
+
+for (const interruption of ['dialog', 'visibility', 'viewport']) {
+  test(`explicit Play never bypasses the ${interruption} safety pause`, t => {
+    const f = fixture(t, { mode: 'carousel', autoplay: false }, { openEditor: false });
+    const block = value => {
+      if (interruption === 'dialog') f.dialog('vehicle-dialog', value);
+      if (interruption === 'visibility') f.visible(!value);
+      if (interruption === 'viewport') f.inViewport(!value);
+    };
+    block(true);
+    f.pointer('pointerenter', 'touch');
+    f.focus('hero-toggle', { visible: false });
+    f.fields.get('hero-toggle').onclick();
+    f.tick(6000);
+    assert.equal(f.fields.get('hero-image').src, 'available.jpg');
+    block(false);
+    f.tick(6000);
+    assert.equal(f.fields.get('hero-image').src, 'sold.jpg');
+  });
+}
 
 test('carousel interval and autoplay participate in dirty saving and reverting restores the baseline', t => {
   const f = fixture(t, { mode: 'carousel' });

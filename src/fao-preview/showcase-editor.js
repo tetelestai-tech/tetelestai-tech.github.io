@@ -223,12 +223,20 @@ export function createShowcaseEditor({ getCars, getInventoryError, verifyInvento
   $('hero-previous').onclick = () => carousel.previous();
   $('hero-next').onclick = () => carousel.next();
   $('hero-toggle').onclick = () => {
-    if (carousel.getState().paused) carousel.setBlocked('focus', false);
+    if (carousel.getState().paused) {
+      // An explicit Play request takes precedence over interaction pauses.
+      carousel.setBlocked('focus', false);
+      carousel.setBlocked('hover', false);
+    }
     carousel.togglePause();
   };
-  hero.onmouseenter = () => carousel.setBlocked('hover', true);
-  hero.onmouseleave = () => carousel.setBlocked('hover', false);
-  const updateFocus = target => carousel.setBlocked('focus', Boolean(target && hero.contains?.(target)));
+  // Touch can synthesize mouseenter without a matching mouseleave.
+  hero.addEventListener('pointerenter', event => {
+    if (event.pointerType === 'mouse') carousel.setBlocked('hover', true);
+  });
+  hero.addEventListener('pointerleave', () => carousel.setBlocked('hover', false));
+  const updateFocus = target => carousel.setBlocked('focus', Boolean(target && hero.contains?.(target)
+    && (!target.matches || target.matches(':focus-visible'))));
   hero.addEventListener('focusin', event => updateFocus(event.target));
   hero.addEventListener('focusout', event => updateFocus(event.relatedTarget));
   const syncDialogs = () => carousel.setBlocked('dialog', Boolean(document.querySelectorAll?.('dialog[open]')?.length || dialog.open));

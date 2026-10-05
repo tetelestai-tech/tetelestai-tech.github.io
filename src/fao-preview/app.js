@@ -5,11 +5,12 @@ import { formatPrice } from './price.js';
 import { createPriceEditor } from './price-editor.js';
 import { createShowcaseEditor } from './showcase-editor.js';
 import { vehicleDraftSignature } from './vehicle-draft.js';
+import { SPEC_FIELDS, getVehicleSpecs, normalizeVehicleSpecs } from './vehicle-specs.js';
+import { getVehicleContact, getVehicleShareUrl, getRequestedVehicleId, filterVehicles, buildInquiryContact } from './visitor-actions.js';
 
 const $ = id => document.getElementById(id);
 const statusLabels = { sold: 'vendido', reserved: 'reservado' };
 const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const normalize = value => value.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 let initial, inventoryBaseline = null;
 try {
   inventoryBaseline = localStorage.getItem(INVENTORY_KEY);
@@ -19,8 +20,11 @@ catch { initial = { cars: structuredClone(vehicles), error: 'unavailable' }; }
 let cars = initial.cars, inventoryError = initial.error;
 let editingId = null, draftId = null, draftPhotos = [], draftVersion = 0, draftBusy = false, vehicleBaseline = null;
 let activeCar = null, photoIndex = 0, pendingDeleteId = null, toastTimer;
+let availability = '';
 const maxYear = new Date().getFullYear() + 1;
 $('edit-year').max = String(maxYear);
+$('edit-specs').innerHTML = SPEC_FIELDS.map(field => `<div><label for="edit-${field.key}">${field.label}</label><input id="edit-${field.key}" maxlength="${field.maxLength}" /></div>`).join('');
+const readSpecsDraft = () => normalizeVehicleSpecs(Object.fromEntries(SPEC_FIELDS.map(field => [field.key, $(`edit-${field.key}`).value])));
 const priceEditor = createPriceEditor();
 
 const stampControl = createStampCustomization({
@@ -77,12 +81,12 @@ function rebuildBrands() {
 function render() {
   showcaseEditor.refresh();
   rebuildBrands();
-  const list = cars.filter(car => (!$('brand-filter').value || car.make === $('brand-filter').value) && normalize(`${car.make} ${car.title} ${car.year} ${car.trim}`).includes(normalize($('search').value.trim())));
-  if ($('sort').value === 'oldest') list.sort((a,b) => a.year - b.year);
-  if ($('sort').value === 'newest') list.sort((a,b) => b.year - a.year);
+  const list = filterVehicles(cars, { search: $('search').value, brand: $('brand-filter').value, status: availability, sort: $('sort').value });
+  $('availability-filters').querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.status === availability)));
   $('result-count').textContent = `${list.length} ${list.length === 1 ? 'clássico nesta seleção' : 'clássicos nesta seleção'}`;
   $('selection-summary').textContent = 'Referências da FAO e cadastros para experimentar nesta prévia.';
   $('empty').hidden = list.length !== 0;
+  $('wanted-classic').hidden = list.length === 0;
   $('empty-title').textContent = cars.length ? 'Nenhum veículo encontrado.' : 'Sua vitrine está vazia.';
   $('empty-description').textContent = cars.length ? 'Experimente outra busca ou remova os filtros.' : 'Cadastre um veículo para experimentar a apresentação na vitrine.';
   $('clear-filters').hidden = cars.length === 0;
@@ -90,10 +94,11 @@ function render() {
   $('empty-new-car').disabled = Boolean(inventoryError);
   $('cars').innerHTML = list.map(car => `<article class="car-card"><button data-car="${car.id}" aria-label="Ver ${esc(car.title)} ${car.year}${statusLabels[car.status] ? ' — '+statusLabels[car.status]+' na prévia' : ''}"><div class="car-image"><img src="${esc(car.photos[0])}" alt="${esc(car.title)} ${car.year} — foto do veículo" loading="lazy" width="900" height="600"><span class="year-label">${car.year}</span>${stampControl.markup(car.status)}</div><div class="car-info"><p class="car-make">${esc(car.make.toUpperCase())}</p><h3>${esc(car.title)}</h3><p class="car-trim">${esc(car.trim)}</p><div class="car-bottom"><span>${esc(formatPrice(car.price))}</span><span>Conhecer o carro</span></div></div></button></article>`).join('');
 }
-function clearFilters() { $('search').value = ''; $('brand-filter').value = ''; $('sort').value = 'default'; }
+function clearFilters() { $('search').value = ''; $('brand-filter').value = ''; $('sort').value = 'default'; availability = ''; }
 ['search','brand-filter','sort'].forEach(id => $(id).addEventListener(id === 'search' ? 'input' : 'change', render));
 $('clear-filters').onclick = () => { clearFilters(); render(); };
 $('cars').onclick = event => { const button = event.target.closest('[data-car]'); if (button) openVehicle(button.dataset.car); };
+$('availability-filters').onclick = event => { const button = event.target.closest('button[data-status]'); if (button) { availability = button.dataset.status; render(); } };
 
 function gallery() {
   if (!activeCar) return;
@@ -102,20 +107,93 @@ function gallery() {
   $('photo-count').textContent = `${photoIndex+1} / ${activeCar.photos.length}`;
   $('thumbnails').innerHTML = activeCar.photos.map((src,index) => `<button data-photo="${index}" aria-label="Ver foto ${index+1}" aria-pressed="${index === photoIndex}"><img src="${esc(src)}" alt="" loading="lazy"></button>`).join('');
 }
-function openVehicle(id) {
+function openVehicle(id, fromNavigation = false) {
   activeCar = cars.find(car => car.id === id);
   if (!activeCar) return;
   photoIndex = 0;
   const car = activeCar;
   const situation = car.status === 'sold' ? 'Vendido (simulação)' : car.status === 'reserved' ? 'Reservado (simulação)' : 'Na seleção';
   const note = car.source ? 'Fotos e dados de referência do anúncio original, com possíveis edições nesta demonstração. Confirme preço, estado e disponibilidade com a FAO.' : 'Veículo cadastrado nesta demonstração. Dados e fotos salvos apenas neste navegador, sem publicação no site da FAO.';
-  $('vehicle-content').innerHTML = `<div class="vehicle-layout"><div class="vehicle-gallery"><div class="photo-stage"><img id="main-photo" class="main-photo" alt="">${stampControl.markup(car.status)}</div><div class="gallery-controls"><button id="prev-photo" aria-label="Foto anterior">‹</button><span id="photo-count"></span><button id="next-photo" aria-label="Próxima foto">›</button></div><div class="thumbnails" id="thumbnails"></div></div><div class="vehicle-details"><p class="eyebrow">${esc(car.make.toUpperCase())} · ${car.year}</p><h2 id="vehicle-name">${esc(car.title)}</h2><p class="detail-price">${esc(formatPrice(car.price))}</p><dl class="specs"><div><dt>Ano</dt><dd>${car.year}</dd></div><div><dt>Versão</dt><dd>${esc(car.trim)}</dd></div><div><dt>Marca</dt><dd>${esc(car.make)}</dd></div><div><dt>Situação na prévia</dt><dd>${situation}</dd></div></dl><p class="detail-description">${esc(car.description)}</p><p class="detail-note">${note}</p>${car.source ? `<a class="button button-primary" href="${esc(car.source)}" target="_blank" rel="noopener">Consultar anúncio original</a>` : ''}</div></div>`;
+  const contact = getVehicleContact(car);
+  const shareUrl = getVehicleShareUrl(car, vehicles, window.location.href);
+  const specs = getVehicleSpecs(car).map(spec => `<div><dt>${esc(spec.label)}</dt><dd>${esc(spec.value)}</dd></div>`).join('');
+  $('vehicle-content').innerHTML = `<div class="vehicle-layout"><div class="vehicle-gallery"><div class="photo-stage"><img id="main-photo" class="main-photo" alt="">${stampControl.markup(car.status)}</div><div class="gallery-controls"><button id="prev-photo" aria-label="Foto anterior">‹</button><span id="photo-count"></span><button id="next-photo" aria-label="Próxima foto">›</button></div><div class="thumbnails" id="thumbnails"></div></div><div class="vehicle-details"><p class="eyebrow">${esc(car.make.toUpperCase())} · ${car.year}</p><h2 id="vehicle-name">${esc(car.title)}</h2><p class="detail-price">${esc(formatPrice(car.price))}</p><div class="vehicle-actions"><a id="vehicle-whatsapp" class="button button-primary" href="${esc(contact.url)}" target="_blank" rel="noopener">${esc(contact.label)}</a><button type="button" id="share-vehicle" class="button button-outline" aria-expanded="false" aria-controls="vehicle-share" ${shareUrl ? '' : 'disabled'}>Compartilhar este clássico</button></div>${shareUrl ? `<div id="vehicle-share" class="vehicle-share" hidden><label for="vehicle-share-url">Link deste clássico</label><div class="share-copy"><input id="vehicle-share-url" readonly value="${esc(shareUrl)}" /><button type="button" id="copy-vehicle-link" class="button button-outline">Copiar link</button></div><p class="field-help">O link identifica o veículo da amostra publicada. Edições feitas neste navegador não acompanham o link.</p><p id="vehicle-share-status" class="field-help" role="status" aria-live="polite"></p></div>` : '<p class="field-help">Este cadastro existe apenas neste navegador e ainda não tem um link público.</p>'}<dl class="specs"><div><dt>Ano</dt><dd>${car.year}</dd></div><div><dt>Versão</dt><dd>${esc(car.trim)}</dd></div><div><dt>Marca</dt><dd>${esc(car.make)}</dd></div><div><dt>Situação na prévia</dt><dd>${situation}</dd></div>${specs}</dl><p class="detail-description">${esc(car.description)}</p><p class="detail-note">${note}</p>${car.source ? `<a class="text-link original-listing" href="${esc(car.source)}" target="_blank" rel="noopener">Consultar anúncio original <span aria-hidden="true">↗</span></a>` : ''}</div></div>`;
   gallery();
   $('prev-photo').onclick = () => { photoIndex = (photoIndex-1+car.photos.length) % car.photos.length; gallery(); };
   $('next-photo').onclick = () => { photoIndex = (photoIndex+1) % car.photos.length; gallery(); };
   $('thumbnails').onclick = event => { const button = event.target.closest('[data-photo]'); if (button) { photoIndex = Number(button.dataset.photo); gallery(); } };
-  $('vehicle-dialog').showModal();
+  if (shareUrl) {
+    $('share-vehicle').onclick = () => {
+      const expanded = $('vehicle-share').hidden;
+      $('vehicle-share').hidden = !expanded;
+      $('share-vehicle').setAttribute('aria-expanded', String(expanded));
+      if (expanded) { $('vehicle-share-url').focus(); $('vehicle-share-url').select(); }
+    };
+    $('copy-vehicle-link').onclick = async () => {
+      const status = $('vehicle-share-status');
+      const input = $('vehicle-share-url');
+      const stillCurrent = () => status.isConnected && activeCar === car && $('vehicle-dialog').open;
+      try { await navigator.clipboard.writeText(shareUrl); if (stillCurrent()) status.textContent = 'Link copiado.'; }
+      catch { if (stillCurrent()) { input.focus(); input.select(); status.textContent = 'Selecione e copie o link acima. O navegador não permitiu a cópia automática.'; } }
+    };
+  }
+  if (!fromNavigation) {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('veiculo');
+    if (shareUrl) url.searchParams.set('veiculo', car.id);
+    history.pushState({ ...history.state, faoVehicleId: car.id, faoModalEntry: true }, '', url);
+  }
+  if (!$('vehicle-dialog').open) $('vehicle-dialog').showModal();
+  $('vehicle-dialog').scrollTop = 0;
 }
+
+function syncVehicleNavigation() {
+  const url = new URL(window.location.href);
+  const requested = getRequestedVehicleId(url.href, vehicles);
+  const localId = !url.searchParams.has('veiculo') && history.state?.faoModalEntry ? history.state.faoVehicleId : null;
+  const id = requested || localId;
+  if (id && cars.some(car => car.id === id)) openVehicle(id, true);
+  else {
+    if ($('vehicle-dialog').open) $('vehicle-dialog').close();
+    if (url.searchParams.has('veiculo')) toast('Este clássico não está disponível nesta prévia. Explore a seleção abaixo.');
+  }
+}
+window.addEventListener('popstate', syncVehicleNavigation);
+$('vehicle-dialog').addEventListener('close', () => {
+  if ($('vehicle-dialog').open) return;
+  const closedId = activeCar?.id;
+  activeCar = null;
+  if (history.state?.faoModalEntry && history.state.faoVehicleId === closedId) history.back();
+  else if (new URL(window.location.href).searchParams.has('veiculo')) {
+    const url = new URL(window.location.href); url.searchParams.delete('veiculo');
+    history.replaceState(null, '', url);
+  }
+});
+
+function clearInquiryResult() {
+  $('inquiry-result').hidden = true;
+  $('inquiry-whatsapp').removeAttribute('href');
+  $('inquiry-message').textContent = '';
+  $('inquiry-status').textContent = '';
+}
+document.querySelectorAll('[data-inquiry]').forEach(button => button.onclick = () => {
+  $('inquiry-form').reset(); clearInquiryResult();
+  $('wanted-model').value = $('search').value.trim().slice(0, 100);
+  $('inquiry-dialog').showModal(); $('wanted-model').focus();
+});
+$('inquiry-form').addEventListener('input', clearInquiryResult);
+$('inquiry-form').onsubmit = event => {
+  event.preventDefault(); clearInquiryResult();
+  const result = buildInquiryContact({ model: $('wanted-model').value, details: $('wanted-details').value });
+  if (!result.ok) { $('inquiry-status').textContent = result.error; return; }
+  $('inquiry-message').textContent = result.message;
+  $('inquiry-whatsapp').href = result.url;
+  $('inquiry-result').hidden = false;
+  $('inquiry-status').textContent = 'Mensagem preparada. Abra o WhatsApp para revisar e enviar.';
+  $('inquiry-whatsapp').focus();
+};
+$('inquiry-dialog').addEventListener('close', () => { $('inquiry-form').reset(); clearInquiryResult(); });
+$('inquiry-fields').disabled = false;
 
 document.querySelectorAll('dialog').forEach(dialog => {
   dialog.querySelector('[data-close]').onclick = () => dialog.close();
@@ -126,7 +204,7 @@ function currentVehicleSignature() {
     make: $('edit-make').value, title: $('edit-title').value, trim: $('edit-trim').value,
     description: $('edit-description').value, year: $('edit-year').value,
     status: $('edit-status').value, priceMode: $('edit-price-mode').value,
-    price: $('edit-price').value, photos: draftPhotos,
+    price: $('edit-price').value, photos: draftPhotos, ...readSpecsDraft(),
   });
 }
 function vehicleChanged() { return vehicleBaseline !== null && currentVehicleSignature() !== vehicleBaseline; }
@@ -162,6 +240,7 @@ function loadDraft(id) {
   $('edit-make').value = car?.make || '';
   $('edit-year').value = car?.year || '';
   $('edit-trim').value = car?.trim || '';
+  for (const field of SPEC_FIELDS) $(`edit-${field.key}`).value = car?.[field.key] || '';
   priceEditor.load(car?.price || 'Sob consulta');
   $('edit-description').value = car?.description || '';
   $('edit-status').value = normalizeVehicleStatus(car?.status);
@@ -267,7 +346,7 @@ $('edit-form').onsubmit = event => {
   if (!Number.isInteger(year) || year < 1886 || year > maxYear) { $('save-status').textContent = `Informe um ano entre 1886 e ${maxYear}.`; return; }
   if (!draftPhotos.length) { $('save-status').textContent = 'Adicione pelo menos uma foto para cadastrar o veículo.'; return; }
   const creating = !editingId;
-  const car = { id: draftId, make, title, trim, year, price, description, status: normalizeVehicleStatus($('edit-status').value), photos: [...draftPhotos] };
+  const car = { id: draftId, make, title, trim, year, price, description, status: normalizeVehicleStatus($('edit-status').value), photos: [...draftPhotos], ...readSpecsDraft() };
   const next = creating ? [car, ...cars] : cars.map(item => item.id === editingId ? car : item);
   const result = storeCars(next);
   if (!result.ok) { $('save-status').textContent = storageMessage(result.error); return; }
@@ -311,3 +390,4 @@ $('reset-demo').onclick = () => {
   clearFilters(); render(); populateManager(); $('save-status').textContent = 'Os cinco veículos de referência foram restaurados. Seus selos foram mantidos.';
 };
 render();
+syncVehicleNavigation();

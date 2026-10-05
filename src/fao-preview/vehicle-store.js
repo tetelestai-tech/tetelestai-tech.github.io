@@ -1,3 +1,5 @@
+import { normalizeVehicleSpecs } from './vehicle-specs.js';
+
 export const INVENTORY_KEY = 'fao-preview-v1';
 
 const MAX_PHOTO_LENGTH = 2000000;
@@ -21,7 +23,7 @@ function ownValue(input, field, fallback) {
 }
 
 function cloneSeed(seed) {
-  return seed.map(car => ({ ...car, photos: [...car.photos] }));
+  return seed.map(car => ({ ...car, ...normalizeVehicleSpecs(car), photos: [...car.photos] }));
 }
 
 function trustedReferences(seed) {
@@ -55,6 +57,8 @@ function normalizeRecord(input, references, legacy) {
     if (typeof value !== 'string' || !value.trim() || value.length > limit) invalid();
     car[field] = value;
   }
+  // Existing records must not acquire new facts from their seed reference.
+  Object.assign(car, normalizeVehicleSpecs(input));
   const year = ownValue(input, 'year', fallback?.year);
   if (!Number.isInteger(year) || year < 1886 || year > new Date().getFullYear() + 1) invalid();
   car.year = year;

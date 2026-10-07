@@ -290,6 +290,37 @@ test("emits the files required by Sites packaging", async () => {
   await access(new URL("../dist/.openai/hosting.json", import.meta.url));
 });
 
+test("publishes an opaque WhatsApp share image with complete Open Graph metadata", async () => {
+  const homeHtml = await readFile(new URL("../dist/client/index.html", import.meta.url), "utf8");
+  const headEnd = homeHtml.indexOf("</head>");
+
+  assert.notEqual(headEnd, -1, "The built homepage must contain a closing head tag");
+  const head = homeHtml.slice(0, headEnd);
+  assert.ok(Buffer.byteLength(head) < 300_000, "Open Graph metadata must be within the first 300 KB");
+  assert.equal((head.match(/property="og:image"/g) ?? []).length, 1);
+  assert.match(head, /<meta property="og:image" content="https:\/\/tetelestai\.tech\/assets\/tetelestai-share\.png" \/>/);
+  assert.match(head, /<meta property="og:image:secure_url" content="https:\/\/tetelestai\.tech\/assets\/tetelestai-share\.png" \/>/);
+  assert.match(head, /<meta property="og:image:type" content="image\/png" \/>/);
+  assert.match(head, /<meta property="og:image:width" content="1200" \/>/);
+  assert.match(head, /<meta property="og:image:height" content="630" \/>/);
+  assert.match(head, /<meta property="og:image:alt" content="Símbolo e nome Tetelestai sobre fundo azul-marinho\." \/>/);
+
+  const shareImage = await readFile(new URL("../dist/client/assets/tetelestai-share.png", import.meta.url));
+  assert.deepEqual([...shareImage.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  assert.equal(shareImage.readUInt32BE(16), 1200);
+  assert.equal(shareImage.readUInt32BE(20), 630);
+  assert.equal(shareImage[25], 2, "The PNG must be truecolor without an alpha channel");
+  assert.ok(shareImage.byteLength < 600_000, "The WhatsApp share image must be under 600 KB");
+
+  const chunkTypes = [];
+  for (let offset = 8; offset + 12 <= shareImage.length;) {
+    const length = shareImage.readUInt32BE(offset);
+    chunkTypes.push(shareImage.toString("ascii", offset + 4, offset + 8));
+    offset += length + 12;
+  }
+  assert.doesNotMatch(chunkTypes.join(","), /tRNS/, "The PNG must not declare transparency");
+});
+
 test("publishes the confirmed service and contact content", async () => {
   const assetsDirectory = new URL("../dist/client/assets/", import.meta.url);
   const assetNames = await readdir(assetsDirectory);

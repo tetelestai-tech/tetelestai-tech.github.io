@@ -28,6 +28,7 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - Center the company-information group and localized verse: `Está consumado! João 19:30` / `It is finished! John 19:30`; render both parts at `1rem`, keep the phrase cyan and the non-wrapping reference in the primary text color, separated only by a non-breaking space.
 - On mobile, use the existing circuit image behind the solutions introduction with `contain` sizing and low image-only opacity.
 - Protect `public/assets/tetelestai-symbol.png`; set the entire wordmark in Michroma 400 without isolated treatment of the letter `S`.
+- Use `public/assets/tetelestai-share.png` for Open Graph sharing: keep it at `1200 × 630 px`, under `600 KB`, with an opaque `#000C19` background, the protected original symbol and the Michroma 400 wordmark. Do not use the transparent symbol file itself as the sharing image.
 - Privacy and not-found routes remain `noindex,nofollow`. The sitemap includes the PT and EN homepages and the approved PT service pages `/criacao-de-sites/` and `/criacao-de-landing-pages/`.
 - Confirmed privacy and data deletion channels (2026-09-11): company WhatsApp and `contato@tetelestai.tech`. Keep both available in the PT/EN privacy, terms and deletion pages. Terms and deletion routes also remain `noindex,nofollow`; do not add them to the sitemap. Describe WhatsApp automation as in preparation until the integration is verified live.
 - The local prototype must be verified before any publish, GitHub, Hostinger, domain, or DNS action.

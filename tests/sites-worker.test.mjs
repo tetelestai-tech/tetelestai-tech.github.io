@@ -303,7 +303,7 @@ test("publishes an opaque WhatsApp share image with complete Open Graph metadata
   assert.match(head, /<meta property="og:image:type" content="image\/png" \/>/);
   assert.match(head, /<meta property="og:image:width" content="1200" \/>/);
   assert.match(head, /<meta property="og:image:height" content="630" \/>/);
-  assert.match(head, /<meta property="og:image:alt" content="Símbolo e nome Tetelestai sobre fundo azul-marinho\." \/>/);
+  assert.match(head, /<meta property="og:image:alt" content="Símbolo original da Tetelestai sobre fundo azul-marinho\." \/>/);
 
   const shareImage = await readFile(new URL("../dist/client/assets/tetelestai-share.png", import.meta.url));
   assert.deepEqual([...shareImage.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);

@@ -1,4 +1,6 @@
 const routeShells = new Map([
+  ["/de-role/suporte", "/de-role/suporte/index.html"],
+  ["/de-role/suporte/", "/de-role/suporte/index.html"],
   ["/", "/index.html"],
   ["/criacao-de-sites", "/criacao-de-sites/index.html"],
   ["/criacao-de-sites/", "/criacao-de-sites/index.html"],

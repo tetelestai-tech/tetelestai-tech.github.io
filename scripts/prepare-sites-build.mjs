@@ -6,6 +6,7 @@ import { renderToString } from "react-dom/server";
 import { createServer } from "vite";
 import { LEGAL_CONTENT, LEGAL_PATHS } from "../src/legal-content.mjs";
 import { RECARGA_PAGES } from "../src/recarga-content.mjs";
+import { DE_ROLE_PAGES } from "../src/de-role-content.mjs";
 import { SERVICE_PAGES } from "../src/service-content.mjs";
 import { fileURLToPath } from "node:url";
 import { verifyRecargaWeb } from "./verify-recarga-web.mjs";
@@ -24,6 +25,15 @@ verifyRecargaWeb(path.join(root, "public", "recarga"));
 verifyRecargaWeb(path.join(dist, "client", "recarga"));
 
 const routeShells = [
+  ...Object.values(DE_ROLE_PAGES).map(page => ({
+    output: `${page.path.slice(1)}index.html`,
+    pathname: page.path,
+    lang: "pt-BR",
+    title: page.metaTitle,
+    description: page.metaDescription,
+    canonical: `https://tetelestai.tech${page.path}`,
+    robots: "noindex,nofollow",
+  })),
   ...Object.values(SERVICE_PAGES).map((page) => ({
     output: `${page.path.slice(1)}index.html`,
     pathname: page.path,

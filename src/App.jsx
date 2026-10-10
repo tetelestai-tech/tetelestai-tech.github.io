@@ -13,6 +13,7 @@ import { WhatsappLogoIcon } from "@phosphor-icons/react/dist/csr/WhatsappLogo";
 import { XIcon } from "@phosphor-icons/react/dist/csr/X";
 import { LEGAL_CONTENT, LEGAL_PATHS, PRIVACY_CONTACT } from "./legal-content.mjs";
 import { RECARGA_PAGES, RECARGA_UPDATED } from "./recarga-content.mjs";
+import { DE_ROLE_PAGES, DE_ROLE_UPDATED } from "./de-role-content.mjs";
 import { SERVICE_PAGES } from "./service-content.mjs";
 import { OwnProjects } from "./OwnProjects.jsx";
 import { AnalyticsConsent, AnalyticsPreferencesButton } from "./AnalyticsConsent.jsx";
@@ -21,6 +22,9 @@ import { getAnalytics } from "./analytics.mjs";
 const WHATSAPP_LINK = "https://wa.me/556184711930";
 
 const ROUTES = {
+  ...Object.fromEntries(Object.entries(DE_ROLE_PAGES).map(([page, document]) =>
+    [document.path.replace(/\/$/, ""), { locale: "pt", page }],
+  )),
   "/": { locale: "pt", page: "home" },
   "/en": { locale: "en", page: "home" },
   ...Object.fromEntries(Object.entries(SERVICE_PAGES).map(([page, service]) =>
@@ -45,7 +49,7 @@ function normalizePathname(pathname) {
 }
 
 function resolveRoute(pathname) {
-  if (pathname.startsWith("/recarga/") && pathname.endsWith("//")) return { locale: "pt", page: "notFound" };
+  if ((pathname.startsWith("/recarga/") || pathname.startsWith("/de-role/")) && pathname.endsWith("//")) return { locale: "pt", page: "notFound" };
   const normalizedPath = normalizePathname(pathname);
   if (ROUTES[normalizedPath]) return ROUTES[normalizedPath];
   return { locale: normalizedPath.startsWith("/en/") ? "en" : "pt", page: "notFound" };
@@ -503,6 +507,41 @@ function LegalPage({ t, locale, page }) {
   );
 }
 
+function DeRolePage({ page }) {
+  const document = DE_ROLE_PAGES[page];
+  return (
+    <div className="app-shell">
+      <a className="skip-link" href="#main-content">Ir para o conteúdo</a>
+      <header className="site-header recarga-header">
+        <div className="site-header__inner">
+          <a className="brand-link" href="/" aria-label="Site da Tetelestai"><Brand compact /></a>
+          <a className="text-link" href="/"><ArrowLeftIcon size={20} aria-hidden="true" />Site da Tetelestai</a>
+        </div>
+      </header>
+      <main id="main-content" className="legal-page">
+        <article className="section-shell legal-page__inner">
+          <p className="eyebrow">De Rolê</p>
+          <h1>{document.title}</h1>
+          <p className="legal-page__updated"><time dateTime="2026-10-09">Atualizado em {DE_ROLE_UPDATED}</time></p>
+          <p className="legal-page__intro">{document.intro}</p>
+          <section className="legal-contact" aria-labelledby="de-role-contact-title">
+            <h2 id="de-role-contact-title">Fale com a Tetelestai</h2>
+            <a className="text-link" href={`mailto:${PRIVACY_CONTACT.email}`}>{PRIVACY_CONTACT.email}</a>
+          </section>
+          {document.sections.map((section, index) => (
+            <section className="legal-section" aria-labelledby={`de-role-section-${index}`} key={section.title}>
+              <h2 id={`de-role-section-${index}`}>{section.title}</h2>
+              {section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+              {section.link && <a className="text-link" href={section.link.href}>{section.link.label}<ArrowRightIcon size={19} aria-hidden="true" /></a>}
+            </section>
+          ))}
+          <a className="text-link" href="/"><ArrowLeftIcon size={20} aria-hidden="true" />Voltar ao site</a>
+        </article>
+      </main>
+    </div>
+  );
+}
+
 function RecargaPage({ page }) {
   const document = RECARGA_PAGES[page];
   return (
@@ -714,13 +753,14 @@ export function App({ pathname = window.location.pathname }) {
   useEffect(() => {
     const service = SERVICE_PAGES[page];
     const recarga = RECARGA_PAGES[page];
-    const legal = recarga ?? (LEGAL_PATHS[page] ? LEGAL_CONTENT[locale][page] : null);
+    const deRole = DE_ROLE_PAGES[page];
+    const legal = deRole ?? recarga ?? (LEGAL_PATHS[page] ? LEGAL_CONTENT[locale][page] : null);
     const pageContent = service ?? legal;
     const isNotFound = page === "notFound";
     const title = pageContent ? pageContent.metaTitle : isNotFound ? t.notFound.metaTitle : t.title;
     const description = pageContent ? pageContent.metaDescription : isNotFound ? t.notFound.text : t.description;
     const languagePaths = LEGAL_PATHS[page] ?? { pt: "/", en: "/en/" };
-    const canonicalPath = service?.path ?? recarga?.path ?? languagePaths[locale];
+    const canonicalPath = service?.path ?? deRole?.path ?? recarga?.path ?? languagePaths[locale];
     const canonicalUrl = `https://tetelestai.tech${canonicalPath}`;
 
     document.documentElement.lang = t.lang;
@@ -734,9 +774,10 @@ export function App({ pathname = window.location.pathname }) {
     updateMeta('link[hreflang="pt-BR"]', "href", `https://tetelestai.tech${languagePaths.pt}`);
     updateMeta('link[hreflang="en"]', "href", `https://tetelestai.tech${languagePaths.en}`);
     updateMeta('link[hreflang="x-default"]', "href", `https://tetelestai.tech${languagePaths.pt}`);
-    if (recarga || service) document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => link.remove());
+    if (deRole || recarga || service) document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => link.remove());
   }, [locale, page, t]);
 
+  if (DE_ROLE_PAGES[page]) return <DeRolePage page={page} />;
   if (RECARGA_PAGES[page]) return <RecargaPage page={page} />;
   const pageView = SERVICE_PAGES[page] ? <ServicePage t={t} page={page} /> :
     LEGAL_PATHS[page] ? <LegalPage t={t} locale={locale} page={page} /> :

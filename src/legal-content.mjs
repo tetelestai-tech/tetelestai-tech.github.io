@@ -348,3 +348,47 @@ export const LEGAL_CONTENT = {
     },
   },
 };
+
+// De Rolê: preserve the existing general policy and add the app-specific scope.
+LEGAL_CONTENT.pt.privacy.sections.splice(-1, 0, {
+  "title": "Aplicativo De Rolê",
+  "paragraphs": [
+    "O De Rolê é um jogo presencial de adivinhação oferecido pela TETELESTAI SOLUCOES EM TECNOLOGIA LTDA, CNPJ 58.138.258/0001-39. O app não exige cadastro próprio ou identificação dos participantes.",
+    "O estado da partida, incluindo placar, cartas utilizadas e prazo do turno, é salvo no aparelho para permitir a retomada. O app não oferece sincronização de partidas por uma conta do De Rolê. Descartar ou substituir uma partida remove o estado anterior do jogo no app.",
+    "A Versão completa é uma compra opcional realizada pela App Store. O aplicativo consulta informações do produto e o direito de acesso à compra para liberar o conteúdo correspondente. A autenticação e o pagamento são realizados pela Apple. O De Rolê não pede senha da conta Apple ou dados de cartão em um formulário próprio.",
+    "Não há envio automático de partidas, identificadores de compra ou diagnósticos aos sistemas da Tetelestai no funcionamento do aplicativo examinado. Os dados de compra consultados pelo app são processados no aparelho e pelos serviços da Apple.",
+    "Restaurar compras recupera um acesso válido com a conta Apple correspondente. A operação não recupera partidas descartadas. Remover os dados locais da partida não exclui os registros de compra mantidos pela Apple.",
+    "Se você entrar em contato pelo e-mail contato@tetelestai.tech, receberemos seu endereço de e-mail e as informações que decidir enviar. Esses dados são usados para atender à solicitação e manter os registros necessários ao atendimento ou a obrigações legais. Os e-mails de suporte do De Rolê não são utilizados para campanhas publicitárias ou listas de marketing.",
+    "O botão de suporte abre seu aplicativo de e-mail; a mensagem só é enviada por sua decisão. Não envie senhas, códigos de autenticação ou dados completos de pagamento.",
+    "A operação pública desta versão do De Rolê utiliza somente relatórios financeiros agregados da loja, sem exportação ou guarda de registros individuais de uso e diagnóstico dos jogadores fornecidos pela Apple. O processamento próprio da Apple segue as políticas desse serviço.",
+    "Ao abrir a política ou uma página do site, também se aplicam as condições de navegação descritas nesta política geral. As páginas legais e a página de suporte do De Rolê não carregam o Analytics. Os serviços do site não são recursos integrados ao aplicativo."
+  ],
+  "link": {
+    "label": "App Store e Privacidade",
+    "href": "https://www.apple.com/legal/privacy/data/en/app-store/"
+  }
+});
+LEGAL_CONTENT.pt.privacy.updated = "Atualizado em 9 de outubro de 2026";
+LEGAL_CONTENT.pt.privacy.updatedDate = "2026-10-09";
+LEGAL_CONTENT.pt.privacy.metaDescription = "Como a Tetelestai trata dados no site, no aplicativo De Rolê e no atendimento e como exercer seus direitos de privacidade.";
+LEGAL_CONTENT.en.privacy.sections.splice(-1, 0, {
+  "title": "De Rolê app",
+  "paragraphs": [
+    "De Rolê is an in-person word-guessing game offered by TETELESTAI SOLUCOES EM TECNOLOGIA LTDA, CNPJ 58.138.258/0001-39. The app does not require its own account or participant identification.",
+    "Game state, including scores, used cards and the turn deadline, is stored on the device so the game can be resumed. The app does not synchronize games through a De Rolê account. Discarding or replacing a game removes its previous state in the app.",
+    "The optional Versão completa purchase is processed through the App Store. The app queries product information and the purchase entitlement to enable the corresponding content. Apple handles authentication and payment. De Rolê does not ask for an Apple account password or payment card details in its own form.",
+    "The examined app does not automatically transmit games, purchase identifiers or diagnostics to Tetelestai systems. Purchase data queried by the app is processed on the device and by Apple services.",
+    "Restaurar compras restores a valid entitlement through the corresponding Apple account. It does not recover discarded games. Removing local game data does not delete purchase records held by Apple.",
+    "If you contact contato@tetelestai.tech, we receive your email address and the information you choose to send. This data is used to handle your request and maintain records necessary for support or legal obligations. De Rolê support emails are not used for advertising campaigns or marketing lists.",
+    "The support button opens your email application; a message is sent only if you choose to send it. Do not send passwords, authentication codes or complete payment details.",
+    "The public operation of this De Rolê version uses only aggregate financial store reports, without exporting or retaining individual player usage or diagnostic records provided by Apple. Apple handles its own processing according to its policies.",
+    "When you open the policy or a website page, the browsing conditions described in this general policy also apply. The legal pages and De Rolê support page do not load Analytics. Website services are not integrated app features."
+  ],
+  "link": {
+    "label": "App Store and Privacy",
+    "href": "https://www.apple.com/legal/privacy/data/en/app-store/"
+  }
+});
+LEGAL_CONTENT.en.privacy.updated = "Updated on October 9, 2026";
+LEGAL_CONTENT.en.privacy.updatedDate = "2026-10-09";
+LEGAL_CONTENT.en.privacy.metaDescription = "How Tetelestai handles data on its website, in the De Rolê app and in customer support, and how to exercise privacy rights.";

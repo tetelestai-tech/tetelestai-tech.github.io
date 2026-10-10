@@ -1,9 +1,10 @@
 export const MEASUREMENT_ID = "G-VKJKP1MBYF";
 export const CONSENT_KEY = "tetelestai:analytics-consent:v1";
+export const CONSENT_POLICY_VERSION = 2;
 export const CONSENT_DURATION = 180 * 24 * 60 * 60 * 1000;
 export const PREFERENCES_EVENT = "tetelestai:cookie-preferences";
 
-const PAGE_PATHS = ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/"];
+const PAGE_PATHS = ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/"];
 
 export function measurementPath(pathname) {
   return PAGE_PATHS.find(path => pathname === path || pathname === `${path}index.html` ||
@@ -30,7 +31,10 @@ export function createAnalyticsController(win, doc, now = Date.now) {
       const value = JSON.parse(win.localStorage.getItem(CONSENT_KEY));
       return value && ["accepted", "rejected"].includes(value.choice) &&
         Number.isFinite(value.expiresAt) && value.expiresAt > now() &&
-        value.expiresAt <= now() + CONSENT_DURATION ? value : null;
+        value.expiresAt <= now() + CONSENT_DURATION &&
+        // A refusal remains protective across policy versions. An acceptance
+        // needs explicit confirmation of the expanded list of measured pages.
+        (value.choice === "rejected" || value.policyVersion === CONSENT_POLICY_VERSION) ? value : null;
     } catch { return null; }
   }
 
@@ -115,7 +119,7 @@ export function createAnalyticsController(win, doc, now = Date.now) {
 
   function choose(choice) {
     if (!["accepted", "rejected"].includes(choice)) return false;
-    const saved = save({ choice, expiresAt: now() + CONSENT_DURATION });
+    const saved = save({ choice, expiresAt: now() + CONSENT_DURATION, policyVersion: CONSENT_POLICY_VERSION });
     if (choice === "rejected" || !saved) {
       let safeReload = saved;
       if (!saved) {

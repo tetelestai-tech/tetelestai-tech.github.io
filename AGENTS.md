@@ -39,6 +39,17 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - Keep the web stream's Enhanced measurement disabled in GA4. The site explicitly sends `page_view` and `whatsapp_click`; automatically collected session events may still occur after consent. Do not re-enable automatic search, outbound-click or form measurement without reviewing its data and avoiding duplicate contact metrics.
 - Analytics may measure page views, navigation events, browser/device technical information, referring domain only, and WhatsApp clicks. A click is not a conversation, qualified lead or sale; never collect WhatsApp conversation content through Analytics. Keep the PT/EN privacy notices consistent with the implementation, including Google's receipt of requests and cookie identifiers. Do not claim anonymity or invent the GA4 property's data-retention settings. Version the privacy notice date separately from unchanged terms and deletion instructions.
 
+## SEO expansion approved on 2026-10-09
+
+- Add PT service pages `/carreira-internacional/` and `/capacitacao-em-ia/`. Career copy covers the confirmed CV in English, LinkedIn, ATS and application strategy scope; AI training is on demand according to audience, objective and knowledge level.
+- Group service links under their respective homepage fronts. Keep the approved hero and contact composition. Digital own projects remain only on the two digital service pages; do not reuse them as evidence of career or training delivery.
+- Prerender all six commercial pages, including the EN homepage. Keep each PT service self-canonical without an invented EN translation; include exactly those six commercial URLs in the sitemap.
+- Use lossless WebP display derivatives of the protected original symbol (144/320/640 px), native-sized circuit WebP and a 64 px PNG favicon. Preserve the original PNGs and the approved 1200 × 630 sharing image exactly.
+- Expand the existing consent-gated GA4 allowlist to those six pages, retaining only the existing `page_view` and `whatsapp_click` events and sanitized URLs. No expanded UTM capture or new event payload types.
+- Policy version 2 requires explicit reconfirmation of earlier acceptances. Valid earlier refusals remain effective for their original remaining duration. Preserve expiry, revocation and fail-closed storage behavior; the local storage key remains compatible.
+- Update PT/EN privacy notices for the measured pages and reconfirmation, dating that notice separately from unchanged terms and deletion pages.
+- Prepare canonical service links and short presentation texts for review. Social profile changes, external posts and public deployment are separate actions after the final preview review and corresponding authorization.
+
 ## Charging app design decisions
 
 - For the new iOS charging calculator, the user selected the third concept's layout: a circular battery indicator, minus/plus controls, an editable completion time, side-by-side start time and duration, and a copy-time action.

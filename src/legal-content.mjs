@@ -20,8 +20,8 @@ export const LEGAL_CONTENT = {
     privacy: {
       label: "Privacidade",
       title: "Privacidade e proteção de dados",
-      updated: "Atualizado em 28 de setembro de 2026",
-      updatedDate: "2026-09-28",
+      updated: "Atualizado em 9 de outubro de 2026",
+      updatedDate: "2026-10-09",
       metaTitle: "Privacidade | Tetelestai",
       metaDescription: "Como a Tetelestai trata dados no site e no atendimento e como exercer seus direitos de privacidade.",
       intro: "Esta política explica o tratamento de dados pessoais no site e nos canais de atendimento da TETELESTAI SOLUCOES EM TECNOLOGIA LTDA, CNPJ 58.138.258/0001-39, identificada também como Tetelestai Tech Solutions e TETELESTAI Atendimento.",
@@ -37,8 +37,9 @@ export const LEGAL_CONTENT = {
         {
           title: "Analytics e suas preferências",
           paragraphs: [
-            "Usamos o Google Analytics 4 para entender as visitas e a navegação e avaliar o uso do site. A medição se limita às páginas iniciais em português e inglês e às páginas de criação de sites e de landing pages. As páginas legais e as páginas do Recarga não carregam o Analytics.",
+            "Usamos o Google Analytics 4 para entender as visitas e a navegação e avaliar o uso do site. A medição se limita às páginas iniciais em português e inglês e às páginas de criação de sites, criação de landing pages, carreira internacional e capacitação em IA. As páginas legais e as páginas do Recarga não carregam o Analytics.",
             "A tag do Analytics só é carregada depois que você aceita. Antes de aceitar, ou se você recusar, não enviamos dados ao Google Analytics. Recusar não impede o acesso ao site ou o contato com a Tetelestai.",
+            "A ampliação para as páginas de carreira e IA requer nova confirmação dos aceites anteriores. Recusas ainda vigentes continuam sendo respeitadas até sua expiração ou até você mudar sua escolha.",
             "Com seu consentimento, são enviados dados sobre visualizações de páginas, eventos de navegação, características técnicas do navegador e do dispositivo e origem da visita, limitada ao domínio de referência. O clique no WhatsApp também é registrado, mas o Analytics não recebe o conteúdo das conversas. Um clique não confirma uma conversa, um contato qualificado ou uma venda.",
             "Sua escolha é guardada localmente neste navegador por 180 dias. Novas visitas não prorrogam automaticamente a validade do consentimento. Os cookies do Analytics têm duração inicial configurada de até 180 dias; em novas visitas, a duração configurada é limitada ao prazo restante do consentimento. O Google pode atualizar o cookie de sessão enquanto o consentimento estiver válido. Ao detectar que o consentimento expirou, o site interrompe a medição e remove os cookies do Analytics acessíveis a ele. Esses prazos se referem ao armazenamento no navegador, não ao período de conservação dos dados já recebidos pelo Google Analytics.",
             "Você pode mudar sua escolha nas preferências de cookies disponíveis no rodapé. Ao revogar o consentimento, o site remove os cookies do Analytics acessíveis a ele e recarrega a página para interromper a medição. Isso não exclui automaticamente os dados já enviados ao Google Analytics.",
@@ -190,8 +191,8 @@ export const LEGAL_CONTENT = {
     privacy: {
       label: "Privacy",
       title: "Privacy and data protection",
-      updated: "Updated on September 28, 2026",
-      updatedDate: "2026-09-28",
+      updated: "Updated on October 9, 2026",
+      updatedDate: "2026-10-09",
       metaTitle: "Privacy | Tetelestai",
       metaDescription: "How Tetelestai handles website and customer service data and how to exercise your privacy rights.",
       intro: "This policy explains how personal data is handled on the website and through the customer service channels of TETELESTAI SOLUCOES EM TECNOLOGIA LTDA, CNPJ 58.138.258/0001-39, also identified as Tetelestai Tech Solutions and TETELESTAI Atendimento.",
@@ -207,8 +208,9 @@ export const LEGAL_CONTENT = {
         {
           title: "Analytics and your preferences",
           paragraphs: [
-            "We use Google Analytics 4 to understand visits and navigation and assess how the website is used. Measurement is limited to the Portuguese and English homepages and the website development and landing page development pages. Legal pages and Recarga pages do not load Analytics.",
+            "We use Google Analytics 4 to understand visits and navigation and assess how the website is used. Measurement is limited to the Portuguese and English homepages and the website development, landing page development, international career and AI training pages. Legal pages and Recarga pages do not load Analytics.",
             "The Analytics tag only loads after you accept. Before you accept, or if you decline, we do not send data to Google Analytics. Declining does not prevent you from accessing the website or contacting Tetelestai.",
+            "The expansion to career and AI pages requires a new confirmation of previous acceptances. Valid refusals remain effective until they expire or you change your choice.",
             "With your consent, data is sent about page views, navigation events, technical characteristics of your browser and device, and the source of your visit, limited to the referring domain. WhatsApp clicks are also recorded, but Analytics does not receive conversation content. A click does not confirm a conversation, a qualified contact or a sale.",
             "Your choice is stored locally in this browser for 180 days. Subsequent visits do not automatically extend the validity of consent. Analytics cookies are initially configured to last up to 180 days; on subsequent visits, the configured duration is limited to the time remaining on consent. Google may update the session cookie while consent remains valid. When the website detects that consent has expired, it stops measurement and removes the Analytics cookies it can access. These periods apply to browser storage, not to the retention of data already received by Google Analytics.",
             "You can change your choice through the cookie preferences in the footer. When you withdraw consent, the website removes the Analytics cookies it can access and reloads the page to stop measurement. This does not automatically delete data already sent to Google Analytics.",

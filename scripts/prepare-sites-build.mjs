@@ -65,6 +65,7 @@ const routeShells = [
   },
   {
     output: "en/index.html",
+    pathname: "/en/",
     lang: "en",
     title: "Tetelestai | International careers, digital solutions and AI",
     description: "International career consulting for technology professionals, business automation and digital solutions, and practical artificial intelligence training.",

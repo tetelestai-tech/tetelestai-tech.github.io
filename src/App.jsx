@@ -282,7 +282,10 @@ const content = {
 function Brand({ compact = false }) {
   return (
     <span className={`brand ${compact ? "brand--compact" : ""}`}>
-      <img src="/assets/tetelestai-symbol.png" width="72" height="72" alt="" aria-hidden="true" />
+      <picture className="optimized-image">
+        <source type="image/webp" srcSet="/assets/tetelestai-symbol-144.webp 144w, /assets/tetelestai-symbol-320.webp 320w" sizes={compact ? "48px" : "(max-width: 900px) 52px, 62px"} />
+        <img src="/assets/tetelestai-symbol.png" width="72" height="72" alt="" aria-hidden="true" />
+      </picture>
       <span className="brand__copy">
         <span className="brand__name">TETELESTAI</span>
         {!compact && <span className="brand__legal">SOLUÇÕES EM TECNOLOGIA LTDA.</span>}
@@ -382,7 +385,7 @@ function ServicePage({ t, page }) {
             <nav className="service-breadcrumb" aria-label="Caminho da página">
               <a href="/">Início</a><span aria-hidden="true">/</span><span aria-current="page">{service.label}</span>
             </nav>
-            <p className="eyebrow">Soluções digitais</p>
+            <p className="eyebrow">{service.category}</p>
             <h1 id="service-title">{service.title}</h1>
             <p className="service-hero__intro">{service.intro}</p>
           </div>
@@ -390,7 +393,7 @@ function ServicePage({ t, page }) {
         <section className="service-section" aria-labelledby="use-cases-title">
           <div className="section-shell">
             <p className="eyebrow">Seu objetivo</p>
-            <h2 id="use-cases-title">O que você quer apresentar?</h2>
+            <h2 id="use-cases-title">{service.objectiveTitle}</h2>
             <div className="service-feature-grid">
               {service.useCases.map((item, index) => (
                 <article key={item.title}>
@@ -407,7 +410,7 @@ function ServicePage({ t, page }) {
             <div>
               <p className="eyebrow">Escopo do projeto</p>
               <h2 id="scope-title">O que vamos definir juntos</h2>
-              <p className="section-intro">Cada projeto parte dos objetivos e das prioridades da empresa. A proposta registra as entregas, as responsabilidades e as condições do trabalho.</p>
+              <p className="section-intro">{service.scopeIntro}</p>
             </div>
             <ul className="method-list">
               {service.scope.map((item, index) => (
@@ -428,9 +431,9 @@ function ServicePage({ t, page }) {
           </div>
           <BackToTop label={t.backToTopLabel} />
         </section>
-        <OwnProjects>
+        {service.showOwnProjects && <OwnProjects>
           <BackToTop label={t.backToTopLabel} />
-        </OwnProjects>
+        </OwnProjects>}
         <section className="faq-section" aria-labelledby="faq-title">
           <div className="section-shell faq-section__grid">
             <div><p className="eyebrow">Perguntas frequentes</p><h2 id="faq-title">Antes de começar</h2></div>
@@ -450,10 +453,10 @@ function ServicePage({ t, page }) {
           </div>
           <BackToTop label={t.backToTopLabel} />
         </section>
-        <nav className="section-shell service-related" aria-label="Outro serviço digital">
+        {related && <nav className="section-shell service-related" aria-label="Outro serviço digital">
           <p>Conheça também</p>
           <a className="text-link" href={related.path}>{related.label}<ArrowRightIcon size={20} aria-hidden="true" /></a>
-        </nav>
+        </nav>}
       </main>
       <Footer t={t} locale="pt" />
     </div>
@@ -595,7 +598,10 @@ function HomePage({ t, locale }) {
       <main id="main-content">
         <section id="home" className="hero" aria-labelledby="hero-title">
           <div className="hero__inner">
-            <img className="hero__symbol" src="/assets/tetelestai-symbol.png" width="300" height="300" alt="" aria-hidden="true" />
+            <picture className="optimized-image">
+              <source type="image/webp" srcSet="/assets/tetelestai-symbol-320.webp 320w, /assets/tetelestai-symbol-640.webp 640w" sizes="(max-width: 620px) 188px, (max-width: 840px) 210px, (max-width: 1144px) 25vw, 286px" />
+              <img className="hero__symbol" src="/assets/tetelestai-symbol.png" width="300" height="300" alt="" aria-hidden="true" />
+            </picture>
             <h1 id="hero-title" className="hero__heading">
               <span className="hero__wordmark">TETELESTAI</span>
               <span className="hero__slogan">{t.slogan}</span>
@@ -626,7 +632,10 @@ function HomePage({ t, locale }) {
               <span className="short-rule" aria-hidden="true" />
               <p>{t.introText}</p>
             </div>
-            <img src="/assets/circuit-network.png" width="836" height="471" alt="" aria-hidden="true" />
+            <picture className="optimized-image">
+              <source type="image/webp" srcSet="/assets/circuit-network.webp" />
+              <img src="/assets/circuit-network.png" width="836" height="471" alt="" aria-hidden="true" />
+            </picture>
           </div>
           <BackToTop label={t.backToTopLabel} />
         </section>
@@ -644,9 +653,9 @@ function HomePage({ t, locale }) {
                     <Icon size={38} weight="light" aria-hidden="true" />
                     <h3>{service.title}</h3>
                     <p>{service.detail}</p>
-                    {locale === "pt" && service.id === "solucoes-digitais" && (
-                      <nav className="service-links" aria-label="Serviços para empresas">
-                        {Object.values(SERVICE_PAGES).map((item) => <a className="text-link" key={item.path} href={item.path}>{item.label}<ArrowRightIcon size={19} aria-hidden="true" /></a>)}
+                    {locale === "pt" && (
+                      <nav className="service-links" aria-label={`Serviços de ${service.title}`}>
+                        {Object.values(SERVICE_PAGES).filter(item => item.homeSection === service.id).map((item) => <a className="text-link" key={item.path} href={item.path}>{item.label}<ArrowRightIcon size={19} aria-hidden="true" /></a>)}
                       </nav>
                     )}
                     <a className="text-link" href="#contact">{service.cta}<ArrowRightIcon size={19} aria-hidden="true" /></a>

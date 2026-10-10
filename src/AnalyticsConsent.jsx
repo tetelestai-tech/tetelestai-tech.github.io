@@ -4,14 +4,14 @@ import { CONSENT_KEY, PREFERENCES_EVENT, getAnalytics, measurementPath } from ".
 const COPY = {
   pt: {
     title: "Métricas do site",
-    text: "Usamos cookies do Google Analytics para entender as visitas ao site e os cliques no WhatsApp. Você pode aceitar ou recusar a medição.",
+    text: "Usamos cookies do Google Analytics para entender visitas e cliques no WhatsApp nas páginas iniciais e nas páginas de sites, landing pages, carreira internacional e capacitação em IA. Você pode aceitar ou recusar a medição.",
     accept: "Aceitar métricas", reject: "Recusar", preferences: "Preferências de cookies",
     privacy: "Política de privacidade", privacyPath: "/privacidade/", close: "Fechar",
     error: "Não foi possível salvar sua escolha neste navegador. A medição está bloqueada nesta página.",
   },
   en: {
     title: "Site analytics",
-    text: "We use Google Analytics cookies to understand site visits and WhatsApp clicks. You can accept or decline this measurement.",
+    text: "We use Google Analytics cookies to understand visits and WhatsApp clicks on the homepages and the website development, landing page development, international career and AI training pages. You can accept or decline this measurement.",
     accept: "Accept analytics", reject: "Decline", preferences: "Cookie preferences",
     privacy: "Privacy policy", privacyPath: "/en/privacy/", close: "Close",
     error: "Your choice could not be saved in this browser. Analytics is blocked on this page.",

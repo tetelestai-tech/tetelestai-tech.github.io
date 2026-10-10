@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build && node scripts/prepare-sites-build.mjs",
     "preview": "vite preview",
-    "test:sites": "node --test tests/sites-worker.test.mjs tests/export-recarga-web.test.mjs tests/service-pages.test.mjs tests/analytics.test.mjs tests/de-role-pages.test.mjs",
+    "test:sites": "node --test tests/sites-worker.test.mjs tests/export-recarga-web.test.mjs tests/service-pages.test.mjs tests/analytics.test.mjs tests/de-role-pages.test.mjs tests/optimized-assets.test.mjs",
     "prepare:recarga": "node scripts/export-recarga-web.mjs"
   },
   "dependencies": {

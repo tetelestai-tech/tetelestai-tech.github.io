@@ -27,13 +27,13 @@ function browser(path = "/", hostname = "tetelestai.tech") {
   return { controller, win, doc, stored, scripts, cookies, timers, events, setNow: value => { now = value; }, get reloads() { return reloads; } };
 }
 
-test("only the four commercial pages and their explicit aliases qualify", () => {
-  for (const path of ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/"]) {
+test("only the six commercial pages and their explicit aliases qualify", () => {
+  for (const path of ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/"]) {
     assert.equal(measurementPath(path), path);
     assert.equal(measurementPath(`${path}index.html`), path);
     if (path !== "/") assert.equal(measurementPath(path.slice(0, -1)), path);
   }
-  for (const path of ["/recarga/", "/privacidade/", "/en/privacy/", "/missing/", "/en//", "/criacao-de-sites/missing/index.html"]) assert.equal(measurementPath(path), null);
+  for (const path of ["/recarga/", "/privacidade/", "/en/privacy/", "/missing/", "/en//", "/criacao-de-sites/missing/index.html", "/carreira-internacional/missing", "/capacitacao-em-ia//"]) assert.equal(measurementPath(path), null);
 });
 
 test("no tracking before acceptance or after refusal; contact clicks are not replayed", () => {
@@ -109,14 +109,14 @@ test("malformed consent and storage failures fail closed", () => {
   b.win.localStorage.setItem = () => { throw Error("denied"); };
   assert.equal(b.controller.choose("accepted"), false);
   assert.equal(b.scripts.length, 0);
-  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 10000 }));
+  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 10000, policyVersion: 2 }));
   b.controller.sync();
   assert.equal(b.scripts.length, 0, "readable but unwritable storage must not enable tracking");
 });
 
 test("returning visitors receive only the remaining consent duration for cookies", () => {
   const b = browser();
-  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 1000 + 3600 * 1000 }));
+  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 1000 + 3600 * 1000, policyVersion: 2 }));
   b.controller.sync();
   const config = b.win.dataLayer.map(v => Array.from(v)).find(v => v[0] === "config")[2];
   assert.equal(config.cookie_expires, 3600);
@@ -153,4 +153,56 @@ test("a changed preference from another tab stops collection", () => {
   b.controller.sync();
   assert.equal(b.win[`ga-disable-${MEASUREMENT_ID}`], true);
   assert.equal(b.reloads, 1);
+});
+
+test("earlier acceptances do not authorize the expanded scope until explicit confirmation", () => {
+  const b = browser("/carreira-internacional/");
+  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 10000 }));
+  b.controller.sync();
+  b.controller.trackWhatsApp();
+  assert.equal(b.controller.choice(), null);
+  assert.equal(b.scripts.length, 0);
+  assert.deepEqual(b.events(), []);
+  assert.equal(b.controller.choose("accepted"), true);
+  assert.equal(JSON.parse(b.stored.get(CONSENT_KEY)).policyVersion, 2);
+  assert.equal(b.scripts.length, 1);
+  assert.deepEqual(b.events().map(e => e[1]), ["page_view"]);
+});
+
+test("earlier refusals remain effective for the rest of their original duration", () => {
+  const b = browser("/capacitacao-em-ia/");
+  const choice = JSON.stringify({ choice: "rejected", expiresAt: 10000 });
+  b.stored.set(CONSENT_KEY, choice);
+  b.controller.sync();
+  b.controller.trackWhatsApp();
+  assert.equal(b.controller.choice(), "rejected");
+  assert.equal(b.stored.get(CONSENT_KEY), choice);
+  assert.equal(b.scripts.length, 0);
+  b.setNow(10000);
+  assert.equal(b.controller.choice(), null);
+});
+
+test("new service pages send only the existing minimal events after acceptance", () => {
+  for (const path of ["/carreira-internacional/", "/capacitacao-em-ia/"]) {
+    const b = browser(path);
+    b.controller.sync();
+    b.controller.trackWhatsApp();
+    assert.deepEqual(b.events(), []);
+    b.controller.choose("accepted");
+    b.controller.trackWhatsApp();
+    assert.deepEqual(b.events().map(e => e[1]), ["page_view", "whatsapp_click"]);
+    assert.equal(b.events()[0][2].page_location, `https://tetelestai.tech${path}`);
+    assert.equal(b.events()[1][2].page_path, path);
+    assert.doesNotMatch(JSON.stringify(b.win.dataLayer), /private-value|556184711930|generate_lead/);
+  }
+});
+
+test("unknown acceptance policy versions cannot enable tracking", () => {
+  for (const policyVersion of [1, 99, "2", null]) {
+    const b = browser();
+    b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 10000, policyVersion }));
+    b.controller.sync();
+    assert.equal(b.scripts.length, 0);
+    assert.equal(b.controller.choice(), null);
+  }
 });

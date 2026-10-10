@@ -1,5 +1,10 @@
 export const SERVICE_PAGES = {
   sites: {
+    homeSection: "solucoes-digitais",
+    category: "Soluções digitais",
+    objectiveTitle: "O que você quer apresentar?",
+    scopeIntro: "Cada projeto parte dos objetivos e das prioridades da empresa. A proposta registra as entregas, as responsabilidades e as condições do trabalho.",
+    showOwnProjects: true,
     path: "/criacao-de-sites/",
     label: "Criação de sites",
     metaTitle: "Criação de sites para empresas | Tetelestai",
@@ -17,12 +22,12 @@ export const SERVICE_PAGES = {
       {
         title: "Explicar seus serviços",
         text:
-          "Dar ao visitante contexto para entender o que sua empresa faz e avaliar se o serviço atende à necessidade dele.",
+          "Dar ao visitante contexto para entender o que sua empresa faz e avaliar se o serviço atende à necessidade dele. As páginas de sites e landing pages da Tetelestai são um exemplo dessa separação por serviço.",
       },
       {
         title: "Organizar o contato",
         text:
-          "Mostrar onde encontrar informações e como conversar com a empresa sobre uma necessidade específica.",
+          "Mostrar onde encontrar informações e como conversar com a empresa sobre uma necessidade específica. Neste site, o contato comercial é feito pelo WhatsApp.",
       },
     ],
     scope: [
@@ -77,6 +82,11 @@ export const SERVICE_PAGES = {
   },
 
   landingPages: {
+    homeSection: "solucoes-digitais",
+    category: "Soluções digitais",
+    objectiveTitle: "O que você quer apresentar?",
+    scopeIntro: "Cada projeto parte dos objetivos e das prioridades da empresa. A proposta registra as entregas, as responsabilidades e as condições do trabalho.",
+    showOwnProjects: true,
     path: "/criacao-de-landing-pages/",
     label: "Criação de landing pages",
     metaTitle: "Criação de landing pages para empresas | Tetelestai",
@@ -89,7 +99,7 @@ export const SERVICE_PAGES = {
       {
         title: "Apresentar uma oferta",
         text:
-          "Explicar um serviço ou produto específico, suas características e as informações necessárias para iniciar o contato.",
+          "Explicar um serviço ou produto específico, suas características e as informações necessárias para iniciar o contato. Esta página reúne a oferta de criação de landing pages e suas condições de escopo.",
       },
       {
         title: "Receber visitantes de uma campanha",
@@ -99,7 +109,7 @@ export const SERVICE_PAGES = {
       {
         title: "Concentrar uma ação",
         text:
-          "Orientar o visitante para um próximo passo definido, como conversar pelo WhatsApp ou solicitar informações.",
+          "Orientar o visitante para um próximo passo definido, como conversar pelo WhatsApp ou solicitar informações. Aqui, a ação proposta é conversar pelo WhatsApp sobre o projeto.",
       },
     ],
     scope: [
@@ -151,5 +161,73 @@ export const SERVICE_PAGES = {
       "Conte o objetivo da página e como pretende divulgá-la. A partir desse contexto, podemos conversar sobre escopo, disponibilidade e condições.",
     ctaLabel: "Falar sobre a landing page",
     relatedKey: "sites",
+  },
+
+  career: {
+    homeSection: "carreira-internacional",
+    category: "Carreira internacional",
+    objectiveTitle: "Qual é o seu objetivo profissional?",
+    scopeIntro: "Cada trabalho começa pelo objetivo profissional e pelo contexto atual. A proposta registra as entregas e as condições da consultoria.",
+    showOwnProjects: false,
+    path: "/carreira-internacional/",
+    label: "Consultoria de carreira internacional",
+    metaTitle: "Consultoria de carreira internacional em tecnologia | Tetelestai",
+    metaDescription: "Orientação para profissionais de tecnologia: currículo em inglês, LinkedIn, adequação a ATS e estratégia de candidatura internacional.",
+    title: "Consultoria de carreira internacional para profissionais de tecnologia",
+    intro: "Orientação estratégica para profissionais de tecnologia que desejam atuar globalmente. Posicionamento profissional com currículo em inglês, LinkedIn, adequação a ATS e estratégia de candidatura.",
+    useCases: [
+      { title: "Organizar o posicionamento profissional", text: "Alinhar a apresentação da trajetória profissional ao objetivo de atuação internacional." },
+      { title: "Apresentar currículo e LinkedIn", text: "Trabalhar a apresentação do currículo em inglês e do LinkedIn, considerando a adequação a ATS no escopo da consultoria." },
+      { title: "Definir uma estratégia de candidatura", text: "Organizar a candidatura de acordo com o objetivo e o contexto profissional informado." },
+    ],
+    scope: [
+      { title: "Objetivo e contexto", text: "Entendimento do objetivo profissional, da trajetória e das restrições relevantes." },
+      { title: "Currículo em inglês e ATS", text: "Definição do trabalho sobre o currículo em inglês e sua adequação a ATS." },
+      { title: "LinkedIn", text: "Orientação sobre o posicionamento e a apresentação do perfil profissional." },
+      { title: "Estratégia de candidatura", text: "Definição dos pontos a trabalhar e dos próximos passos dentro do escopo acordado." },
+    ],
+    faqs: [
+      { q: "Para quem é a consultoria de carreira internacional?", a: "Para profissionais de tecnologia que desejam organizar seu posicionamento e sua candidatura para oportunidades internacionais." },
+      { q: "A consultoria garante entrevistas ou contratação?", a: "Não. Entrevistas e contratação dependem dos processos seletivos e das decisões das empresas. A consultoria trabalha o posicionamento e a estratégia de candidatura." },
+      { q: "A consultoria inclui assessoria jurídica migratória?", a: "Não. A consultoria não oferece assessoria jurídica migratória, serviços de visto ou garantias de imigração." },
+      { q: "O que preciso informar no primeiro contato?", a: "Informe seu objetivo profissional e o contexto da candidatura. Consulte o escopo e as condições antes de enviar materiais; no primeiro contato, não envie currículos completos ou documentos sensíveis." },
+    ],
+    contactTitle: "Conte o seu objetivo profissional",
+    contactText: "Informe o que você pretende trabalhar na sua candidatura internacional e consulte escopo, disponibilidade e condições da consultoria.",
+    ctaLabel: "Falar sobre carreira internacional",
+  },
+
+  aiTraining: {
+    homeSection: "capacitacao-ia",
+    category: "Capacitação em IA",
+    objectiveTitle: "O que você quer desenvolver com IA?",
+    scopeIntro: "A capacitação é sob demanda. Conteúdo e formato são definidos conforme o público, o objetivo e o nível de conhecimento dos participantes.",
+    showOwnProjects: false,
+    path: "/capacitacao-em-ia/",
+    label: "Capacitação em IA",
+    metaTitle: "Capacitação prática em IA para pessoas e empresas | Tetelestai",
+    metaDescription: "Treinamentos em inteligência artificial com conteúdo e formato definidos conforme o público, o objetivo e o nível de conhecimento dos participantes.",
+    title: "Capacitação prática em inteligência artificial",
+    intro: "Treinamentos práticos e aplicados para pessoas e empresas desenvolverem habilidades em IA. Conteúdo e formato ajustados ao público, ao objetivo e ao nível de conhecimento dos participantes.",
+    useCases: [
+      { title: "Desenvolver habilidades em IA", text: "Definir o que você pretende aprender e como esse objetivo orienta a capacitação." },
+      { title: "Capacitar pessoas e equipes", text: "Considerar o público participante e seus conhecimentos atuais ao preparar o treinamento." },
+      { title: "Relacionar conteúdo e objetivo", text: "Organizar o conteúdo conforme a necessidade apresentada na conversa inicial." },
+    ],
+    scope: [
+      { title: "Público e nível", text: "Identificação dos participantes e do nível de conhecimento considerado no treinamento." },
+      { title: "Objetivo e conteúdo", text: "Definição dos temas e das atividades conforme o objetivo informado." },
+      { title: "Formato", text: "Definição do formato e da organização da capacitação no escopo acordado." },
+      { title: "Disponibilidade e condições", text: "Consulta das condições do trabalho antes de confirmar a capacitação." },
+    ],
+    faqs: [
+      { q: "Para quem é a capacitação em IA?", a: "Para pessoas e empresas que desejam desenvolver habilidades práticas em inteligência artificial. O conteúdo é ajustado ao público e ao objetivo." },
+      { q: "Existe um programa fixo de treinamento?", a: "A oferta é sob demanda. Conteúdo e formato são definidos conforme o público, o objetivo e o nível de conhecimento dos participantes." },
+      { q: "Preciso ter experiência anterior com IA?", a: "O nível de conhecimento é considerado na definição do conteúdo. Informe o que você ou sua equipe já conhecem e o que pretendem desenvolver." },
+      { q: "O que devo informar para conversar sobre um treinamento?", a: "Informe quem participará, o objetivo e o nível de conhecimento atual. A partir desse contexto, podemos conversar sobre escopo, disponibilidade e condições." },
+    ],
+    contactTitle: "Conte o objetivo da capacitação",
+    contactText: "Informe o público, o objetivo e o nível de conhecimento dos participantes para conversar sobre uma capacitação em IA sob demanda.",
+    ctaLabel: "Falar sobre capacitação em IA",
   },
 };

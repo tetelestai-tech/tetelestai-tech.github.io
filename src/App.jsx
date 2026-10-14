@@ -15,6 +15,7 @@ import { LEGAL_CONTENT, LEGAL_PATHS, PRIVACY_CONTACT } from "./legal-content.mjs
 import { RECARGA_PAGES, RECARGA_UPDATED } from "./recarga-content.mjs";
 import { DE_ROLE_PAGES, DE_ROLE_UPDATED } from "./de-role-content.mjs";
 import { SERVICE_PAGES } from "./service-content.mjs";
+import { pageStructuredData, serializeStructuredData } from "./structured-data.mjs";
 import { OwnProjects } from "./OwnProjects.jsx";
 import { AnalyticsConsent, AnalyticsPreferencesButton } from "./AnalyticsConsent.jsx";
 import { getAnalytics } from "./analytics.mjs";
@@ -150,6 +151,14 @@ const content = {
         q: "Que tipos de soluções digitais a Tetelestai desenvolve?",
         a: "A Tetelestai desenvolve sites e landing pages, sistemas web, MVPs e automações integradas ao WhatsApp. Aplicativos móveis são avaliados conforme a necessidade e o escopo de cada projeto.",
       },
+      {
+        q: "Como pedir uma proposta para um site ou uma landing page?",
+        a: "Informe o objetivo do projeto, o público, os materiais disponíveis e se já existe domínio, hospedagem ou uma página publicada. O escopo, a disponibilidade e as condições são definidos na proposta.",
+      },
+      {
+        q: "A capacitação em IA tem um programa fixo?",
+        a: "A oferta é sob demanda. Conteúdo e formato são definidos conforme o público, o objetivo e o nível de conhecimento dos participantes.",
+      },
     ],
     contactKicker: "Contato",
     contactTitle: "Vamos conversar sobre o seu objetivo?",
@@ -259,6 +268,14 @@ const content = {
       {
         q: "What types of digital solutions does Tetelestai build?",
         a: "Tetelestai builds websites and landing pages, web systems, MVPs and WhatsApp integrations. Mobile apps are evaluated according to each project’s needs and scope.",
+      },
+      {
+        q: "How do I request a proposal for a website or landing page?",
+        a: "Tell us the project's objective, audience, available materials and whether you already have a domain, hosting or a published page. Scope, availability and conditions are defined in the proposal.",
+      },
+      {
+        q: "Does AI training have a fixed programme?",
+        a: "Training is offered on demand. Content and format are defined according to the audience, objective and participants' knowledge level.",
       },
     ],
     contactKicker: "Contact",
@@ -779,11 +796,21 @@ export function App({ pathname = window.location.pathname }) {
     updateMeta('meta[property="og:title"]', "content", title);
     updateMeta('meta[property="og:description"]', "content", description);
     updateMeta('meta[property="og:url"]', "content", canonicalUrl);
+    updateMeta('meta[property="og:locale"]', "content", locale === "en" ? "en_US" : "pt_BR");
+    updateMeta('meta[property="og:locale:alternate"]', "content", locale === "en" ? "pt_BR" : "en_US");
+    const imageAlt = locale === "en" ? "Tetelestai's original symbol on a navy background." : "Símbolo original da Tetelestai sobre fundo azul-marinho.";
+    updateMeta('meta[property="og:image:alt"]', "content", imageAlt);
+    updateMeta('meta[name="twitter:title"]', "content", title);
+    updateMeta('meta[name="twitter:description"]', "content", description);
+    updateMeta('meta[name="twitter:image:alt"]', "content", imageAlt);
     updateMeta('link[rel="canonical"]', "href", canonicalUrl);
     updateMeta('link[hreflang="pt-BR"]', "href", `https://tetelestai.tech${languagePaths.pt}`);
     updateMeta('link[hreflang="en"]', "href", `https://tetelestai.tech${languagePaths.en}`);
     updateMeta('link[hreflang="x-default"]', "href", `https://tetelestai.tech${languagePaths.pt}`);
-    if (deRole || recarga || service) document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => link.remove());
+    if (deRole || recarga || service) {
+      document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => link.remove());
+      document.querySelector('meta[property="og:locale:alternate"]')?.remove();
+    }
   }, [locale, page, t]);
 
   if (DE_ROLE_PAGES[page]) return <DeRolePage page={page} />;
@@ -791,5 +818,9 @@ export function App({ pathname = window.location.pathname }) {
   const pageView = SERVICE_PAGES[page] ? <ServicePage t={t} page={page} /> :
     LEGAL_PATHS[page] ? <LegalPage t={t} locale={locale} page={page} /> :
     page === "notFound" ? <NotFoundPage t={t} locale={locale} /> : <HomePage t={t} locale={locale} />;
-  return <>{pageView}<AnalyticsConsent locale={locale} pathname={pathname} /></>;
+  const service = SERVICE_PAGES[page];
+  const structuredData = pageStructuredData({
+    page, locale, title: service?.metaTitle ?? t.title, description: service?.metaDescription ?? t.description,
+  });
+  return <>{structuredData && <script type="application/ld+json" id="structured-data" dangerouslySetInnerHTML={{ __html: serializeStructuredData(structuredData) }} />}{pageView}<AnalyticsConsent locale={locale} pathname={pathname} /></>;
 }

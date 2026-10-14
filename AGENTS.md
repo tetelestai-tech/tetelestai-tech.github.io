@@ -50,6 +50,12 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - Update PT/EN privacy notices for the measured pages and reconfirmation, dating that notice separately from unchanged terms and deletion pages.
 - Prepare canonical service links and short presentation texts for review. Social profile changes, external posts and public deployment are separate actions after the final preview review and corresponding authorization.
 
+## SEO and GEO improvements approved on 2026-10-14
+
+- Preserve the approved visual identity, page titles, descriptions, contacts, consent flow and Analytics events. Add only two homepage FAQs, covering proposals for websites/landing pages and on-demand AI training, with corresponding English text.
+- Publish Organization, WebSite and WebPage structured data on the six commercial pages, and Service data on the four PT service pages using their visible introductions. Keep the protected original logo. Do not invent an address, hours, prices, ratings, customers or results; legal and app support pages remain outside this commercial schema.
+- Complete locale-specific sharing metadata with the existing protected sharing image, preserve valid canonical and hreflang relationships, and date the six actually updated sitemap entries with the release date. Test the static HTML and hydrated pages before publication.
+
 ## Charging app design decisions
 
 - For the new iOS charging calculator, the user selected the third concept's layout: a circular battery indicator, minus/plus controls, an editable completion time, side-by-side start time and duration, and a copy-time action.

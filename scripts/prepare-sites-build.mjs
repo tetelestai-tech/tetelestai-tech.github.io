@@ -113,6 +113,15 @@ function buildRouteShell(baseHtml, route) {
   html = replaceMeta(html, "property", "og:title", route.title);
   html = replaceMeta(html, "property", "og:description", route.description);
   html = replaceMeta(html, "property", "og:url", route.canonical);
+  html = replaceMeta(html, "property", "og:locale", route.lang === "en" ? "en_US" : "pt_BR");
+  const imageAlt = route.lang === "en" ? "Tetelestai's original symbol on a navy background." : "Símbolo original da Tetelestai sobre fundo azul-marinho.";
+  html = replaceMeta(html, "property", "og:image:alt", imageAlt);
+  html = replaceMeta(html, "name", "twitter:title", route.title);
+  html = replaceMeta(html, "name", "twitter:description", route.description);
+  html = replaceMeta(html, "name", "twitter:image:alt", imageAlt);
+  html = route.alternatePt
+    ? replaceMeta(html, "property", "og:locale:alternate", route.lang === "en" ? "pt_BR" : "en_US")
+    : html.replace(/\s*<meta property="og:locale:alternate" content="[^"]+" \/>/g, "");
 
   html = route.alternatePt ? html.replace(
     /<link rel="alternate" hreflang="pt-BR" href="[^"]+" \/>\s*<link rel="alternate" hreflang="en" href="[^"]+" \/>\s*<link rel="alternate" hreflang="x-default" href="[^"]+" \/>/,

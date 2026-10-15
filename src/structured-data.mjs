@@ -1,14 +1,18 @@
+import { servicesFor, portfolioFor } from './localized-content.mjs';
 import { SERVICE_PAGES } from "./service-content.mjs";
+
+import { PORTFOLIO_PAGES } from "./portfolio-content.mjs";
 
 const ORIGIN = "https://tetelestai.tech";
 const ORGANIZATION_ID = `${ORIGIN}/#organization`;
 const WEBSITE_ID = `${ORIGIN}/#website`;
 
 export function pageStructuredData({ page, locale, title, description }) {
-  const service = SERVICE_PAGES[page];
-  if (page !== "home" && !service) return null;
+  const service = servicesFor(locale)[page];
+  const portfolioDoc = portfolioFor(locale)[page];
+  if (page !== "home" && !service && !portfolioDoc) return null;
 
-  const url = `${ORIGIN}${service?.path ?? (locale === "en" ? "/en/" : "/")}`;
+  const url = `${ORIGIN}${service?.path ?? portfolioDoc?.path ?? (locale === "en" ? "/en/" : "/")}`;
   const organization = {
     "@type": "Organization",
     "@id": ORGANIZATION_ID,

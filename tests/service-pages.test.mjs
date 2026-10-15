@@ -1,3 +1,4 @@
+import { COMMERCIAL_TRANSLATIONS } from "../src/localized-content.mjs";
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
@@ -105,7 +106,7 @@ for (const page of servicePages) {
       "The initial service content must link to the confirmed WhatsApp address");
   });
 
-  test(`${page.path} has its own indexable Portuguese metadata without a false English alternative`, async () => {
+  test(`${page.path} has its own indexable Portuguese metadata with its equivalent English translation`, async () => {
     const html = await readBuiltHtml(page.path);
     const home = await readBuiltHtml("/");
     assert.equal(attribute(tags(html, "html")[0] ?? "", "lang"), "pt-BR");
@@ -118,9 +119,7 @@ for (const page of servicePages) {
     const links = tags(html, "link");
     assert.deepEqual(links.filter((tag) => attribute(tag, "rel") === "canonical")
       .map((tag) => attribute(tag, "href")), [page.canonical]);
-    assert.ok(!links.some((tag) => attribute(tag, "rel") === "alternate"
-      && /^en(?:-|$)/i.test(attribute(tag, "hreflang") ?? "")),
-    "There is no English translation of this service page");
+    assert.ok(links.some(tag => attribute(tag,"hreflang")==="en" && attribute(tag,"href")===`https://tetelestai.tech${COMMERCIAL_TRANSLATIONS.find(p=>p.pt===page.path).en}`), "Each service has its actual English equivalent");
   });
 
   test(`${page.path} falls back to its own HTML for exact GET and HEAD routes`, async () => {
@@ -158,16 +157,20 @@ test("the Portuguese home exposes all four service links in its initial main con
   }
 });
 
-test("the sitemap lists the two homes and the four service pages exactly once", async () => {
+test("the sitemap lists the homes, service pages and approved portfolio pages exactly once", async () => {
   const sitemap = await readFile(new URL("../dist/client/sitemap.xml", import.meta.url), "utf8");
   const locations = [...sitemap.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/g)].map((match) => match[1]);
   assert.deepEqual(locations.sort(), [
     "https://tetelestai.tech/",
     "https://tetelestai.tech/en/",
+    ...COMMERCIAL_TRANSLATIONS.map(pair=>`https://tetelestai.tech${pair.en}`),
     "https://tetelestai.tech/criacao-de-sites/",
     "https://tetelestai.tech/criacao-de-landing-pages/",
     "https://tetelestai.tech/carreira-internacional/",
     "https://tetelestai.tech/capacitacao-em-ia/",
+    "https://tetelestai.tech/projetos/",
+    "https://tetelestai.tech/projetos/infinity-car-studio/",
+    "https://tetelestai.tech/projetos/bolachinhas-da-vovo-juju/",
   ].sort());
 });
 

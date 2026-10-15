@@ -58,7 +58,7 @@ test("sharing metadata remains specific to the page and the PT/EN content", asyn
     assert.equal(meta(html, "twitter:description"), meta(html, "description"));
     assert.equal(meta(html, "twitter:image"), `${origin}/assets/tetelestai-share.png`);
     assert.equal(meta(html, "twitter:image:alt"), meta(html, "og:image:alt"));
-    assert.equal(meta(html, "og:locale:alternate"), pathname === "/" ? "en_US" : english ? "pt_BR" : undefined);
+    assert.equal(meta(html, "og:locale:alternate"), english ? "pt_BR" : "en_US");
   }
 });
 

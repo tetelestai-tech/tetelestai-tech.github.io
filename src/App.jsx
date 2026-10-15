@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "@fontsource/michroma/400.css";
 import "@fontsource-variable/inter/wght.css";
 import { ArrowLeftIcon } from "@phosphor-icons/react/dist/csr/ArrowLeft";
@@ -17,12 +17,18 @@ import { DE_ROLE_PAGES, DE_ROLE_UPDATED } from "./de-role-content.mjs";
 import { SERVICE_PAGES } from "./service-content.mjs";
 import { pageStructuredData, serializeStructuredData } from "./structured-data.mjs";
 import { OwnProjects } from "./OwnProjects.jsx";
+import { CLIENT_PROJECTS, PORTFOLIO_PAGES } from "./portfolio-content.mjs";
+import { ClientProjects, ProjectScreens } from "./ClientProjects.jsx";
+import { EN_SERVICE_PAGES, EN_PORTFOLIO_PAGES, servicesFor, portfolioFor, equivalentPaths } from "./localized-content.mjs";
+import { InstagramContents } from "./InstagramContents.jsx";
 import { AnalyticsConsent, AnalyticsPreferencesButton } from "./AnalyticsConsent.jsx";
 import { getAnalytics } from "./analytics.mjs";
 
 const WHATSAPP_LINK = "https://wa.me/556184711930";
 
 const ROUTES = {
+  ...Object.fromEntries(Object.entries({...EN_SERVICE_PAGES,...EN_PORTFOLIO_PAGES}).map(([page, entry]) => [entry.path.replace(/\/$/, ""), {locale:"en",page}])),
+  ...Object.fromEntries(Object.entries(PORTFOLIO_PAGES).map(([page, entry]) => [entry.path.replace(/\/$/, ""), {locale: "pt", page}])),
   ...Object.fromEntries(Object.entries(DE_ROLE_PAGES).map(([page, document]) =>
     [document.path.replace(/\/$/, ""), { locale: "pt", page }],
   )),
@@ -50,7 +56,9 @@ function normalizePathname(pathname) {
 }
 
 function resolveRoute(pathname) {
+  if (pathname.startsWith("/projetos/") && pathname.endsWith("//")) return { locale: "pt", page: "notFound" };
   if ((pathname.startsWith("/recarga/") || pathname.startsWith("/de-role/")) && pathname.endsWith("//")) return { locale: "pt", page: "notFound" };
+  if (pathname.startsWith("/en/") && pathname.endsWith("//")) return {locale:"en",page:"notFound"};
   const normalizedPath = normalizePathname(pathname);
   if (ROUTES[normalizedPath]) return ROUTES[normalizedPath];
   return { locale: normalizedPath.startsWith("/en/") ? "en" : "pt", page: "notFound" };
@@ -69,8 +77,11 @@ const content = {
     navLabel: "Navegação principal",
     languageLabel: "Idioma",
     backToTopLabel: "Voltar ao topo",
-    nav: { solutions: "Soluções", method: "Método", about: "Sobre", contact: "Contato" },
+    nav: { solutions: "Soluções", projects: "Projetos", method: "Método", about: "Sobre", contact: "Contato" },
     slogan: "Tecnologia com propósito. Oportunidades sem fronteiras.",
+    heroOffer: "Carreira\u00a0internacional · Soluções\u00a0digitais · Capacitação\u00a0em\u00a0IA",
+    serviceContactLabel: "Conversar sobre este serviço",
+    projectsLinkLabel: "Ver portfólio",
     servicesLabel: "Soluções Tetelestai",
     services: [
       {
@@ -88,7 +99,7 @@ const content = {
         summary:
           "Sites, sistemas e automações de atendimento no WhatsApp para reduzir tarefas manuais e apoiar o crescimento do negócio.",
         detail:
-          "Desenvolvimento de sites e landing pages com design visual sob medida, sistemas web, MVPs, aplicativos móveis e automações integradas ao WhatsApp. O escopo é definido conforme os objetivos e as prioridades de cada projeto.",
+          "Sites e landing pages com design visual sob medida, automação de atendimento no WhatsApp e sistemas ou MVPs com escopo definido conforme cada projeto.",
         cta: "Converse sobre uma solução",
         Icon: CpuIcon,
       },
@@ -97,7 +108,7 @@ const content = {
         title: "Capacitação em IA",
         summary: "Treinamentos práticos e aplicados para pessoas e empresas desenvolverem habilidades em IA.",
         detail:
-          "Conteúdo e formato ajustados ao público, ao objetivo e ao nível de conhecimento dos participantes.",
+          "Treinamentos práticos em IA, com conteúdo e formato ajustados ao público, ao objetivo e ao nível de conhecimento dos participantes.",
         cta: "Conheça os treinamentos",
         Icon: GraduationCapIcon,
       },
@@ -190,8 +201,11 @@ const content = {
     navLabel: "Primary navigation",
     languageLabel: "Language",
     backToTopLabel: "Back to top",
-    nav: { solutions: "Solutions", method: "Method", about: "About", contact: "Contact" },
+    nav: { solutions: "Solutions", projects: "Projects", method: "Method", about: "About", contact: "Contact" },
     slogan: "Technology with purpose. Opportunities without borders.",
+    heroOffer: "International\u00a0careers · Digital\u00a0solutions · AI\u00a0training",
+    serviceContactLabel: "Discuss this service",
+    projectsLinkLabel: "View our portfolio",
     servicesLabel: "Tetelestai solutions",
     services: [
       {
@@ -208,7 +222,7 @@ const content = {
         summary:
           "Websites, systems and WhatsApp customer service automation that reduce manual work and support business growth.",
         detail:
-          "Development of websites and landing pages with tailored visual design, web systems, MVPs, mobile apps and WhatsApp integrations. Scope is defined around each project’s goals and priorities.",
+          "Websites and landing pages with tailored visual design, WhatsApp customer service automation, and systems or MVPs scoped around each project.",
         cta: "Discuss a digital solution",
         Icon: CpuIcon,
       },
@@ -216,7 +230,7 @@ const content = {
         id: "practical-ai",
         title: "Practical AI training",
         summary: "Applied training for people and companies building practical AI capabilities.",
-        detail: "Content and format adapted to the audience, objective and participants’ level of knowledge.",
+        detail: "Practical AI training with content and format adapted to the audience, objective and participants’ level of knowledge.",
         cta: "Explore the training",
         Icon: GraduationCapIcon,
       },
@@ -313,16 +327,29 @@ function Brand({ compact = false }) {
 
 function Header({ t, locale, page }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuToggle = useRef(null);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleEscape = (event) => {
+      if (event.key !== "Escape") return;
+      setMenuOpen(false);
+      menuToggle.current?.focus();
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [menuOpen]);
   const homePath = locale === "en" ? "/en/" : "/";
-  const languagePaths = LEGAL_PATHS[page] ?? { pt: SERVICE_PAGES[page]?.path ?? "/", en: "/en/" };
+  const languagePaths = LEGAL_PATHS[page] ?? equivalentPaths(page);
   const closeMenu = () => setMenuOpen(false);
   const isService = Boolean(SERVICE_PAGES[page]);
+  const isPortfolio = Boolean(PORTFOLIO_PAGES[page]);
 
   return (
     <header className="site-header">
       <div className="site-header__inner">
         <a className="brand-link" href={homePath} aria-label={t.homeLabel}><Brand /></a>
         <button
+          ref={menuToggle}
           className="menu-toggle"
           type="button"
           aria-label={menuOpen ? t.menuClose : t.menuOpen}
@@ -334,13 +361,14 @@ function Header({ t, locale, page }) {
         </button>
         <nav id="primary-navigation" className={`primary-nav ${menuOpen ? "primary-nav--open" : ""}`} aria-label={t.navLabel}>
           <a href={`${homePath}#solutions`} onClick={closeMenu}>{t.nav.solutions}</a>
+          <a href={`${homePath}#projects`} onClick={closeMenu}>{t.nav.projects}</a>
           <a href={isService ? "#method" : `${homePath}#method`} onClick={closeMenu}>{t.nav.method}</a>
           <a href={`${homePath}#about`} onClick={closeMenu}>{t.nav.about}</a>
-          <a href={isService ? "#contact" : `${homePath}#contact`} onClick={closeMenu}>{t.nav.contact}</a>
+          <a href={isService || isPortfolio ? "#contact" : `${homePath}#contact`} onClick={closeMenu}>{t.nav.contact}</a>
           <span className="locale-switch" aria-label={t.languageLabel}>
             <a href={languagePaths.pt} lang="pt-BR" aria-current={locale === "pt" ? "page" : undefined}>PT</a>
             <span aria-hidden="true">|</span>
-            <a href={languagePaths.en} lang="en" title={isService ? "Página inicial em inglês" : undefined} aria-current={locale === "en" ? "page" : undefined}>EN</a>
+            <a href={languagePaths.en} lang="en" title={locale === "pt" ? "Read this page in English" : "English version"} aria-current={locale === "en" ? "page" : undefined}>EN</a>
           </span>
         </nav>
       </div>
@@ -389,27 +417,37 @@ function Footer({ t, locale }) {
   );
 }
 
-function ServicePage({ t, page }) {
-  const service = SERVICE_PAGES[page];
-  const related = SERVICE_PAGES[service.relatedKey];
+function ServicePage({ t, page, locale }) {
+  const service = servicesFor(locale)[page];
+  const related = servicesFor(locale)[service.relatedKey];
+  const english = locale === "en";
+  const homePath = english ? "/en/" : "/";
+  const u = (pt,en) => english ? en : pt;
   return (
     <div className="app-shell service-page">
       <a className="skip-link" href="#main-content">{t.skip}</a>
-      <Header t={t} locale="pt" page={page} />
+      <Header t={t} locale={locale} page={page} />
       <main id="main-content">
         <section id="home" className="service-hero" aria-labelledby="service-title">
           <div className="section-shell">
-            <nav className="service-breadcrumb" aria-label="Caminho da página">
-              <a href="/">Início</a><span aria-hidden="true">/</span><span aria-current="page">{service.label}</span>
+            <nav className="service-breadcrumb" aria-label={u("Caminho da página","Breadcrumb")}>
+              <a href={homePath}>{u("Início","Home")}</a><span aria-hidden="true">/</span><span aria-current="page">{service.label}</span>
             </nav>
             <p className="eyebrow">{service.category}</p>
             <h1 id="service-title">{service.title}</h1>
             <p className="service-hero__intro">{service.intro}</p>
+            <div className="hero-actions service-hero__actions">
+              <a className="button button--primary" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" onClick={() => getAnalytics().trackWhatsApp()}><WhatsappLogoIcon size={21} aria-hidden="true" />{service.ctaLabel}</a>
+              {service.showOwnProjects && <a className="text-link" href="#projects">{u("Ver projetos em destaque","View selected projects")}<ArrowRightIcon size={20} aria-hidden="true" /></a>}
+            </div>
           </div>
         </section>
+        {service.showOwnProjects && <ClientProjects locale={locale}>
+          <BackToTop label={t.backToTopLabel} />
+        </ClientProjects>}
         <section className="service-section" aria-labelledby="use-cases-title">
           <div className="section-shell">
-            <p className="eyebrow">Seu objetivo</p>
+            <p className="eyebrow">{u("Seu objetivo","Your objective")}</p>
             <h2 id="use-cases-title">{service.objectiveTitle}</h2>
             <div className="service-feature-grid">
               {service.useCases.map((item, index) => (
@@ -425,8 +463,8 @@ function ServicePage({ t, page }) {
         <section className="service-section service-section--surface" aria-labelledby="scope-title">
           <div className="section-shell method-section__grid">
             <div>
-              <p className="eyebrow">Escopo do projeto</p>
-              <h2 id="scope-title">O que vamos definir juntos</h2>
+              <p className="eyebrow">{u("Escopo do projeto","Project scope")}</p>
+              <h2 id="scope-title">{u("O que vamos definir juntos","What we will define together")}</h2>
               <p className="section-intro">{service.scopeIntro}</p>
             </div>
             <ul className="method-list">
@@ -448,12 +486,9 @@ function ServicePage({ t, page }) {
           </div>
           <BackToTop label={t.backToTopLabel} />
         </section>
-        {service.showOwnProjects && <OwnProjects>
-          <BackToTop label={t.backToTopLabel} />
-        </OwnProjects>}
         <section className="faq-section" aria-labelledby="faq-title">
           <div className="section-shell faq-section__grid">
-            <div><p className="eyebrow">Perguntas frequentes</p><h2 id="faq-title">Antes de começar</h2></div>
+            <div><p className="eyebrow">{u("Perguntas frequentes","Frequently asked questions")}</p><h2 id="faq-title">{u("Antes de começar","Before we begin")}</h2></div>
             <div className="faq-list">
               {service.faqs.map((faq) => <details key={faq.q}><summary>{faq.q}</summary><p>{faq.a}</p></details>)}
             </div>
@@ -462,7 +497,7 @@ function ServicePage({ t, page }) {
         </section>
         <section id="contact" className="contact-section" aria-labelledby="contact-title">
           <div className="section-shell contact-section__inner">
-            <div><p className="eyebrow">Vamos conversar</p><h2 id="contact-title">{service.contactTitle}</h2><p>{service.contactText}</p></div>
+            <div><p className="eyebrow">{u("Vamos conversar","Let’s talk")}</p><h2 id="contact-title">{service.contactTitle}</h2><p>{service.contactText}</p></div>
             <div className="contact-panel">
               <a className="button button--primary" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" onClick={() => getAnalytics().trackWhatsApp()}><WhatsappLogoIcon size={22} aria-hidden="true" />{service.ctaLabel}</a>
               <p>{t.safety}</p>
@@ -470,14 +505,64 @@ function ServicePage({ t, page }) {
           </div>
           <BackToTop label={t.backToTopLabel} />
         </section>
-        {related && <nav className="section-shell service-related" aria-label="Outro serviço digital">
-          <p>Conheça também</p>
+        {related && <nav className="section-shell service-related" aria-label={u("Outro serviço digital","Related digital service")}>
+          <p>{u("Conheça também","Explore also")}</p>
           <a className="text-link" href={related.path}>{related.label}<ArrowRightIcon size={20} aria-hidden="true" /></a>
         </nav>}
       </main>
-      <Footer t={t} locale="pt" />
+      <Footer t={t} locale={locale} />
     </div>
   );
+}
+
+function PortfolioContact({ t, locale }) {
+  const u = (pt,en) => locale === "en" ? en : pt;
+  return <section id="contact" className="contact-section" aria-labelledby="contact-title">
+    <div className="section-shell contact-section__inner">
+      <div><p className="eyebrow">{u("Seu próximo projeto","Your next project")}</p><h2 id="contact-title">{u("Vamos apresentar o seu negócio?","Shall we present your business?")}</h2><p>{u("Conte o que você precisa comunicar. Vamos conversar sobre o objetivo, o escopo e as condições do seu projeto.","Tell us what you need to communicate. We will discuss your project’s objective, scope and working conditions.")}</p></div>
+      <div className="contact-panel"><a className="button button--primary" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" onClick={() => getAnalytics().trackWhatsApp()}><WhatsappLogoIcon size={22} aria-hidden="true" />{u("Quero um projeto para minha empresa","Discuss a project for my business")}</a><p>{t.safety}</p></div>
+    </div><BackToTop label={t.backToTopLabel} />
+  </section>;
+}
+
+function PortfolioPage({ t, page, locale }) {
+  const pages = portfolioFor(locale);
+  const portfolioDoc = pages[page];
+  const isIndex = page === "portfolio";
+  const project = isIndex ? null : portfolioDoc;
+  const next = project && Object.values(pages).find(item => item.key && item.key !== project.key);
+  const english = locale === "en";
+  const homePath = english ? "/en/" : "/";
+  const u = (pt,en) => english ? en : pt;
+  return <div className="app-shell portfolio-page">
+    <a className="skip-link" href="#main-content">{t.skip}</a>
+    <Header t={t} locale={locale} page={page} />
+    <main id="main-content">
+      <section id="home" className="service-hero portfolio-hero" aria-labelledby="portfolio-title">
+        <div className="section-shell">
+          <nav className="service-breadcrumb" aria-label={u("Caminho da página","Breadcrumb")}><a href={homePath}>{u("Início","Home")}</a><span aria-hidden="true">/</span>{isIndex ? <span aria-current="page">{u("Projetos","Projects")}</span> : <><a href={pages.portfolio.path}>{u("Projetos","Projects")}</a><span aria-hidden="true">/</span><span aria-current="page">{project.name}</span></>}</nav>
+          <p className="eyebrow">{isIndex ? u("Portfólio · Soluções digitais","Portfolio · Digital solutions") : `${project.category} · ${project.type}`}</p>
+          <h1 id="portfolio-title">{isIndex ? <>{u("Sites com identidade.","Websites with identity.")}<br className="portfolio-title-break" /> {u("Aplicativos com propósito.","Apps with purpose.")}</> : project.name}</h1>
+          <p className="service-hero__intro">{isIndex ? u("Conheça os sites desenvolvidos para nossos clientes e o aplicativo iOS publicado na App Store. Cada projeto tem seu contexto, sua identidade e uma experiência pensada para quem usa.","Explore the websites developed for our clients and the iOS app published on the App Store. Each project has its own context, identity and an experience designed for its users.") : project.intro}</p>
+          {project && <ul className="project-tags" aria-label={u("Entregas do projeto","Project deliverables")}>{project.tags.map(tag=><li key={tag}>{tag}</li>)}</ul>}
+          <div className="hero-actions service-hero__actions">
+            {isIndex ? <><a className="button button--primary" href="#projects">{u("Conhecer os projetos de clientes","Explore client projects")}<ArrowRightIcon size={20} aria-hidden="true" /></a><a className="portfolio-own-link" href="#ios-apps">{u("Aplicativos iOS ↓","iOS apps ↓")}</a></> : <><a className="button button--primary" href={project.url} target="_blank" rel="noopener noreferrer">{u("Visitar o site","Visit website (Portuguese)")}<span aria-hidden="true">↗</span></a><a className="text-link" href="#delivery">{u("Ver o que entregamos","Explore the deliverables")}<ArrowRightIcon size={20} aria-hidden="true" /></a></>}
+          </div>
+        </div>
+      </section>
+      {isIndex ? <><ClientProjects locale={locale} showPortfolioLink={false} /><OwnProjects locale={locale}><BackToTop label={t.backToTopLabel} /></OwnProjects><InstagramContents locale={locale} /></> : <>
+        <ProjectScreens project={project} locale={locale} />
+        <section id="delivery" className="service-section case-delivery" aria-labelledby="delivery-title">
+          <div className="section-shell">
+            <div className="case-delivery__intro"><div><p className="eyebrow">{u("O projeto","The project")}</p><h2 id="delivery-title">{u("Apresentação e contato,","Presentation and contact,")}<br />{u("no contexto da marca.","in the brand’s context.")}</h2></div><div><h3>{u("Objetivo do site","Website objective")}</h3><p>{project.objective}</p></div></div>
+            <div className="service-feature-grid">{project.delivery.map((item,index)=><article key={item.title}><span className="service-feature__number" aria-hidden="true">0{index+1}</span><h3>{item.title}</h3><p>{item.text}</p></article>)}</div>
+          </div><BackToTop label={t.backToTopLabel} />
+        </section>
+        <nav className="section-shell case-next" aria-label={u("Outros projetos","Other projects")}><a className="text-link" href={pages.portfolio.path}><ArrowLeftIcon size={20} aria-hidden="true" />{u("Todos os projetos","All projects")}</a><a className="text-link" href={next.path}>{next.name}<ArrowRightIcon size={20} aria-hidden="true" /></a></nav>
+      </>}
+      <PortfolioContact t={t} locale={locale} />
+    </main><Footer t={t} locale={locale} />
+  </div>;
 }
 
 function PrivacyContact({ locale, page }) {
@@ -623,24 +708,44 @@ function HomePage({ t, locale }) {
               <span className="hero__wordmark">TETELESTAI</span>
               <span className="hero__slogan">{t.slogan}</span>
             </h1>
+            <p className="hero__offer">{t.heroOffer}</p>
+            <div className="hero-actions">
+              <a className="button button--primary" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" onClick={() => getAnalytics().trackWhatsApp()}><WhatsappLogoIcon size={21} aria-hidden="true" />{t.whatsappLabel}</a>
+            </div>
           </div>
         </section>
 
-        <section id="solutions" className="service-index" aria-label={t.servicesLabel}>
+        <section id="solutions" className="service-index" aria-labelledby="solutions-title">
+          <div className="section-shell service-index__heading">
+            <p className="eyebrow">{t.solutionsKicker}</p>
+            <h2 id="solutions-title">{t.solutionsTitle}</h2>
+          </div>
           <div className="service-index__inner">
             {t.services.map((service, index) => {
               const Icon = service.Icon;
+              const pages = Object.values(servicesFor(locale)).filter(item => item.homeSection === service.id);
               return (
-                <a className="service-row" href={`#${service.id}`} key={service.id}>
-                  <span className="service-row__number">{String(index + 1).padStart(2, "0")}</span>
-                  <span className="service-row__icon"><Icon size={43} weight="light" aria-hidden="true" /></span>
-                  <span className="service-row__copy"><strong>{service.title}</strong><span>{service.summary}</span></span>
-                  <ArrowRightIcon className="service-row__arrow" size={31} weight="light" aria-hidden="true" />
-                </a>
+                <article id={service.id} className="service-row" key={service.id}>
+                  <span className="service-row__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="service-row__icon"><Icon size={35} weight="light" aria-hidden="true" /></span>
+                  <div className="service-row__copy"><h3>{service.title}</h3><p>{service.detail}</p></div>
+                  <div className="service-row__actions">
+                    {<nav className="service-links" aria-label={`${locale === "en" ? "Details for" : "Detalhes de"} ${service.title}`}>
+                      {pages.map(item => <a className="text-link" key={item.path} href={item.path}>{item.label}<ArrowRightIcon size={19} aria-hidden="true" /></a>)}
+                      {["solucoes-digitais","digital-solutions"].includes(service.id) && <a className="text-link service-project-link" href={portfolioFor(locale).portfolio.path}>{t.projectsLinkLabel}<ArrowRightIcon size={19} aria-hidden="true" /></a>}
+                    </nav>}
+                    <a className="service-contact-link" href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" onClick={() => getAnalytics().trackWhatsApp()}><WhatsappLogoIcon size={19} aria-hidden="true" />{t.serviceContactLabel}</a>
+                  </div>
+                </article>
               );
             })}
           </div>
+          <BackToTop label={t.backToTopLabel} />
         </section>
+
+        <ClientProjects locale={locale} digitalContext />
+
+        <InstagramContents locale={locale} />
 
         <section className="intro-section" aria-labelledby="intro-title">
           <div className="section-shell intro-section__inner">
@@ -653,33 +758,6 @@ function HomePage({ t, locale }) {
               <source type="image/webp" srcSet="/assets/circuit-network.webp" />
               <img src="/assets/circuit-network.png" width="836" height="471" alt="" aria-hidden="true" />
             </picture>
-          </div>
-          <BackToTop label={t.backToTopLabel} />
-        </section>
-
-        <section className="solutions-detail" aria-labelledby="solutions-title">
-          <div className="section-shell">
-            <p className="eyebrow">{t.solutionsKicker}</p>
-            <h2 id="solutions-title">{t.solutionsTitle}</h2>
-            <div className="solution-grid">
-              {t.services.map((service, index) => {
-                const Icon = service.Icon;
-                return (
-                  <article id={service.id} className="solution-card" key={service.id}>
-                    <span className="solution-card__index">0{index + 1}</span>
-                    <Icon size={38} weight="light" aria-hidden="true" />
-                    <h3>{service.title}</h3>
-                    <p>{service.detail}</p>
-                    {locale === "pt" && (
-                      <nav className="service-links" aria-label={`Serviços de ${service.title}`}>
-                        {Object.values(SERVICE_PAGES).filter(item => item.homeSection === service.id).map((item) => <a className="text-link" key={item.path} href={item.path}>{item.label}<ArrowRightIcon size={19} aria-hidden="true" /></a>)}
-                      </nav>
-                    )}
-                    <a className="text-link" href="#contact">{service.cta}<ArrowRightIcon size={19} aria-hidden="true" /></a>
-                  </article>
-                );
-              })}
-            </div>
           </div>
           <BackToTop label={t.backToTopLabel} />
         </section>
@@ -777,16 +855,17 @@ export function App({ pathname = window.location.pathname }) {
   const t = content[locale];
 
   useEffect(() => {
-    const service = SERVICE_PAGES[page];
+    const service = servicesFor(locale)[page];
     const recarga = RECARGA_PAGES[page];
     const deRole = DE_ROLE_PAGES[page];
     const legal = deRole ?? recarga ?? (LEGAL_PATHS[page] ? LEGAL_CONTENT[locale][page] : null);
-    const pageContent = service ?? legal;
+    const portfolioDoc = portfolioFor(locale)[page];
+    const pageContent = service ?? portfolioDoc ?? legal;
     const isNotFound = page === "notFound";
     const title = pageContent ? pageContent.metaTitle : isNotFound ? t.notFound.metaTitle : t.title;
     const description = pageContent ? pageContent.metaDescription : isNotFound ? t.notFound.text : t.description;
-    const languagePaths = LEGAL_PATHS[page] ?? { pt: "/", en: "/en/" };
-    const canonicalPath = service?.path ?? deRole?.path ?? recarga?.path ?? languagePaths[locale];
+    const languagePaths = LEGAL_PATHS[page] ?? equivalentPaths(page);
+    const canonicalPath = service?.path ?? portfolioDoc?.path ?? deRole?.path ?? recarga?.path ?? languagePaths[locale];
     const canonicalUrl = `https://tetelestai.tech${canonicalPath}`;
 
     document.documentElement.lang = t.lang;
@@ -807,7 +886,7 @@ export function App({ pathname = window.location.pathname }) {
     updateMeta('link[hreflang="pt-BR"]', "href", `https://tetelestai.tech${languagePaths.pt}`);
     updateMeta('link[hreflang="en"]', "href", `https://tetelestai.tech${languagePaths.en}`);
     updateMeta('link[hreflang="x-default"]', "href", `https://tetelestai.tech${languagePaths.pt}`);
-    if (deRole || recarga || service) {
+    if (deRole || recarga) {
       document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => link.remove());
       document.querySelector('meta[property="og:locale:alternate"]')?.remove();
     }
@@ -815,10 +894,10 @@ export function App({ pathname = window.location.pathname }) {
 
   if (DE_ROLE_PAGES[page]) return <DeRolePage page={page} />;
   if (RECARGA_PAGES[page]) return <RecargaPage page={page} />;
-  const pageView = SERVICE_PAGES[page] ? <ServicePage t={t} page={page} /> :
+  const pageView = PORTFOLIO_PAGES[page] ? <PortfolioPage t={t} page={page} locale={locale} /> : SERVICE_PAGES[page] ? <ServicePage t={t} page={page} locale={locale} /> :
     LEGAL_PATHS[page] ? <LegalPage t={t} locale={locale} page={page} /> :
     page === "notFound" ? <NotFoundPage t={t} locale={locale} /> : <HomePage t={t} locale={locale} />;
-  const service = SERVICE_PAGES[page];
+  const service = servicesFor(locale)[page] ?? portfolioFor(locale)[page];
   const structuredData = pageStructuredData({
     page, locale, title: service?.metaTitle ?? t.title, description: service?.metaDescription ?? t.description,
   });

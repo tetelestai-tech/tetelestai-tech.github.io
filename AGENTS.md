@@ -20,7 +20,7 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - Carlos Viegas is the technical lead; Gabriela Rosa leads marketing and social media.
 - Do not state a number of years of experience unless Carlos confirms it.
 - Do not label the conversion path as scheduling while the only available action is direct WhatsApp contact.
-- The hero has no CTA; the WhatsApp button in the contact section is the primary conversion path.
+- Visual preview authorized on 2026-10-14 and refined after banner review: preserve the centered branded hero and slogan. Use the concise line `Carreira internacional · Soluções digitais · Capacitação em IA` and its English counterpart, with more spacing around the brand and slogan, a quieter circuit background, and only the WhatsApp button with reduced glow. Remove the secondary solutions shortcut from the home hero. This supersedes the previous no-CTA hero and the first preview's long offer paragraph/two-action layout. Publication requires review of the local preview.
 - Confirmed company WhatsApp (2026-09-08): `+55 61 98471-1930`; use `https://wa.me/556184711930`. The user verified that the conversation link must omit the additional mobile digit; preserve the full company phone number elsewhere. Updating this link does not connect the Chatwoot/n8n automation to WhatsApp.
 - On desktop, place back-to-top links after the circuit introduction, after the detailed solution cards, and at the end of method, about, FAQ and contact.
 - Keep every back-to-top control borderless and visually quiet: use the same muted-gray arrow at rest while preserving its `44 × 44 px` target, visible keyboard focus, and equal spacing above and below each desktop control.
@@ -72,3 +72,58 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - Keep /de-role/suporte/ public, prerendered and noindex,nofollow, using the existing app support template. It must remain outside Analytics eligibility and sitemap. Add only its exact GET/HEAD fallback, preserving strict unknown-route behavior.
 - Preserve the general PT/EN policy and append the De Rolê scope. Support emails are for voluntary support only, not marketing or tracking. The chosen initial operation does not export or retain individual Apple usage/diagnostic records; any later operational change requires reviewing the policy and App Privacy declaration.
 - Do not put the native app, IPA, Apple credentials, receipts or tester data in this website repository.
+
+## Visual preview authorized on 2026-10-14
+
+- Consolidate repeated homepage service presentations into one section of horizontal rows with balanced copy, separate service-detail links and explicit WhatsApp contact. Preserve all four PT service destinations and the three business fronts.
+- Move the existing own-project section directly after the hero on the two digital service pages, with larger image previews and a hero shortcut. Keep the own-project and app-test status labels; do not invent client cases or apply these projects to career or AI training pages.
+- Keep the navy/cyan identity, protected symbol, Michroma and Inter, slogan, metadata, consent and existing Analytics events. Fix small-screen horizontal overflow at its source and close the navigation with Escape, returning focus to the toggle.
+- These changes are a local review preview. Do not deploy externally until the user reviews and authorizes publication.
+
+## Client portfolio preview authorized on 2026-10-14
+
+- The user authorized local presentation of Infinity Car Studio and Bolachinhas da Vovó Juju as client projects. Use actual site captures, preserve each client's identity and describe verified site features. Do not invent sales, conversion, traffic, testimonials or other outcomes.
+- Digital service pages feature those two client projects near the hero. Add the central PT portfolio at `/projetos/` and individual presentations at `/projetos/infinity-car-studio/` and `/projetos/bolachinhas-da-vovo-juju/`. Expose Projects navigation with a clear Portuguese destination from EN; do not invent English case translations.
+- Present the Tetelestai site and Recarga separately under own projects on the portfolio page. Do not imply that digital client sites demonstrate career or AI-training results. Add later clients only after delivery and approval; no empty coming-soon cards.
+- Preserve the refined home hero, navy/cyan brand, original symbol, fonts, existing service facts, legal copy and consent behavior. Extend exact routes, prerendering, self-canonical metadata, structured WebPage data and sitemap to the three portfolio pages. Keep Analytics limited to the existing six approved pages; do not expand tracking in this preview.
+- Verified public destinations: `https://infinitycarstudio.com.br/` (WhatsApp contact) and `https://bolachinhadavovojuju.com.br/` (Instagram contact). Keep TETELESTAI's own inquiry links pointed at its approved WhatsApp, not client contacts.
+- This remains a local preview. No deployment until the user reviews and authorizes publication.
+
+## Portfolio navigation refinement authorized on 2026-10-14
+
+- The Projects header link follows the homepage-anchor navigation: `/#projects` in PT and `/en/#projects` in EN. The PT/EN homepages now include the two verified client cards after the services, explicitly labeled as digital solutions. This supersedes the earlier direct-to-portfolio header destination and the former exclusion of a digital project section from the homepage.
+- Opening the full portfolio or an individual case remains a deliberate click from the cards or full-portfolio link. Keep the standalone portfolio and case pages. Do not show own products or imply career/training outcomes in the homepage client section.
+- Localize the homepage project presentation for EN; case and full-portfolio pages remain Portuguese, with a descriptive destination title on English links. Preserve canonical and hreflang rules.
+- On `/projetos/`, emphasize `Conhecer os projetos de clientes` as the primary solid-cyan button linking to `#projects`. Keep own projects as the quieter secondary action. Preserve the approved home hero and its single WhatsApp button.
+- Continue local preview only until human publication approval.
+
+
+## Published iOS app portfolio approved on 2026-10-14
+
+- Superseding the own-project presentation above, remove the institutional website card and present `Tetelestai: Tempo de Recarga` under `Aplicativos iOS`, without own-project labels or implied client ownership. The public App Store listing confirms the name and availability: https://apps.apple.com/br/app/tetelestai-tempo-de-recarga/id6815378368.
+- Replace outdated TestFlight/pending-review copy with App Store availability. Retain factual app functionality and actual screenshots; do not claim downloads, ratings or commercial results.
+- Include a locally generated QR code with an unmodified App Store destination and a direct accessible download button. Keep quiet-zone margins and high contrast; do not use an external QR tracking/redirect service.
+- The portfolio opening and links now include iOS apps; preserve the strong client-project CTA and homepage-anchor Projects navigation. Preview only, publication still pending review.
+
+## Instagram content preview authorized on 2026-10-15
+
+- Add `Conteúdos no Instagram` after the homepage client section (PT/EN) and after the iOS app section on the full PT portfolio. Keep these editorial contents separate from delivered client projects. No new navigation-menu item or tracking event.
+- User selected Reels `DecE4Orp25n` and `Dec2uGYp463` as remixes and `DeeuzhYJ-_i` as original, all on `ia.napratica.videos` in collaboration with `tetelestai.tech`.
+- For the first two, create original typographic covers using approved navy/cyan branding, fonts and protected original symbol. Do not copy frames, faces, video files or thumbnail images from those remixes. Link to the exact user-supplied Reel URLs.
+- Audio credits observed on Instagram: `jose_e_mariaa3` for `DecE4Orp25n` (also tagged), `soueusebastian` for `Dec2uGYp463`. Label these specifically as audio credits, not independently verified video ownership. Preserve original audio links so visitors can inspect the attribution.
+- User explicitly confirmed original ownership and authorized the published cover for `DeeuzhYJ-_i`. Use that cover proportionally without cropping; label as original AI content and credit the production. Only this cover is locally saved from Instagram.
+- Load no Instagram embed scripts, pixels, video files or external images. All cards open Instagram only after a deliberate click. Keep consent, Analytics, legal copy, approved home hero and earlier portfolio improvements unchanged. Local preview only until final publication approval.
+
+
+## Full English navigation approved on 2026-10-15
+
+- Superseding the former PT-only service/portfolio restriction, the user approved full English versions of all four service pages, portfolio index and both client case pages. Use `/en/website-development/`, `/en/landing-pages/`, `/en/international-career/`, `/en/ai-training/`, `/en/projects/`, `/en/projects/infinity-car-studio/`, `/en/projects/bolachinhas-da-vovo-juju/`.
+- Restore the four service shortcuts and the portfolio shortcut on the English homepage. Internal English links, breadcrumbs, related service/case links and header anchors stay within English. PT/EN selects the equivalent page in either direction.
+- Translate all template labels, case descriptions, app presentation, accessible names and metadata. Preserve the original company/product names, screenshots, QR destination and factual scope. The external client websites and selected Instagram videos are Portuguese; make that clear rather than implying they have English versions.
+- Publish self-canonical and reciprocal PT/EN hreflang in prerendered and hydrated HTML, localized structured data, exact GET/HEAD route fallbacks and the 16-page commercial sitemap. Unknown or malformed routes still return 404.
+- English translations do not expand the existing six-page Analytics allowlist; preserve consent, policies and events. Preserve the approved visual identity and all earlier previews. Local preview only; no publication until review and authorization.
+
+## Production release authorized on 2026-10-15
+
+- The user reviewed the previews and explicitly authorized publishing all approved visual improvements, client portfolio, published iOS app with download QR code, Instagram section and seven English translations to https://tetelestai.tech/. This authorization supersedes the preview-only publication gates above for this release.
+- Use the existing GitHub Pages repository and preserve unrelated files, existing contacts, consent, Analytics eligibility and legal/support pages. Verify the deployed pages, assets, navigation and equivalent PT/EN selectors after deployment.

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { EN_SERVICE_PAGES, EN_PORTFOLIO_PAGES, equivalentPaths } from "../src/localized-content.mjs";
 import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { createElement } from "react";
@@ -10,6 +11,8 @@ import { DE_ROLE_PAGES } from "../src/de-role-content.mjs";
 import { SERVICE_PAGES } from "../src/service-content.mjs";
 import { fileURLToPath } from "node:url";
 import { verifyRecargaWeb } from "./verify-recarga-web.mjs";
+
+import { PORTFOLIO_PAGES } from "../src/portfolio-content.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
@@ -24,7 +27,24 @@ for (const file of [index, worker, hosting]) {
 verifyRecargaWeb(path.join(root, "public", "recarga"));
 verifyRecargaWeb(path.join(dist, "client", "recarga"));
 
+const translatedShell = (page, lang) => ({
+  output: `${page.path.slice(1)}index.html`, pathname:page.path, lang,
+  title:page.metaTitle, description:page.metaDescription,
+  canonical:`https://tetelestai.tech${page.path}`, robots:"index,follow",
+});
+const translatedRoutes = Object.entries({...EN_SERVICE_PAGES,...EN_PORTFOLIO_PAGES}).map(([key,page]) => ({
+  ...translatedShell(page,"en"),
+  alternatePt:`https://tetelestai.tech${equivalentPaths(key).pt}`,
+  alternateEn:`https://tetelestai.tech${page.path}`,
+}));
 const routeShells = [
+  ...translatedRoutes,
+  ...Object.entries(PORTFOLIO_PAGES).map(([key,page]) => ({
+    alternatePt:`https://tetelestai.tech${page.path}`, alternateEn:`https://tetelestai.tech${equivalentPaths(key).en}`,
+    output: `${page.path.slice(1)}index.html`, pathname: page.path, lang: "pt-BR",
+    title: page.metaTitle, description: page.metaDescription,
+    canonical: `https://tetelestai.tech${page.path}`, robots: "index,follow",
+  })),
   ...Object.values(DE_ROLE_PAGES).map(page => ({
     output: `${page.path.slice(1)}index.html`,
     pathname: page.path,
@@ -34,7 +54,8 @@ const routeShells = [
     canonical: `https://tetelestai.tech${page.path}`,
     robots: "noindex,nofollow",
   })),
-  ...Object.values(SERVICE_PAGES).map((page) => ({
+  ...Object.entries(SERVICE_PAGES).map(([key,page]) => ({
+    alternatePt:`https://tetelestai.tech${page.path}`, alternateEn:`https://tetelestai.tech${equivalentPaths(key).en}`,
     output: `${page.path.slice(1)}index.html`,
     pathname: page.path,
     lang: "pt-BR",

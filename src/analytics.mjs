@@ -1,10 +1,10 @@
 export const MEASUREMENT_ID = "G-VKJKP1MBYF";
 export const CONSENT_KEY = "tetelestai:analytics-consent:v1";
-export const CONSENT_POLICY_VERSION = 2;
+export const CONSENT_POLICY_VERSION = 3;
 export const CONSENT_DURATION = 180 * 24 * 60 * 60 * 1000;
 export const PREFERENCES_EVENT = "tetelestai:cookie-preferences";
 
-const PAGE_PATHS = ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/"];
+const PAGE_PATHS = ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/", "/projetos/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/", "/en/website-development/", "/en/landing-pages/", "/en/international-career/", "/en/ai-training/", "/en/projects/", "/en/projects/infinity-car-studio/", "/en/projects/bolachinhas-da-vovo-juju/"];
 
 export function measurementPath(pathname) {
   return PAGE_PATHS.find(path => pathname === path || pathname === `${path}index.html` ||
@@ -72,6 +72,7 @@ export function createAnalyticsController(win, doc, now = Date.now) {
       page_location: `https://tetelestai.tech${path}`,
       page_referrer: referrerOrigin(doc.referrer),
       page_title: doc.title,
+      site_language: path.startsWith("/en/") ? "en" : "pt",
     };
   }
 
@@ -144,12 +145,23 @@ export function createAnalyticsController(win, doc, now = Date.now) {
     if (!started || blocked || !path || record()?.choice !== "accepted") return;
     win.gtag("event", "whatsapp_click", {
       ...context(path), send_to: MEASUREMENT_ID,
-      page_path: path, site_language: path === "/en/" ? "en" : "pt",
+      page_path: path, site_language: path.startsWith("/en/") ? "en" : "pt",
       contact_placement: "contact_section",
     });
   }
 
-  return { choice: () => record()?.choice ?? null, choose, sync, trackWhatsApp };
+  function trackAppStore(placement) {
+    if (!["button", "qr_link"].includes(placement)) return;
+    sync();
+    const path = measurementPath(win.location.pathname);
+    if (!started || blocked || !path || record()?.choice !== "accepted") return;
+    win.gtag("event", "app_store_click", {
+      ...context(path), send_to: MEASUREMENT_ID, page_path: path,
+      app_id: "6815378368", link_placement: placement,
+    });
+  }
+
+  return { choice: () => record()?.choice ?? null, choose, sync, trackWhatsApp, trackAppStore };
 }
 
 let browserController;

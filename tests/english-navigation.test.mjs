@@ -35,7 +35,7 @@ test('English home restores service shortcuts and every translated page preserve
         assert.ok(!links.some(a=>a.includes(`href="${target}"`)&&!a.includes('lang="pt-BR"')),`Unexpected PT link ${target} on ${en}`);
       }
       assert.ok(!/Conhecer o projeto|Ver portfólio completo|Página inicial em inglês|Antes de começar/.test(english));
-      assert.equal(measurementPath(en),null,'translation must not expand approved tracking');
+      assert.equal(measurementPath(en),en,'approved English pages are eligible only through consent');
     }
   } finally { await server.close(); }
 });

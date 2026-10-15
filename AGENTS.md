@@ -127,3 +127,12 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 
 - The user reviewed the previews and explicitly authorized publishing all approved visual improvements, client portfolio, published iOS app with download QR code, Instagram section and seven English translations to https://tetelestai.tech/. This authorization supersedes the preview-only publication gates above for this release.
 - Use the existing GitHub Pages repository and preserve unrelated files, existing contacts, consent, Analytics eligibility and legal/support pages. Verify the deployed pages, assets, navigation and equivalent PT/EN selectors after deployment.
+
+
+## Measurement expansion approved on 2026-10-15
+
+- Following the separate read-only diagnosis, the user approved measuring all 16 commercial PT/EN pages, portfolio/project views and App Store link clicks. This supersedes the former six-page Analytics scope only for the listed commercial pages; legal, Recarga and app support pages remain excluded.
+- Preserve measurement ID G-VKJKP1MBYF, 180-day fixed consent expiry, fail-closed storage, withdrawal and existing refusals. Consent policy version 3 requires renewed acceptance of the expanded scope. Update both privacy notices and banners; preserve unrelated app policies and terms.
+- Record app_store_click only after consent, with bounded button/qr_link placement, page, site_language and app_id 6815378368. A click is not a download, install, sale or lead. Scanning a QR code with another device does not trigger a website click.
+- Use the exact App Store Connect campaign links generated in the authenticated TETELESTAI account for site_tetelestai_botao and site_tetelestai_qr, with provider token 129504047. Preserve the protected brand and generate the QR locally with quiet-zone margins; verify its decoded destination at rendered sizes.
+- The user authorized publication and GA4/Search Console configuration for this package. Preserve the existing 14-month retention, test comparison and disabled enhanced measurement. Verify new event receipt and distinguish sitemap submission, processing, indexability and indexing.

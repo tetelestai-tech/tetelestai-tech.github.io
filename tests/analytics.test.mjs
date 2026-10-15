@@ -27,8 +27,8 @@ function browser(path = "/", hostname = "tetelestai.tech") {
   return { controller, win, doc, stored, scripts, cookies, timers, events, setNow: value => { now = value; }, get reloads() { return reloads; } };
 }
 
-test("only the six commercial pages and their explicit aliases qualify", () => {
-  for (const path of ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/"]) {
+test("only the sixteen commercial pages and their explicit aliases qualify", () => {
+  for (const path of ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/", "/projetos/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/", "/en/website-development/", "/en/landing-pages/", "/en/international-career/", "/en/ai-training/", "/en/projects/", "/en/projects/infinity-car-studio/", "/en/projects/bolachinhas-da-vovo-juju/"]) {
     assert.equal(measurementPath(path), path);
     assert.equal(measurementPath(`${path}index.html`), path);
     if (path !== "/") assert.equal(measurementPath(path.slice(0, -1)), path);
@@ -109,14 +109,14 @@ test("malformed consent and storage failures fail closed", () => {
   b.win.localStorage.setItem = () => { throw Error("denied"); };
   assert.equal(b.controller.choose("accepted"), false);
   assert.equal(b.scripts.length, 0);
-  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 10000, policyVersion: 2 }));
+  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 10000, policyVersion: 3 }));
   b.controller.sync();
   assert.equal(b.scripts.length, 0, "readable but unwritable storage must not enable tracking");
 });
 
 test("returning visitors receive only the remaining consent duration for cookies", () => {
   const b = browser();
-  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 1000 + 3600 * 1000, policyVersion: 2 }));
+  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 1000 + 3600 * 1000, policyVersion: 3 }));
   b.controller.sync();
   const config = b.win.dataLayer.map(v => Array.from(v)).find(v => v[0] === "config")[2];
   assert.equal(config.cookie_expires, 3600);
@@ -164,7 +164,7 @@ test("earlier acceptances do not authorize the expanded scope until explicit con
   assert.equal(b.scripts.length, 0);
   assert.deepEqual(b.events(), []);
   assert.equal(b.controller.choose("accepted"), true);
-  assert.equal(JSON.parse(b.stored.get(CONSENT_KEY)).policyVersion, 2);
+  assert.equal(JSON.parse(b.stored.get(CONSENT_KEY)).policyVersion, 3);
   assert.equal(b.scripts.length, 1);
   assert.deepEqual(b.events().map(e => e[1]), ["page_view"]);
 });
@@ -198,11 +198,44 @@ test("new service pages send only the existing minimal events after acceptance",
 });
 
 test("unknown acceptance policy versions cannot enable tracking", () => {
-  for (const policyVersion of [1, 99, "2", null]) {
+  for (const policyVersion of [1, 2, 99, "3", null]) {
     const b = browser();
     b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 10000, policyVersion }));
     b.controller.sync();
     assert.equal(b.scripts.length, 0);
     assert.equal(b.controller.choice(), null);
+  }
+});
+
+
+test("App Store clicks require consent, have bounded parameters and never imply an install", () => {
+  const b = browser("/en/projects/");
+  b.controller.trackAppStore?.("button");
+  assert.deepEqual(b.events(), []);
+  b.controller.choose("accepted");
+  assert.equal(typeof b.controller.trackAppStore, "function");
+  b.controller.trackAppStore("button");
+  b.controller.trackAppStore("qr_link");
+  b.controller.trackAppStore("private arbitrary value");
+  const app = b.events().filter(e => e[1] === "app_store_click");
+  assert.equal(app.length, 2);
+  assert.deepEqual(app.map(e => e[2].link_placement), ["button", "qr_link"]);
+  assert.ok(app.every(e => e[2].site_language === "en" && e[2].page_path === "/en/projects/"));
+  assert.ok(app.every(e => e[2].app_id === "6815378368"));
+  assert.doesNotMatch(JSON.stringify(b.win.dataLayer), /private arbitrary|first_open|file_download|app_install|private-value/);
+  b.controller.choose("rejected");
+  b.controller.trackAppStore("button");
+  assert.deepEqual(b.events(), []);
+});
+
+test("old v2 consent needs reconfirmation while old refusal keeps its expiry", () => {
+  for (const choice of ["accepted", "rejected"]) {
+    const b = browser("/projetos/");
+    const record = JSON.stringify({choice, expiresAt:10000, policyVersion:2});
+    b.stored.set(CONSENT_KEY, record);
+    b.controller.sync();
+    assert.equal(b.scripts.length, 0);
+    assert.equal(b.controller.choice(), choice === "rejected" ? "rejected" : null);
+    assert.equal(b.stored.get(CONSENT_KEY), record);
   }
 });

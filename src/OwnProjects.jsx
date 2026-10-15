@@ -1,3 +1,5 @@
+import { APP_STORE_LINKS } from "./app-store-links.mjs";
+import { getAnalytics } from "./analytics.mjs";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/csr/ArrowRight";
 
 export function OwnProjects({ children, locale = "pt" }) {
@@ -16,10 +18,10 @@ export function OwnProjects({ children, locale = "pt" }) {
             <p>{u("Aplicativo para planejar a recarga do veículo, estimando a duração e o horário de início com base em uma carga observada. Permite salvar perfis de carro e carregador e registrar o histórico no próprio aparelho.","An app for planning vehicle charging, estimating its duration and start time based on an observed charge. Users can save vehicle and charger profiles and keep a history on their device.")}</p>
             <p className="project__status"><strong>{u("Disponível na App Store","Available on the App Store")}</strong>{u("Planejamento de recarga para veículos elétricos e híbridos plug-in, com perfis e histórico no aparelho.","Charging planning for electric vehicles and plug-in hybrids, with profiles and history stored on the device.")}</p>
             <div className="app-download">
-              <a className="app-download__qr" href="https://apps.apple.com/br/app/tetelestai-tempo-de-recarga/id6815378368" target="_blank" rel="noopener noreferrer" aria-label={u("Abrir Tetelestai: Tempo de Recarga na App Store","Open Tetelestai: Tempo de Recarga on the App Store")}>
+              <a className="app-download__qr" onClick={() => getAnalytics().trackAppStore("qr_link")} href={APP_STORE_LINKS.qr} target="_blank" rel="noopener noreferrer" aria-label={u("Abrir Tetelestai: Tempo de Recarga na App Store","Open Tetelestai: Tempo de Recarga on the App Store")}>
                 <img src="/assets/projects/recarga-app-store-qr.png" width="196" height="196" loading="lazy" decoding="async" alt={u("QR code para baixar Tetelestai: Tempo de Recarga na App Store.","QR code to download Tetelestai: Tempo de Recarga from the App Store.")} />
               </a>
-              <div className="app-download__copy"><p>{u("Leia o QR code com a câmera do iPhone ou acesse pelo botão.","Scan the QR code with your iPhone camera or use the button.")}</p><a className="button button--primary" href="https://apps.apple.com/br/app/tetelestai-tempo-de-recarga/id6815378368" target="_blank" rel="noopener noreferrer">{u("Baixar na App Store","Download on the App Store")}<ArrowRightIcon size={20} aria-hidden="true" /></a></div>
+              <div className="app-download__copy"><p>{u("Leia o QR code com a câmera do iPhone ou acesse pelo botão.","Scan the QR code with your iPhone camera or use the button.")}</p><a className="button button--primary" onClick={() => getAnalytics().trackAppStore("button")} href={APP_STORE_LINKS.button} target="_blank" rel="noopener noreferrer">{u("Baixar na App Store","Download on the App Store")}<ArrowRightIcon size={20} aria-hidden="true" /></a></div>
             </div>
           </div>
           <figure className="project__preview project__preview--app">

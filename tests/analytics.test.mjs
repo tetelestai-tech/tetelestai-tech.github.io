@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createAnalyticsController, CONSENT_KEY, CONSENT_DURATION, MEASUREMENT_ID, measurementPath } from "../src/analytics.mjs";
 
-function browser(path = "/", hostname = "tetelestai.tech") {
+function browser(path = "/", hostname = "tetelestai.tech", search = "") {
   let now = 1000;
   const stored = new Map();
   const scripts = [];
@@ -10,7 +10,7 @@ function browser(path = "/", hostname = "tetelestai.tech") {
   const timers = new Map();
   let reloads = 0;
   const win = {
-    location: { pathname: path, hostname, reload() { reloads++; } },
+    location: { pathname: path, hostname, search, reload() { reloads++; } },
     localStorage: { getItem: k => stored.get(k) ?? null, setItem: (k, v) => stored.set(k, v), removeItem: k => stored.delete(k) },
     setTimeout: fn => { const id = timers.size + 1; timers.set(id, fn); return id; },
     clearTimeout: id => timers.delete(id),
@@ -34,6 +34,75 @@ test("only the sixteen commercial pages and their explicit aliases qualify", () 
     if (path !== "/") assert.equal(measurementPath(path.slice(0, -1)), path);
   }
   for (const path of ["/recarga/", "/privacidade/", "/en/privacy/", "/missing/", "/en//", "/criacao-de-sites/missing/index.html", "/carreira-internacional/missing", "/capacitacao-em-ia//"]) assert.equal(measurementPath(path), null);
+});
+
+test("test link marks the first view and every click without overriding consent", () => {
+  const b = browser("/projetos/", "tetelestai.tech", "?modo_teste=1");
+  b.controller.sync();
+  assert.equal(b.scripts.length, 0);
+  assert.equal(b.stored.get("tetelestai:test-mode:v1"), "1");
+  b.controller.choose("accepted");
+  b.controller.trackWhatsApp();
+  b.controller.trackAppStore("button");
+  b.controller.trackAppStore("qr_link");
+  assert.equal(b.events().length, 4);
+  for (const [, , params] of b.events()) {
+    assert.equal(params.traffic_type, "internal");
+    assert.equal(params.test_mode, "internal");
+    assert.doesNotMatch(params.page_location, /modo_teste/);
+  }
+  const config = b.win.dataLayer.map(v => Array.from(v)).find(v => v[0] === "config")[2];
+  assert.equal(config.traffic_type, "internal");
+});
+
+test("test flag persists across documents and deactivation clears it before the next view", () => {
+  const b = browser("/en/projects/");
+  b.stored.set("tetelestai:test-mode:v1", "1");
+  b.controller.choose("accepted");
+  assert.equal(b.events()[0][2].test_mode, "internal");
+  const consent = b.stored.get(CONSENT_KEY);
+  b.win.location.search = "?modo_teste=0";
+  const next = createAnalyticsController(b.win, b.doc, () => 1000);
+  next.sync();
+  assert.equal(b.win.localStorage.getItem("tetelestai:test-mode:v1"), null);
+  assert.equal(b.events().at(-1)[2].test_mode, "public");
+  assert.equal(b.events().at(-1)[2].traffic_type, "external");
+  assert.equal(b.stored.get(CONSENT_KEY), consent);
+});
+
+test("normal visitors and invalid mode links remain public, refused consent remains refused", () => {
+  for (const search of ["", "?modo_teste=yes", "?modo_teste=1&modo_teste=0"]) {
+    const b = browser("/", "tetelestai.tech", search);
+    b.controller.choose("accepted");
+    assert.equal(b.events()[0][2].test_mode, "public");
+    assert.equal(b.win.localStorage.getItem("tetelestai:test-mode:v1"), null);
+  }
+  const b = browser("/", "tetelestai.tech", "?modo_teste=1");
+  b.controller.choose("rejected");
+  b.controller.trackAppStore("button");
+  assert.equal(b.controller.choice(), "rejected");
+  assert.deepEqual(b.events(), []);
+});
+
+test("a changed mode in another tab stops the previous tag before more events", () => {
+  const b = browser();
+  b.controller.choose("accepted");
+  b.stored.set("tetelestai:test-mode:v1", "1");
+  b.controller.trackAppStore("button");
+  assert.equal(b.reloads, 1);
+  assert.deepEqual(b.events(), []);
+});
+
+test("unreadable test preference blocks analytics rather than silently treating tests as public", () => {
+  const b = browser();
+  const get = b.win.localStorage.getItem;
+  b.win.localStorage.getItem = key => {
+    if (key === "tetelestai:test-mode:v1") throw Error("unavailable");
+    return get(key);
+  };
+  b.controller.choose("accepted");
+  assert.equal(b.scripts.length, 0);
+  assert.deepEqual(b.events(), []);
 });
 
 test("no tracking before acceptance or after refusal; contact clicks are not replayed", () => {

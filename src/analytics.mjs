@@ -3,6 +3,7 @@ export const CONSENT_KEY = "tetelestai:analytics-consent:v1";
 export const CONSENT_POLICY_VERSION = 3;
 export const CONSENT_DURATION = 180 * 24 * 60 * 60 * 1000;
 export const PREFERENCES_EVENT = "tetelestai:cookie-preferences";
+export const TEST_MODE_KEY = "tetelestai:test-mode:v1";
 
 const PAGE_PATHS = ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/", "/projetos/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/", "/en/website-development/", "/en/landing-pages/", "/en/international-career/", "/en/ai-training/", "/en/projects/", "/en/projects/infinity-car-studio/", "/en/projects/bolachinhas-da-vovo-juju/"];
 
@@ -25,6 +26,37 @@ export function createAnalyticsController(win, doc, now = Date.now) {
   let timer;
   let started = false;
   let blocked = false;
+  let modeAtStart;
+  let modeCommandHandled = false;
+  let modeError = false;
+  let modeCommand = null;
+
+  function testMode() {
+    if (modeError) return "error";
+    try {
+      if (!modeCommandHandled) {
+        modeCommandHandled = true;
+        const params = new URLSearchParams(win.location.search ?? "");
+        const values = params.getAll("modo_teste");
+        if (values.length === 1 && ["0", "1"].includes(values[0])) {
+          modeCommand = values[0];
+          if (modeCommand === "1") win.localStorage.setItem(TEST_MODE_KEY, "1");
+          else win.localStorage.removeItem(TEST_MODE_KEY);
+          const expected = modeCommand === "1" ? "1" : null;
+          if (win.localStorage.getItem(TEST_MODE_KEY) !== expected) throw Error("Preference not saved");
+          // Remove the command so copied URLs and reloads cannot replay it.
+          const query = (params.delete("modo_teste"), params.toString());
+          win.history?.replaceState(null, "", `${win.location.pathname}${query ? `?${query}` : ""}${win.location.hash ?? ""}`);
+        }
+      }
+      const stored = win.localStorage.getItem(TEST_MODE_KEY);
+      if (stored !== null && stored !== "1") throw Error("Invalid test preference");
+      return stored === "1" ? "internal" : "public";
+    } catch {
+      modeError = true;
+      return "error";
+    }
+  }
 
   function record() {
     try {
@@ -73,10 +105,15 @@ export function createAnalyticsController(win, doc, now = Date.now) {
       page_referrer: referrerOrigin(doc.referrer),
       page_title: doc.title,
       site_language: path.startsWith("/en/") ? "en" : "pt",
+      test_mode: modeAtStart,
+      traffic_type: modeAtStart === "internal" ? "internal" : "external",
     };
   }
 
   function sync() {
+    const mode = testMode();
+    if (mode === "error") { stop(false); return; }
+    if (started && mode !== modeAtStart && !blocked) { stop(); return; }
     const consent = record();
     if (consent?.choice !== "accepted") {
       if (started && !blocked) stop();
@@ -91,6 +128,7 @@ export function createAnalyticsController(win, doc, now = Date.now) {
     win.clearTimeout(timer);
     timer = win.setTimeout(sync, Math.min(consent.expiresAt - now(), 2_147_483_647));
     if (started) return;
+    modeAtStart = mode;
     started = true;
     win[disableKey] = false;
     win.dataLayer = win.dataLayer || [];
@@ -161,7 +199,8 @@ export function createAnalyticsController(win, doc, now = Date.now) {
     });
   }
 
-  return { choice: () => record()?.choice ?? null, choose, sync, trackWhatsApp, trackAppStore };
+  return { choice: () => record()?.choice ?? null, choose, sync, trackWhatsApp, trackAppStore,
+    testMode, modeCommand: () => modeCommand };
 }
 
 let browserController;

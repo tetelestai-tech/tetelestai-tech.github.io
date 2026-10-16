@@ -847,6 +847,11 @@ p {
   .instagram-contents__more { flex-direction: column; align-items: start; gap: 12px; }
 }
 
+.analytics-test-status { position: fixed; z-index: 100; top: 100px; right: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; max-width: calc(100% - 32px); padding: 10px 14px; border: 1px solid var(--accent); border-radius: 8px; background: #001624; color: var(--text-primary); box-shadow: 0 4px 20px #0008; font-size: .8rem; }
+.analytics-test-status a, .analytics-test-status button { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.analytics-test-status button { border: 0; padding: 4px; background: none; font: inherit; cursor: pointer; }
+@media (max-width: 620px) { .analytics-test-status { top: 86px; right: 12px; max-width: calc(100% - 24px); } }
+
 /* Published iOS app portfolio and direct App Store download. */
 #ios-apps .section-shell { display: block; }
 #ios-apps .project--recarga { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); align-items: center; gap: 36px 64px; }

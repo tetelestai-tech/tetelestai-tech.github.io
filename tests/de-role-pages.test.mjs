@@ -34,6 +34,8 @@ test("De Rolê support is public static content with contact, privacy and no Ana
   assert.match(html, /href="\/privacidade\/"/);
   assert.match(html, /540/);
   assert.match(html, /720/);
+  assert.match(html, /Google Play/);
+  assert.match(html, /tocar em Jogar/);
   assert.match(html, /<meta name="robots" content="noindex,nofollow"/);
   assert.match(html, /<link rel="canonical" href="https:\/\/tetelestai\.tech\/de-role\/suporte\/"/);
   assert.equal(measurementPath("/de-role/suporte/"), null);
@@ -44,7 +46,8 @@ test("De Rolê privacy supplement is in both legal pages without changing their 
   for (const [pathname, heading] of [["privacidade", "Aplicativo De Rolê"], ["en/privacy", "De Rolê app"]]) {
     const html = await readFile(new URL(`../dist/client/${pathname}/index.html`, import.meta.url), "utf8");
     assert.ok(html.includes(heading));
-    assert.match(html, /2026-10-15/);
+    assert.match(html, /2026-10-16/);
+    assert.match(html, /Google Play/);
     assert.match(html, /contato@tetelestai\.tech/);
     assert.match(html, /noindex,nofollow/);
   }

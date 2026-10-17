@@ -23,6 +23,13 @@ test('portfolio and case pages expose verified deliveries, real links and naviga
     assert.ok(portfolio.includes('Tetelestai: Tempo de Recarga'));
     assert.ok(portfolio.includes('href="https://apps.apple.com/app/apple-store/id6815378368?pt=129504047&amp;ct=site_tetelestai_botao&amp;mt=8"'));
     assert.ok(portfolio.includes('/assets/projects/recarga-app-store-qr.png'));
+    assert.ok(portfolio.includes('id="project-de-role-title"'));
+    assert.ok(portfolio.includes('href="https://apps.apple.com/br/app/id6820150552"'));
+    assert.ok(portfolio.includes('/assets/projects/de-role-inicio.webp'));
+    assert.ok(portfolio.includes('/assets/projects/de-role-app-store-qr.png'));
+    const englishPortfolio = render('/en/projects/');
+    assert.ok(englishPortfolio.includes('Team word game'));
+    assert.ok(englishPortfolio.includes('href="https://apps.apple.com/br/app/id6820150552"'));
     assert.ok(!/Projetos próprios|Projeto próprio|TestFlight|aguardando revisão|Site Tetelestai/.test(portfolio));
     for (const path of ['/', '/en/', ...routes, '/criacao-de-sites/']) {
       assert.ok(render(path).includes(`href="${path==='/en/'?'/en/projects/':'/projetos/'}"`), `${path} must expose portfolio navigation`);

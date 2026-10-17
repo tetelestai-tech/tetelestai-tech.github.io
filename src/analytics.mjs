@@ -188,14 +188,15 @@ export function createAnalyticsController(win, doc, now = Date.now) {
     });
   }
 
-  function trackAppStore(placement) {
+  function trackAppStore(placement, appId = "6815378368") {
     if (!["button", "qr_link"].includes(placement)) return;
+    if (!["6815378368", "6820150552"].includes(appId)) return;
     sync();
     const path = measurementPath(win.location.pathname);
     if (!started || blocked || !path || record()?.choice !== "accepted") return;
     win.gtag("event", "app_store_click", {
       ...context(path), send_to: MEASUREMENT_ID, page_path: path,
-      app_id: "6815378368", link_placement: placement,
+      app_id: appId, link_placement: placement,
     });
   }
 

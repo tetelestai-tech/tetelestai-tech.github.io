@@ -108,7 +108,7 @@ export const EN_SERVICE_PAGES = {
 };
 
 export const EN_PORTFOLIO_PAGES = {
-  portfolio:{...PORTFOLIO_PAGES.portfolio,path:'/en/projects/',label:'Projects',metaTitle:'Website and digital solution projects | Tetelestai',metaDescription:'Explore Tetelestai’s websites for Infinity Car Studio and Bolachinhas da Vovó Juju, and the iOS app Tetelestai: Tempo de Recarga, available on the App Store.'},
+  portfolio:{...PORTFOLIO_PAGES.portfolio,path:'/en/projects/',label:'Projects',metaTitle:'Website and digital solution projects | Tetelestai',metaDescription:'Explore Tetelestai’s websites for Infinity Car Studio and Vovó Juju, plus the iOS apps Tempo de Recarga and De Rolê.'},
   infinityProject:{...PORTFOLIO_PAGES.infinityProject,path:'/en/projects/infinity-car-studio/',category:'Automotive detailing',type:'Business website',
     intro:'A digital presentation for Infinity’s automotive detailing business in Guará II, Brasília. The website brings together its services, work published by the team and contact options.',
     objective:'Present automotive detailing services and let visitors explore the work before asking the team about care for their car.',

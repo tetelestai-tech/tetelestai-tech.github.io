@@ -854,7 +854,7 @@ p {
 
 /* Published iOS app portfolio and direct App Store download. */
 #ios-apps .section-shell { display: block; }
-#ios-apps .project--recarga { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); align-items: center; gap: 36px 64px; }
+#ios-apps .project--app { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); align-items: center; gap: 36px 64px; }
 .portfolio-page #ios-apps .project > .project__preview { order: 0; height: 560px; }
 #ios-apps .project__details { grid-column: 1 / -1; }
 .app-download { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; margin-top: 28px; }
@@ -865,11 +865,11 @@ p {
 .app-download__copy .button { padding-inline: 18px; font-size: 0.9rem; gap: 10px; }
 .app-download__copy .button svg { flex-shrink: 0; }
 @media (max-width: 900px) {
-  #ios-apps .project--recarga { gap: 32px; }
+  #ios-apps .project--app { gap: 32px; }
   .portfolio-page #ios-apps .project > .project__preview { height: 480px; }
 }
 @media (max-width: 620px) {
-  #ios-apps .project--recarga { grid-template-columns: minmax(0, 1fr); }
+  #ios-apps .project--app { grid-template-columns: minmax(0, 1fr); }
   .portfolio-page #ios-apps .project > .project__preview { height: 480px; }
   .app-download__copy .button { max-width: 100%; }
 }

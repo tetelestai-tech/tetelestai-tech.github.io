@@ -23,6 +23,8 @@ import { EN_SERVICE_PAGES, EN_PORTFOLIO_PAGES, servicesFor, portfolioFor, equiva
 import { InstagramContents } from "./InstagramContents.jsx";
 import { AnalyticsConsent, AnalyticsPreferencesButton } from "./AnalyticsConsent.jsx";
 import { getAnalytics } from "./analytics.mjs";
+import { createArtMotion } from "./art-motion.mjs";
+import { createCircuitMotion } from "./circuit-motion.mjs";
 
 const WHATSAPP_LINK = "https://wa.me/556184711930";
 
@@ -424,7 +426,7 @@ function ServicePage({ t, page, locale }) {
   const homePath = english ? "/en/" : "/";
   const u = (pt,en) => english ? en : pt;
   return (
-    <div className="app-shell service-page">
+    <div className="app-shell service-page art-preview">
       <a className="skip-link" href="#main-content">{t.skip}</a>
       <Header t={t} locale={locale} page={page} />
       <main id="main-content">
@@ -490,7 +492,7 @@ function ServicePage({ t, page, locale }) {
           <div className="section-shell faq-section__grid">
             <div><p className="eyebrow">{u("Perguntas frequentes","Frequently asked questions")}</p><h2 id="faq-title">{u("Antes de começar","Before we begin")}</h2></div>
             <div className="faq-list">
-              {service.faqs.map((faq) => <details key={faq.q}><summary>{faq.q}</summary><p>{faq.a}</p></details>)}
+              {service.faqs.map((faq) => <details key={faq.q}><summary><span>{faq.q}</span></summary><p>{faq.a}</p></details>)}
             </div>
           </div>
           <BackToTop label={t.backToTopLabel} />
@@ -534,7 +536,7 @@ function PortfolioPage({ t, page, locale }) {
   const english = locale === "en";
   const homePath = english ? "/en/" : "/";
   const u = (pt,en) => english ? en : pt;
-  return <div className="app-shell portfolio-page">
+  return <div className="app-shell portfolio-page art-preview">
     <a className="skip-link" href="#main-content">{t.skip}</a>
     <Header t={t} locale={locale} page={page} />
     <main id="main-content">
@@ -543,7 +545,7 @@ function PortfolioPage({ t, page, locale }) {
           <nav className="service-breadcrumb" aria-label={u("Caminho da página","Breadcrumb")}><a href={homePath}>{u("Início","Home")}</a><span aria-hidden="true">/</span>{isIndex ? <span aria-current="page">{u("Projetos","Projects")}</span> : <><a href={pages.portfolio.path}>{u("Projetos","Projects")}</a><span aria-hidden="true">/</span><span aria-current="page">{project.name}</span></>}</nav>
           <p className="eyebrow">{isIndex ? u("Portfólio · Soluções digitais","Portfolio · Digital solutions") : `${project.category} · ${project.type}`}</p>
           <h1 id="portfolio-title">{isIndex ? <>{u("Sites com identidade.","Websites with identity.")}<br className="portfolio-title-break" /> {u("Aplicativos com propósito.","Apps with purpose.")}</> : project.name}</h1>
-          <p className="service-hero__intro">{isIndex ? u("Conheça os sites desenvolvidos para nossos clientes e o aplicativo iOS publicado na App Store. Cada projeto tem seu contexto, sua identidade e uma experiência pensada para quem usa.","Explore the websites developed for our clients and the iOS app published on the App Store. Each project has its own context, identity and an experience designed for its users.") : project.intro}</p>
+          <p className="service-hero__intro">{isIndex ? u("Conheça os sites desenvolvidos para nossos clientes e os aplicativos iOS publicados na App Store. Cada projeto tem seu contexto, sua identidade e uma experiência pensada para quem usa.","Explore the websites developed for our clients and the iOS apps published on the App Store. Each project has its own context, identity and an experience designed for its users.") : project.intro}</p>
           {project && <ul className="project-tags" aria-label={u("Entregas do projeto","Project deliverables")}>{project.tags.map(tag=><li key={tag}>{tag}</li>)}</ul>}
           <div className="hero-actions service-hero__actions">
             {isIndex ? <><a className="button button--primary" href="#projects">{u("Conhecer os projetos de clientes","Explore client projects")}<ArrowRightIcon size={20} aria-hidden="true" /></a><a className="portfolio-own-link" href="#ios-apps">{u("Aplicativos iOS ↓","iOS apps ↓")}</a></> : <><a className="button button--primary" href={project.url} target="_blank" rel="noopener noreferrer">{u("Visitar o site","Visit website (Portuguese)")}<span aria-hidden="true">↗</span></a><a className="text-link" href="#delivery">{u("Ver o que entregamos","Explore the deliverables")}<ArrowRightIcon size={20} aria-hidden="true" /></a></>}
@@ -694,7 +696,7 @@ function RecargaPage({ page }) {
 
 function HomePage({ t, locale }) {
   return (
-    <div className="app-shell">
+    <div className="app-shell art-preview">
       <a className="skip-link" href="#main-content">{t.skip}</a>
       <Header t={t} locale={locale} page="home" />
       <main id="main-content">
@@ -754,10 +756,13 @@ function HomePage({ t, locale }) {
               <span className="short-rule" aria-hidden="true" />
               <p>{t.introText}</p>
             </div>
-            <picture className="optimized-image">
-              <source type="image/webp" srcSet="/assets/circuit-network.webp" />
-              <img src="/assets/circuit-network.png" width="836" height="471" alt="" aria-hidden="true" />
-            </picture>
+            <div className="circuit-visual" aria-hidden="true">
+              <picture className="optimized-image">
+                <source type="image/webp" srcSet="/assets/circuit-network.webp" />
+                <img src="/assets/circuit-network.png" width="836" height="471" alt="" />
+              </picture>
+              <span className="circuit-visual__signal" />
+            </div>
           </div>
           <BackToTop label={t.backToTopLabel} />
         </section>
@@ -802,7 +807,7 @@ function HomePage({ t, locale }) {
             <div><p className="eyebrow">{t.faqKicker}</p><h2 id="faq-title">{t.faqTitle}</h2></div>
             <div className="faq-list">
               {t.faqs.map((faq) => (
-                <details key={faq.q}><summary>{faq.q}</summary><p>{faq.a}</p></details>
+                <details key={faq.q}><summary><span>{faq.q}</span></summary><p>{faq.a}</p></details>
               ))}
             </div>
           </div>
@@ -853,6 +858,13 @@ export function App({ pathname = window.location.pathname }) {
   const route = resolveRoute(pathname);
   const { locale, page } = route;
   const t = content[locale];
+
+  useEffect(() => {
+    const root = document.querySelector('.art-preview');
+    const motion = createArtMotion(root);
+    const circuit = createCircuitMotion(root);
+    return () => { motion.destroy(); circuit.destroy(); };
+  }, [locale, page]);
 
   useEffect(() => {
     const service = servicesFor(locale)[page];

@@ -36,7 +36,7 @@ export function ClientProjects({ children, showPortfolioLink = true, locale = 'p
             </article>
           ))}
         </div>
-        {showPortfolioLink && <div className="client-projects__more"><a className="text-link" href={portfolioFor(locale).portfolio.path}>{english ? 'View full portfolio' : 'Ver portfólio completo'}<ArrowRightIcon size={21} aria-hidden="true" /></a><p>{english ? 'Explore our iOS app as well.' : 'Conheça também nosso aplicativo iOS.'}</p></div>}
+        {showPortfolioLink && <div className="client-projects__more"><a className="text-link" href={portfolioFor(locale).portfolio.path}>{english ? 'View full portfolio' : 'Ver portfólio completo'}<ArrowRightIcon size={21} aria-hidden="true" /></a><p>{english ? 'Explore our iOS apps as well.' : 'Conheça também nossos aplicativos iOS.'}</p></div>}
       </div>
       {children}
     </section>

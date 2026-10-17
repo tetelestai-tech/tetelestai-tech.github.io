@@ -58,7 +58,7 @@ export const PORTFOLIO_PAGES = {
     path: '/projetos/',
     label: 'Projetos',
     metaTitle: 'Projetos de sites e soluções digitais | Tetelestai',
-    metaDescription: 'Conheça os sites da Tetelestai para Infinity Car Studio e Bolachinhas da Vovó Juju e o aplicativo iOS Tetelestai: Tempo de Recarga, disponível na App Store.',
+    metaDescription: 'Conheça os sites da Infinity Car Studio e da Vovó Juju e os apps iOS Tempo de Recarga e De Rolê, desenvolvidos pela Tetelestai.',
   },
   ...Object.fromEntries(CLIENT_PROJECTS.map(project => [project.key, {...project,label:project.name}])),
 };

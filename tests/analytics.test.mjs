@@ -308,3 +308,21 @@ test("old v2 consent needs reconfirmation while old refusal keeps its expiry", (
     assert.equal(b.stored.get(CONSENT_KEY), record);
   }
 });
+
+test("De Rolê clicks use their own app ID and retain consent and test separation", () => {
+  const b = browser('/projetos/', 'tetelestai.tech', '?modo_teste=1');
+  b.controller.trackAppStore('button', '6820150552');
+  assert.deepEqual(b.events(), []);
+  b.controller.choose('accepted');
+  b.controller.trackAppStore('button');
+  b.controller.trackAppStore('button', '6820150552');
+  b.controller.trackAppStore('qr_link', '6820150552');
+  b.controller.trackAppStore('button', 'unknown-app');
+  const app = b.events().filter(e => e[1] === 'app_store_click');
+  assert.deepEqual(app.map(e => e[2].app_id), ['6815378368', '6820150552', '6820150552']);
+  assert.ok(app.every(e => e[2].test_mode === 'internal' && e[2].traffic_type === 'internal'));
+  assert.doesNotMatch(JSON.stringify(b.win.dataLayer), /unknown-app|app_install|first_open/);
+  b.controller.choose('rejected');
+  b.controller.trackAppStore('button', '6820150552');
+  assert.deepEqual(b.events(), []);
+});

@@ -21,7 +21,7 @@ test('portfolio and case pages expose verified deliveries, real links and naviga
     for (const path of routes.slice(1)) assert.ok(portfolio.includes(`href="${path}"`));
     assert.ok(portfolio.includes('Aplicativos iOS'));
     assert.ok(portfolio.includes('Tetelestai: Tempo de Recarga'));
-    assert.ok(portfolio.includes('href="https://apps.apple.com/app/apple-store/id6815378368?pt=129504047&amp;ct=site_tetelestai_botao&amp;mt=8"'));
+    assert.ok(portfolio.includes('href="https://apps.apple.com/br/app/id6815378368?pt=129504047&amp;ct=site_tetelestai_botao&amp;mt=8"'));
     assert.ok(portfolio.includes('/assets/projects/recarga-app-store-qr.png'));
     assert.ok(portfolio.includes('id="project-de-role-title"'));
     assert.ok(portfolio.includes('href="https://apps.apple.com/br/app/id6820150552"'));

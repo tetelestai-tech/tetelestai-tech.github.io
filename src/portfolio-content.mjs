@@ -57,7 +57,7 @@ export const PORTFOLIO_PAGES = {
   portfolio: {
     path: '/projetos/',
     label: 'Projetos',
-    metaTitle: 'Projetos de sites e soluções digitais | Tetelestai',
+    metaTitle: 'Portfólio de sites e aplicativos iOS | TETELESTAI',
     metaDescription: 'Conheça os sites da Infinity Car Studio e da Vovó Juju e os apps iOS Tempo de Recarga e De Rolê, desenvolvidos pela Tetelestai.',
   },
   ...Object.fromEntries(CLIENT_PROJECTS.map(project => [project.key, {...project,label:project.name}])),

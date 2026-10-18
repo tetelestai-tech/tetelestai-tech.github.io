@@ -4,14 +4,14 @@ import { CONSENT_KEY, TEST_MODE_KEY, PREFERENCES_EVENT, getAnalytics, measuremen
 const COPY = {
   pt: {
     title: "Métricas do site",
-    text: "Usamos cookies do Google Analytics para entender visitas nas páginas iniciais, de serviços e do portfólio em português e inglês, além dos cliques no WhatsApp e nos links da App Store. Você pode aceitar ou recusar a medição.",
+    text: "Usamos cookies do Google Analytics para entender visitas nas páginas iniciais, de serviços e do portfólio em português e inglês, além dos cliques no WhatsApp, nos links da App Store e nos links do vídeo do De Rolê. Você pode aceitar ou recusar a medição.",
     accept: "Aceitar métricas", reject: "Recusar", preferences: "Preferências de cookies",
     privacy: "Política de privacidade", privacyPath: "/privacidade/", close: "Fechar",
     error: "Não foi possível salvar sua escolha neste navegador. A medição está bloqueada nesta página.",
   },
   en: {
     title: "Site analytics",
-    text: "We use Google Analytics cookies to understand visits to the home, service and portfolio pages in Portuguese and English, as well as clicks on WhatsApp and App Store links. You can accept or decline this measurement.",
+    text: "We use Google Analytics cookies to understand visits to the home, service and portfolio pages in Portuguese and English, as well as clicks on WhatsApp, App Store and De Rolê video links. You can accept or decline this measurement.",
     accept: "Accept analytics", reject: "Decline", preferences: "Cookie preferences",
     privacy: "Privacy policy", privacyPath: "/en/privacy/", close: "Close",
     error: "Your choice could not be saved in this browser. Analytics is blocked on this page.",

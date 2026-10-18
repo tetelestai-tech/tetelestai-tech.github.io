@@ -178,14 +178,14 @@ test("malformed consent and storage failures fail closed", () => {
   b.win.localStorage.setItem = () => { throw Error("denied"); };
   assert.equal(b.controller.choose("accepted"), false);
   assert.equal(b.scripts.length, 0);
-  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 10000, policyVersion: 3 }));
+  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 10000, policyVersion: 4 }));
   b.controller.sync();
   assert.equal(b.scripts.length, 0, "readable but unwritable storage must not enable tracking");
 });
 
 test("returning visitors receive only the remaining consent duration for cookies", () => {
   const b = browser();
-  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 1000 + 3600 * 1000, policyVersion: 3 }));
+  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 1000 + 3600 * 1000, policyVersion: 4 }));
   b.controller.sync();
   const config = b.win.dataLayer.map(v => Array.from(v)).find(v => v[0] === "config")[2];
   assert.equal(config.cookie_expires, 3600);
@@ -233,7 +233,7 @@ test("earlier acceptances do not authorize the expanded scope until explicit con
   assert.equal(b.scripts.length, 0);
   assert.deepEqual(b.events(), []);
   assert.equal(b.controller.choose("accepted"), true);
-  assert.equal(JSON.parse(b.stored.get(CONSENT_KEY)).policyVersion, 3);
+  assert.equal(JSON.parse(b.stored.get(CONSENT_KEY)).policyVersion, 4);
   assert.equal(b.scripts.length, 1);
   assert.deepEqual(b.events().map(e => e[1]), ["page_view"]);
 });
@@ -267,7 +267,7 @@ test("new service pages send only the existing minimal events after acceptance",
 });
 
 test("unknown acceptance policy versions cannot enable tracking", () => {
-  for (const policyVersion of [1, 2, 99, "3", null]) {
+  for (const policyVersion of [1, 2, 3, 99, "3", "4", null]) {
     const b = browser();
     b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 10000, policyVersion }));
     b.controller.sync();
@@ -325,4 +325,120 @@ test("De Rolê clicks use their own app ID and retain consent and test separatio
   b.controller.choose('rejected');
   b.controller.trackAppStore('button', '6820150552');
   assert.deepEqual(b.events(), []);
+});
+
+test("video scope requires a fresh acceptance of v4 but preserves a valid v3 refusal", () => {
+  const accepted = browser("/projetos/");
+  const oldAcceptance = JSON.stringify({ choice: "accepted", expiresAt: 10000, policyVersion: 3 });
+  accepted.stored.set(CONSENT_KEY, oldAcceptance);
+  accepted.controller.sync();
+  assert.equal(accepted.scripts.length, 0, "the prior App Store-only acceptance must not enable the expanded scope");
+  assert.equal(accepted.controller.choice(), null);
+  assert.equal(accepted.stored.get(CONSENT_KEY), oldAcceptance, "inspection must not silently renew consent");
+  assert.equal(accepted.controller.choose("accepted"), true);
+  assert.equal(JSON.parse(accepted.stored.get(CONSENT_KEY)).policyVersion, 4);
+  assert.deepEqual(accepted.events().map(e => e[1]), ["page_view"], "previous clicks must not be replayed");
+
+  const refused = browser("/projetos/");
+  const oldRefusal = JSON.stringify({ choice: "rejected", expiresAt: 10000, policyVersion: 3 });
+  refused.stored.set(CONSENT_KEY, oldRefusal);
+  refused.controller.sync();
+  assert.equal(refused.controller.choice(), "rejected");
+  assert.equal(refused.stored.get(CONSENT_KEY), oldRefusal);
+  assert.equal(refused.scripts.length, 0);
+});
+
+test("video clicks measure only the two De Rolê link placements with bounded context", () => {
+  for (const [path, search, mode, traffic, language] of [
+    ["/projetos/", "", "public", "external", "pt"],
+    ["/en/projects/", "?modo_teste=1", "internal", "internal", "en"],
+  ]) {
+    const b = browser(path, "tetelestai.tech", search);
+    assert.equal(typeof b.controller.trackAppVideo, "function", "the explicit video-link measurement boundary is required");
+    b.controller.choose("accepted");
+    assert.deepEqual(b.events().map(e => e[1]), ["page_view"], "a page view must not become a video click");
+    b.controller.trackAppVideo("cover", "6820150552");
+    b.controller.trackAppVideo("text", "6820150552");
+    for (const [placement, appId] of [["button", "6820150552"], ["qr_link", "6820150552"], ["arbitrary-private-value", "6820150552"], ["cover", "6815378368"], ["cover", "unknown"], ["cover", 6820150552]]) {
+      b.controller.trackAppVideo(placement, appId);
+    }
+    const video = b.events().filter(e => e[1] === "app_video_click");
+    assert.equal(video.length, 2);
+    assert.deepEqual(video.map(e => e[2].link_placement), ["cover", "text"]);
+    for (const [, , params] of video) {
+      assert.deepEqual(params, {
+        page_location: `https://tetelestai.tech${path}`, page_referrer: "https://www.google.com/",
+        page_title: "Criação de sites", site_language: language,
+        test_mode: mode, traffic_type: traffic, send_to: "G-VKJKP1MBYF",
+        page_path: path, app_id: "6820150552", link_placement: params.link_placement,
+      });
+    }
+    assert.doesNotMatch(JSON.stringify(b.win.dataLayer), /video_start|video_complete|video_progress|file_download|app_install|first_open|private-value|modo_teste/);
+  }
+});
+
+test("video clicks never bypass missing, rejected or withdrawn consent and are not replayed", () => {
+  const b = browser("/projetos/");
+  assert.equal(typeof b.controller.trackAppVideo, "function");
+  b.controller.trackAppVideo("cover", "6820150552");
+  assert.equal(b.scripts.length, 0);
+  assert.deepEqual(b.events(), []);
+  b.controller.choose("rejected");
+  b.controller.trackAppVideo("text", "6820150552");
+  assert.deepEqual(b.events(), []);
+  b.controller.choose("accepted");
+  assert.deepEqual(b.events().map(e => e[1]), ["page_view"]);
+  b.controller.trackAppVideo("cover", "6820150552");
+  assert.equal(b.events().at(-1)[1], "app_video_click");
+  b.controller.choose("rejected");
+  b.controller.trackAppVideo("text", "6820150552");
+  assert.deepEqual(b.events(), []);
+  assert.equal(b.win[`ga-disable-${MEASUREMENT_ID}`], true);
+  assert.equal(b.reloads, 1);
+});
+
+test("video clicks stop at expiration without extending the 180-day consent", () => {
+  const b = browser("/projetos/");
+  assert.equal(typeof b.controller.trackAppVideo, "function");
+  b.controller.choose("accepted");
+  const original = b.stored.get(CONSENT_KEY);
+  b.setNow(2000);
+  b.controller.trackAppVideo("cover", "6820150552");
+  assert.equal(b.stored.get(CONSENT_KEY), original);
+  b.setNow(1000 + CONSENT_DURATION);
+  b.controller.trackAppVideo("text", "6820150552");
+  assert.deepEqual(b.events(), []);
+  assert.equal(b.controller.choice(), null);
+  assert.equal(b.reloads, 1);
+});
+
+test("video clicks remain blocked on development hosts, unmeasured routes and unavailable storage", () => {
+  for (const [path, host] of [["/projetos/", "localhost"], ["/en/projects/", "127.0.0.1"], ["/privacidade/", "tetelestai.tech"], ["/de-role/suporte/", "tetelestai.tech"]]) {
+    const b = browser(path, host);
+    assert.equal(typeof b.controller.trackAppVideo, "function");
+    b.controller.choose("accepted");
+    b.controller.trackAppVideo("cover", "6820150552");
+    assert.equal(b.scripts.length, 0);
+    assert.deepEqual(b.events(), []);
+  }
+  const b = browser("/projetos/");
+  b.controller.choose("accepted");
+  const get = b.win.localStorage.getItem;
+  b.win.localStorage.getItem = key => {
+    if (key === CONSENT_KEY) throw Error("unavailable");
+    return get(key);
+  };
+  b.controller.trackAppVideo("text", "6820150552");
+  assert.deepEqual(b.events(), []);
+  assert.equal(b.reloads, 1);
+});
+
+test("a test-mode change blocks video clicks from the earlier tag instead of mislabeling them", () => {
+  const b = browser("/en/projects/");
+  assert.equal(typeof b.controller.trackAppVideo, "function");
+  b.controller.choose("accepted");
+  b.stored.set("tetelestai:test-mode:v1", "1");
+  b.controller.trackAppVideo("cover", "6820150552");
+  assert.deepEqual(b.events(), []);
+  assert.equal(b.reloads, 1);
 });

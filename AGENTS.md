@@ -153,3 +153,12 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - Production destination remains the existing GitHub Pages repository. Publish only the approved runtime, media, tests and this context; preserve unrelated legal/support files. Local reports, backups, source media paths and preview-only settings must not enter the public artifact. Verify deployed pages, links, video and mobile layout.
 
 - Post-deployment link verification found that the former global Recarga campaign paths returned 404. Use the verified Brazilian /br/app/id6815378368 destination in the button and QR, preserving provider token, both campaign names and mt=8. No changes to App Store Connect campaigns or analytics consent were made.
+
+
+## App measurement and portfolio metadata approved on 2026-10-17
+
+- After a separate read-only diagnosis, the user approved registering app_id in GA4 property 556374668, updating the Site, portfólio e app dashboard to distinguish identified tests, measuring the De Rolê video links, and publishing the portfolio title/sitemap corrections. Keep Internal Traffic in Test mode; never activate permanent exclusion under this approval.
+- Emit app_video_click only for explicit cover/text link activations of app 6820150552, using the existing consent, site_language, test_mode and traffic_type context. A click opens the MP4 and proves neither playback nor completion. Preserve the video, cover, gallery, store links and approved visual appearance.
+- Consent policy v4 expands the notice to video link clicks, requires renewed acceptance of earlier acceptances, preserves valid refusals and the fixed 180-day expiration, and keeps legal/support routes unmeasured.
+- Register the existing app_id as ID do aplicativo; link_placement is shared by App Store button/qr_link and video cover/text. Reports must distinguish internal tests, public events without a test marker and unclassified historical data; public is not proof of a real person. Retain historical local-referral identification separately without claiming automatic retroactive reclassification.
+- Portfolio titles explicitly mention websites and iOS apps in PT/EN. Update lastmod to 2026-10-17 only for /projetos/ and /en/projects/, whose content changed; preserve other sitemap dates and exact routes.

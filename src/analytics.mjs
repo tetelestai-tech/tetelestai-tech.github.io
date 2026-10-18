@@ -1,6 +1,6 @@
 export const MEASUREMENT_ID = "G-VKJKP1MBYF";
 export const CONSENT_KEY = "tetelestai:analytics-consent:v1";
-export const CONSENT_POLICY_VERSION = 3;
+export const CONSENT_POLICY_VERSION = 4;
 export const CONSENT_DURATION = 180 * 24 * 60 * 60 * 1000;
 export const PREFERENCES_EVENT = "tetelestai:cookie-preferences";
 export const TEST_MODE_KEY = "tetelestai:test-mode:v1";
@@ -65,7 +65,7 @@ export function createAnalyticsController(win, doc, now = Date.now) {
         Number.isFinite(value.expiresAt) && value.expiresAt > now() &&
         value.expiresAt <= now() + CONSENT_DURATION &&
         // A refusal remains protective across policy versions. An acceptance
-        // needs explicit confirmation of the expanded list of measured pages.
+        // needs explicit confirmation of the current measurement scope.
         (value.choice === "rejected" || value.policyVersion === CONSENT_POLICY_VERSION) ? value : null;
     } catch { return null; }
   }
@@ -200,7 +200,19 @@ export function createAnalyticsController(win, doc, now = Date.now) {
     });
   }
 
-  return { choice: () => record()?.choice ?? null, choose, sync, trackWhatsApp, trackAppStore,
+  function trackAppVideo(placement, appId) {
+    if (!["cover", "text"].includes(placement) || appId !== "6820150552") return;
+    sync();
+    const path = measurementPath(win.location.pathname);
+    if (!started || blocked || !path || record()?.choice !== "accepted") return;
+    // Explicit link activation only; opening the file does not prove playback.
+    win.gtag("event", "app_video_click", {
+      ...context(path), send_to: MEASUREMENT_ID, page_path: path,
+      app_id: appId, link_placement: placement,
+    });
+  }
+
+  return { choice: () => record()?.choice ?? null, choose, sync, trackWhatsApp, trackAppStore, trackAppVideo,
     testMode, modeCommand: () => modeCommand };
 }
 

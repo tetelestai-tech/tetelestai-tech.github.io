@@ -63,10 +63,10 @@ export function OwnProjects({ children, locale = "pt" }) {
             </div>
           </div>
           <figure className="project__preview project__preview--app project__preview--video">
-            <a className="app-video-cover" href="/assets/projects/de-role-video-20s.mp4" type="video/mp4" target="_blank" rel="noopener noreferrer" aria-label={u("Assistir ao vídeo do De Rolê, 20 segundos, em nova aba","Watch the De Rolê video in Portuguese, 20 seconds, in a new tab")}>
+            <a className="app-video-cover" href="/assets/projects/de-role-video-20s.mp4" type="video/mp4" target="_blank" rel="noopener noreferrer" onClick={() => getAnalytics().trackAppVideo("cover", DE_ROLE_APP_STORE.id)} aria-label={u("Assistir ao vídeo do De Rolê, 20 segundos, em nova aba","Watch the De Rolê video in Portuguese, 20 seconds, in a new tab")}>
               <img src="/assets/projects/de-role-video-capa.webp" width="1080" height="1920" loading="lazy" decoding="async" alt={u("Capa do vídeo De Rolê: amigos reunidos à mesa com a chamada Explique sem dizer a palavra.","De Rolê video cover showing friends around a table and the Portuguese tagline Explain without saying the word.")} />
             </a>
-            <figcaption><a className="text-link" href="/assets/projects/de-role-video-20s.mp4" type="video/mp4" target="_blank" rel="noopener noreferrer">{u("Assistir ao vídeo do app · 20 s","Watch the app video · 20 s")}<ArrowRightIcon size={18} aria-hidden="true" /></a></figcaption>
+            <figcaption><a className="text-link" href="/assets/projects/de-role-video-20s.mp4" type="video/mp4" target="_blank" rel="noopener noreferrer" onClick={() => getAnalytics().trackAppVideo("text", DE_ROLE_APP_STORE.id)}>{u("Assistir ao vídeo do app · 20 s","Watch the app video · 20 s")}<ArrowRightIcon size={18} aria-hidden="true" /></a></figcaption>
           </figure>
           <details className="project__details">
             <summary>{u("Ver mais telas do De Rolê","View more De Rolê screens")}</summary>

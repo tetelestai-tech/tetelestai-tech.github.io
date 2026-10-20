@@ -57,6 +57,10 @@
 .art-preview #method .method-list > li > span {
   border-bottom: 0;
 }
+.art-preview #method .method-list > li > div {
+  transform: none;
+  transition: none;
+}
 .art-preview #method .method-list > li {
   transition: background-color 200ms var(--motion-ease);
 }

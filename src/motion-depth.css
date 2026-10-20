@@ -1,0 +1,250 @@
+/* TETELESTAI — local motion/material study, 19 October 2026.
+   Original brand, layout, media, content, consent and destinations are preserved. */
+.art-preview {
+  --motion-ease: cubic-bezier(.22, 1, .36, 1);
+  --surface-edge: rgb(73 193 211 / 27%);
+  --surface-highlight: rgb(14 208 230 / 8%);
+}
+
+/* Opaque fallback first; the original logo and wordmark are never transformed. */
+.art-preview .site-header {
+  background: #00101e;
+  border-bottom-color: rgb(14 208 230 / 24%);
+  box-shadow: 0 8px 32px rgb(0 4 12 / 14%);
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .art-preview .site-header {
+    background: rgb(0 12 25 / 79%);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    backdrop-filter: blur(16px) saturate(120%);
+  }
+}
+
+.art-preview .hero {
+  background: radial-gradient(ellipse at 50% 38%, rgb(14 208 230 / 5%), transparent 62%),
+    linear-gradient(180deg, #000c19, #00101e);
+}
+.art-preview .hero::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(ellipse at 70% 35%, rgb(14 208 230 / 6%), transparent 56%);
+  pointer-events: none;
+  content: "";
+}
+
+/* Surface colour belongs to the frame, never to the project photograph itself. */
+.art-preview .client-card__media,
+.art-preview .project__preview {
+  border-color: var(--surface-edge);
+  background: linear-gradient(135deg, rgb(14 208 230 / 6%), rgb(3 22 37 / 88%) 55%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 3%), 0 16px 36px rgb(0 3 10 / 16%);
+}
+.art-preview .contact-panel {
+  position: relative;
+  border-color: rgb(85 204 221 / 35%);
+  background: linear-gradient(135deg, rgb(14 208 230 / 10%), rgb(2 21 38 / 94%) 70%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 5%), 0 20px 48px rgb(0 3 10 / 18%);
+}
+.art-preview .project__status {
+  background: linear-gradient(110deg, rgb(14 208 230 / 7%), rgb(2 21 38 / 92%));
+}
+.art-preview :is(.service-index, .instagram-contents, .method-section, .faq-section) {
+  background-image: linear-gradient(120deg, rgb(14 208 230 / 2.5%), transparent 55%);
+}
+
+/* Informational steps share the service highlight without becoming controls. */
+.art-preview #method .method-list > li > span {
+  border-bottom: 0;
+}
+.art-preview #method .method-list > li {
+  transition: background-color 200ms var(--motion-ease);
+}
+.art-preview #method .method-list > li::before {
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: -12px;
+  width: 2px;
+  background: var(--accent-bright);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms var(--motion-ease);
+  content: "";
+}
+
+/* Complete interaction states, including small utility controls. */
+.art-preview :is(button, .button, .text-link, .service-contact-link, .back-to-top, summary) {
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-duration: 200ms;
+  transition-timing-function: var(--motion-ease);
+}
+.art-preview :is(button, .button, .text-link, .service-contact-link, .back-to-top, summary):focus-visible {
+  outline: 2px solid #63e7f1;
+  outline-offset: 5px;
+}
+.art-preview :is(button, .button, .text-link, .service-contact-link, .back-to-top):active {
+  transform: translateY(0);
+}
+.art-preview :is(button:disabled, [aria-disabled="true"]) {
+  cursor: not-allowed;
+  opacity: .5;
+  transform: none;
+  box-shadow: none;
+}
+.art-preview .primary-nav > a,
+.art-preview .locale-switch a {
+  transition: color 180ms ease, transform 200ms var(--motion-ease);
+}
+.art-preview :is(.button, .text-link, .service-contact-link, .back-to-top) svg,
+.art-preview .menu-toggle svg {
+  transition: transform 200ms var(--motion-ease), color 180ms ease;
+}
+.art-preview .faq-list summary,
+.art-preview .project__details summary {
+  border-radius: 4px;
+  transition: color 200ms ease, background-color 200ms ease;
+}
+.art-preview .project__details summary {
+  color: var(--accent-bright);
+}
+.art-preview .project__details summary::marker { color: var(--accent-bright); }
+.art-preview .faq-list summary::after {
+  transition: transform 220ms var(--motion-ease), color 180ms ease;
+}
+.art-preview .faq-list details[open] summary::after { transform: rotate(180deg); }
+
+/* Consent is a sibling of the visual shell, and legal pages share these controls. */
+:is(.menu-toggle, .cookie-preferences, .analytics-consent__actions button, .analytics-test-status button) {
+  transition: color 200ms ease, background-color 200ms ease, border-color 200ms ease,
+    transform 200ms cubic-bezier(.22, 1, .36, 1);
+}
+:is(.menu-toggle, .cookie-preferences, .analytics-consent__actions button, .analytics-test-status button):focus-visible {
+  outline: 2px solid #63e7f1;
+  outline-offset: 4px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :is(.menu-toggle, .cookie-preferences, .analytics-consent__actions button, .analytics-test-status button):not(:disabled):hover {
+    color: #68e7f0;
+    background-color: rgb(14 208 230 / 12%);
+  }
+  .art-preview .button:not(:disabled):not([aria-disabled="true"]):hover {
+    color: #56e5ef;
+    border-color: #55e4ee;
+    background-color: rgb(14 208 230 / 10%);
+    box-shadow: 0 8px 24px rgb(14 208 230 / 9%);
+  }
+  .art-preview .button--primary:not(:disabled):not([aria-disabled="true"]):hover {
+    color: #00121f;
+    background: #42e1ed;
+    border-color: #42e1ed;
+    box-shadow: 0 8px 24px rgb(14 208 230 / 15%);
+  }
+  .art-preview .hero .button--primary:not(:disabled):not([aria-disabled="true"]):hover {
+    color: #00121f;
+    background: #42e1ed;
+    box-shadow: 0 8px 24px rgb(14 208 230 / 13%);
+  }
+  .art-preview :is(.menu-toggle, .analytics-consent__actions button):not(:disabled):hover {
+    color: #68e7f0;
+    background: rgb(14 208 230 / 12%);
+    border-color: #38c7db;
+  }
+  .art-preview :is(.footer-link, .analytics-test-status button):not(:disabled):hover {
+    color: #68e7f0;
+    background-color: rgb(14 208 230 / 6%);
+  }
+  .art-preview :is(.text-link, .service-contact-link):hover { color: #63e7f1; }
+  .art-preview .primary-nav > a:hover { color: #63e7f1; }
+  .art-preview .back-to-top:hover { color: #63e7f1; }
+  .art-preview .faq-list summary:hover,
+  .art-preview .project__details summary:hover {
+    color: #67e7f0;
+    background-color: rgb(14 208 230 / 4%);
+  }
+  .art-preview .client-card__media:hover,
+  .art-preview .reel-cover:hover {
+    border-color: rgb(69 222 237 / 64%);
+    box-shadow: 0 16px 36px rgb(0 3 10 / 20%), 0 0 22px rgb(14 208 230 / 5%);
+  }
+  .art-preview .service-row:hover { background-color: rgb(14 208 230 / 2.5%); }
+  .art-preview #method .method-list > li:hover { background-color: rgb(14 208 230 / 2.5%); }
+  .art-preview #method .method-list > li:hover::before { opacity: 1; }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  :is(.menu-toggle, .analytics-consent__actions button):not(:disabled):hover {
+    transform: translateY(-2px);
+  }
+  :is(.cookie-preferences, .analytics-test-status button):not(:disabled):hover {
+    transform: translateY(-1px);
+  }
+  :is(.menu-toggle, .cookie-preferences, .analytics-consent__actions button, .analytics-test-status button):not(:disabled):active {
+    transform: translateY(0);
+  }
+  .art-preview .button:not(:disabled):not([aria-disabled="true"]):hover,
+  .art-preview .hero .button--primary:not(:disabled):not([aria-disabled="true"]):hover,
+  .art-preview :is(.menu-toggle, .analytics-consent__actions button):not(:disabled):hover {
+    transform: translateY(-2px);
+  }
+  .art-preview :is(.footer-link, .analytics-test-status button):not(:disabled):hover {
+    transform: translateY(-1px);
+  }
+  .art-preview .button:not(:disabled):not([aria-disabled="true"]):active,
+  .art-preview .hero .button--primary:not(:disabled):not([aria-disabled="true"]):active,
+  .art-preview :is(.menu-toggle, .analytics-consent__actions button):not(:disabled):active {
+    transform: translateY(0);
+  }
+  .art-preview .text-link:hover svg { transform: translateX(3px); }
+  .art-preview .service-contact-link:hover svg { transform: translateY(-2px); }
+  .art-preview .back-to-top:hover svg { transform: translateY(-2px); }
+  .art-preview .primary-nav > a:hover { transform: translateY(-1px); }
+  .art-preview .faq-list summary:hover > span { transform: translateX(3px); }
+  .art-preview .project__details summary:hover { transform: translateX(2px); }
+  .art-preview .client-card__media:hover,
+  .art-preview .reel-cover:hover { transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .art-preview .hero::after { animation: tetelestai-hero-light 3200ms ease-out 1 both; }
+  .art-preview .faq-list details[open] > p,
+  .art-preview .project__details[open] > .project__gallery {
+    animation: tetelestai-detail-reveal 240ms var(--motion-ease) 1;
+  }
+}
+@keyframes tetelestai-hero-light {
+  from { opacity: 0; transform: translateX(-3%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes tetelestai-detail-reveal {
+  from { opacity: .4; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1080px) {
+  .art-preview .primary-nav--open {
+    background: #001321;
+    border-color: rgb(14 208 230 / 25%);
+    box-shadow: 0 16px 36px rgb(0 0 0 / 25%);
+  }
+}
+@media (max-width: 760px) {
+  .art-preview .contact-panel { background: linear-gradient(135deg, #032334, #021526); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art-preview #method .method-list > li,
+  .art-preview #method .method-list > li::before { transition: none; }
+  :is(.menu-toggle, .cookie-preferences, .analytics-consent__actions button, .analytics-test-status button) {
+    transform: none !important;
+  }
+  .art-preview :is(button, summary, .button, .text-link, .service-contact-link, .back-to-top,
+    .client-card__media, .reel-cover, .primary-nav > a),
+  .art-preview :is(.button, .text-link, .service-contact-link, .back-to-top) svg,
+  .art-preview .faq-list summary > span {
+    transform: none !important;
+    animation: none !important;
+  }
+  .art-preview .hero::after { animation: none; }
+}

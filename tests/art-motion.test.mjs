@@ -72,6 +72,19 @@ test('reduced motion and missing observer keep every item static and available',
   }
 });
 
+test('text reveals have finite spatial motion without requiring hidden base content', () => {
+  const s = scenario(); const control = start(s);
+  s.enter(s.nodes[0]);
+  const { frames, options } = s.animations[0];
+  assert.match(frames[0].transform, /translate/);
+  assert.equal(frames.at(-1).transform, 'none');
+  assert.equal(options.iterations ?? 1, 1);
+  assert.ok((options.delay ?? 0) <= 140);
+  assert.ok(options.duration <= 700);
+  assert.deepEqual(s.nodes[0].style, {}, 'the rendered fallback must stay visible');
+  control.destroy();
+});
+
 test('changing preference or layout cancels animation without leaving invisible inline styles', () => {
   for (const reason of ['reduced', 'resize', 'hidden']) {
     const s = scenario(); const control = start(s); s.enter(s.nodes[0]);

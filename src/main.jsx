@@ -3,6 +3,7 @@ import { createRoot, hydrateRoot } from "react-dom/client";
 import { App } from "./App.jsx";
 import "./styles.css";
 import "./art-direction.css";
+import "./motion-depth.css";
 
 const root = document.getElementById("root");
 const app = (

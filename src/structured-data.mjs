@@ -6,7 +6,7 @@ import { CHECKOUT_ESSENCIAL, INSTAGRAM_URL, ORIGIN, WHATSAPP_LINK } from './cont
 
 const ORGANIZATION_ID = `${ORIGIN}/#organization`;
 const WEBSITE_ID = `${ORIGIN}/#website`;
-const AREA_SERVED = [{ "@type": "City", name: "Brasília" }, { "@type": "Country", name: "Brasil" }];
+const AREA_SERVED = [{ "@type": "Country", name: "Brasil" }];
 
 // Only facts that are visible on the site: no ratings, opening hours, street address or results.
 function organizationNode(locale) {

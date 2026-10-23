@@ -11,7 +11,7 @@ import { renderToString } from "react-dom/server";
 const servicePages = [
   {
     path: "/criacao-de-sites/",
-    heading: "Criação de sites para pequenos negócios em Brasília",
+    heading: "Criação de sites para pequenos negócios de todo o Brasil",
     titlePattern: /criação de sites/i,
     canonical: "https://tetelestai.tech/criacao-de-sites/",
     shell: "/criacao-de-sites/index.html",

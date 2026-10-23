@@ -141,8 +141,8 @@ export const SERVICE_PAGES = {
     },
     coaching: {
       eyebrow: "Acompanhado · acompanhamento individual", title: "Três encontros individuais em 30 dias: R$ 497",
-      text: "Três encontros online de 45 minutos em 30 dias com o Carlos, trabalhando sobre os arquivos do Essencial e os modelos em Word: o seu currículo em inglês, o LinkedIn e a estratégia de candidaturas.",
-      cta: "Quero o Acompanhado",
+      text: "Três encontros online de 45 minutos em 30 dias com o Carlos para trabalhar o seu currículo em inglês, o LinkedIn e a estratégia de candidaturas. Inclui o guia Essencial e os modelos em Word. Você agenda os encontros depois da compra.",
+      cta: "Comprar o Acompanhado", question: "Tirar dúvidas no WhatsApp",
       waMessage: "Olá! Quero saber como funciona o Acompanhado (acompanhamento individual de carreira).",
     },
     faqTitle: { eyebrow: "Dúvidas", title: "Antes de comprar" },

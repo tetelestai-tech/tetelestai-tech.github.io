@@ -192,13 +192,13 @@ export function createAnalyticsController(win, doc, now = Date.now) {
   }
 
   // Click on the Kiwify checkout link for the Essencial guide (the purchase itself happens on Kiwify).
-  function trackCheckout(placement) {
+  function trackCheckout(placement, product = "essencial") {
     sync();
     const path = measurementPath(win.location.pathname);
     if (!started || blocked || !path || record()?.choice !== "accepted") return;
     win.gtag("event", "checkout_click", {
       ...context(path), send_to: MEASUREMENT_ID, page_path: path,
-      product_name: "essencial", link_placement: placementName(placement),
+      product_name: ["essencial", "acompanhado"].includes(product) ? product : "essencial", link_placement: placementName(placement),
     });
   }
 

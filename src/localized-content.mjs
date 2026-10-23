@@ -143,8 +143,8 @@ export const EN_SERVICE_PAGES = {
     },
     coaching: {
       eyebrow: 'Acompanhado · one-on-one coaching', title: 'Three one-on-one sessions in 30 days: R$ 497',
-      text: 'Three 45-minute online sessions in 30 days with Carlos (in Portuguese), working on the Essencial files and the Word templates: your English CV, your LinkedIn and your application strategy.',
-      cta: 'I want Acompanhado',
+      text: 'Three 45-minute online sessions in 30 days with Carlos (in Portuguese) to work on your English CV, your LinkedIn and your application strategy. Includes the Essencial guide and the Word templates. You book the sessions after purchase.',
+      cta: 'Buy Acompanhado', question: 'Ask on WhatsApp',
       waMessage: "Hi! I'd like to know how Acompanhado (one-on-one career coaching) works.",
     },
     faqTitle: { eyebrow: 'FAQ', title: 'Before you buy' },

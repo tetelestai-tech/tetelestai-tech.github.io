@@ -6,6 +6,7 @@ export const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 export const INSTAGRAM_URL = "https://www.instagram.com/tetelestai.tech/";
 // Kiwify checkout for the Essencial guide, supplied by Carlos.
 export const CHECKOUT_ESSENCIAL = "https://pay.kiwify.com.br/CVpvQ3c";
+export const CHECKOUT_ACOMPANHADO = "https://pay.kiwify.com.br/syPQpi0";
 
 // A ready-made first message tells the team which page the visitor came from.
 // It is only a prefilled draft: the visitor still decides whether to send it.

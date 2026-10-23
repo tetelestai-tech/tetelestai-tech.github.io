@@ -18,7 +18,7 @@
 - [Projetos](https://tetelestai.tech/projetos/): client websites and the De Rolê and Tempo de Recarga iOS apps
 - [Infinity Car Studio](https://tetelestai.tech/projetos/infinity-car-studio/): car detailing website case study
 - [Bolachinhas da Vovó Juju](https://tetelestai.tech/projetos/bolachinhas-da-vovo-juju/): artisan food landing page case study
-- [Carreira internacional em TI](https://tetelestai.tech/carreira-internacional/): the Essencial guide (R$ 47, 31 pages, plain-text templates and a CSV tracker; optional Word CV and cover letter templates at checkout) and Acompanhado, one-on-one coaching with three 45-minute online sessions in 30 days (R$ 397 at launch, then R$ 497)
+- [Carreira internacional em TI](https://tetelestai.tech/carreira-internacional/): the Essencial guide (R$ 47, 31 pages, plain-text templates and a CSV tracker; optional Word CV and cover letter templates at checkout) and Acompanhado, one-on-one coaching with three 45-minute online sessions in 30 days (R$ 497)
 - [Capacitação em IA](https://tetelestai.tech/capacitacao-em-ia/): on-demand AI training for teams and professionals
 
 ## Pages (English)

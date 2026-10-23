@@ -142,7 +142,7 @@ export const EN_SERVICE_PAGES = {
       text: "It doesn't include video lessons, meetings, individual reviews, submitting applications, referrals or job placement. It's a study and organization guide, with no guarantee of interviews, hiring, salary or visas. People and companies in the examples are fictitious.",
     },
     coaching: {
-      eyebrow: 'Acompanhado · one-on-one coaching', title: 'Three one-on-one sessions in 30 days: R$ 397 at launch (then R$ 497)',
+      eyebrow: 'Acompanhado · one-on-one coaching', title: 'Three one-on-one sessions in 30 days: R$ 497',
       text: 'Three 45-minute online sessions in 30 days with Carlos (in Portuguese), working on the Essencial files and the Word templates: your English CV, your LinkedIn and your application strategy.',
       cta: 'I want Acompanhado',
       waMessage: "Hi! I'd like to know how Acompanhado (one-on-one career coaching) works.",

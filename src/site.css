@@ -168,9 +168,9 @@ html:not(.js) .site-head{background:rgba(0,12,25,.9);border-bottom-color:var(--l
 .trace{fill:none;stroke:rgba(14,208,230,.13);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .node{fill:var(--navy);stroke:rgba(14,208,230,.24);stroke-width:1.5}
 .cover-wrap{width:min(380px,80%)}
-.cover{display:block;width:100%;border-radius:8px;box-shadow:0 40px 80px rgba(0,0,0,.55)}
-.cover--left{transform:rotate(-3deg)}
-.cover--right{transform:rotate(2deg)}
+/* Guide pages stand straight, like the price note on hover, and lift a little under the mouse. */
+.cover{display:block;width:100%;border-radius:8px;box-shadow:0 40px 80px rgba(0,0,0,.55);transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+@media (hover:hover) and (pointer:fine){.cover-wrap:hover .cover{transform:translateY(-6px);box-shadow:0 48px 90px rgba(0,0,0,.6)}}
 .examples{padding:32px}
 .examples ul{font-size:18px;gap:14px}
 
@@ -322,7 +322,10 @@ html:not(.js) .site-head{background:rgba(0,12,25,.9);border-bottom-color:var(--l
 
 /* ---------- Key facts (for people and AI assistants) ---------- */
 .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));margin:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#08131F}
-.facts div{padding:18px 22px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);margin:-1px -1px 0 0}
+.facts div{padding:18px 22px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);margin:-1px -1px 0 0;transition:background-color .25s var(--ease)}
+.facts dt,.facts dd{transition:transform .25s var(--ease),color .2s}
+/* Key facts: the cell lights up and its text rises a little under the mouse. */
+@media (hover:hover) and (pointer:fine){.facts div:hover{background-color:rgba(14,208,230,.06)}.facts div:hover dt,.facts div:hover dd{transform:translateY(-2px)}.facts div:hover dd{color:var(--cyan)}}
 .facts dt{font-family:var(--label);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
 .facts dd{margin:8px 0 0;font-size:16px;color:var(--text)}
 

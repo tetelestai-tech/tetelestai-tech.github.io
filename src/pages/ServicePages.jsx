@@ -169,7 +169,7 @@ export function CareerPage({ locale }) {
     <PageShell locale={locale} page="career" sticky={<BuyLink>{service.buyShort}</BuyLink>}>
       <ServiceHero locale={locale} service={service} headingClass="h1 h1--sm"
         actions={<><BuyLink>{service.buyLabel}</BuyLink><LinkArrow href="#guide" icon="down">{service.secondaryLabel}</LinkArrow></>}
-        media={<div className="hero__media hero__media--center"><div className="load-shot cover-wrap"><img className="cover cover--left" src="/assets/essencial/essencial-capa.webp" alt={service.coverAlt} width="640" height="935" fetchPriority="high" decoding="async" /></div></div>} />
+        media={<div className="hero__media hero__media--center"><div className="load-shot cover-wrap"><img className="cover" src="/assets/essencial/essencial-capa.webp" alt={service.coverAlt} width="640" height="935" fetchPriority="high" decoding="async" /></div></div>} />
 
       <section className="section light" id="guide" aria-labelledby="guide-title">
         <div className="wrap">
@@ -187,7 +187,7 @@ export function CareerPage({ locale }) {
               {service.map.chapters.map(([number, title, page]) => <div className="receipt__row" key={number}><span>{number}</span><span>{title}</span><i /><span className="muted">{page}</span></div>)}
             </div>
           </div>
-          <div className="hero__media--center" data-reveal="zoom"><div className="cover-wrap"><img className="cover cover--right" src="/assets/essencial/essencial-mapa.webp" alt={service.mapAlt} width="640" height="935" loading="lazy" decoding="async" /></div></div>
+          <div className="hero__media--center" data-reveal="zoom"><div className="cover-wrap"><img className="cover" src="/assets/essencial/essencial-mapa.webp" alt={service.mapAlt} width="640" height="935" loading="lazy" decoding="async" /></div></div>
         </div>
       </section>
 

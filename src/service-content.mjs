@@ -140,7 +140,7 @@ export const SERVICE_PAGES = {
       text: "Não inclui aulas em vídeo, encontros, revisão individual, envio de candidaturas, indicação a empregadores ou intermediação de vagas. É um guia de estudo e organização, sem garantia de entrevista, contratação, salário ou visto. Os exemplos de pessoas e empresas são fictícios.",
     },
     coaching: {
-      eyebrow: "Acompanhado · acompanhamento individual", title: "Três encontros individuais em 30 dias: R$ 397 no lançamento (depois, R$ 497)",
+      eyebrow: "Acompanhado · acompanhamento individual", title: "Três encontros individuais em 30 dias: R$ 497",
       text: "Três encontros online de 45 minutos em 30 dias com o Carlos, trabalhando sobre os arquivos do Essencial e os modelos em Word: o seu currículo em inglês, o LinkedIn e a estratégia de candidaturas.",
       cta: "Quero o Acompanhado",
       waMessage: "Olá! Quero saber como funciona o Acompanhado (acompanhamento individual de carreira).",

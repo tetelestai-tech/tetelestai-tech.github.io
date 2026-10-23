@@ -1,142 +1,274 @@
 import { SERVICE_PAGES } from './service-content.mjs';
 import { PORTFOLIO_PAGES } from './portfolio-content.mjs';
 
-// Complete translations of existing approved content, not additional offers.
+// English equivalents of the Portuguese commercial pages (redesign 2026-10).
 export const EN_SERVICE_PAGES = {
   sites: {
-    ...SERVICE_PAGES.sites, path:'/en/website-development/', homeSection:'digital-solutions', category:'Digital solutions',
-    label:'Website development', metaTitle:'Website development for businesses | Tetelestai',
-    metaDescription:'Websites that present your business, explain your services and make contact easier. Tailored visual design and a scope defined for each project.',
-    title:'Website development for businesses',
-    intro:'We develop websites with tailored visual design to present your business and its services. The project starts with what you need to communicate and the path visitors should find to contact you.',
-    objectiveTitle:'What would you like to present?',
-    scopeIntro:'Each project starts with the company’s objectives and priorities. The proposal records the deliverables, responsibilities and working conditions.',
-    useCases:[
-      {title:'Present your business',text:'Bring together information about the business, its activities and its services at a dedicated web address.'},
-      {title:'Explain your services',text:'Give visitors context to understand what your company does and assess whether a service meets their needs. Tetelestai’s website and landing page development pages illustrate this separation by service.'},
-      {title:'Organize the contact path',text:'Show visitors where to find information and how to discuss a specific need with the company. On this website, business inquiries are handled through WhatsApp.'},
+    path: '/en/website-development/',
+    label: 'Website development',
+    metaTitle: 'Website development for small businesses | Tetelestai',
+    metaDescription: 'Professional multi-page websites for small businesses: mobile-first, local SEO and WhatsApp contact. Written proposal. Based in Brasília, Brazil.',
+    eyebrow: 'Website development · Brasília',
+    heading: 'Websites for small businesses',
+    intro: 'A multi-page website that presents your business, explains each service and leads customers to WhatsApp. Price and timeline come in writing after a short conversation.',
+    ctaLabel: 'Get a website quote',
+    secondaryLabel: 'See a website we built',
+    waMessage: "Hi! I'd like a quote for a website for my business.",
+    facts: [['What it is', 'Multi-page business website'], ["Who it's for", 'Small businesses and professionals'], ['Includes', 'Mobile, local SEO and WhatsApp'], ['Price', 'Quoted in writing'], ['Timeline', 'Set in the proposal'], ['Where', 'Brasília and beyond, online']],
+    compare: {
+      eyebrow: 'Website or landing page?', title: 'Choose by what your customers need to see',
+      options: [
+        { badge: 'Multiple pages', title: 'Full website', items: ['One page per service', 'Gallery, about, FAQ and contact', 'Better odds of ranking for each service', 'Can grow with a blog, booking or other languages'], price: 'Quoted per project', cta: 'Get a website quote' },
+        { badge: 'One page', title: 'Landing page', items: ['One offer, one action', 'Live in up to 5 business days', 'Great to share on WhatsApp and Instagram', 'Can grow into a full website later'], price: 'R$ 697', cta: 'See the landing page' },
+      ],
+    },
+    features: {
+      eyebrow: "What's included", title: 'Built to sell, not just to exist',
+      items: [
+        { k: 'Pages', title: 'One page per service', text: 'Clear copy about what you do, for whom and how much, with a WhatsApp call to action on every page.' },
+        { k: 'Google', title: 'Local SEO from day one', text: 'Titles, descriptions, structured data and a sitemap so Google understands what you do and where.' },
+        { k: 'Mobile', title: 'Designed for small screens', text: 'Fast, easy to read and with large buttons. Your customers will see it on their phones.' },
+        { k: 'Photos', title: 'Your work up front', text: 'A gallery of real photos and videos that shows results better than any copy.' },
+        { k: 'Contact', title: 'WhatsApp with a ready message', text: 'Customers tap the button and the chat starts saying where they came from.' },
+        { k: 'Custom', title: 'Features set in the proposal', text: 'Forms, booking, integrations and other languages are added when they make sense for you.' },
+      ],
+    },
+    caseStudy: {
+      key: 'infinityProject', eyebrow: 'Featured project', title: 'Infinity Car Studio: car detailing in Guará II, Brasília',
+      items: ['Washing, sanitizing, polishing, ceramic coating and PPF services organized right at the top.', 'A gallery of photos and videos of real cars.', 'WhatsApp buttons, address and answers about booking.'],
+    },
+    how: { eyebrow: 'How it works', title: 'From first message to a live website' },
+    faqTitle: { eyebrow: 'FAQ', title: 'Questions about website development' },
+    faqs: [
+      { q: 'How much does a full website cost?', a: "It depends on the number of pages and features. You get the price in writing after a WhatsApp conversation, along with the timeline and what's included. To start simpler, a landing page costs R$ 697." },
+      { q: 'How long does it take?', a: 'The timeline comes in the proposal and starts once you send texts and photos. A landing page is ready in up to 5 business days.' },
+      { q: 'Will my website show up on Google?', a: 'Every site ships with basic SEO: titles, descriptions, structured data and a sitemap submitted to Google. Rankings also depend on competition and content over time.' },
+      { q: 'Do I need texts and photos ready?', a: "It helps to gather what you have. The proposal states what will be used, what's missing and who handles each part." },
+      { q: 'Are domain, hosting and maintenance included?', a: 'Domain and hosting are billed separately. Updates and maintenance after delivery are agreed as needed.' },
+      { q: 'Do you work outside Brasília?', a: 'Yes. We work over WhatsApp and deliver online.' },
     ],
-    scope:[
-      {title:'Structure and navigation',text:'Define pages, sections and navigation paths according to the information the website needs to present.'},
-      {title:'Visual design',text:'A tailored presentation that considers the company’s identity and the organization of its content.'},
-      {title:'Copy and images',text:'Review available materials and define who will supply, produce and approve each piece of content.'},
-      {title:'Features and publication',text:'Features, integrations and publication arrangements are assessed when defining the scope.'},
-    ],
-    faqs:[
-      {q:'What is the difference between a website and a landing page?',a:'A website can bring together information about the company and different services. A landing page focuses the presentation of an offer or campaign on one main action, such as starting a conversation.'},
-      {q:'Do I need to have copy and images ready?',a:'Gather what you already have. The scope should identify which materials will be used, what still needs to be prepared and who is responsible for each part.'},
-      {q:'How are the domain, hosting and maintenance handled?',a:'The proposal must specify who manages the domain and hosting, how publication will work and which conditions apply to updates and maintenance.'},
-      {q:'How is the price determined?',a:'It depends on the objectives, website structure, available materials and required features. The initial conversation helps define the work before a proposal is prepared.'},
-    ],
-    contactTitle:'Tell us what your business needs', contactText:'Share the website’s objective, the services you want to present and whether you already have a published page. We will discuss scope, availability and conditions.', ctaLabel:'Discuss my website',
+    final: { title: "Let's talk about your website", text: 'Tell us which services you offer and for whom. The proposal comes with price and timeline.' },
   },
-  landingPages:{
-    ...SERVICE_PAGES.landingPages, path:'/en/landing-pages/', homeSection:'digital-solutions', category:'Digital solutions',
-    label:'Landing page development', metaTitle:'Landing page development for businesses | Tetelestai',
-    metaDescription:'Landing pages that present an offer or campaign and guide a contact action. Tailored visual design and a scope defined for each project.',
-    title:'Landing page development for businesses', intro:'We develop landing pages to present an offer or campaign with a clear objective. Content and design are organized around what visitors need to understand before taking the next step.',
-    objectiveTitle:'What would you like to present?', scopeIntro:'Each project starts with the company’s objectives and priorities. The proposal records the deliverables, responsibilities and working conditions.',
-    useCases:[
-      {title:'Present an offer',text:'Explain a specific service or product, its features and the information needed to start a conversation. This page presents our landing page development service and its scope arrangements.'},
-      {title:'Welcome campaign visitors',text:'Continue the message shared in ads, social media or other channels on a page dedicated to the campaign.'},
-      {title:'Focus on one action',text:'Guide visitors toward a defined next step, such as chatting on WhatsApp or requesting information. Here, the proposed action is to discuss the project on WhatsApp.'},
+  landingPages: {
+    path: '/en/landing-pages/',
+    label: 'Landing page development',
+    metaTitle: 'Landing pages from R$ 697 | Tetelestai',
+    metaDescription: 'Landing pages for small businesses: up to 5 sections, mobile version, WhatsApp button and basic SEO. R$ 697, live in up to 5 business days.',
+    eyebrow: 'Landing page · R$ 697',
+    heading: 'Landing pages for small businesses: R$ 697, live in up to 5 business days',
+    intro: 'One page with everything customers need to know before messaging you: what you do, how it works and what it costs.',
+    ctaLabel: 'I want my landing page',
+    secondaryLabel: 'See a live example',
+    waMessage: "Hi! I'd like the R$ 697 landing page.",
+    price: '697.00',
+    facts: [['Price', 'R$ 697 or 2 × R$ 348.50'], ['Includes', '1 page, up to 5 sections'], ['Mobile + WhatsApp', 'Included'], ['Basic SEO', 'Included'], ['Timeline', 'Up to 5 business days'], ['Not included', 'Domain and hosting']],
+    audience: {
+      eyebrow: "Who it's for", title: 'For businesses that sell through conversation',
+      items: [
+        { k: '01', title: 'You sell on WhatsApp', text: 'And need a link to send when customers ask “how does it work?” or “how much?”.' },
+        { k: '02', title: 'You have a specific offer', text: 'A service, a product or a campaign that deserves its own page.' },
+        { k: '03', title: "You don't have a website yet", text: 'Start with one solid page and grow it into a full site when it makes sense.' },
+      ],
+    },
+    anatomy: {
+      eyebrow: 'Example structure', title: 'The 5 sections that help most',
+      aside: 'The structure adapts to each business and is defined in the proposal.',
+      items: [
+        { title: 'Opening', text: 'What you do, for whom, and the WhatsApp button.' },
+        { title: 'Services or product', text: 'What customers can buy, with prices when it makes sense.' },
+        { title: 'How it works', text: 'The steps from first contact to delivery.' },
+        { title: 'Proof', text: 'Photos of real work and customer reviews.' },
+        { title: 'FAQ and contact', text: 'The questions you answer most on WhatsApp.' },
+      ],
+    },
+    caseStudy: {
+      key: 'jujuProject', eyebrow: 'Live example', title: 'Bolachinhas da Vovó Juju',
+      text: 'Product photos right at the top, comfortable reading on mobile and a direct path to order through Instagram.',
+    },
+    how: { eyebrow: 'How it works', title: 'Three steps to a live page' },
+    faqTitle: { eyebrow: 'FAQ', title: 'Questions about landing pages' },
+    faqs: [
+      { q: 'Does a landing page replace a website?', a: 'Not necessarily. It presents one specific offer, while a website presents the whole business. Both can work together, and a landing page can grow into a website later.' },
+      { q: 'Do I need to run ads?', a: 'No. Share the link on WhatsApp, add it to your Instagram bio and post it anywhere. If you run ads, the page is ready for those visitors.' },
+      { q: "What's included for R$ 697?", a: 'One page with up to 5 sections, a mobile version, a WhatsApp button, basic SEO and one round of revisions. Domain and hosting are billed separately.' },
+      { q: 'Are forms and integrations included?', a: 'That depends on the scope. If you need to collect data or connect another system, it goes into the proposal with an agreed price.' },
+      { q: 'What should I send to get a proposal?', a: 'What you sell, to whom, where visitors come from, what they should do on the page and whether you already have a domain or hosting.' },
+      { q: 'How does payment work?', a: 'R$ 697, or 2 × R$ 348.50. The terms for each installment are in the proposal.' },
     ],
-    scope:[
-      {title:'Page objective',text:'Define the offer, audience and action the page should present to visitors.'},
-      {title:'Content and design',text:'Organize the sections and tailored visual design, defining copy, images and responsibility for these materials.'},
-      {title:'Contact path',text:'Choose the call to action and contact destination according to the project’s objective and available channels.'},
-      {title:'Features and publication',text:'Forms, integrations and publication arrangements must be assessed and defined in the scope.'},
-    ],
-    faqs:[
-      {q:'Does a landing page replace the company website?',a:'It depends on what you need to present. A landing page can serve a specific offer, while a website brings together broader information about the company and its services. Both formats can also be used together.'},
-      {q:'Do I need to run ads to use a landing page?',a:'No. The address can also be shared through social media, messages and other channels. Where visitors come from helps define the message and page structure.'},
-      {q:'Are forms and integrations included in the project?',a:'Their inclusion depends on the scope. We need to identify what will be collected, where the information will be sent and which systems and access permissions are involved.'},
-      {q:'What information should I provide to request a proposal?',a:'Describe the offer, the people you want to reach, where visitors will come from and the action you want to guide. It also helps to share which materials are available and whether you already have a domain or hosting.'},
-    ],
-    contactTitle:'What offer would you like to present?',contactText:'Tell us the page’s objective and how you plan to promote it. With this context, we can discuss scope, availability and conditions.',ctaLabel:'Discuss my landing page',
+    final: { title: 'Want your landing page?', text: 'Send a message telling us what you sell. The proposal comes with price and timeline.' },
   },
-  career:{
-    ...SERVICE_PAGES.career,path:'/en/international-career/',homeSection:'international-career',category:'International careers',
-    label:'International career consulting',metaTitle:'International career consulting for technology professionals | Tetelestai',
-    metaDescription:'Guidance for technology professionals: English CV, LinkedIn, ATS alignment and an international application strategy.',
-    title:'International career consulting for technology professionals',intro:'Strategic guidance for technology professionals who want to work globally. Professional positioning through an English CV, LinkedIn, ATS alignment and an application strategy.',
-    objectiveTitle:'What is your career goal?',scopeIntro:'Each engagement starts with your career goal and current context. The proposal records the consulting deliverables and working conditions.',
-    useCases:[
-      {title:'Organize your professional positioning',text:'Align the presentation of your career history with your objective of working internationally.'},
-      {title:'Present your CV and LinkedIn profile',text:'Work on the presentation of your English CV and LinkedIn profile, considering ATS alignment within the consulting scope.'},
-      {title:'Define an application strategy',text:'Organize applications according to your stated objective and professional context.'},
+  career: {
+    path: '/en/international-career/',
+    label: 'International careers in tech',
+    metaTitle: 'English CV and international tech jobs guide | Tetelestai',
+    metaDescription: 'A 31-page guide (in Portuguese) with a 7-day plan, English templates and an application tracker for tech professionals in Brazil. R$ 47 via Kiwify.',
+    eyebrow: 'International careers in tech · Essencial',
+    heading: 'English CV, LinkedIn and job applications, organized for international tech roles',
+    intro: 'A 31-page guide in Portuguese with a 7-day plan, fill-in English templates and a spreadsheet to track every application.',
+    byline: 'By Carlos Viegas, a software engineer for 22 years who works from Brazil for international AI companies.',
+    buyLabel: 'Buy the Essencial for R$ 47',
+    buyShort: 'Buy for R$ 47',
+    secondaryLabel: "See what's inside",
+    productName: 'Candidaturas internacionais em TI — Essencial',
+    price: '47.00',
+    coverAlt: 'Cover of the Candidaturas internacionais em TI guide, edition 02',
+    mapAlt: 'Guide map page listing the 7 stages',
+    facts: [['Format', '31-page PDF, templates and tracker'], ["Who it's for", 'Tech professionals in Brazil'], ['Price', 'R$ 47 via Kiwify'], ['Language', 'Portuguese, with English templates'], ['Edition', '02 · October 2026'], ['Author', 'Carlos Viegas']],
+    build: {
+      eyebrow: "What you'll build", title: 'Six pieces that tell the same story',
+      items: [
+        { k: '01', title: 'Target definition', text: 'One sentence stating the role you want, the work model and the skills you can actually demonstrate.' },
+        { k: '02', title: 'Experience inventory', text: 'Real decisions, problems and deliveries that become evidence on your CV.' },
+        { k: '03', title: 'English CV', text: 'With examples and a fill-in template, without inventing levels or experience.' },
+        { k: '04', title: 'LinkedIn profile', text: 'Consistent with your CV: dates, roles, technologies and language level all matching.' },
+        { k: '05', title: 'Outreach messages', text: 'English templates for recruiters and referral requests.' },
+        { k: '06', title: 'Application tracker', text: 'A spreadsheet to follow each role, reply and next step.' },
+      ],
+    },
+    map: {
+      eyebrow: 'Guide map', title: 'From choosing a role to following up',
+      chapters: [['01', 'Define your target and vet the role', 'p. 4'], ['02', 'Prepare your CV and LinkedIn', 'p. 10'], ['03', 'Show projects and start conversations', 'p. 15'], ['04', 'Apply and track replies', 'p. 17'], ['05', 'Prepare for interviews and avoid scams', 'p. 22'], ['06', 'Run the 7-day plan and review', 'p. 24'], ['07', 'Checklist, templates and references', 'p. 26']],
+    },
+    author: {
+      eyebrow: 'Who wrote it', name: 'Carlos Viegas',
+      paragraphs: [
+        'Carlos Viegas has been a software engineer for more than 22 years. He started in 2004 building high-volume systems for banks and telecom companies and was a tech lead at Banco do Brasil for 14 years.',
+        'Since 2025 he has worked remotely from Brasília, evaluating the quality of artificial intelligence models for international companies. Getting there meant going through the steps this guide organizes: an English CV, LinkedIn, eligibility forms and hiring processes at foreign companies.',
+      ],
+    },
+    notIncluded: {
+      eyebrow: 'To be clear', title: "What the Essencial doesn't include",
+      text: "It doesn't include video lessons, meetings, individual reviews, submitting applications, referrals or job placement. It's a study and organization guide, with no guarantee of interviews, hiring, salary or visas. People and companies in the examples are fictitious.",
+    },
+    coaching: {
+      eyebrow: 'One-on-one coaching', title: 'Founding cohort: 5 spots at R$ 397',
+      text: 'Three 45-minute sessions over four weeks to review your CV, LinkedIn and application strategy with Carlos (in Portuguese). The cohort opens once the waitlist fills all 5 spots.',
+      cta: 'Join the waitlist',
+      waMessage: "Hi! I'd like to join the waitlist for the one-on-one career coaching (founding cohort).",
+    },
+    faqTitle: { eyebrow: 'FAQ', title: 'Before you buy' },
+    faqs: [
+      { q: 'Who is the Essencial for?', a: 'Tech professionals in Brazil who want to apply for international roles, remote or relocating. Examples focus on software development, and the process also works for data, infrastructure, QA and other roles.' },
+      { q: 'Is the guide in English?', a: 'The guide is written in Portuguese. The CV and outreach templates are in English.' },
+      { q: 'How do I get the material?', a: 'You buy through Kiwify. Once payment is confirmed, you get access to the PDF, templates and tracker.' },
+      { q: 'Can I get a refund?', a: 'Yes. Brazilian consumer law gives you 7 days to cancel online purchases and request a refund.' },
+      { q: 'Does it guarantee interviews, a job or a visa?', a: "No. Interviews and hiring depend on employers. The guide doesn't provide immigration legal advice." },
+      { q: 'Does it include a review of my CV?', a: 'No. Individual reviews are part of the one-on-one coaching, which has a waitlist for the founding cohort.' },
     ],
-    scope:[
-      {title:'Goal and context',text:'Understand your career goal, background and relevant constraints.'},
-      {title:'English CV and ATS',text:'Define the work on your English CV and its alignment with ATS requirements.'},
-      {title:'LinkedIn',text:'Guidance on the positioning and presentation of your professional profile.'},
-      {title:'Application strategy',text:'Define the areas to work on and the next steps within the agreed scope.'},
-    ],
-    faqs:[
-      {q:'Who is international career consulting for?',a:'Technology professionals who want to organize their positioning and applications for international opportunities.'},
-      {q:'Does the consulting service guarantee interviews or a job offer?',a:'No. Interviews and hiring depend on recruitment processes and employers’ decisions. The consulting service focuses on professional positioning and application strategy.'},
-      {q:'Does the consulting service include immigration legal advice?',a:'No. The consulting service does not provide immigration legal advice, visa services or immigration guarantees.'},
-      {q:'What should I share in the first conversation?',a:'Share your career goal and application context. Review the scope and conditions before sending materials; do not send full CVs or sensitive documents in the first conversation.'},
-    ],
-    contactTitle:'Tell us your career goal',contactText:'Share what you would like to work on in your international applications and ask about the consulting scope, availability and conditions.',ctaLabel:'Discuss my international career',
+    final: { title: 'Start with the right target', text: '31 pages, from choosing a role to tracking every application.' },
   },
-  aiTraining:{
-    ...SERVICE_PAGES.aiTraining,path:'/en/ai-training/',homeSection:'practical-ai',category:'AI training',
-    label:'AI training',metaTitle:'Practical AI training for people and businesses | Tetelestai',
-    metaDescription:'Artificial intelligence training with content and format defined according to the audience, objective and participants’ level of knowledge.',
-    title:'Practical artificial intelligence training',intro:'Practical, applied training for people and businesses to develop AI skills. Content and format are adapted to the audience, objective and participants’ level of knowledge.',
-    objectiveTitle:'What would you like to develop with AI?',scopeIntro:'Training is provided on demand. Content and format are defined according to the audience, objective and participants’ level of knowledge.',
-    useCases:[
-      {title:'Develop AI skills',text:'Define what you would like to learn and how that objective will guide the training.'},
-      {title:'Train people and teams',text:'Consider the participants and their current knowledge when preparing the training.'},
-      {title:'Connect content with your objective',text:'Organize content around the need described in the initial conversation.'},
+  aiTraining: {
+    path: '/en/ai-training/',
+    label: 'AI training',
+    metaTitle: 'Practical AI training for teams | Tetelestai',
+    metaDescription: "Hands-on artificial intelligence training on demand, tailored to your audience, your goal and your team's current level. Talk to Tetelestai on WhatsApp.",
+    eyebrow: 'AI training',
+    heading: 'Practical AI training for teams and professionals',
+    intro: "On-demand training built around your audience, your goal and your team's current level. No generic curriculum.",
+    ctaLabel: 'Talk about training',
+    waMessage: "Hi! I'd like to talk about AI training.",
+    examples: {
+      title: 'For example, we can work on',
+      items: ['Writing and reviewing customer service and sales copy', 'Organizing information, spreadsheets and reports', 'Creating social media content with human review', 'Using AI without exposing sensitive company data'],
+    },
+    facts: [['Format', 'On demand'], ["Who it's for", 'Individuals and companies'], ['Prerequisites', 'None'], ['Content', 'Set by your goal'], ['Instructor', 'Carlos Viegas'], ['How to start', 'A WhatsApp conversation']],
+    define: {
+      eyebrow: 'What we define together', title: 'Four decisions before the first session',
+      items: [
+        { k: '01', title: 'Audience and level', text: "Who's taking part and what they already know about AI." },
+        { k: '02', title: 'Goal and content', text: 'What the team should be able to do after the training.' },
+        { k: '03', title: 'Format', text: "Length, number of sessions and whether it's online or in person." },
+        { k: '04', title: 'Availability and terms', text: 'Dates, pricing and materials, in writing.' },
+      ],
+    },
+    how: {
+      eyebrow: 'How it works', title: 'From context to delivery',
+      steps: [
+        { k: 'Stage 1', title: 'Understand', text: "Your team's goals, context and constraints." },
+        { k: 'Stage 2', title: 'Define', text: 'Content, format and expected outcomes.' },
+        { k: 'Stage 3', title: 'Deliver', text: 'Hands-on sessions, materials and next steps.' },
+      ],
+    },
+    faqTitle: { eyebrow: 'FAQ', title: 'Before we start' },
+    faqs: [
+      { q: 'Who is the training for?', a: 'Individuals and companies that want to use artificial intelligence at work in a practical and safe way.' },
+      { q: 'Is there a fixed curriculum?', a: "No. Content is built on demand, based on the audience, the goal and the participants' level." },
+      { q: 'Do I need AI experience?', a: "No. Training starts from the group's current level." },
+      { q: 'What should I send to start?', a: "Who will take part, the goal and their current level. Please don't send sensitive data in the first message." },
     ],
-    scope:[
-      {title:'Audience and level',text:'Identify the participants and the level of knowledge to consider in the training.'},
-      {title:'Objective and content',text:'Define topics and activities according to the stated objective.'},
-      {title:'Format',text:'Define the training format and organization within the agreed scope.'},
-      {title:'Availability and conditions',text:'Review the working conditions before confirming the training.'},
-    ],
-    faqs:[
-      {q:'Who is AI training for?',a:'People and businesses that want to develop practical artificial intelligence skills. Content is adapted to the audience and objective.'},
-      {q:'Is there a fixed training program?',a:'Training is provided on demand. Content and format are defined according to the audience, objective and participants’ level of knowledge.'},
-      {q:'Do I need previous experience with AI?',a:'Your level of knowledge is considered when defining the content. Tell us what you or your team already know and what you would like to develop.'},
-      {q:'What should I share to discuss a training engagement?',a:'Describe who will participate, the objective and their current knowledge level. With this context, we can discuss scope, availability and conditions.'},
-    ],
-    contactTitle:'Tell us the training objective',contactText:'Share the audience, objective and participants’ knowledge level to discuss on-demand AI training.',ctaLabel:'Discuss AI training',
+    final: { title: "Let's talk about your team", text: 'Share the goal and who will take part. The proposal comes with format, dates and pricing.' },
   },
 };
 
 export const EN_PORTFOLIO_PAGES = {
-  portfolio:{...PORTFOLIO_PAGES.portfolio,path:'/en/projects/',label:'Projects',metaTitle:'Website and iOS App Portfolio | TETELESTAI',metaDescription:'Explore Tetelestai’s websites for Infinity Car Studio and Vovó Juju, plus the iOS apps Tempo de Recarga and De Rolê.'},
-  infinityProject:{...PORTFOLIO_PAGES.infinityProject,path:'/en/projects/infinity-car-studio/',category:'Automotive detailing',type:'Business website',
-    intro:'A digital presentation for Infinity’s automotive detailing business in Guará II, Brasília. The website brings together its services, work published by the team and contact options.',
-    objective:'Present automotive detailing services and let visitors explore the work before asking the team about care for their car.',
-    delivery:[
-      {title:'Identity and presentation',text:'Responsive design with Infinity’s identity and images of work carried out by the company.'},
-      {title:'Services and work',text:'Organization of washing, interior cleaning, polishing, ceramic coating and PPF services, with a photo and video gallery.'},
-      {title:'Contact path',text:'Direct WhatsApp links, the address in Guará II and answers to questions about services and inquiries.'},
-    ],tags:['Business website','Photo and video','WhatsApp'],
-    metaTitle:'Infinity Car Studio — website project | Tetelestai',metaDescription:'Explore the Infinity Car Studio website developed by Tetelestai: service presentation, work in photos and videos, and WhatsApp contact.',
+  portfolio: {
+    ...PORTFOLIO_PAGES.portfolio,
+    path: '/en/projects/',
+    label: 'Projects',
+    metaTitle: 'Projects: websites and iOS apps | Tetelestai',
+    metaDescription: 'See the Infinity Car Studio and Bolachinhas da Vovó Juju websites and the De Rolê and Tempo de Recarga iOS apps, built by Tetelestai in Brasília.',
+    eyebrow: 'Projects',
+    heading: 'Live projects: business websites and App Store apps',
+    intro: "Open them on your phone. That's how your customers will see your page.",
+    jumpSites: 'Client websites',
+    jumpApps: 'iOS apps',
+    sites: { eyebrow: 'Client websites', title: 'Different identities, the same care for the end customer' },
+    apps: { eyebrow: 'From idea to app', title: 'iOS apps', aside: 'Both were designed, built and published by Tetelestai.' },
+    instagram: {
+      eyebrow: 'Beyond the projects', title: 'Content on Instagram',
+      aside: 'Original videos and remixes from IA na Prática, shared in collaboration with TETELESTAI. Videos in Portuguese.',
+      more: 'Visit IA na Prática',
+    },
+    final: { title: 'Want a project like these?', text: 'Tell us what you need. The proposal comes with price and timeline.' },
   },
-  jujuProject:{...PORTFOLIO_PAGES.jujuProject,path:'/en/projects/bolachinhas-da-vovo-juju/',category:'Artisan food',type:'Landing page',
-    intro:'A page dedicated to Vovó Juju’s sweet cassava-starch biscuits. Product photographs and an artisan identity guide the brand presentation and contact through Instagram.',
-    objective:'Present the brand and its sweet cassava-starch biscuits, highlighting product photography and a direct path to ask about availability on Instagram.',
-    delivery:[
-      {title:'Product in focus',text:'An opening with photographs of the biscuits and packaging, preserving the brand’s visual identity.'},
-      {title:'Desktop and mobile reading',text:'A responsive composition for exploring the products and navigating the page’s information.'},
-      {title:'Instagram contact',text:'Guidance for inquiries about products, pickup and ingredients, with a direct link to the brand’s profile.'},
-    ],tags:['Landing page','Product showcase','Instagram'],
-    metaTitle:'Bolachinhas da Vovó Juju — website project | Tetelestai',metaDescription:'Explore the Vovó Juju landing page developed by Tetelestai: artisan identity, product photography, responsive presentation and Instagram contact.',
+  infinityProject: {
+    ...PORTFOLIO_PAGES.infinityProject,
+    path: '/en/projects/infinity-car-studio/',
+    metaTitle: 'Infinity Car Studio — website case study | Tetelestai',
+    metaDescription: 'How we built the Infinity Car Studio website, a car detailing studio in Brasília: services up front, a photo and video gallery and WhatsApp at hand.',
+    category: 'Car detailing · Guará II, Brasília',
+    summary: 'Services up front, a gallery of real photos and videos, and WhatsApp always one tap away on mobile.',
+    eyebrow: 'Case study · Car detailing',
+    intro: 'A car detailing website in Guará II, Brasília: clear services, a gallery of real work and WhatsApp always at hand.',
+    altDesktop: 'Infinity Car Studio home page on a desktop, in Portuguese',
+    altMobile: 'Infinity Car Studio website on a phone, in Portuguese',
+    facts: [['Client', 'Infinity Car Studio'], ['Industry', 'Car detailing'], ['Location', 'Guará II, Brasília, Brazil'], ['Project type', 'Business website'], ['Client services', 'Washing, sanitizing, polishing, ceramic coating and PPF'], ['Contact', 'WhatsApp and address']],
+    decisions: [
+      { k: 'Goal', title: 'Present services and show real work', text: 'People looking for car detailing want to see results before reaching out. The site exists to show the work and make contact easy.' },
+      { k: 'Identity', title: "Infinity's look on mobile and desktop", text: "A responsive layout with the brand's visual identity, so the site feels like an extension of the studio." },
+      { k: 'Services and work', title: 'Services next to the gallery', text: "Each service sits next to photos and videos of real cars, so customers understand what they'll get." },
+      { k: 'Contact', title: 'WhatsApp, address and FAQ', text: 'Direct WhatsApp buttons, the Guará II address and answers to common questions about services and booking.' },
+    ],
+    delivered: ['Responsive business website', 'Services overview', 'Photo and video gallery', 'WhatsApp buttons', 'Address and FAQ'],
+  },
+  jujuProject: {
+    ...PORTFOLIO_PAGES.jujuProject,
+    path: '/en/projects/bolachinhas-da-vovo-juju/',
+    metaTitle: 'Bolachinhas da Vovó Juju — landing page case | Tetelestai',
+    metaDescription: 'The Bolachinhas da Vovó Juju landing page: product photos up front, comfortable reading on mobile and ordering through Instagram. See the project decisions.',
+    category: 'Artisan food · Landing page',
+    summary: 'A one-page site that puts the product first, with photos of the cookies and ordering through Instagram.',
+    eyebrow: 'Case study · Artisan food',
+    intro: 'A landing page for a sweet cassava cookie brand: the product comes first and orders go through Instagram.',
+    altDesktop: 'Bolachinhas da Vovó Juju home page on a desktop, in Portuguese',
+    altMobile: 'Bolachinhas da Vovó Juju website on a phone, in Portuguese',
+    facts: [['Client', 'Bolachinhas da Vovó Juju'], ['Industry', 'Artisan food'], ['Product', 'Sweet cassava starch cookies'], ['Project type', 'Landing page'], ['Contact', "The brand's Instagram"], ['Reading', 'Desktop and mobile']],
+    decisions: [
+      { k: 'Goal', title: 'Present the brand and its cookies', text: 'Show the product, highlight the photography and give visitors a direct path to check availability.' },
+      { k: 'Product first', title: 'Photos at the top', text: "The page opens with photos of the cookies and packaging, preserving the brand's handmade identity." },
+      { k: 'Reading', title: 'Comfortable on desktop and mobile', text: 'A responsive layout with text and photos organized for small screens.' },
+      { k: 'Contact', title: 'Ordering through Instagram', text: "Questions about products, pickup and ingredients go to the brand's profile through a direct link." },
+    ],
+    delivered: ['Responsive landing page', 'Product photography at the top', 'Handmade identity preserved', 'Direct path to Instagram'],
   },
 };
 
 export const servicesFor = locale => locale === 'en' ? EN_SERVICE_PAGES : SERVICE_PAGES;
 export const portfolioFor = locale => locale === 'en' ? EN_PORTFOLIO_PAGES : PORTFOLIO_PAGES;
 export function equivalentPaths(page) {
-  const pt=SERVICE_PAGES[page] ?? PORTFOLIO_PAGES[page];
-  const en=EN_SERVICE_PAGES[page] ?? EN_PORTFOLIO_PAGES[page];
-  return pt && en ? {pt:pt.path,en:en.path} : {pt:'/',en:'/en/'};
+  const pt = SERVICE_PAGES[page] ?? PORTFOLIO_PAGES[page];
+  const en = EN_SERVICE_PAGES[page] ?? EN_PORTFOLIO_PAGES[page];
+  return pt && en ? { pt: pt.path, en: en.path } : { pt: '/', en: '/en/' };
 }
 
-export const COMMERCIAL_TRANSLATIONS = [...Object.keys(SERVICE_PAGES),...Object.keys(PORTFOLIO_PAGES)].map(equivalentPaths);
+export const COMMERCIAL_TRANSLATIONS = [...Object.keys(SERVICE_PAGES), ...Object.keys(PORTFOLIO_PAGES)].map(equivalentPaths);

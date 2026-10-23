@@ -15,8 +15,9 @@ Institutional bilingual website for Tetelestai Soluções em Tecnologia Ltda.
 
 - React 19 and Vite 6.
 - Static, client-rendered interface with route-specific prebuilt HTML metadata shells.
-- Locally hosted Michroma and Inter fonts.
-- Phosphor icon library.
+- Locally hosted fonts (Fontsource): Bricolage Grotesque, Figtree, JetBrains Mono and Michroma (wordmark).
+- Inline SVG icons; one stylesheet (`src/site.css`).
+- Page components in `src/pages/`, shared layout in `src/Layout.jsx`, building blocks in `src/ui.jsx`; copy lives in the `*-content.mjs` modules.
 - No database, API, form, analytics or non-essential cookies.
 - Strict production route allowlist; unknown HTML paths remain HTTP 404.
 - GitHub Pages workflow prepared for `dist/client`.

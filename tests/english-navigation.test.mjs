@@ -29,7 +29,7 @@ test('English home restores service shortcuts and every translated page preserve
       assert.ok(!english.includes('This address does not exist'),en);
       assert.ok(english.includes(`href="${pt}" lang="pt-BR"`),`PT counterpart ${en}`);
       assert.ok(portuguese.includes(`href="${en}" lang="en"`),`EN counterpart ${pt}`);
-      assert.ok(english.includes('href="/en/#projects"'));
+      assert.ok(english.includes('href="/en/projects/"'), 'English pages link to the English portfolio');
       for (const target of pairs.map(p=>p[0])) {
         const links=[...english.matchAll(/<a\b[^>]*>/g)].map(m=>m[0]);
         assert.ok(!links.some(a=>a.includes(`href="${target}"`)&&!a.includes('lang="pt-BR"')),`Unexpected PT link ${target} on ${en}`);

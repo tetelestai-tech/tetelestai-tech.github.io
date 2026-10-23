@@ -19,7 +19,7 @@ const COPY = {
 };
 
 export function AnalyticsPreferencesButton({ locale }) {
-  return <button type="button" className="footer-link cookie-preferences" onClick={event => {
+  return <button type="button" className="cookie-preferences" onClick={event => {
     window.dispatchEvent(new CustomEvent(PREFERENCES_EVENT, { detail: event.currentTarget }));
   }}>{COPY[locale].preferences}</button>;
 }

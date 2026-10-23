@@ -11,7 +11,7 @@ import { renderToString } from "react-dom/server";
 const servicePages = [
   {
     path: "/criacao-de-sites/",
-    heading: "Criação de sites para empresas",
+    heading: "Criação de sites para pequenos negócios em Brasília",
     titlePattern: /criação de sites/i,
     canonical: "https://tetelestai.tech/criacao-de-sites/",
     shell: "/criacao-de-sites/index.html",
@@ -20,16 +20,16 @@ const servicePages = [
   },
   {
     path: "/criacao-de-landing-pages/",
-    heading: "Criação de landing pages para empresas",
-    titlePattern: /criação de landing pages/i,
+    heading: "Landing page para pequenos negócios: R$\u00a0697, no ar em até 5 dias úteis",
+    titlePattern: /criação de landing page/i,
     canonical: "https://tetelestai.tech/criacao-de-landing-pages/",
     shell: "/criacao-de-landing-pages/index.html",
     fixture: "landing pages page",
-    contentPattern: /landing pages/i,
+    contentPattern: /landing page/i,
   },
   {
     path: "/carreira-internacional/",
-    heading: "Consultoria de carreira internacional para profissionais de tecnologia",
+    heading: "Currículo em inglês, LinkedIn e candidaturas organizados para vagas internacionais em TI",
     titlePattern: /carreira internacional/i,
     canonical: "https://tetelestai.tech/carreira-internacional/",
     shell: "/carreira-internacional/index.html",
@@ -38,7 +38,7 @@ const servicePages = [
   },
   {
     path: "/capacitacao-em-ia/",
-    heading: "Capacitação prática em inteligência artificial",
+    heading: "Capacitação prática em IA para equipes e profissionais",
     titlePattern: /capacitação.*IA/i,
     canonical: "https://tetelestai.tech/capacitacao-em-ia/",
     shell: "/capacitacao-em-ia/index.html",
@@ -62,7 +62,14 @@ function tags(html, name) {
 }
 
 function textContent(markup) {
-  return markup.replace(/<!--[\s\S]*?-->/g, "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+  return markup.replace(/<!--[\s\S]*?-->/g, "").replace(/<[^>]*>/g, "").replace(/[ \t\n\r]+/g, " ").trim();
+}
+
+// WhatsApp entry points may carry a prefilled first message; the number stays the confirmed one.
+function isConfirmedWhatsApp(href) {
+  if (href === "https://wa.me/556184711930") return true;
+  const match = href?.match(/^https:\/\/wa\.me\/556184711930\?text=([^"&]+)$/);
+  return Boolean(match && decodeURIComponent(match[1]).trim().length > 10);
 }
 
 function metadata(html, name) {
@@ -102,8 +109,11 @@ for (const page of servicePages) {
       .map((match) => textContent(match[1]));
     assert.ok(paragraphs.some((text) => page.contentPattern.test(text)),
       "Service copy must be present in the initial HTML, not only in a JavaScript bundle");
-    assert.ok(tags(main, "a").some((tag) => attribute(tag, "href") === "https://wa.me/556184711930"),
+    const career = page.path === "/carreira-internacional/";
+    assert.ok(tags(main, "a").some((tag) => isConfirmedWhatsApp(attribute(tag, "href")?.replaceAll("&amp;", "&"))),
       "The initial service content must link to the confirmed WhatsApp address");
+    if (career) assert.ok(tags(main, "a").some((tag) => attribute(tag, "href") === "https://pay.kiwify.com.br/CVpvQ3c"),
+      "The career guide must link to its checkout");
   });
 
   test(`${page.path} has its own indexable Portuguese metadata with its equivalent English translation`, async () => {
@@ -207,7 +217,7 @@ test("the English home contains its translated content and contact before JavaSc
   assert.ok(main, "The English home must include initial main content");
   assert.match(textContent(main), /Technology with purpose/);
   assert.match(textContent(main), /International career/);
-  assert.ok(tags(main, "a").some(tag => attribute(tag, "href") === "https://wa.me/556184711930"));
+  assert.ok(tags(main, "a").some(tag => isConfirmedWhatsApp(attribute(tag, "href")?.replaceAll("&amp;", "&"))));
   assert.equal(attribute(tags(html, "html")[0], "lang"), "en");
 });
 

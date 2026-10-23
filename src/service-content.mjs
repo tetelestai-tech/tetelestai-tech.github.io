@@ -1,233 +1,199 @@
+// Portuguese service pages (redesign 2026-10). `label` and `intro` also feed the
+// Service structured data; `intro` must stay identical to the visible hero lead.
 export const SERVICE_PAGES = {
   sites: {
-    homeSection: "solucoes-digitais",
-    category: "Soluções digitais",
-    objectiveTitle: "O que você quer apresentar?",
-    scopeIntro: "Cada projeto parte dos objetivos e das prioridades da empresa. A proposta registra as entregas, as responsabilidades e as condições do trabalho.",
-    showOwnProjects: true,
     path: "/criacao-de-sites/",
     label: "Criação de sites",
-    metaTitle: "Criação de sites para empresas | Tetelestai",
-    metaDescription:
-      "Sites para apresentar sua empresa, explicar seus serviços e facilitar o contato. Design visual sob medida e escopo definido conforme o projeto.",
-    title: "Criação de sites para empresas",
-    intro:
-      "Desenvolvemos sites com design visual sob medida para apresentar sua empresa e seus serviços. O projeto começa pelo que você precisa comunicar e pelo caminho que o visitante deve encontrar para entrar em contato.",
-    useCases: [
-      {
-        title: "Apresentar sua empresa",
-        text:
-          "Reunir informações sobre o negócio, sua atuação e os serviços oferecidos em um endereço próprio.",
-      },
-      {
-        title: "Explicar seus serviços",
-        text:
-          "Dar ao visitante contexto para entender o que sua empresa faz e avaliar se o serviço atende à necessidade dele. As páginas de sites e landing pages da Tetelestai são um exemplo dessa separação por serviço.",
-      },
-      {
-        title: "Organizar o contato",
-        text:
-          "Mostrar onde encontrar informações e como conversar com a empresa sobre uma necessidade específica. Neste site, o contato comercial é feito pelo WhatsApp.",
-      },
-    ],
-    scope: [
-      {
-        title: "Estrutura e navegação",
-        text:
-          "Definição das páginas, seções e caminhos de navegação conforme as informações que o site precisa apresentar.",
-      },
-      {
-        title: "Design visual",
-        text:
-          "Apresentação sob medida, considerando a identidade da empresa e a organização do conteúdo.",
-      },
-      {
-        title: "Textos e imagens",
-        text:
-          "Levantamento dos materiais disponíveis e definição de quem será responsável por fornecer, produzir e aprovar cada conteúdo.",
-      },
-      {
-        title: "Recursos e publicação",
-        text:
-          "Funcionalidades, integrações e condições de publicação são avaliadas na definição do escopo.",
-      },
-    ],
+    metaTitle: "Criação de sites em Brasília | Tetelestai",
+    metaDescription: "Site profissional para pequenos negócios: várias páginas, versão para celular, SEO local e WhatsApp com mensagem pronta. Proposta por escrito. Brasília-DF.",
+    eyebrow: "Criação de sites · Brasília",
+    heading: "Criação de sites para pequenos negócios em Brasília",
+    intro: "Um site com várias páginas para apresentar a empresa, explicar cada serviço e levar o cliente até o WhatsApp. Preço e prazo vêm por escrito, depois de uma conversa.",
+    ctaLabel: "Pedir orçamento do site",
+    secondaryLabel: "Ver um site que fizemos",
+    waMessage: "Olá! Quero um orçamento de site para o meu negócio.",
+    facts: [["O que é", "Site institucional com várias páginas"], ["Para quem", "Pequenos negócios e profissionais"], ["Inclui", "Celular, SEO local e WhatsApp"], ["Preço", "Sob orçamento, por escrito"], ["Prazo", "Combinado na proposta"], ["Onde", "Brasília e outras cidades, online"]],
+    compare: {
+      eyebrow: "Site ou landing page?", title: "Escolha pelo que o seu cliente precisa ver",
+      options: [
+        { badge: "Várias páginas", title: "Site completo", items: ["Uma página para cada serviço", "Galeria, sobre, perguntas e contato", "Mais chances de aparecer no Google para cada serviço", "Pode crescer com blog, agendamento ou versão em inglês"], price: "Sob orçamento", cta: "Pedir orçamento do site" },
+        { badge: "Uma página", title: "Landing page", items: ["Uma oferta e uma ação", "Pronta em até 5 dias úteis", "Ideal para mandar no WhatsApp e na bio", "Pode virar um site completo depois"], price: "R$ 697", cta: "Ver a landing page" },
+      ],
+    },
+    features: {
+      eyebrow: "O que entra no site", title: "Feito para vender, não só para existir",
+      items: [
+        { k: "Páginas", title: "Uma página para cada serviço", text: "Texto claro sobre o que você faz, para quem e quanto custa, com chamada para o WhatsApp em cada página." },
+        { k: "Google", title: "SEO local desde o início", text: "Títulos, descrições, dados estruturados e mapa do site para o Google entender o que você faz e onde atende." },
+        { k: "Celular", title: "Pensado para a tela pequena", text: "Rápido para abrir, fácil de ler e com botões grandes. É no celular que o seu cliente vai ver." },
+        { k: "Fotos", title: "Seus trabalhos em destaque", text: "Galeria com fotos e vídeos reais, que mostram o resultado melhor do que qualquer texto." },
+        { k: "Contato", title: "WhatsApp com mensagem pronta", text: "O cliente toca no botão e a conversa já começa dizendo de onde ele veio." },
+        { k: "Sob medida", title: "Recursos combinados na proposta", text: "Formulários, agendamento, integrações e versão em inglês entram quando fazem sentido para o seu negócio." },
+      ],
+    },
+    caseStudy: {
+      key: "infinityProject", eyebrow: "Projeto em destaque", title: "Infinity Car Studio: estética automotiva no Guará II",
+      items: ["Serviços de lavagem, higienização, polimento, vitrificação e PPF organizados logo no topo.", "Galeria com fotos e vídeos dos carros atendidos.", "Botões de WhatsApp, endereço e respostas para as dúvidas sobre agendamento."],
+    },
+    how: { eyebrow: "Como funciona", title: "Do primeiro contato ao site no ar" },
+    faqTitle: { eyebrow: "Dúvidas", title: "Perguntas sobre criação de sites" },
     faqs: [
-      {
-        q: "Qual é a diferença entre um site e uma landing page?",
-        a:
-          "Um site pode reunir informações sobre a empresa e diferentes serviços. Uma landing page concentra a apresentação de uma oferta ou campanha em uma ação principal, como iniciar uma conversa.",
-      },
-      {
-        q: "Preciso ter textos e imagens prontos?",
-        a:
-          "Vale reunir o que você já tem. O escopo deve indicar quais materiais serão usados, o que ainda precisa ser preparado e quem será responsável por cada parte.",
-      },
-      {
-        q: "Como ficam domínio, hospedagem e manutenção?",
-        a:
-          "A proposta precisa especificar quem cuida do domínio e da hospedagem, como será feita a publicação e quais condições se aplicam às atualizações e à manutenção.",
-      },
-      {
-        q: "Como é definido o orçamento?",
-        a:
-          "A partir dos objetivos, da estrutura do site, dos materiais disponíveis e dos recursos necessários. A conversa inicial ajuda a delimitar o trabalho antes da proposta.",
-      },
+      { q: "Quanto custa um site completo?", a: "Depende do número de páginas e dos recursos. O preço sai por escrito depois de uma conversa pelo WhatsApp, junto com o prazo e o que está incluso. Para começar com algo mais simples, a landing page custa R$ 697." },
+      { q: "Quanto tempo leva para o site ficar pronto?", a: "O prazo vem na proposta e conta a partir do envio dos textos e das fotos. Uma landing page fica pronta em até 5 dias úteis." },
+      { q: "O site aparece no Google?", a: "O site sai com SEO básico: títulos, descrições, dados estruturados e mapa do site enviados ao Google. A posição nos resultados depende também da concorrência e do conteúdo ao longo do tempo." },
+      { q: "Preciso ter textos e fotos prontos?", a: "Ajuda juntar o que você já tem. A proposta deixa combinado o que será usado, o que falta preparar e quem cuida de cada parte." },
+      { q: "Domínio, hospedagem e manutenção estão inclusos?", a: "Domínio e hospedagem são pagos à parte. Atualizações e manutenção depois da entrega são combinadas conforme a necessidade." },
+      { q: "Vocês atendem fora de Brasília?", a: "Sim. O atendimento é pelo WhatsApp e a entrega é online." },
     ],
-    contactTitle: "Conte o que sua empresa precisa",
-    contactText:
-      "Informe o objetivo do site, os serviços que quer apresentar e se já existe uma página publicada. Vamos conversar sobre escopo, disponibilidade e condições.",
-    ctaLabel: "Falar sobre meu site",
-    relatedKey: "landingPages",
+    final: { title: "Vamos conversar sobre o seu site?", text: "Conte quais serviços você oferece e para quem. A proposta vem com preço e prazo." },
   },
-
   landingPages: {
-    homeSection: "solucoes-digitais",
-    category: "Soluções digitais",
-    objectiveTitle: "O que você quer apresentar?",
-    scopeIntro: "Cada projeto parte dos objetivos e das prioridades da empresa. A proposta registra as entregas, as responsabilidades e as condições do trabalho.",
-    showOwnProjects: true,
     path: "/criacao-de-landing-pages/",
     label: "Criação de landing pages",
-    metaTitle: "Criação de landing pages para empresas | Tetelestai",
-    metaDescription:
-      "Landing pages para apresentar uma oferta ou campanha e orientar uma ação de contato. Design visual sob medida e escopo definido por projeto.",
-    title: "Criação de landing pages para empresas",
-    intro:
-      "Desenvolvemos landing pages para apresentar uma oferta ou campanha com um objetivo claro. O conteúdo e o design são organizados em torno do que o visitante precisa entender antes de dar o próximo passo.",
-    useCases: [
-      {
-        title: "Apresentar uma oferta",
-        text:
-          "Explicar um serviço ou produto específico, suas características e as informações necessárias para iniciar o contato. Esta página reúne a oferta de criação de landing pages e suas condições de escopo.",
-      },
-      {
-        title: "Receber visitantes de uma campanha",
-        text:
-          "Dar continuidade à mensagem divulgada em anúncios, redes sociais ou outros canais, em uma página dedicada à campanha.",
-      },
-      {
-        title: "Concentrar uma ação",
-        text:
-          "Orientar o visitante para um próximo passo definido, como conversar pelo WhatsApp ou solicitar informações. Aqui, a ação proposta é conversar pelo WhatsApp sobre o projeto.",
-      },
-    ],
-    scope: [
-      {
-        title: "Objetivo da página",
-        text:
-          "Definição da oferta, do público e da ação que a página deve apresentar ao visitante.",
-      },
-      {
-        title: "Conteúdo e design",
-        text:
-          "Organização das seções e design visual sob medida, com definição dos textos, imagens e responsabilidades por esses materiais.",
-      },
-      {
-        title: "Caminho de contato",
-        text:
-          "Escolha da chamada e do destino de contato conforme o objetivo e os canais disponíveis no projeto.",
-      },
-      {
-        title: "Recursos e publicação",
-        text:
-          "Formulários, integrações e condições de publicação precisam ser avaliados e definidos no escopo.",
-      },
-    ],
+    metaTitle: "Criação de landing page a partir de R$ 697 | Tetelestai",
+    metaDescription: "Landing page para pequenos negócios: até 5 seções, versão para celular, botão de WhatsApp e SEO básico. R$ 697 em 2×, no ar em até 5 dias úteis.",
+    eyebrow: "Landing page · R$ 697",
+    heading: "Landing page para pequenos negócios: R$ 697, no ar em até 5 dias úteis",
+    intro: "Uma página com tudo o que o cliente precisa saber antes de chamar no WhatsApp: o que você faz, como funciona e quanto custa.",
+    ctaLabel: "Quero minha landing page",
+    secondaryLabel: "Ver um exemplo no ar",
+    waMessage: "Olá! Quero a landing page de R$ 697.",
+    price: "697.00",
+    facts: [["Preço", "R$ 697 em 2× de R$ 348,50"], ["Inclui", "1 página com até 5 seções"], ["Celular e WhatsApp", "Incluso"], ["SEO básico", "Incluso"], ["Prazo", "Até 5 dias úteis após os materiais"], ["Fora do preço", "Domínio e hospedagem"]],
+    audience: {
+      eyebrow: "Para quem é", title: "Para negócios que vendem pela conversa",
+      items: [
+        { k: "01", title: "Você vende pelo WhatsApp", text: "E precisa de um link para mandar quando o cliente pergunta “como funciona?” ou “quanto custa?”." },
+        { k: "02", title: "Você tem uma oferta específica", text: "Um serviço, um produto ou uma campanha que merece uma página só dela." },
+        { k: "03", title: "Você ainda não tem site", text: "Comece com uma página bem feita e transforme em site completo quando fizer sentido." },
+      ],
+    },
+    anatomy: {
+      eyebrow: "Exemplo de estrutura", title: "As 5 seções que mais ajudam a vender",
+      aside: "A estrutura muda conforme o negócio e fica definida na proposta.",
+      items: [
+        { title: "Abertura", text: "O que você faz, para quem e o botão do WhatsApp." },
+        { title: "Serviços ou produto", text: "O que o cliente pode contratar, com preço quando fizer sentido." },
+        { title: "Como funciona", text: "Os passos, do primeiro contato à entrega." },
+        { title: "Provas", text: "Fotos de trabalhos reais e avaliações de clientes." },
+        { title: "Dúvidas e contato", text: "As perguntas que você mais responde no WhatsApp." },
+      ],
+    },
+    caseStudy: {
+      key: "jujuProject", eyebrow: "Exemplo no ar", title: "Bolachinhas da Vovó Juju",
+      text: "Fotos do produto logo na abertura, leitura confortável no celular e um caminho direto para o pedido pelo Instagram.",
+    },
+    how: { eyebrow: "Como funciona", title: "Três passos até a página no ar" },
+    faqTitle: { eyebrow: "Dúvidas", title: "Perguntas sobre landing pages" },
     faqs: [
-      {
-        q: "Uma landing page substitui o site da empresa?",
-        a:
-          "Depende do que você precisa apresentar. Ela pode atender a uma oferta específica, enquanto o site reúne informações mais amplas sobre a empresa e seus serviços. Os dois formatos também podem ser usados juntos.",
-      },
-      {
-        q: "Preciso anunciar para usar uma landing page?",
-        a:
-          "Não. O endereço também pode ser compartilhado em redes sociais, mensagens e outros canais. A origem dos visitantes ajuda a definir a mensagem e a estrutura da página.",
-      },
-      {
-        q: "Formulários e integrações fazem parte do projeto?",
-        a:
-          "A inclusão depende do escopo. É necessário identificar o que será coletado, para onde as informações serão enviadas e quais sistemas e acessos estarão envolvidos.",
-      },
-      {
-        q: "O que preciso informar para pedir uma proposta?",
-        a:
-          "Qual oferta será apresentada, quem você pretende alcançar, de onde virão os visitantes e qual ação deseja orientar. Também ajuda informar os materiais disponíveis e se já existe domínio ou hospedagem.",
-      },
+      { q: "A landing page substitui o site da empresa?", a: "Não necessariamente. Ela apresenta uma oferta específica, enquanto o site apresenta o negócio inteiro. As duas podem funcionar juntas, e a landing page pode virar um site depois." },
+      { q: "Preciso fazer anúncio?", a: "Não. Você pode mandar o link no WhatsApp, colocar na bio do Instagram e divulgar onde quiser. Se fizer anúncio, a página recebe esse visitante." },
+      { q: "O que está incluso nos R$ 697?", a: "Uma página com até 5 seções, versão para celular, botão de WhatsApp, SEO básico e uma rodada de ajustes. Domínio e hospedagem são pagos à parte." },
+      { q: "Formulários e integrações estão inclusos?", a: "Dependem do escopo. Se você precisar coletar dados ou integrar com outro sistema, isso entra na proposta com o preço combinado." },
+      { q: "O que eu mando para pedir a proposta?", a: "O que você vende, para quem, de onde vêm os visitantes, o que eles devem fazer na página e se você já tem domínio ou hospedagem." },
+      { q: "Como funciona o pagamento?", a: "R$ 697 em 2× de R$ 348,50. As condições de cada parcela vêm na proposta." },
     ],
-    contactTitle: "Qual oferta você quer apresentar?",
-    contactText:
-      "Conte o objetivo da página e como pretende divulgá-la. A partir desse contexto, podemos conversar sobre escopo, disponibilidade e condições.",
-    ctaLabel: "Falar sobre a landing page",
-    relatedKey: "sites",
+    final: { title: "Quer a sua landing page?", text: "Mande uma mensagem contando o que você vende. A proposta vem com preço e prazo." },
   },
-
   career: {
-    homeSection: "carreira-internacional",
-    category: "Carreira internacional",
-    objectiveTitle: "Qual é o seu objetivo profissional?",
-    scopeIntro: "Cada trabalho começa pelo objetivo profissional e pelo contexto atual. A proposta registra as entregas e as condições da consultoria.",
-    showOwnProjects: false,
     path: "/carreira-internacional/",
-    label: "Consultoria de carreira internacional",
-    metaTitle: "Consultoria de carreira internacional em tecnologia | Tetelestai",
-    metaDescription: "Orientação para profissionais de tecnologia: currículo em inglês, LinkedIn, adequação a ATS e estratégia de candidatura internacional.",
-    title: "Consultoria de carreira internacional para profissionais de tecnologia",
-    intro: "Orientação estratégica para profissionais de tecnologia que desejam atuar globalmente. Posicionamento profissional com currículo em inglês, LinkedIn, adequação a ATS e estratégia de candidatura.",
-    useCases: [
-      { title: "Organizar o posicionamento profissional", text: "Alinhar a apresentação da trajetória profissional ao objetivo de atuação internacional." },
-      { title: "Apresentar currículo e LinkedIn", text: "Trabalhar a apresentação do currículo em inglês e do LinkedIn, considerando a adequação a ATS no escopo da consultoria." },
-      { title: "Definir uma estratégia de candidatura", text: "Organizar a candidatura de acordo com o objetivo e o contexto profissional informado." },
-    ],
-    scope: [
-      { title: "Objetivo e contexto", text: "Entendimento do objetivo profissional, da trajetória e das restrições relevantes." },
-      { title: "Currículo em inglês e ATS", text: "Definição do trabalho sobre o currículo em inglês e sua adequação a ATS." },
-      { title: "LinkedIn", text: "Orientação sobre o posicionamento e a apresentação do perfil profissional." },
-      { title: "Estratégia de candidatura", text: "Definição dos pontos a trabalhar e dos próximos passos dentro do escopo acordado." },
-    ],
+    label: "Carreira internacional em TI",
+    metaTitle: "Carreira internacional em TI: currículo em inglês | Essencial",
+    metaDescription: "Guia de 31 páginas com plano de 7 dias, modelos em inglês e planilha de candidaturas para profissionais de TI no Brasil. R$ 47, pagamento pela Kiwify.",
+    eyebrow: "Carreira internacional em TI · Essencial",
+    heading: "Currículo em inglês, LinkedIn e candidaturas organizados para vagas internacionais em TI",
+    intro: "Um guia de 31 páginas com plano de 7 dias, modelos em inglês prontos para preencher e uma planilha para acompanhar cada candidatura.",
+    byline: "Por Carlos Viegas, engenheiro de software há 22 anos que trabalha do Brasil para empresas internacionais de IA.",
+    buyLabel: "Comprar o Essencial por R$ 47",
+    buyShort: "Comprar por R$ 47",
+    secondaryLabel: "Ver o que tem dentro",
+    productName: "Candidaturas internacionais em TI — Essencial",
+    price: "47.00",
+    coverAlt: "Capa do guia Candidaturas internacionais em TI, edição 02",
+    mapAlt: "Página do mapa do guia, com as 7 etapas",
+    facts: [["Formato", "PDF de 31 páginas, modelos e planilha"], ["Para quem", "Profissionais de tecnologia no Brasil"], ["Preço", "R$ 47, pela Kiwify"], ["Desistência", "7 dias, como prevê o CDC"], ["Edição", "02 · outubro de 2026"], ["Autor", "Carlos Viegas"]],
+    build: {
+      eyebrow: "O que você vai construir", title: "Seis peças que contam a mesma história",
+      items: [
+        { k: "01", title: "Definição de alvo", text: "Uma frase que diz que vaga você busca, em que modelo e com quais competências que consegue demonstrar." },
+        { k: "02", title: "Inventário de experiências", text: "Decisões, problemas e entregas reais que viram evidência no currículo." },
+        { k: "03", title: "Currículo em inglês", text: "Com exemplos e um modelo pronto para preencher, sem inventar nível ou experiência." },
+        { k: "04", title: "Perfil no LinkedIn", text: "Coerente com o currículo: datas, funções, tecnologias e idioma batendo." },
+        { k: "05", title: "Mensagens de contato", text: "Modelos em inglês para recrutadores e para pedir indicação." },
+        { k: "06", title: "Planilha de candidaturas", text: "Para acompanhar cada vaga, resposta e próximo passo." },
+      ],
+    },
+    map: {
+      eyebrow: "Mapa do guia", title: "Da escolha da vaga ao acompanhamento",
+      chapters: [["01", "Definir o alvo e verificar a vaga", "p. 4"], ["02", "Preparar currículo e LinkedIn", "p. 10"], ["03", "Mostrar projetos e iniciar contatos", "p. 15"], ["04", "Candidatar-se e acompanhar respostas", "p. 17"], ["05", "Preparar a conversa e evitar golpes", "p. 22"], ["06", "Executar o plano de 7 dias e revisar", "p. 24"], ["07", "Checklist, modelos e referências", "p. 26"]],
+    },
+    author: {
+      eyebrow: "Quem escreveu", name: "Carlos Viegas",
+      paragraphs: [
+        "Carlos Viegas é engenheiro de software há mais de 22 anos. Começou em 2004 desenvolvendo sistemas de grande volume para bancos e empresas de telecomunicações e foi líder técnico no Banco do Brasil por 14 anos.",
+        "Desde 2025, trabalha remotamente, de Brasília, avaliando a qualidade de modelos de inteligência artificial para empresas internacionais. Para chegar lá, passou pelas etapas que este guia organiza: currículo em inglês, LinkedIn, formulários de elegibilidade e processos seletivos de empresas de fora.",
+      ],
+    },
+    notIncluded: {
+      eyebrow: "Para deixar claro", title: "O que o Essencial não inclui",
+      text: "Não inclui aulas em vídeo, encontros, revisão individual, envio de candidaturas, indicação a empregadores ou intermediação de vagas. É um guia de estudo e organização, sem garantia de entrevista, contratação, salário ou visto. Os exemplos de pessoas e empresas são fictícios.",
+    },
+    coaching: {
+      eyebrow: "Acompanhamento individual", title: "Turma fundadora com 5 vagas por R$ 397",
+      text: "Três encontros de 45 minutos em quatro semanas para revisar o seu currículo, o LinkedIn e a estratégia de candidaturas com o Carlos. A turma abre quando a lista de espera fechar as 5 vagas.",
+      cta: "Entrar na lista de espera",
+      waMessage: "Olá! Quero entrar na lista de espera do acompanhamento individual de carreira (turma fundadora).",
+    },
+    faqTitle: { eyebrow: "Dúvidas", title: "Antes de comprar" },
     faqs: [
-      { q: "Para quem é a consultoria de carreira internacional?", a: "Para profissionais de tecnologia que desejam organizar seu posicionamento e sua candidatura para oportunidades internacionais." },
-      { q: "A consultoria garante entrevistas ou contratação?", a: "Não. Entrevistas e contratação dependem dos processos seletivos e das decisões das empresas. A consultoria trabalha o posicionamento e a estratégia de candidatura." },
-      { q: "A consultoria inclui assessoria jurídica migratória?", a: "Não. A consultoria não oferece assessoria jurídica migratória, serviços de visto ou garantias de imigração." },
-      { q: "O que preciso informar no primeiro contato?", a: "Informe seu objetivo profissional e o contexto da candidatura. Consulte o escopo e as condições antes de enviar materiais; no primeiro contato, não envie currículos completos ou documentos sensíveis." },
+      { q: "Para quem é o Essencial?", a: "Para profissionais de tecnologia no Brasil que querem se candidatar a vagas internacionais, remotas ou com mudança de país. Os exemplos são de desenvolvimento de software, e o processo também serve para dados, infraestrutura, qualidade e outras funções." },
+      { q: "Como recebo o material?", a: "A compra é feita pela Kiwify. Depois da confirmação do pagamento, você recebe o acesso ao PDF, aos modelos e à planilha." },
+      { q: "Posso desistir da compra?", a: "Sim. Você tem 7 dias para desistir e pedir o reembolso, como prevê o Código de Defesa do Consumidor para compras online." },
+      { q: "O guia garante entrevista, emprego ou visto?", a: "Não. Entrevistas e contratações dependem dos empregadores. O guia também não oferece orientação jurídica de imigração." },
+      { q: "Inclui revisão do meu currículo?", a: "Não. A revisão individual faz parte do acompanhamento individual, que tem lista de espera para a turma fundadora." },
+      { q: "Preciso ter inglês avançado?", a: "Não existe um nível mínimo. O guia ensina a descrever com honestidade o que você consegue fazer em inglês e a escolher vagas compatíveis." },
     ],
-    contactTitle: "Conte o seu objetivo profissional",
-    contactText: "Informe o que você pretende trabalhar na sua candidatura internacional e consulte escopo, disponibilidade e condições da consultoria.",
-    ctaLabel: "Falar sobre carreira internacional",
+    final: { title: "Comece pelo alvo certo", text: "Em 31 páginas, da escolha da vaga à planilha de acompanhamento." },
   },
-
   aiTraining: {
-    homeSection: "capacitacao-ia",
-    category: "Capacitação em IA",
-    objectiveTitle: "O que você quer desenvolver com IA?",
-    scopeIntro: "A capacitação é sob demanda. Conteúdo e formato são definidos conforme o público, o objetivo e o nível de conhecimento dos participantes.",
-    showOwnProjects: false,
     path: "/capacitacao-em-ia/",
     label: "Capacitação em IA",
-    metaTitle: "Capacitação prática em IA para pessoas e empresas | Tetelestai",
-    metaDescription: "Treinamentos em inteligência artificial com conteúdo e formato definidos conforme o público, o objetivo e o nível de conhecimento dos participantes.",
-    title: "Capacitação prática em inteligência artificial",
-    intro: "Treinamentos práticos e aplicados para pessoas e empresas desenvolverem habilidades em IA. Conteúdo e formato ajustados ao público, ao objetivo e ao nível de conhecimento dos participantes.",
-    useCases: [
-      { title: "Desenvolver habilidades em IA", text: "Definir o que você pretende aprender e como esse objetivo orienta a capacitação." },
-      { title: "Capacitar pessoas e equipes", text: "Considerar o público participante e seus conhecimentos atuais ao preparar o treinamento." },
-      { title: "Relacionar conteúdo e objetivo", text: "Organizar o conteúdo conforme a necessidade apresentada na conversa inicial." },
-    ],
-    scope: [
-      { title: "Público e nível", text: "Identificação dos participantes e do nível de conhecimento considerado no treinamento." },
-      { title: "Objetivo e conteúdo", text: "Definição dos temas e das atividades conforme o objetivo informado." },
-      { title: "Formato", text: "Definição do formato e da organização da capacitação no escopo acordado." },
-      { title: "Disponibilidade e condições", text: "Consulta das condições do trabalho antes de confirmar a capacitação." },
-    ],
+    metaTitle: "Capacitação em IA para equipes e profissionais | Tetelestai",
+    metaDescription: "Treinamento prático de inteligência artificial sob demanda, adaptado ao público, ao objetivo e ao nível de quem participa. Fale com a Tetelestai pelo WhatsApp.",
+    eyebrow: "Capacitação em IA",
+    heading: "Capacitação prática em IA para equipes e profissionais",
+    intro: "Treinamento sob demanda, montado a partir do público, do objetivo e do nível de quem participa. Sem programa genérico.",
+    ctaLabel: "Falar sobre a capacitação",
+    waMessage: "Olá! Quero conversar sobre uma capacitação em IA.",
+    examples: {
+      title: "Por exemplo, dá para trabalhar",
+      items: ["Escrever e revisar textos de atendimento e vendas", "Organizar informações, planilhas e relatórios", "Criar conteúdo para redes sociais com revisão humana", "Usar IA sem expor dados sensíveis da empresa"],
+    },
+    facts: [["Formato", "Sob demanda"], ["Para quem", "Pessoas e empresas"], ["Pré-requisito", "Nenhum"], ["Conteúdo", "Definido pelo objetivo"], ["Quem conduz", "Carlos Viegas"], ["Como começar", "Conversa pelo WhatsApp"]],
+    define: {
+      eyebrow: "O que vamos definir juntos", title: "Quatro decisões antes da primeira aula",
+      items: [
+        { k: "01", title: "Público e nível", text: "Quem participa e o que essas pessoas já sabem sobre IA." },
+        { k: "02", title: "Objetivo e conteúdo", text: "O que a equipe precisa conseguir fazer depois do treinamento." },
+        { k: "03", title: "Formato", text: "Duração, quantidade de encontros e se será online ou presencial." },
+        { k: "04", title: "Disponibilidade e condições", text: "Datas, valores e materiais, por escrito." },
+      ],
+    },
+    how: {
+      eyebrow: "Como funciona", title: "Do contexto à entrega",
+      steps: [
+        { k: "Etapa 1", title: "Entender", text: "Objetivo, contexto e limites da equipe." },
+        { k: "Etapa 2", title: "Definir", text: "Conteúdo, formato e resultado esperado." },
+        { k: "Etapa 3", title: "Executar", text: "Encontros práticos, materiais e próximos passos." },
+      ],
+    },
+    faqTitle: { eyebrow: "Dúvidas", title: "Antes de começar" },
     faqs: [
-      { q: "Para quem é a capacitação em IA?", a: "Para pessoas e empresas que desejam desenvolver habilidades práticas em inteligência artificial. O conteúdo é ajustado ao público e ao objetivo." },
-      { q: "Existe um programa fixo de treinamento?", a: "A oferta é sob demanda. Conteúdo e formato são definidos conforme o público, o objetivo e o nível de conhecimento dos participantes." },
-      { q: "Preciso ter experiência anterior com IA?", a: "O nível de conhecimento é considerado na definição do conteúdo. Informe o que você ou sua equipe já conhecem e o que pretendem desenvolver." },
-      { q: "O que devo informar para conversar sobre um treinamento?", a: "Informe quem participará, o objetivo e o nível de conhecimento atual. A partir desse contexto, podemos conversar sobre escopo, disponibilidade e condições." },
+      { q: "Para quem é a capacitação?", a: "Para pessoas e empresas que querem usar inteligência artificial no trabalho de forma prática e com segurança." },
+      { q: "Existe um programa fixo?", a: "Não. O conteúdo é montado sob demanda, a partir do público, do objetivo e do nível de quem participa." },
+      { q: "Preciso ter experiência com IA?", a: "Não. O treinamento parte do nível atual do grupo." },
+      { q: "O que eu mando para começar?", a: "Quem vai participar, o objetivo e o nível de conhecimento atual. Não envie dados sensíveis no primeiro contato." },
     ],
-    contactTitle: "Conte o objetivo da capacitação",
-    contactText: "Informe o público, o objetivo e o nível de conhecimento dos participantes para conversar sobre uma capacitação em IA sob demanda.",
-    ctaLabel: "Falar sobre capacitação em IA",
+    final: { title: "Vamos conversar sobre a sua equipe?", text: "Conte o objetivo e quem vai participar. A proposta vem com formato, datas e valores." },
   },
 };

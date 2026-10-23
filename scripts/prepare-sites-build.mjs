@@ -13,6 +13,7 @@ import { fileURLToPath } from "node:url";
 import { verifyRecargaWeb } from "./verify-recarga-web.mjs";
 
 import { PORTFOLIO_PAGES } from "../src/portfolio-content.mjs";
+import { HOME } from "../src/home-content.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
@@ -77,8 +78,8 @@ const routeShells = [
     output: "index.html",
     pathname: "/",
     lang: "pt-BR",
-    title: "Tetelestai | Carreira internacional, soluções digitais e IA",
-    description: "Consultoria para carreiras internacionais em tecnologia, automação e soluções digitais para negócios e capacitação prática em inteligência artificial.",
+    title: HOME.pt.metaTitle,
+    description: HOME.pt.metaDescription,
     canonical: "https://tetelestai.tech/",
     alternatePt: "https://tetelestai.tech/",
     alternateEn: "https://tetelestai.tech/en/",
@@ -88,8 +89,8 @@ const routeShells = [
     output: "en/index.html",
     pathname: "/en/",
     lang: "en",
-    title: "Tetelestai | International careers, digital solutions and AI",
-    description: "International career consulting for technology professionals, business automation and digital solutions, and practical artificial intelligence training.",
+    title: HOME.en.metaTitle,
+    description: HOME.en.metaDescription,
     canonical: "https://tetelestai.tech/en/",
     alternatePt: "https://tetelestai.tech/",
     alternateEn: "https://tetelestai.tech/en/",

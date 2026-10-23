@@ -4,7 +4,9 @@ import { createServer } from 'vite';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-test('approved preview makes contact accessible, presents each service once, and scopes projects correctly', async () => {
+const whatsapp = /href="https:\/\/wa\.me\/556184711930(?:\?text=[^"]+)?"/g;
+
+test('redesign keeps one WhatsApp action in each opening, presents each front once, and scopes projects correctly', async () => {
   const renderer = await createServer({
     appType: 'custom',
     server: { middlewareMode: true, hmr: false, ws: false, watch: null },
@@ -16,19 +18,21 @@ test('approved preview makes contact accessible, presents each service once, and
     for (const path of ['/', '/en/']) {
       const html = render(path);
       const hero = html.match(/<section id="home"[\s\S]*?<\/section>/)?.[0];
-      assert.ok(hero?.includes('href="https://wa.me/556184711930"'), `${path}: contact in opening`);
-      assert.equal((hero?.match(/<a\b/g) ?? []).length, 1, `${path}: opening has only the approved WhatsApp action`);
-      assert.equal((html.match(/>Carreira internacional<\/h[23]>/g) ?? []).length, path === '/' ? 1 : 0);
-      assert.equal((html.match(/>Automação e soluções digitais<\/h[23]>/g) ?? []).length, path === '/' ? 1 : 0);
-      assert.equal((html.match(/>Capacitação em IA<\/h[23]>/g) ?? []).length, path === '/' ? 1 : 0);
-      assert.ok(html.includes('id="projects"'), 'Projects menu must have a destination on each homepage');
-      assert.ok(!html.includes('id="ios-apps"'), 'app presentation stays on the full portfolio page');
+      assert.equal((hero?.match(whatsapp) ?? []).length, 1, `${path}: exactly one WhatsApp action in the opening`);
+      assert.ok((hero?.match(/<a\b/g) ?? []).length <= 2, `${path}: the opening offers at most one secondary link`);
+      assert.ok(hero.includes('href="#projects"'), `${path}: the secondary link leads to live projects`);
+      const fronts = path === '/' ? ['Sites, landing pages e apps', 'Carreira internacional em TI', 'Capacitação em IA'] : ['Websites, landing pages and apps', 'International careers in tech', 'AI training'];
+      for (const front of fronts) assert.equal((html.match(new RegExp(`>${front}</h3>`, 'g')) ?? []).length, 1, `${path}: ${front}`);
+      assert.ok(html.includes('id="projects"'), 'Projects link must have a destination on each homepage');
+      assert.ok(!html.includes('id="ios-apps-title"'), 'app presentation stays on the full portfolio page');
+      assert.ok(html.includes('class="receipt"'), 'the price note is visible on the homepage');
     }
     for (const path of ['/criacao-de-sites/', '/criacao-de-landing-pages/']) {
       const html = render(path);
-      assert.ok(html.indexOf('id="projects"') < html.indexOf('id="use-cases-title"'), `${path}: show projects before process and scope`);
-      assert.ok(html.match(/<section id="home"[\s\S]*?href="#projects"[\s\S]*?<\/section>/), 'opening links to projects');
-      assert.ok(html.includes('Projetos em destaque'));
+      const hero = html.match(/<section id="home"[\s\S]*?<\/section>/)?.[0];
+      assert.equal((hero?.match(whatsapp) ?? []).length >= 1, true, `${path}: WhatsApp action in the opening`);
+      assert.match(hero, /href="\/projetos\/(?:infinity-car-studio|bolachinhas-da-vovo-juju)\/"/, `${path}: opening links to a real project`);
+      assert.ok(html.includes('id="projects"'));
     }
     for (const path of ['/carreira-internacional/', '/capacitacao-em-ia/']) {
       assert.ok(!render(path).includes('id="projects"'), `${path}: no unrelated delivery claims`);

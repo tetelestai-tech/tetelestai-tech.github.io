@@ -62,19 +62,21 @@ test("sharing metadata remains specific to the page and the PT/EN content", asyn
   }
 });
 
-test("the homes include proposal and AI training answers while service FAQs remain intact", async () => {
+test("the homes answer price and format questions and every visible FAQ matches its FAQPage data", async () => {
   const pt = await readPage("/");
   const en = await readPage("/en/");
-  assert.match(pt, /Como pedir uma proposta para um site ou uma landing page\?/);
-  assert.match(pt, /A capacitação em IA tem um programa fixo\?/);
-  assert.match(en, /How do I request a proposal for a website or landing page\?/);
-  assert.match(en, /Does AI training have a fixed programme\?/);
-  for (const html of [pt, en]) assert.equal((html.match(/<details\b/g) ?? []).length, 6);
-  for (const service of services) {
-    const html = await readPage(service.path);
-    const faqSection = html.match(/<section class="faq-section"[^>]*>([\s\S]*?)<\/section>/)?.[1];
-    assert.ok(faqSection, service.path);
-    assert.equal((faqSection.match(/<details\b/g) ?? []).length, 4);
+  assert.match(pt, /Quanto custa uma landing page na Tetelestai\?/);
+  assert.match(pt, /Qual a diferença entre site e landing page\?/);
+  assert.match(en, /How much does a landing page cost\?/);
+  assert.match(en, /What&#x27;s the difference between a website and a landing page\?/);
+  for (const pathname of paths) {
+    const html = await readPage(pathname);
+    const faqSection = html.match(/<section class="faq-section[^"]*"[^>]*>([\s\S]*?)<\/section>/)?.[1];
+    assert.ok(faqSection, pathname);
+    const questions = [...faqSection.matchAll(/<summary>([\s\S]*?)<\/summary>/g)].map(match => decode(match[1]));
+    assert.ok(questions.length >= 4, pathname);
+    const faqPage = graphOf(html).find(node => node["@type"] === "FAQPage");
+    assert.deepEqual(faqPage.mainEntity.map(item => item.name), questions, `${pathname}: FAQPage must mirror the visible questions`);
   }
 });
 

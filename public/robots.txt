@@ -1,4 +1,17 @@
 User-agent: *
 Allow: /
 
+# Search and AI assistants may read and cite the public pages.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
 Sitemap: https://tetelestai.tech/sitemap.xml

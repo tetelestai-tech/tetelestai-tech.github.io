@@ -1,5 +1,15 @@
 # Design QA — Tetelestai
 
+## Conversion redesign (2026-10-23, pending review)
+
+- Build: `npm run build` passes; `npm run test:sites` 98/98 and `node --test tests/fao-*.test.mjs` 223/223.
+- Browser pass (Chromium, production build served statically) at 1440 px and 390 px for the PT/EN homes, the four PT service pages, portfolio, a case page, privacy, Recarga support, De Rolê support and an unknown route: no console or hydration errors, no horizontal overflow, one `h1` per page, no broken images, every reveal settles at full opacity, all four self-hosted font families load.
+- Interaction: mobile menu opens with focus on its first link, locks scrolling, closes with Escape and returns focus to the toggle; the consent banner hides the mobile sticky button until a choice is made; decline stores the v4 refusal; footer cookie preferences reopen the banner with focus on its title; the sticky WhatsApp/purchase button appears after the hero and hides at the closing call to action.
+- Automated accessibility (axe-core 4.10, WCAG 2 A/AA + best practices) on the same pages at both widths: no violations after fixes (support-page chip contrast, focusable screenshot strip, unique case-page landmarks).
+- Motion: hero pulses run once and stop within 5 s; scroll reveals never hide content before JavaScript; `prefers-reduced-motion` disables all animation.
+
+## Previous design (kept for history)
+
 ## Comparison target
 
 - Source visual truth: `design/reference-approved.png`

@@ -331,27 +331,30 @@ test("publishes the confirmed service and contact content", async () => {
     scriptNames.map((name) => readFile(new URL(name, assetsDirectory), "utf8")),
   );
   const productionJavaScript = scriptContents.join("\n");
-  const appSource = await readFile(new URL("../src/App.jsx", import.meta.url), "utf8");
+  const homeContent = await readFile(new URL("../src/home-content.mjs", import.meta.url), "utf8");
+  const uiSource = await readFile(new URL("../src/ui.jsx", import.meta.url), "utf8");
 
-  assert.match(productionJavaScript, /https:\/\/wa\.me\/556184711930/);
-  assert.doesNotMatch(productionJavaScript, /https:\/\/wa\.me\/5561984711930/);
+  // Confirmed company WhatsApp only; never the extra mobile digit or an old number.
+  assert.match(productionJavaScript, /https:\/\/wa\.me\//);
+  assert.match(productionJavaScript, /556184711930/);
+  assert.doesNotMatch(productionJavaScript, /5561984711930/);
   assert.doesNotMatch(productionJavaScript, /5561998821206/);
-  assert.match(productionJavaScript, /Conversar pelo WhatsApp/);
-  assert.match(productionJavaScript, /Chat on WhatsApp/);
+  assert.match(productionJavaScript, /Pedir orçamento no WhatsApp/);
+  assert.match(productionJavaScript, /Get a quote on WhatsApp/);
   assert.doesNotMatch(productionJavaScript, /["']Conversar com a Tetelestai["']/);
   assert.doesNotMatch(productionJavaScript, /Contact Tetelestai/);
+  // Every WhatsApp entry point reports the consented whatsapp_click event.
+  assert.match(uiSource, /function WhatsAppLink[\s\S]*?trackWhatsApp\(\)/);
+
   assert.match(productionJavaScript, /Está consumado!/);
   assert.match(productionJavaScript, /João 19:30/);
   assert.match(productionJavaScript, /It is finished!/);
   assert.match(productionJavaScript, /John 19:30/);
   assert.doesNotMatch(productionJavaScript, /Está consumado! \(João 19:30\)/);
   assert.doesNotMatch(productionJavaScript, /It is finished! \(John 19:30\)/);
-  assert.match(productionJavaScript, /Voltar ao topo/);
-  assert.match(productionJavaScript, /Back to top/);
-  assert.match(productionJavaScript, /Tecnologia com direção\./);
-  assert.match(productionJavaScript, /Propósito em cada solução\./);
-  assert.match(productionJavaScript, /Technology with direction\./);
-  assert.match(productionJavaScript, /Purpose in every solution\./);
+  assert.match(productionJavaScript, /Tecnologia com propósito\. Oportunidades sem fronteiras\./);
+  assert.match(productionJavaScript, /Technology with purpose\. Opportunities without borders\./);
+
   assert.match(productionJavaScript, /Co-Founder & CTO/);
   assert.match(productionJavaScript, /Co-Founder & CEO/);
   assert.match(productionJavaScript, /Co-fundadora e administradora da Tetelestai\. Lidera o negócio, o marketing e o relacionamento com clientes\./);
@@ -359,39 +362,24 @@ test("publishes the confirmed service and contact content", async () => {
   assert.doesNotMatch(productionJavaScript, /Marketing e mídias sociais/);
   assert.doesNotMatch(productionJavaScript, /Marketing and social media/);
   assert.doesNotMatch(productionJavaScript, /Responsável técnico/);
-  assert.doesNotMatch(productionJavaScript, /Technical lead/);
   assert.doesNotMatch(productionJavaScript, /Pessoas no centro\./);
   assert.doesNotMatch(productionJavaScript, /People at the center\./);
-  assert.doesNotMatch(appSource, /role: "Administradora"/);
-  assert.doesNotMatch(appSource, /role: "Administrator"/);
-  assert.doesNotMatch(appSource, /"administrator" : "administradora"/);
-  assert.match(productionJavaScript, /Automação e soluções digitais/);
-  assert.match(productionJavaScript, /Automation and digital solutions/);
-  assert.match(productionJavaScript, /design visual sob medida/);
-  assert.match(productionJavaScript, /tailored visual design/);
-  assert.match(productionJavaScript, /WhatsApp customer service automation/);
-  assert.doesNotMatch(productionJavaScript, /design aplicado/);
-  assert.doesNotMatch(productionJavaScript, /with applied design/);
-  assert.doesNotMatch(productionJavaScript, /customer-service automation/);
-  assert.match(productionJavaScript, /Que tipos de soluções digitais a Tetelestai desenvolve\?/);
-  assert.match(productionJavaScript, /What types of digital solutions does Tetelestai build\?/);
+
+  // The landing page offer and its written terms.
+  assert.match(productionJavaScript, /Landing page a partir de R\$/);
+  assert.match(productionJavaScript, /em 2× de R\$/);
+  assert.match(productionJavaScript, /Domínio e hospedagem/);
+
+  assert.match(homeContent, /id: "solucoes-digitais"/);
+  assert.match(homeContent, /id: "digital-solutions"/);
+  assert.doesNotMatch(homeContent, /id: "modelos-ia"/);
+  assert.doesNotMatch(homeContent, /id: "ai-models"/);
   assert.doesNotMatch(productionJavaScript, /Treinamento e avaliação de modelos/);
   assert.doesNotMatch(productionJavaScript, /AI model training and evaluation/);
-  assert.doesNotMatch(productionJavaScript, /Qual é a diferença entre as duas ofertas de IA\?/);
-  assert.doesNotMatch(productionJavaScript, /What is the difference between the two AI offers\?/);
-  assert.match(appSource, /id: "solucoes-digitais"/);
-  assert.match(appSource, /id: "digital-solutions"/);
-  assert.doesNotMatch(appSource, /id: "modelos-ia"/);
-  assert.doesNotMatch(appSource, /id: "ai-models"/);
   assert.doesNotMatch(productionJavaScript, /tel:\+5561984711930/);
   assert.doesNotMatch(productionJavaScript, /\(61\) 98471-1930/);
   assert.doesNotMatch(productionJavaScript, /Ligar para a Tetelestai/);
   assert.doesNotMatch(productionJavaScript, /Call Tetelestai/);
-  const homeHtml = await readFile(new URL("../dist/client/index.html", import.meta.url), "utf8");
-  const backToTopLinks = (homeHtml.match(/<a\b[^>]*>/g) ?? [])
-    .filter((tag) => /class="back-to-top"/.test(tag));
-  assert.equal(backToTopLinks.length, 6);
-  assert.ok(backToTopLinks.every((tag) => /href="#home"/.test(tag) && /aria-label="Voltar ao topo"/.test(tag)));
-  assert.match(appSource, /function BackToTop[\s\S]*?href="#home"/);
-  assert.match(appSource, /className="button button--primary" href=\{WHATSAPP_LINK\}/);
+  // No interview, hiring or visa guarantees.
+  assert.doesNotMatch(productionJavaScript, /garantimos|garante (?:sua|a sua) (?:entrevista|contratação|vaga)/i);
 });

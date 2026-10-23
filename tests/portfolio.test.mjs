@@ -34,12 +34,12 @@ test('portfolio and case pages expose verified deliveries, real links and naviga
     for (const path of ['/', '/en/', ...routes, '/criacao-de-sites/']) {
       assert.ok(render(path).includes(`href="${path==='/en/'?'/en/projects/':'/projetos/'}"`), `${path} must expose portfolio navigation`);
       const header = render(path).match(/<header[\s\S]*?<\/header>/)?.[0];
-      assert.ok(header.includes(`href="${path === '/en/' ? '/en/' : '/'}#projects"`), 'Projects navigation must lead to the homepage section');
+      assert.ok(header.includes(`href="${path === '/en/' ? '/en/projects/' : '/projetos/'}"`), 'Projects navigation must lead to the portfolio page');
     }
-    for (const path of ['/criacao-de-sites/','/criacao-de-landing-pages/']) {
+    for (const [path, name] of [['/criacao-de-sites/','Infinity Car Studio'],['/criacao-de-landing-pages/','Bolachinhas da Vovó Juju']]) {
       const html=render(path);
-      assert.ok(html.indexOf('Infinity Car Studio') < html.indexOf('id="use-cases-title"'));
-      assert.ok(html.includes('Projetos em destaque'));
+      assert.ok(html.indexOf(name) > -1 && html.indexOf(name) < html.indexOf('class="faq-section'), `${path}: a real client project appears before the FAQ`);
+      assert.ok(html.indexOf('id="projects"') < html.indexOf('class="faq-section'));
     }
     for (const path of ['/carreira-internacional/','/capacitacao-em-ia/']) {
       assert.ok(!render(path).includes('Infinity Car Studio'), 'digital cases must not imply career/training outcomes');

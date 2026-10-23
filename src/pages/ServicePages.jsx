@@ -1,4 +1,4 @@
-import { CHECKOUT_ESSENCIAL } from "../contact.mjs";
+import { CHECKOUT_ACOMPANHADO, CHECKOUT_ESSENCIAL } from "../contact.mjs";
 import { getAnalytics } from "../analytics.mjs";
 import { HOW_STEPS, LANDING_RECEIPT, UI } from "../home-content.mjs";
 import { portfolioFor, servicesFor } from "../localized-content.mjs";
@@ -159,8 +159,9 @@ export function LandingPage({ locale }) {
   );
 }
 
-function BuyLink({ children, className = "btn btn--lg" }) {
-  return <a className={className} href={CHECKOUT_ESSENCIAL} target="_blank" rel="noopener noreferrer" onClick={event => getAnalytics()?.trackCheckout(placementOf(event.currentTarget))}><IconCart />{children}</a>;
+// Kiwify checkout links; each click reports `checkout_click` with the product name.
+function BuyLink({ children, className = "btn btn--lg", href = CHECKOUT_ESSENCIAL, product = "essencial" }) {
+  return <a className={className} href={href} target="_blank" rel="noopener noreferrer" onClick={event => getAnalytics()?.trackCheckout(placementOf(event.currentTarget), product)}><IconCart />{children}</a>;
 }
 
 export function CareerPage({ locale }) {
@@ -209,11 +210,14 @@ export function CareerPage({ locale }) {
         </div>
       </section>
 
-      <section className="section section--tight dark-2" aria-labelledby="coaching-title">
+      <section className="section section--tight dark-2" id="acompanhado" aria-labelledby="coaching-title">
         <div className="wrap">
           <div className="card card--glass card--wide" data-reveal="">
             <div className="stack stack--sm"><p className="eyebrow">{service.coaching.eyebrow}</p><h2 className="h2" id="coaching-title">{service.coaching.title}</h2><p>{service.coaching.text}</p></div>
-            <WhatsAppLink message={service.coaching.waMessage} className="btn btn--lg btn--ghost">{service.coaching.cta}</WhatsAppLink>
+            <div className="btn-row">
+              <BuyLink href={CHECKOUT_ACOMPANHADO} product="acompanhado">{service.coaching.cta}</BuyLink>
+              <WhatsAppLink message={service.coaching.waMessage} className="link link--arrow" icon={false}>{service.coaching.question}</WhatsAppLink>
+            </div>
           </div>
         </div>
       </section>

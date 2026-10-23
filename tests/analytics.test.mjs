@@ -452,7 +452,11 @@ test("WhatsApp clicks report a safe placement and Essencial checkout clicks are 
   b.controller.trackWhatsApp("<script>");
   b.controller.trackWhatsApp();
   b.controller.trackCheckout("sticky");
-  const [, wa1, wa2, wa3, checkout] = b.events();
+  b.controller.trackCheckout("section_coaching", "acompanhado");
+  b.controller.trackCheckout("hero", "other");
+  const [, wa1, wa2, wa3, checkout, coaching, unknown] = b.events();
+  assert.equal(coaching[2].product_name, "acompanhado");
+  assert.equal(unknown[2].product_name, "essencial", "unknown products fall back");
   assert.equal(wa1[2].contact_placement, "price_note");
   assert.equal(wa2[2].contact_placement, "contact_section", "unexpected values fall back");
   assert.equal(wa3[2].contact_placement, "contact_section");

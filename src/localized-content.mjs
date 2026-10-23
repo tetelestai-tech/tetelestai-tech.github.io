@@ -114,7 +114,7 @@ export const EN_SERVICE_PAGES = {
     price: '47.00',
     coverAlt: 'Cover of the Candidaturas internacionais em TI guide, edition 02',
     mapAlt: 'Guide map page listing the 7 stages',
-    facts: [['Format', '31-page PDF, templates and tracker'], ["Who it's for", 'Tech professionals in Brazil'], ['Price', 'R$ 47 via Kiwify'], ['Language', 'Portuguese, with English templates'], ['Checkout add-on', 'Word templates: English CV and cover letter'], ['Author', 'Carlos Viegas']],
+    facts: [['Format', '31-page PDF, templates and tracker'], ["Who it's for", 'Tech professionals in Brazil'], ['Price', 'R$ 47 via Kiwify'], ['Payment', 'One-time purchase, no subscription; card installments'], ['Checkout add-on', 'Word templates: English CV and cover letter, R$ 9.90'], ['Language', 'Portuguese, with English templates'], ['Edition', '02 · October 2026'], ['Author', 'Carlos Viegas']],
     build: {
       eyebrow: "What you'll build", title: 'Six pieces that tell the same story',
       items: [
@@ -151,8 +151,8 @@ export const EN_SERVICE_PAGES = {
     faqs: [
       { q: 'Who is the Essencial for?', a: 'Tech professionals in Brazil who want to apply for international roles, remote or relocating. Examples focus on software development, and the process also works for data, infrastructure, QA and other roles.' },
       { q: 'Is the guide in English?', a: 'The guide is written in Portuguese. The CV and outreach templates are in English.' },
-      { q: 'How do I get the material?', a: 'You buy through Kiwify. Once payment is confirmed, you get access to the PDF, the plain-text templates and the application tracker (CSV).' },
-      { q: 'What are the Word templates at checkout?', a: 'An optional add-on when you check out: an English CV and cover letter laid out in Word (.docx, A4), with fields to fill in. The guide already includes plain-text templates; the Word files save you the formatting step.' },
+      { q: 'How do I get the material?', a: 'You buy through Kiwify: a one-time purchase, no subscription, with card installments available. Once payment is confirmed, you get access to the PDF, the plain-text templates and the application tracker (CSV).' },
+      { q: 'What are the Word templates at checkout?', a: 'An optional R$ 9.90 add-on when you check out: an English CV and cover letter laid out in Word (.docx, A4), with fields to fill in. The guide already includes plain-text templates; the Word files save you the formatting step.' },
       { q: 'Can I get a refund?', a: 'Yes. Brazilian consumer law gives you 7 days to cancel online purchases and request a refund.' },
       { q: 'Does it guarantee interviews, a job or a visa?', a: "No. Interviews and hiring depend on employers. The guide doesn't provide immigration legal advice." },
       { q: 'Does it include a review of my CV?', a: 'No. Individual reviews are part of Acompanhado: three 45-minute online sessions in 30 days, based on the Essencial files and the Word templates.' },

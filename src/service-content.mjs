@@ -112,7 +112,7 @@ export const SERVICE_PAGES = {
     price: "47.00",
     coverAlt: "Capa do guia Candidaturas internacionais em TI, edição 02",
     mapAlt: "Página do mapa do guia, com as 7 etapas",
-    facts: [["Formato", "PDF de 31 páginas, modelos e planilha"], ["Para quem", "Profissionais de tecnologia no Brasil"], ["Preço", "R$ 47, pela Kiwify"], ["Desistência", "7 dias, como prevê o CDC"], ["Adicional no checkout", "Modelos em Word de currículo e carta em inglês"], ["Autor", "Carlos Viegas"]],
+    facts: [["Formato", "PDF de 31 páginas, modelos e planilha"], ["Para quem", "Profissionais de tecnologia no Brasil"], ["Preço", "R$ 47, pela Kiwify"], ["Pagamento", "Compra única, sem assinatura; parcelamento no cartão"], ["Adicional no checkout", "Modelos em Word de currículo e carta em inglês, R$ 9,90"], ["Desistência", "7 dias, como prevê o CDC"], ["Edição", "02 · outubro de 2026"], ["Autor", "Carlos Viegas"]],
     build: {
       eyebrow: "O que você vai construir", title: "Seis peças que contam a mesma história",
       items: [
@@ -148,8 +148,8 @@ export const SERVICE_PAGES = {
     faqTitle: { eyebrow: "Dúvidas", title: "Antes de comprar" },
     faqs: [
       { q: "Para quem é o Essencial?", a: "Para profissionais de tecnologia no Brasil que querem se candidatar a vagas internacionais, remotas ou com mudança de país. Os exemplos são de desenvolvimento de software, e o processo também serve para dados, infraestrutura, qualidade e outras funções." },
-      { q: "Como recebo o material?", a: "A compra é feita pela Kiwify. Depois da confirmação do pagamento, você recebe o acesso ao PDF, aos modelos em texto e à planilha de candidaturas (CSV)." },
-      { q: "O que são os modelos em Word do checkout?", a: "Um adicional opcional na finalização da compra: currículo e carta de apresentação em inglês, diagramados em Word (.docx, A4), com campos para preencher. O guia já traz modelos em texto simples; os arquivos em Word poupam a etapa de formatação." },
+      { q: "Como recebo o material?", a: "A compra é feita pela Kiwify: compra única, sem assinatura, com opção de parcelamento no cartão. Depois da confirmação do pagamento, você recebe o acesso ao PDF, aos modelos em texto e à planilha de candidaturas (CSV)." },
+      { q: "O que são os modelos em Word do checkout?", a: "Um adicional opcional de R$ 9,90 na finalização da compra: currículo e carta de apresentação em inglês, diagramados em Word (.docx, A4), com campos para preencher. O guia já traz modelos em texto simples; os arquivos em Word poupam a etapa de formatação." },
       { q: "Posso desistir da compra?", a: "Sim. Você tem 7 dias para desistir e pedir o reembolso, como prevê o Código de Defesa do Consumidor para compras online." },
       { q: "O guia garante entrevista, emprego ou visto?", a: "Não. Entrevistas e contratações dependem dos empregadores. O guia também não oferece orientação jurídica de imigração." },
       { q: "Inclui revisão do meu currículo?", a: "Não. A revisão individual faz parte do Acompanhado: três encontros online de 45 minutos em 30 dias, com base nos arquivos do Essencial e nos modelos em Word." },

@@ -14,10 +14,18 @@ export const IconPlay = () => <svg width="16" height="16" {...svg} fill="current
 const ICONS = { arrow: IconArrow, back: IconArrowBack, out: IconOut, down: IconDown };
 
 /* ---------- Actions ---------- */
-// Every WhatsApp entry point reports the same consented `whatsapp_click` event.
+// Where on the page a link sits, so GA4 shows which button people use.
+const PLACEMENTS = [[".site-head", "header"], [".mobile-menu", "menu"], [".sticky-cta", "sticky"], [".receipt", "price_note"], [".hero", "hero"], [".cta-final", "final_cta"], [".site-foot", "footer"]];
+export function placementOf(element) {
+  for (const [selector, name] of PLACEMENTS) if (element?.closest?.(selector)) return name;
+  const id = element?.closest?.("section[id]")?.id;
+  return id ? `section_${id.replace(/[^a-z0-9]+/gi, "_").toLowerCase()}`.slice(0, 40) : "content";
+}
+
+// Every WhatsApp entry point reports the same consented `whatsapp_click` event, with its placement.
 export function WhatsAppLink({ message, className = "btn btn--lg", children, icon = true }) {
   return (
-    <a className={className} href={whatsappHref(message)} target="_blank" rel="noopener noreferrer" onClick={() => getAnalytics()?.trackWhatsApp()}>
+    <a className={className} href={whatsappHref(message)} target="_blank" rel="noopener noreferrer" onClick={event => getAnalytics()?.trackWhatsApp(placementOf(event.currentTarget))}>
       {icon && <IconWhatsApp />}{children}
     </a>
   );

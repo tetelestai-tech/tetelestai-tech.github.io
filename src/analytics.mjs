@@ -177,14 +177,28 @@ export function createAnalyticsController(win, doc, now = Date.now) {
     return !blocked;
   }
 
-  function trackWhatsApp() {
+  // Placement names come from the page area that holds the link (hero, header, price_note, ...).
+  const placementName = value => (typeof value === "string" && /^[a-z0-9_]{1,40}$/.test(value) ? value : "contact_section");
+
+  function trackWhatsApp(placement) {
     sync();
     const path = measurementPath(win.location.pathname);
     if (!started || blocked || !path || record()?.choice !== "accepted") return;
     win.gtag("event", "whatsapp_click", {
       ...context(path), send_to: MEASUREMENT_ID,
       page_path: path, site_language: path.startsWith("/en/") ? "en" : "pt",
-      contact_placement: "contact_section",
+      contact_placement: placementName(placement),
+    });
+  }
+
+  // Click on the Kiwify checkout link for the Essencial guide (the purchase itself happens on Kiwify).
+  function trackCheckout(placement) {
+    sync();
+    const path = measurementPath(win.location.pathname);
+    if (!started || blocked || !path || record()?.choice !== "accepted") return;
+    win.gtag("event", "checkout_click", {
+      ...context(path), send_to: MEASUREMENT_ID, page_path: path,
+      product_name: "essencial", link_placement: placementName(placement),
     });
   }
 
@@ -212,7 +226,7 @@ export function createAnalyticsController(win, doc, now = Date.now) {
     });
   }
 
-  return { choice: () => record()?.choice ?? null, choose, sync, trackWhatsApp, trackAppStore, trackAppVideo,
+  return { choice: () => record()?.choice ?? null, choose, sync, trackWhatsApp, trackCheckout, trackAppStore, trackAppVideo,
     testMode, modeCommand: () => modeCommand };
 }
 

@@ -442,3 +442,22 @@ test("a test-mode change blocks video clicks from the earlier tag instead of mis
   assert.deepEqual(b.events(), []);
   assert.equal(b.reloads, 1);
 });
+
+test("WhatsApp clicks report a safe placement and Essencial checkout clicks are measured after consent", () => {
+  const b = browser("/carreira-internacional/");
+  b.controller.trackCheckout("hero");
+  assert.equal(b.events().length, 0, "nothing is sent before consent");
+  b.controller.choose("accepted");
+  b.controller.trackWhatsApp("price_note");
+  b.controller.trackWhatsApp("<script>");
+  b.controller.trackWhatsApp();
+  b.controller.trackCheckout("sticky");
+  const [, wa1, wa2, wa3, checkout] = b.events();
+  assert.equal(wa1[2].contact_placement, "price_note");
+  assert.equal(wa2[2].contact_placement, "contact_section", "unexpected values fall back");
+  assert.equal(wa3[2].contact_placement, "contact_section");
+  assert.equal(checkout[1], "checkout_click");
+  assert.equal(checkout[2].product_name, "essencial");
+  assert.equal(checkout[2].link_placement, "sticky");
+  assert.equal(checkout[2].page_path, "/carreira-internacional/");
+});

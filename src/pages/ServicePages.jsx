@@ -1,10 +1,11 @@
 import { CHECKOUT_ESSENCIAL } from "../contact.mjs";
+import { getAnalytics } from "../analytics.mjs";
 import { HOW_STEPS, LANDING_RECEIPT, UI } from "../home-content.mjs";
 import { portfolioFor, servicesFor } from "../localized-content.mjs";
 import { PageShell, pathFor } from "../Layout.jsx";
 import {
   Browser, CardGrid, Circuits, Crumbs, CtaFinal, DevicePair, Facts, FaqSection, IconCart, LinkArrow,
-  Phone, Receipt, SectionHead, Steps, WhatsAppLink,
+  Phone, Receipt, SectionHead, Steps, WhatsAppLink, placementOf,
 } from "../ui.jsx";
 
 function ServiceHero({ locale, service, actions, media, headingClass = "h1 h1--md" }) {
@@ -159,7 +160,7 @@ export function LandingPage({ locale }) {
 }
 
 function BuyLink({ children, className = "btn btn--lg" }) {
-  return <a className={className} href={CHECKOUT_ESSENCIAL} target="_blank" rel="noopener noreferrer"><IconCart />{children}</a>;
+  return <a className={className} href={CHECKOUT_ESSENCIAL} target="_blank" rel="noopener noreferrer" onClick={event => getAnalytics()?.trackCheckout(placementOf(event.currentTarget))}><IconCart />{children}</a>;
 }
 
 export function CareerPage({ locale }) {

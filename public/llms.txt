@@ -12,7 +12,7 @@
 
 ## Pages (Portuguese)
 
-- [Home](https://tetelestai.tech/): websites and landing pages for small businesses across Brazil
+- [Home](https://tetelestai.tech/): websites, landing pages and apps for businesses of any size across Brazil
 - [Criação de sites](https://tetelestai.tech/criacao-de-sites/): multi-page business websites, quoted per project
 - [Criação de landing pages](https://tetelestai.tech/criacao-de-landing-pages/): the R$ 697 landing page offer
 - [Projetos](https://tetelestai.tech/projetos/): client websites and the De Rolê and Tempo de Recarga iOS apps

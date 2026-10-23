@@ -178,8 +178,8 @@ html:not(.js) .site-head{background:rgba(0,12,25,.9);border-bottom-color:var(--l
 .pulse{fill:none;stroke:var(--cyan);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:8 100;stroke-dashoffset:8;opacity:0;animation:tt-pulse 2.6s var(--ease) both}
 .pulse.p1{animation-delay:.5s}.pulse.p2{animation-delay:.9s}.pulse.p3{animation-delay:1.3s}.pulse.p4{animation-delay:1.7s}.pulse.p5{animation-delay:2.1s}
 @keyframes tt-pulse{0%{stroke-dashoffset:8;opacity:0}8%{opacity:1}92%{opacity:1}100%{stroke-dashoffset:-100;opacity:0}}
-/* Hero media slides in once on load; the headline and call to action are visible from the first frame. */
-.load-shot{animation:tt-slide 1.1s var(--ease) .35s backwards}
+/* Hero media slides in once on load but is visible from the first frame (it is the LCP image); the phone fades in after. */
+.load-shot{animation:tt-slide-in .9s var(--ease) backwards}
 .load-phone{animation:tt-rise 1s var(--ease) .8s backwards}
 /* Discreet hover on the hero devices: the browser rises a little, the phone a little more. */
 .hero__media .browser,.hero__media .phone{transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
@@ -188,7 +188,7 @@ html:not(.js) .site-head{background:rgba(0,12,25,.9);border-bottom-color:var(--l
   .hero__media:hover .phone{transform:translateY(-10px)}
 }
 @keyframes tt-rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
-@keyframes tt-slide{from{opacity:0;transform:translateX(56px)}to{opacity:1;transform:none}}
+@keyframes tt-slide-in{from{transform:translateX(40px)}to{transform:none}}
 
 /* Browser and phone frames */
 .browser{border-radius:var(--radius);background:#06182A;border:1px solid var(--line);overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.5)}

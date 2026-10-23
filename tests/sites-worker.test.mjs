@@ -344,7 +344,7 @@ test("publishes the confirmed service and contact content", async () => {
   assert.doesNotMatch(productionJavaScript, /["']Conversar com a Tetelestai["']/);
   assert.doesNotMatch(productionJavaScript, /Contact Tetelestai/);
   // Every WhatsApp entry point reports the consented whatsapp_click event.
-  assert.match(uiSource, /function WhatsAppLink[\s\S]*?trackWhatsApp\(\)/);
+  assert.match(uiSource, /function WhatsAppLink[\s\S]*?trackWhatsApp\(placementOf\(/);
 
   assert.match(productionJavaScript, /Está consumado!/);
   assert.match(productionJavaScript, /João 19:30/);

@@ -11,7 +11,7 @@ import { renderToString } from "react-dom/server";
 const servicePages = [
   {
     path: "/criacao-de-sites/",
-    heading: "Criação de sites para pequenos negócios de todo o Brasil",
+    heading: "Criação de sites para empresas de todo o Brasil",
     titlePattern: /criação de sites/i,
     canonical: "https://tetelestai.tech/criacao-de-sites/",
     shell: "/criacao-de-sites/index.html",
@@ -20,7 +20,7 @@ const servicePages = [
   },
   {
     path: "/criacao-de-landing-pages/",
-    heading: "Landing page para pequenos negócios: R$\u00a0697, no ar em até 2 dias úteis",
+    heading: "Landing page sob medida: R$\u00a0697, no ar em até 2 dias úteis",
     titlePattern: /criação de landing page/i,
     canonical: "https://tetelestai.tech/criacao-de-landing-pages/",
     shell: "/criacao-de-landing-pages/index.html",

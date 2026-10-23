@@ -93,12 +93,12 @@ export const UI = {
 export const HOME = {
   pt: {
     path: "/",
-    metaTitle: "Sites e landing pages para todo o Brasil | Tetelestai",
-    metaDescription: "Sites e landing pages para pequenos negócios de todo o Brasil, com atendimento online. Landing page a partir de R$ 697, otimizada para SEO e GEO, no ar em até 2 dias úteis.",
+    metaTitle: "Sites, landing pages e apps para empresas | Tetelestai",
+    metaDescription: "Sites, landing pages e apps para empresas de todo o Brasil, com atendimento online. Landing page a partir de R$ 697, com SEO e GEO, no ar em até 2 dias úteis.",
     hero: {
       eyebrow: "Atendimento online · todo o Brasil",
-      title: "Sites e landing pages para pequenos negócios de todo o Brasil",
-      lead: "Uma página que explica o seu serviço e leva o cliente direto para o seu WhatsApp. No ar em até 2 dias úteis depois que você manda os materiais.",
+      title: "Sites, landing pages e apps para empresas de todo o Brasil",
+      lead: "Do profissional autônomo à empresa com várias equipes: sites e apps que apresentam o seu negócio e geram vendas, e landing pages que levam o cliente direto ao seu WhatsApp.",
       secondary: "Ver projetos no ar",
       price: "Landing page a partir de R$ 697",
       byline: "Feito por Carlos Viegas, 22 anos de engenharia de software",
@@ -124,7 +124,7 @@ export const HOME = {
       title: "Três frentes, o mesmo cuidado",
       aside: "Tecnologia com propósito. Oportunidades sem fronteiras.",
       items: [
-        { id: "solucoes-digitais", title: "Sites, landing pages e apps", text: "Páginas que apresentam o serviço e levam o cliente ao WhatsApp. Apps iOS e Android sob orçamento.", links: ["sites", "landingPages", "apps"] },
+        { id: "solucoes-digitais", title: "Sites, landing pages e apps", text: "Sites e apps que apresentam o negócio e geram vendas, e landing pages que levam o cliente ao WhatsApp. Apps iOS e Android sob orçamento.", links: ["sites", "landingPages", "apps"] },
         { id: "carreira-internacional", title: "Carreira internacional em TI", text: "Guia Essencial: currículo em inglês, LinkedIn e candidaturas organizadas. R$ 47.", links: ["career"] },
         { id: "capacitacao-ia", title: "Capacitação em IA", text: "Treinamento prático de inteligência artificial para equipes e profissionais, sob demanda.", links: ["aiTraining"] },
       ],
@@ -142,12 +142,12 @@ export const HOME = {
   },
   en: {
     path: "/en/",
-    metaTitle: "Websites and landing pages for small businesses | Tetelestai",
-    metaDescription: "Websites and landing pages for small businesses across Brazil and abroad, delivered online. Landing pages from R$ 697, optimized for SEO and GEO, live in up to 2 business days.",
+    metaTitle: "Websites, landing pages and apps for businesses | Tetelestai",
+    metaDescription: "Websites, landing pages and apps for businesses in Brazil and abroad, delivered online. Landing pages from R$ 697 with SEO and GEO, live in 2 business days.",
     hero: {
       eyebrow: "Online · Brazil and abroad",
-      title: "Websites and landing pages for small businesses",
-      lead: "A page that explains what you do and sends customers straight to your WhatsApp. Live in up to 2 business days after you send your materials.",
+      title: "Websites, landing pages and apps for businesses in Brazil and abroad",
+      lead: "From freelancers to companies with several teams: websites and apps that present your business and drive sales, and landing pages that send customers straight to your WhatsApp.",
       secondary: "See live projects",
       price: "Landing pages from R$ 697",
       byline: "Built by Carlos Viegas, 22 years in software engineering",
@@ -173,7 +173,7 @@ export const HOME = {
       title: "Three fronts, the same care",
       aside: "Technology with purpose. Opportunities without borders.",
       items: [
-        { id: "digital-solutions", title: "Websites, landing pages and apps", text: "Pages that present your services and bring customers to WhatsApp. iOS and Android apps quoted per project.", links: ["sites", "landingPages", "apps"] },
+        { id: "digital-solutions", title: "Websites, landing pages and apps", text: "Websites and apps that present your business and drive sales, and landing pages that bring customers to WhatsApp. iOS and Android apps quoted per project.", links: ["sites", "landingPages", "apps"] },
         { id: "international-career", title: "International careers in tech", text: "The Essencial guide: English CV, LinkedIn and an organized job search (in Portuguese).", links: ["career"] },
         { id: "practical-ai", title: "AI training", text: "Hands-on artificial intelligence training for teams and professionals, on demand.", links: ["aiTraining"] },
       ],

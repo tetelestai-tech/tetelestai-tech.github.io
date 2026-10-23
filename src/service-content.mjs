@@ -140,10 +140,10 @@ export const SERVICE_PAGES = {
       text: "Não inclui aulas em vídeo, encontros, revisão individual, envio de candidaturas, indicação a empregadores ou intermediação de vagas. É um guia de estudo e organização, sem garantia de entrevista, contratação, salário ou visto. Os exemplos de pessoas e empresas são fictícios.",
     },
     coaching: {
-      eyebrow: "Acompanhado · acompanhamento individual", title: "Turma fundadora: 5 vagas por R$ 397 (depois, R$ 497)",
-      text: "Três encontros de 45 minutos em quatro semanas para revisar o seu currículo, o LinkedIn e a estratégia de candidaturas com o Carlos. A turma abre quando a lista de espera fechar as 5 vagas.",
-      cta: "Entrar na lista de espera",
-      waMessage: "Olá! Quero entrar na lista de espera do acompanhamento individual de carreira (turma fundadora).",
+      eyebrow: "Acompanhado · acompanhamento individual", title: "Três encontros individuais em 30 dias: R$ 397 no lançamento (depois, R$ 497)",
+      text: "Três encontros online de 45 minutos em 30 dias com o Carlos, trabalhando sobre os arquivos do Essencial e os modelos em Word: o seu currículo em inglês, o LinkedIn e a estratégia de candidaturas.",
+      cta: "Quero o Acompanhado",
+      waMessage: "Olá! Quero saber como funciona o Acompanhado (acompanhamento individual de carreira).",
     },
     faqTitle: { eyebrow: "Dúvidas", title: "Antes de comprar" },
     faqs: [
@@ -152,7 +152,7 @@ export const SERVICE_PAGES = {
       { q: "O que são os modelos em Word do checkout?", a: "Um adicional opcional na finalização da compra: currículo e carta de apresentação em inglês, diagramados em Word (.docx, A4), com campos para preencher. O guia já traz modelos em texto simples; os arquivos em Word poupam a etapa de formatação." },
       { q: "Posso desistir da compra?", a: "Sim. Você tem 7 dias para desistir e pedir o reembolso, como prevê o Código de Defesa do Consumidor para compras online." },
       { q: "O guia garante entrevista, emprego ou visto?", a: "Não. Entrevistas e contratações dependem dos empregadores. O guia também não oferece orientação jurídica de imigração." },
-      { q: "Inclui revisão do meu currículo?", a: "Não. A revisão individual faz parte do acompanhamento individual, que tem lista de espera para a turma fundadora." },
+      { q: "Inclui revisão do meu currículo?", a: "Não. A revisão individual faz parte do Acompanhado: três encontros online de 45 minutos em 30 dias, com base nos arquivos do Essencial e nos modelos em Word." },
       { q: "Preciso ter inglês avançado?", a: "Não existe um nível mínimo. O guia ensina a descrever com honestidade o que você consegue fazer em inglês e a escolher vagas compatíveis." },
     ],
     final: { title: "Comece pelo alvo certo", text: "Em 31 páginas, da escolha da vaga à planilha de acompanhamento." },

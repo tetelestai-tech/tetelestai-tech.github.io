@@ -142,10 +142,10 @@ export const EN_SERVICE_PAGES = {
       text: "It doesn't include video lessons, meetings, individual reviews, submitting applications, referrals or job placement. It's a study and organization guide, with no guarantee of interviews, hiring, salary or visas. People and companies in the examples are fictitious.",
     },
     coaching: {
-      eyebrow: 'Acompanhado · one-on-one coaching', title: 'Founding cohort: 5 spots at R$ 397 (then R$ 497)',
-      text: 'Three 45-minute sessions over four weeks to review your CV, LinkedIn and application strategy with Carlos (in Portuguese). The cohort opens once the waitlist fills all 5 spots.',
-      cta: 'Join the waitlist',
-      waMessage: "Hi! I'd like to join the waitlist for the one-on-one career coaching (founding cohort).",
+      eyebrow: 'Acompanhado · one-on-one coaching', title: 'Three one-on-one sessions in 30 days: R$ 397 at launch (then R$ 497)',
+      text: 'Three 45-minute online sessions in 30 days with Carlos (in Portuguese), working on the Essencial files and the Word templates: your English CV, your LinkedIn and your application strategy.',
+      cta: 'I want Acompanhado',
+      waMessage: "Hi! I'd like to know how Acompanhado (one-on-one career coaching) works.",
     },
     faqTitle: { eyebrow: 'FAQ', title: 'Before you buy' },
     faqs: [
@@ -155,7 +155,7 @@ export const EN_SERVICE_PAGES = {
       { q: 'What are the Word templates at checkout?', a: 'An optional add-on when you check out: an English CV and cover letter laid out in Word (.docx, A4), with fields to fill in. The guide already includes plain-text templates; the Word files save you the formatting step.' },
       { q: 'Can I get a refund?', a: 'Yes. Brazilian consumer law gives you 7 days to cancel online purchases and request a refund.' },
       { q: 'Does it guarantee interviews, a job or a visa?', a: "No. Interviews and hiring depend on employers. The guide doesn't provide immigration legal advice." },
-      { q: 'Does it include a review of my CV?', a: 'No. Individual reviews are part of the one-on-one coaching, which has a waitlist for the founding cohort.' },
+      { q: 'Does it include a review of my CV?', a: 'No. Individual reviews are part of Acompanhado: three 45-minute online sessions in 30 days, based on the Essencial files and the Word templates.' },
     ],
     final: { title: 'Start with the right target', text: '31 pages, from choosing a role to tracking every application.' },
   },

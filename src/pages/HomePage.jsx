@@ -114,7 +114,7 @@ export function HomePage({ locale }) {
                 <h3 className="h3">{front.title}</h3>
                 <p>{front.text}</p>
                 <div className="card__links">
-                  {front.links.map(key => <LinkArrow href={pathFor(key, locale)} className="link link--arrow link--white" key={key}>{services[key].label}</LinkArrow>)}
+                  {front.links.map(key => <LinkArrow href={pathFor(key, locale)} className="link link--arrow link--white" key={key}>{services[key]?.label ?? t.appsLabel}</LinkArrow>)}
                 </div>
               </article>
             ))}

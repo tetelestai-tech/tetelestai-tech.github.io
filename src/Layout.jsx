@@ -8,6 +8,7 @@ import { IconArrow, IconArrowBack, SymbolPicture, WhatsAppLink } from "./ui.jsx"
 
 export function pathFor(key, locale) {
   if (key === "home") return HOME[locale].path;
+  if (key === "apps") return `${portfolioFor(locale).portfolio.path}#apps`;
   return servicesFor(locale)[key]?.path ?? portfolioFor(locale)[key]?.path ?? LEGAL_PATHS[key]?.[locale] ?? HOME[locale].path;
 }
 

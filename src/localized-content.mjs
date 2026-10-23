@@ -14,23 +14,23 @@ export const EN_SERVICE_PAGES = {
     ctaLabel: 'Get a website quote',
     secondaryLabel: 'See a website we built',
     waMessage: "Hi! I'd like a quote for a website for my business.",
-    facts: [['What it is', 'Multi-page business website'], ["Who it's for", 'Small businesses and professionals'], ['Includes', 'Mobile, local SEO and WhatsApp'], ['Price', 'Quoted in writing'], ['Timeline', 'Set in the proposal'], ['Where', 'Brasília and beyond, online']],
+    facts: [['What it is', 'Multi-page business website'], ["Who it's for", 'Small businesses and professionals'], ['Includes', 'Mobile, SEO, GEO and WhatsApp'], ['Price', 'Quoted in writing'], ['Timeline', 'Set in the proposal'], ['Where', 'Online, in Brazil and abroad']],
     compare: {
       eyebrow: 'Website or landing page?', title: 'Choose by what your customers need to see',
       options: [
         { badge: 'Multiple pages', title: 'Full website', items: ['One page per service', 'Gallery, about, FAQ and contact', 'Better odds of ranking for each service', 'Can grow with a blog, booking or other languages'], price: 'Quoted per project', cta: 'Get a website quote' },
-        { badge: 'One page', title: 'Landing page', items: ['One offer, one action', 'Live in up to 5 business days', 'Great to share on WhatsApp and Instagram', 'Can grow into a full website later'], price: 'R$ 697', cta: 'See the landing page' },
+        { badge: 'One page', title: 'Landing page', items: ['One offer, one action', 'Live in up to 2 business days', 'Great to share on WhatsApp and Instagram', 'Can grow into a full website later'], price: 'R$ 697', cta: 'See the landing page' },
       ],
     },
     features: {
       eyebrow: "What's included", title: 'Built to sell, not just to exist',
       items: [
         { k: 'Pages', title: 'One page per service', text: 'Clear copy about what you do, for whom and how much, with a WhatsApp call to action on every page.' },
-        { k: 'Google', title: 'Local SEO from day one', text: 'Titles, descriptions, structured data and a sitemap so Google understands what you do and where.' },
+        { k: 'Google and AI', title: 'SEO and GEO from day one', text: 'Titles, descriptions, structured data and a sitemap so Google and AI assistants understand what you do and where.' },
         { k: 'Mobile', title: 'Designed for small screens', text: 'Fast, easy to read and with large buttons. Your customers will see it on their phones.' },
         { k: 'Photos', title: 'Your work up front', text: 'A gallery of real photos and videos that shows results better than any copy.' },
         { k: 'Contact', title: 'WhatsApp with a ready message', text: 'Customers tap the button and the chat starts saying where they came from.' },
-        { k: 'Custom', title: 'Features set in the proposal', text: 'Forms, booking, integrations and other languages are added when they make sense for you.' },
+        { k: 'Custom', title: 'Features set in the proposal', text: 'Forms, booking, integrations, other languages and even an iOS or Android app are added when they make sense for you.' },
       ],
     },
     caseStudy: {
@@ -41,11 +41,11 @@ export const EN_SERVICE_PAGES = {
     faqTitle: { eyebrow: 'FAQ', title: 'Questions about website development' },
     faqs: [
       { q: 'How much does a full website cost?', a: "It depends on the number of pages and features. You get the price in writing after a WhatsApp conversation, along with the timeline and what's included. To start simpler, a landing page costs R$ 697." },
-      { q: 'How long does it take?', a: 'The timeline comes in the proposal and starts once you send texts and photos. A landing page is ready in up to 5 business days.' },
-      { q: 'Will my website show up on Google?', a: 'Every site ships with basic SEO: titles, descriptions, structured data and a sitemap submitted to Google. Rankings also depend on competition and content over time.' },
+      { q: 'How long does it take?', a: 'The timeline comes in the proposal and starts once you send texts and photos. A landing page is ready in up to 2 business days.' },
+      { q: 'Will my website show up on Google and in AI assistants?', a: 'Every site ships optimized for SEO and GEO: titles, descriptions, structured data, a sitemap and clear copy that Google and assistants such as ChatGPT, Gemini and Perplexity can understand and cite. Rankings also depend on competition and content over time.' },
       { q: 'Do I need texts and photos ready?', a: "It helps to gather what you have. The proposal states what will be used, what's missing and who handles each part." },
       { q: 'Are domain, hosting and maintenance included?', a: 'Domain and hosting are billed separately. Updates and maintenance after delivery are agreed as needed.' },
-      { q: 'Do you work outside Brasília?', a: 'Yes. We work over WhatsApp and deliver online.' },
+      { q: 'Do you work outside Brasília?', a: 'Yes. We work online with businesses across Brazil and abroad.' },
     ],
     final: { title: "Let's talk about your website", text: 'Tell us which services you offer and for whom. The proposal comes with price and timeline.' },
   },
@@ -53,15 +53,15 @@ export const EN_SERVICE_PAGES = {
     path: '/en/landing-pages/',
     label: 'Landing page development',
     metaTitle: 'Landing pages from R$ 697 | Tetelestai',
-    metaDescription: 'Landing pages for small businesses: up to 5 sections, mobile version, WhatsApp button and basic SEO. R$ 697, live in up to 5 business days.',
+    metaDescription: 'Landing pages for small businesses: tailored offer, SEO and GEO, mobile version and WhatsApp button. R$ 697, live in up to 2 business days.',
     eyebrow: 'Landing page · R$ 697',
-    heading: 'Landing pages for small businesses: R$ 697, live in up to 5 business days',
+    heading: 'Landing pages for small businesses: R$ 697, live in up to 2 business days',
     intro: 'One page with everything customers need to know before messaging you: what you do, how it works and what it costs.',
     ctaLabel: 'I want my landing page',
     secondaryLabel: 'See a live example',
     waMessage: "Hi! I'd like the R$ 697 landing page.",
     price: '697.00',
-    facts: [['Price', 'R$ 697 or 2 × R$ 348.50'], ['Includes', '1 page, up to 5 sections'], ['Mobile + WhatsApp', 'Included'], ['Basic SEO', 'Included'], ['Timeline', 'Up to 5 business days'], ['Not included', 'Domain and hosting']],
+    facts: [['Price', 'R$ 697 or 2 × R$ 348.50'], ['Payment', 'Half on hiring, half on delivery'], ['Includes', '1 page, up to 5 sections'], ['Offer and copy', 'Tailored to your business'], ['SEO and GEO', 'Included'], ['Mobile + WhatsApp', 'Included'], ['Timeline', 'Up to 2 business days'], ['Not included', 'Domain and hosting']],
     audience: {
       eyebrow: "Who it's for", title: 'For businesses that sell through conversation',
       items: [
@@ -90,10 +90,11 @@ export const EN_SERVICE_PAGES = {
     faqs: [
       { q: 'Does a landing page replace a website?', a: 'Not necessarily. It presents one specific offer, while a website presents the whole business. Both can work together, and a landing page can grow into a website later.' },
       { q: 'Do I need to run ads?', a: 'No. Share the link on WhatsApp, add it to your Instagram bio and post it anywhere. If you run ads, the page is ready for those visitors.' },
-      { q: "What's included for R$ 697?", a: 'One page with up to 5 sections, a mobile version, a WhatsApp button, basic SEO and one round of revisions. Domain and hosting are billed separately.' },
+      { q: "What's included for R$ 697?", a: 'One page with up to 5 sections, with an offer and copy written for your business, optimized for SEO and GEO, with a mobile version, a WhatsApp button and one round of revisions. Domain and hosting are billed separately.' },
+      { q: 'What is GEO?', a: 'Generative engine optimization: preparing the page so AI assistants such as ChatGPT, Gemini and Perplexity can understand and cite it, with clear facts, questions answered on the page and structured data. It works alongside SEO for Google.' },
       { q: 'Are forms and integrations included?', a: 'That depends on the scope. If you need to collect data or connect another system, it goes into the proposal with an agreed price.' },
       { q: 'What should I send to get a proposal?', a: 'What you sell, to whom, where visitors come from, what they should do on the page and whether you already have a domain or hosting.' },
-      { q: 'How does payment work?', a: 'R$ 697, or 2 × R$ 348.50. The terms for each installment are in the proposal.' },
+      { q: 'How does payment work?', a: 'R$ 697, or 2 × R$ 348.50: the first installment when you hire us and the second when the page is delivered.' },
     ],
     final: { title: 'Want your landing page?', text: 'Send a message telling us what you sell. The proposal comes with price and timeline.' },
   },
@@ -113,7 +114,7 @@ export const EN_SERVICE_PAGES = {
     price: '47.00',
     coverAlt: 'Cover of the Candidaturas internacionais em TI guide, edition 02',
     mapAlt: 'Guide map page listing the 7 stages',
-    facts: [['Format', '31-page PDF, templates and tracker'], ["Who it's for", 'Tech professionals in Brazil'], ['Price', 'R$ 47 via Kiwify'], ['Language', 'Portuguese, with English templates'], ['Edition', '02 · October 2026'], ['Author', 'Carlos Viegas']],
+    facts: [['Format', '31-page PDF, templates and tracker'], ["Who it's for", 'Tech professionals in Brazil'], ['Price', 'R$ 47 via Kiwify'], ['Language', 'Portuguese, with English templates'], ['Checkout add-on', 'Word templates: English CV and cover letter'], ['Author', 'Carlos Viegas']],
     build: {
       eyebrow: "What you'll build", title: 'Six pieces that tell the same story',
       items: [
@@ -141,7 +142,7 @@ export const EN_SERVICE_PAGES = {
       text: "It doesn't include video lessons, meetings, individual reviews, submitting applications, referrals or job placement. It's a study and organization guide, with no guarantee of interviews, hiring, salary or visas. People and companies in the examples are fictitious.",
     },
     coaching: {
-      eyebrow: 'One-on-one coaching', title: 'Founding cohort: 5 spots at R$ 397',
+      eyebrow: 'Acompanhado · one-on-one coaching', title: 'Founding cohort: 5 spots at R$ 397 (then R$ 497)',
       text: 'Three 45-minute sessions over four weeks to review your CV, LinkedIn and application strategy with Carlos (in Portuguese). The cohort opens once the waitlist fills all 5 spots.',
       cta: 'Join the waitlist',
       waMessage: "Hi! I'd like to join the waitlist for the one-on-one career coaching (founding cohort).",
@@ -150,7 +151,8 @@ export const EN_SERVICE_PAGES = {
     faqs: [
       { q: 'Who is the Essencial for?', a: 'Tech professionals in Brazil who want to apply for international roles, remote or relocating. Examples focus on software development, and the process also works for data, infrastructure, QA and other roles.' },
       { q: 'Is the guide in English?', a: 'The guide is written in Portuguese. The CV and outreach templates are in English.' },
-      { q: 'How do I get the material?', a: 'You buy through Kiwify. Once payment is confirmed, you get access to the PDF, templates and tracker.' },
+      { q: 'How do I get the material?', a: 'You buy through Kiwify. Once payment is confirmed, you get access to the PDF, the plain-text templates and the application tracker (CSV).' },
+      { q: 'What are the Word templates at checkout?', a: 'An optional add-on when you check out: an English CV and cover letter laid out in Word (.docx, A4), with fields to fill in. The guide already includes plain-text templates; the Word files save you the formatting step.' },
       { q: 'Can I get a refund?', a: 'Yes. Brazilian consumer law gives you 7 days to cancel online purchases and request a refund.' },
       { q: 'Does it guarantee interviews, a job or a visa?', a: "No. Interviews and hiring depend on employers. The guide doesn't provide immigration legal advice." },
       { q: 'Does it include a review of my CV?', a: 'No. Individual reviews are part of the one-on-one coaching, which has a waitlist for the founding cohort.' },
@@ -214,6 +216,11 @@ export const EN_PORTFOLIO_PAGES = {
     jumpApps: 'iOS apps',
     sites: { eyebrow: 'Client websites', title: 'Different identities, the same care for the end customer' },
     apps: { eyebrow: 'From idea to app', title: 'iOS apps', aside: 'Both were designed, built and published by Tetelestai.' },
+    appsCta: {
+      eyebrow: 'iOS and Android apps', title: 'Want an app for your business?',
+      text: 'From prototype to publishing on the App Store and Google Play. Scope, timeline and price come in writing after a conversation.',
+      cta: 'Get an app quote', waMessage: "Hi! I'd like a quote for an iOS/Android app for my business.",
+    },
     instagram: {
       eyebrow: 'Beyond the projects', title: 'Content on Instagram',
       aside: 'Original videos and remixes from IA na Prática, shared in collaboration with TETELESTAI. Videos in Portuguese.',

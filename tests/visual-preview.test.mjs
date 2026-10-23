@@ -21,7 +21,7 @@ test('redesign keeps one WhatsApp action in each opening, presents each front on
       assert.equal((hero?.match(whatsapp) ?? []).length, 1, `${path}: exactly one WhatsApp action in the opening`);
       assert.ok((hero?.match(/<a\b/g) ?? []).length <= 2, `${path}: the opening offers at most one secondary link`);
       assert.ok(hero.includes('href="#projects"'), `${path}: the secondary link leads to live projects`);
-      const fronts = path === '/' ? ['Sites e landing pages', 'Carreira internacional em TI', 'Capacitação em IA'] : ['Websites and landing pages', 'International careers in tech', 'AI training'];
+      const fronts = path === '/' ? ['Sites, landing pages e apps', 'Carreira internacional em TI', 'Capacitação em IA'] : ['Websites, landing pages and apps', 'International careers in tech', 'AI training'];
       for (const front of fronts) assert.equal((html.match(new RegExp(`>${front}</h3>`, 'g')) ?? []).length, 1, `${path}: ${front}`);
       assert.ok(html.includes('id="projects"'), 'Projects link must have a destination on each homepage');
       assert.ok(!html.includes('id="ios-apps-title"'), 'app presentation stays on the full portfolio page');

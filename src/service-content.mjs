@@ -12,23 +12,23 @@ export const SERVICE_PAGES = {
     ctaLabel: "Pedir orçamento do site",
     secondaryLabel: "Ver um site que fizemos",
     waMessage: "Olá! Quero um orçamento de site para o meu negócio.",
-    facts: [["O que é", "Site institucional com várias páginas"], ["Para quem", "Pequenos negócios e profissionais"], ["Inclui", "Celular, SEO local e WhatsApp"], ["Preço", "Sob orçamento, por escrito"], ["Prazo", "Combinado na proposta"], ["Onde", "Brasília e outras cidades, online"]],
+    facts: [["O que é", "Site institucional com várias páginas"], ["Para quem", "Pequenos negócios e profissionais"], ["Inclui", "Celular, SEO, GEO e WhatsApp"], ["Preço", "Sob orçamento, por escrito"], ["Prazo", "Combinado na proposta"], ["Onde", "Online, no Brasil e no exterior"]],
     compare: {
       eyebrow: "Site ou landing page?", title: "Escolha pelo que o seu cliente precisa ver",
       options: [
         { badge: "Várias páginas", title: "Site completo", items: ["Uma página para cada serviço", "Galeria, sobre, perguntas e contato", "Mais chances de aparecer no Google para cada serviço", "Pode crescer com blog, agendamento ou versão em inglês"], price: "Sob orçamento", cta: "Pedir orçamento do site" },
-        { badge: "Uma página", title: "Landing page", items: ["Uma oferta e uma ação", "Pronta em até 5 dias úteis", "Ideal para mandar no WhatsApp e na bio", "Pode virar um site completo depois"], price: "R$ 697", cta: "Ver a landing page" },
+        { badge: "Uma página", title: "Landing page", items: ["Uma oferta e uma ação", "Pronta em até 2 dias úteis", "Ideal para mandar no WhatsApp e na bio", "Pode virar um site completo depois"], price: "R$ 697", cta: "Ver a landing page" },
       ],
     },
     features: {
       eyebrow: "O que entra no site", title: "Feito para vender, não só para existir",
       items: [
         { k: "Páginas", title: "Uma página para cada serviço", text: "Texto claro sobre o que você faz, para quem e quanto custa, com chamada para o WhatsApp em cada página." },
-        { k: "Google", title: "SEO local desde o início", text: "Títulos, descrições, dados estruturados e mapa do site para o Google entender o que você faz e onde atende." },
+        { k: "Google e IA", title: "SEO e GEO desde o início", text: "Títulos, descrições, dados estruturados e mapa do site para o Google e os assistentes de IA entenderem o que você faz e onde atende." },
         { k: "Celular", title: "Pensado para a tela pequena", text: "Rápido para abrir, fácil de ler e com botões grandes. É no celular que o seu cliente vai ver." },
         { k: "Fotos", title: "Seus trabalhos em destaque", text: "Galeria com fotos e vídeos reais, que mostram o resultado melhor do que qualquer texto." },
         { k: "Contato", title: "WhatsApp com mensagem pronta", text: "O cliente toca no botão e a conversa já começa dizendo de onde ele veio." },
-        { k: "Sob medida", title: "Recursos combinados na proposta", text: "Formulários, agendamento, integrações e versão em inglês entram quando fazem sentido para o seu negócio." },
+        { k: "Sob medida", title: "Recursos combinados na proposta", text: "Formulários, agendamento, integrações, versão em inglês e até um app iOS ou Android entram quando fazem sentido para o seu negócio." },
       ],
     },
     caseStudy: {
@@ -39,11 +39,11 @@ export const SERVICE_PAGES = {
     faqTitle: { eyebrow: "Dúvidas", title: "Perguntas sobre criação de sites" },
     faqs: [
       { q: "Quanto custa um site completo?", a: "Depende do número de páginas e dos recursos. O preço sai por escrito depois de uma conversa pelo WhatsApp, junto com o prazo e o que está incluso. Para começar com algo mais simples, a landing page custa R$ 697." },
-      { q: "Quanto tempo leva para o site ficar pronto?", a: "O prazo vem na proposta e conta a partir do envio dos textos e das fotos. Uma landing page fica pronta em até 5 dias úteis." },
-      { q: "O site aparece no Google?", a: "O site sai com SEO básico: títulos, descrições, dados estruturados e mapa do site enviados ao Google. A posição nos resultados depende também da concorrência e do conteúdo ao longo do tempo." },
+      { q: "Quanto tempo leva para o site ficar pronto?", a: "O prazo vem na proposta e conta a partir do envio dos textos e das fotos. Uma landing page fica pronta em até 2 dias úteis." },
+      { q: "O site aparece no Google e nos assistentes de IA?", a: "O site sai otimizado para SEO e GEO: títulos, descrições, dados estruturados, mapa do site e textos claros, que o Google e assistentes como ChatGPT, Gemini e Perplexity conseguem entender e citar. A posição nos resultados depende também da concorrência e do conteúdo ao longo do tempo." },
       { q: "Preciso ter textos e fotos prontos?", a: "Ajuda juntar o que você já tem. A proposta deixa combinado o que será usado, o que falta preparar e quem cuida de cada parte." },
       { q: "Domínio, hospedagem e manutenção estão inclusos?", a: "Domínio e hospedagem são pagos à parte. Atualizações e manutenção depois da entrega são combinadas conforme a necessidade." },
-      { q: "Vocês atendem fora de Brasília?", a: "Sim. O atendimento é pelo WhatsApp e a entrega é online." },
+      { q: "Vocês atendem fora de Brasília?", a: "Sim. O atendimento é online, para negócios de todo o Brasil e de outros países." },
     ],
     final: { title: "Vamos conversar sobre o seu site?", text: "Conte quais serviços você oferece e para quem. A proposta vem com preço e prazo." },
   },
@@ -51,15 +51,15 @@ export const SERVICE_PAGES = {
     path: "/criacao-de-landing-pages/",
     label: "Criação de landing pages",
     metaTitle: "Criação de landing page a partir de R$ 697 | Tetelestai",
-    metaDescription: "Landing page para pequenos negócios: até 5 seções, versão para celular, botão de WhatsApp e SEO básico. R$ 697 em 2×, no ar em até 5 dias úteis.",
+    metaDescription: "Landing page para pequenos negócios: oferta sob medida, SEO e GEO, versão para celular e botão de WhatsApp. R$ 697 em 2×, no ar em até 2 dias úteis.",
     eyebrow: "Landing page · R$ 697",
-    heading: "Landing page para pequenos negócios: R$ 697, no ar em até 5 dias úteis",
+    heading: "Landing page para pequenos negócios: R$ 697, no ar em até 2 dias úteis",
     intro: "Uma página com tudo o que o cliente precisa saber antes de chamar no WhatsApp: o que você faz, como funciona e quanto custa.",
     ctaLabel: "Quero minha landing page",
     secondaryLabel: "Ver um exemplo no ar",
     waMessage: "Olá! Quero a landing page de R$ 697.",
     price: "697.00",
-    facts: [["Preço", "R$ 697 em 2× de R$ 348,50"], ["Inclui", "1 página com até 5 seções"], ["Celular e WhatsApp", "Incluso"], ["SEO básico", "Incluso"], ["Prazo", "Até 5 dias úteis após os materiais"], ["Fora do preço", "Domínio e hospedagem"]],
+    facts: [["Preço", "R$ 697 em 2× de R$ 348,50"], ["Pagamento", "Metade na contratação, metade na entrega"], ["Inclui", "1 página com até 5 seções"], ["Oferta e textos", "Sob medida para o seu negócio"], ["SEO e GEO", "Incluso"], ["Celular e WhatsApp", "Incluso"], ["Prazo", "Até 2 dias úteis após os materiais"], ["Fora do preço", "Domínio e hospedagem"]],
     audience: {
       eyebrow: "Para quem é", title: "Para negócios que vendem pela conversa",
       items: [
@@ -88,10 +88,11 @@ export const SERVICE_PAGES = {
     faqs: [
       { q: "A landing page substitui o site da empresa?", a: "Não necessariamente. Ela apresenta uma oferta específica, enquanto o site apresenta o negócio inteiro. As duas podem funcionar juntas, e a landing page pode virar um site depois." },
       { q: "Preciso fazer anúncio?", a: "Não. Você pode mandar o link no WhatsApp, colocar na bio do Instagram e divulgar onde quiser. Se fizer anúncio, a página recebe esse visitante." },
-      { q: "O que está incluso nos R$ 697?", a: "Uma página com até 5 seções, versão para celular, botão de WhatsApp, SEO básico e uma rodada de ajustes. Domínio e hospedagem são pagos à parte." },
+      { q: "O que está incluso nos R$ 697?", a: "Uma página com até 5 seções, com oferta e textos pensados para o seu negócio, otimizada para SEO e GEO, com versão para celular, botão de WhatsApp e uma rodada de ajustes. Domínio e hospedagem são pagos à parte." },
+      { q: "O que é GEO?", a: "É preparar a página para ser entendida e citada por assistentes de IA, como ChatGPT, Gemini e Perplexity: informações objetivas, perguntas respondidas na própria página e dados estruturados. Funciona junto com o SEO do Google." },
       { q: "Formulários e integrações estão inclusos?", a: "Dependem do escopo. Se você precisar coletar dados ou integrar com outro sistema, isso entra na proposta com o preço combinado." },
       { q: "O que eu mando para pedir a proposta?", a: "O que você vende, para quem, de onde vêm os visitantes, o que eles devem fazer na página e se você já tem domínio ou hospedagem." },
-      { q: "Como funciona o pagamento?", a: "R$ 697 em 2× de R$ 348,50. As condições de cada parcela vêm na proposta." },
+      { q: "Como funciona o pagamento?", a: "R$ 697 em 2× de R$ 348,50: a primeira parcela na contratação e a segunda na entrega da página." },
     ],
     final: { title: "Quer a sua landing page?", text: "Mande uma mensagem contando o que você vende. A proposta vem com preço e prazo." },
   },
@@ -111,7 +112,7 @@ export const SERVICE_PAGES = {
     price: "47.00",
     coverAlt: "Capa do guia Candidaturas internacionais em TI, edição 02",
     mapAlt: "Página do mapa do guia, com as 7 etapas",
-    facts: [["Formato", "PDF de 31 páginas, modelos e planilha"], ["Para quem", "Profissionais de tecnologia no Brasil"], ["Preço", "R$ 47, pela Kiwify"], ["Desistência", "7 dias, como prevê o CDC"], ["Edição", "02 · outubro de 2026"], ["Autor", "Carlos Viegas"]],
+    facts: [["Formato", "PDF de 31 páginas, modelos e planilha"], ["Para quem", "Profissionais de tecnologia no Brasil"], ["Preço", "R$ 47, pela Kiwify"], ["Desistência", "7 dias, como prevê o CDC"], ["Adicional no checkout", "Modelos em Word de currículo e carta em inglês"], ["Autor", "Carlos Viegas"]],
     build: {
       eyebrow: "O que você vai construir", title: "Seis peças que contam a mesma história",
       items: [
@@ -139,7 +140,7 @@ export const SERVICE_PAGES = {
       text: "Não inclui aulas em vídeo, encontros, revisão individual, envio de candidaturas, indicação a empregadores ou intermediação de vagas. É um guia de estudo e organização, sem garantia de entrevista, contratação, salário ou visto. Os exemplos de pessoas e empresas são fictícios.",
     },
     coaching: {
-      eyebrow: "Acompanhamento individual", title: "Turma fundadora com 5 vagas por R$ 397",
+      eyebrow: "Acompanhado · acompanhamento individual", title: "Turma fundadora: 5 vagas por R$ 397 (depois, R$ 497)",
       text: "Três encontros de 45 minutos em quatro semanas para revisar o seu currículo, o LinkedIn e a estratégia de candidaturas com o Carlos. A turma abre quando a lista de espera fechar as 5 vagas.",
       cta: "Entrar na lista de espera",
       waMessage: "Olá! Quero entrar na lista de espera do acompanhamento individual de carreira (turma fundadora).",
@@ -147,7 +148,8 @@ export const SERVICE_PAGES = {
     faqTitle: { eyebrow: "Dúvidas", title: "Antes de comprar" },
     faqs: [
       { q: "Para quem é o Essencial?", a: "Para profissionais de tecnologia no Brasil que querem se candidatar a vagas internacionais, remotas ou com mudança de país. Os exemplos são de desenvolvimento de software, e o processo também serve para dados, infraestrutura, qualidade e outras funções." },
-      { q: "Como recebo o material?", a: "A compra é feita pela Kiwify. Depois da confirmação do pagamento, você recebe o acesso ao PDF, aos modelos e à planilha." },
+      { q: "Como recebo o material?", a: "A compra é feita pela Kiwify. Depois da confirmação do pagamento, você recebe o acesso ao PDF, aos modelos em texto e à planilha de candidaturas (CSV)." },
+      { q: "O que são os modelos em Word do checkout?", a: "Um adicional opcional na finalização da compra: currículo e carta de apresentação em inglês, diagramados em Word (.docx, A4), com campos para preencher. O guia já traz modelos em texto simples; os arquivos em Word poupam a etapa de formatação." },
       { q: "Posso desistir da compra?", a: "Sim. Você tem 7 dias para desistir e pedir o reembolso, como prevê o Código de Defesa do Consumidor para compras online." },
       { q: "O guia garante entrevista, emprego ou visto?", a: "Não. Entrevistas e contratações dependem dos empregadores. O guia também não oferece orientação jurídica de imigração." },
       { q: "Inclui revisão do meu currículo?", a: "Não. A revisão individual faz parte do acompanhamento individual, que tem lista de espera para a turma fundadora." },

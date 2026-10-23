@@ -34,6 +34,11 @@ export const PORTFOLIO_PAGES = {
     jumpApps: "Aplicativos iOS",
     sites: { eyebrow: "Sites de clientes", title: "Identidades diferentes, o mesmo cuidado com o cliente final" },
     apps: { eyebrow: "Da ideia ao aplicativo", title: "Aplicativos iOS", aside: "Os dois foram desenhados, programados e publicados pela Tetelestai." },
+    appsCta: {
+      eyebrow: "Apps iOS e Android", title: "Quer um aplicativo para o seu negócio?",
+      text: "Do protótipo à publicação na App Store e no Google Play. Escopo, prazo e preço vêm por escrito, depois de uma conversa.",
+      cta: "Pedir orçamento de app", waMessage: "Olá! Quero um orçamento de aplicativo (iOS/Android) para o meu negócio.",
+    },
     instagram: {
       eyebrow: "Além dos projetos", title: "Conteúdos no Instagram",
       aside: "Vídeos autorais e remixes do IA na Prática, publicados em colaboração com a TETELESTAI.",

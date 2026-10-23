@@ -135,6 +135,10 @@ export function PortfolioIndex({ locale }) {
           <div className="stack">
             <AppCard app={APPS.recarga} locale={locale} storeHref={APP_STORE_LINKS.button} qrHref={APP_STORE_LINKS.qr} />
             <AppCard app={APPS.deRole} locale={locale} storeHref={DE_ROLE_APP_STORE.url} qrHref={DE_ROLE_APP_STORE.url} />
+            <div className="card card--glass card--wide" data-reveal="">
+              <div className="stack stack--sm"><p className="eyebrow">{page.appsCta.eyebrow}</p><h3 className="h2">{page.appsCta.title}</h3><p>{page.appsCta.text}</p></div>
+              <WhatsAppLink message={page.appsCta.waMessage} className="btn btn--lg">{page.appsCta.cta}</WhatsAppLink>
+            </div>
           </div>
         </div>
       </section>

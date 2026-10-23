@@ -163,7 +163,7 @@ export function Receipt({ data, message }) {
   return (
     <div className="receipt-wrap" data-reveal="zoom">
       <div className="receipt">
-        <div className="receipt__head"><span><SymbolPicture sizes="22px" width={22} height={22} loading="lazy" />Tetelestai</span><span>Brasília · DF</span></div>
+        <div className="receipt__head"><span><SymbolPicture sizes="22px" width={22} height={22} loading="lazy" />Tetelestai</span><span>{data.place}</span></div>
         <div className="receipt__cut" />
         <p className="receipt__title">{data.title}</p>
         <div className="receipt__rows">

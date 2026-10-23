@@ -26,7 +26,7 @@ export const PORTFOLIO_PAGES = {
     path: "/projetos/",
     label: "Projetos",
     metaTitle: "Projetos: sites e aplicativos iOS | Tetelestai",
-    metaDescription: "Veja os sites da Infinity Car Studio e da Bolachinhas da Vovó Juju e os aplicativos iOS De Rolê e Tempo de Recarga, feitos pela Tetelestai em Brasília.",
+    metaDescription: "Veja os sites da Infinity Car Studio e da Bolachinhas da Vovó Juju e os aplicativos iOS De Rolê e Tempo de Recarga, feitos pela Tetelestai.",
     eyebrow: "Projetos",
     heading: "Projetos no ar: sites para negócios e aplicativos na App Store",
     intro: "Abra no seu celular. É assim que o seu cliente vai ver a sua página.",

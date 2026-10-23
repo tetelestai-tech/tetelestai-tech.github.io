@@ -27,7 +27,7 @@ export const UI = {
     safety: "No primeiro contato, não envie senhas, dados bancários, documentos de identidade, currículos completos ou outras informações sensíveis.",
     footer: {
       tagline: "Tecnologia com propósito. Oportunidades sem fronteiras.",
-      people: "Carlos Viegas · Gabriela Rosa · Brasília-DF",
+      people: "Carlos Viegas · Gabriela Rosa · Brasília-DF · atendimento online em todo o Brasil",
       columns: [
         ["Serviços", [["sites", "Criação de sites"], ["landingPages", "Landing pages"], ["apps", "Apps iOS e Android"], ["portfolio", "Projetos"]]],
         ["Outras frentes", [["career", "Carreira internacional em TI"], ["aiTraining", "Capacitação em IA"]]],
@@ -69,7 +69,7 @@ export const UI = {
     safety: "Do not send passwords, banking details, identity documents, full CVs or other sensitive information in the first contact.",
     footer: {
       tagline: "Technology with purpose. Opportunities without borders.",
-      people: "Carlos Viegas · Gabriela Rosa · Brasília, Brazil",
+      people: "Carlos Viegas · Gabriela Rosa · Based in Brasília, working online across Brazil and abroad",
       columns: [
         ["Services", [["sites", "Website development"], ["landingPages", "Landing pages"], ["apps", "iOS and Android apps"], ["portfolio", "Projects"]]],
         ["More from Tetelestai", [["career", "International careers in tech"], ["aiTraining", "AI training"]]],
@@ -93,11 +93,11 @@ export const UI = {
 export const HOME = {
   pt: {
     path: "/",
-    metaTitle: "Sites e landing pages em Brasília | Tetelestai",
-    metaDescription: "Sites e landing pages para pequenos negócios em Brasília. Landing page a partir de R$ 697, otimizada para SEO e GEO, no ar em até 2 dias úteis.",
+    metaTitle: "Sites e landing pages para todo o Brasil | Tetelestai",
+    metaDescription: "Sites e landing pages para pequenos negócios de todo o Brasil, com atendimento online. Landing page a partir de R$ 697, otimizada para SEO e GEO, no ar em até 2 dias úteis.",
     hero: {
-      eyebrow: "Brasília · Sites e landing pages",
-      title: "Sites e landing pages para pequenos negócios em Brasília",
+      eyebrow: "Atendimento online · todo o Brasil",
+      title: "Sites e landing pages para pequenos negócios de todo o Brasil",
       lead: "Uma página que explica o seu serviço e leva o cliente direto para o seu WhatsApp. No ar em até 2 dias úteis depois que você manda os materiais.",
       secondary: "Ver projetos no ar",
       price: "Landing page a partir de R$ 697",
@@ -135,17 +135,17 @@ export const HOME = {
       { q: "Qual a diferença entre site e landing page?", a: "A landing page é uma página só, focada em uma oferta e em uma ação, como chamar no WhatsApp. O site apresenta a empresa e vários serviços, em mais de uma página, e é feito sob orçamento." },
       { q: "Em quanto tempo a página fica pronta?", a: "A landing page fica no ar em até 2 dias úteis, contados a partir do envio dos textos e das fotos. O prazo de um site completo ou de um app vem na proposta." },
       { q: "Preciso ter textos e fotos prontos?", a: "Ajuda juntar o que você já tem. A proposta deixa combinado o que será usado, o que falta preparar e quem cuida de cada parte." },
-      { q: "Vocês atendem fora de Brasília?", a: "Sim. O atendimento é online, pelo WhatsApp, para negócios de todo o Brasil e de outros países." },
+      { q: "Vocês atendem em todo o Brasil?", a: "Sim. O atendimento é online, pelo WhatsApp, para negócios de todo o Brasil e de outros países. A Tetelestai fica em Brasília." },
       { q: "Preciso fazer anúncio para usar a página?", a: "Não. Você pode mandar o link no WhatsApp, colocar na bio do Instagram e divulgar onde quiser." },
     ],
     final: { title: "Vamos colocar o seu negócio na internet?", text: "Conte o que você vende e receba a proposta com preço e prazo." },
   },
   en: {
     path: "/en/",
-    metaTitle: "Websites and landing pages in Brasília | Tetelestai",
-    metaDescription: "Websites and landing pages for small businesses, made in Brasília. Landing pages from R$ 697, optimized for SEO and GEO, live in up to 2 business days.",
+    metaTitle: "Websites and landing pages for small businesses | Tetelestai",
+    metaDescription: "Websites and landing pages for small businesses across Brazil and abroad, delivered online. Landing pages from R$ 697, optimized for SEO and GEO, live in up to 2 business days.",
     hero: {
-      eyebrow: "Brasília · Websites and landing pages",
+      eyebrow: "Online · Brazil and abroad",
       title: "Websites and landing pages for small businesses",
       lead: "A page that explains what you do and sends customers straight to your WhatsApp. Live in up to 2 business days after you send your materials.",
       secondary: "See live projects",
@@ -184,7 +184,7 @@ export const HOME = {
       { q: "What's the difference between a website and a landing page?", a: "A landing page is a single page focused on one offer and one action, such as messaging you on WhatsApp. A website presents the business and several services across multiple pages, and is quoted per project." },
       { q: "How long does it take?", a: "A landing page goes live in up to 2 business days after you send the texts and photos. The timeline for a full website or an app comes in the proposal." },
       { q: "Do I need texts and photos ready?", a: "It helps to gather what you have. The proposal states what will be used, what still needs preparing and who handles each part." },
-      { q: "Do you work with clients outside Brasília?", a: "Yes. We work online, over WhatsApp, with businesses across Brazil and abroad." },
+      { q: "Do you work with clients across Brazil?", a: "Yes. We work online, over WhatsApp, with businesses across Brazil and abroad. Tetelestai is based in Brasília." },
       { q: "Do I need to run ads?", a: "No. You can share the link on WhatsApp, add it to your Instagram bio and post it wherever you like." },
     ],
     final: { title: "Ready to put your business online?", text: "Tell us what you sell and get a proposal with price and timeline." },
@@ -218,12 +218,12 @@ export const PEOPLE = {
 
 export const LANDING_RECEIPT = {
   pt: {
-    title: "Landing page", total: "R$ 697", split: "2× de R$ 348,50 · contratação e entrega",
+    title: "Landing page", place: "Online · todo o Brasil", total: "R$ 697", split: "2× de R$ 348,50 · contratação e entrega",
     note: "O prazo conta a partir do envio dos textos e das fotos.", cta: "Quero minha landing page",
     rows: [["Página", "1, até 5 seções"], ["Oferta e textos", "sob medida"], ["SEO e GEO", "incluso"], ["Celular e WhatsApp", "incluso"], ["Ajustes", "1 rodada"], ["Prazo", "até 2 dias úteis"], ["Domínio e hospedagem", "à parte"]],
   },
   en: {
-    title: "Landing page", total: "R$ 697", split: "2 × R$ 348.50 · on hiring and on delivery",
+    title: "Landing page", place: "Online · Brazil and abroad", total: "R$ 697", split: "2 × R$ 348.50 · on hiring and on delivery",
     note: "The deadline starts when you send the texts and photos.", cta: "I want my landing page",
     rows: [["Page", "1, up to 5 sections"], ["Offer and copy", "tailored"], ["SEO and GEO", "included"], ["Mobile + WhatsApp", "included"], ["Revisions", "1 round"], ["Delivery", "up to 2 business days"], ["Domain and hosting", "not included"]],
   },

@@ -14,12 +14,12 @@ function ServiceHero({ locale, service, actions, media, headingClass = "h1 h1--m
       <Circuits />
       <div className="wrap hero__in">
         <div className="hero__text">
-          <div className="load"><Crumbs label={t.breadcrumbLabel} items={[{ label: t.homeLabel, href: pathFor("home", locale) }, { label: service.label }]} /></div>
-          <p className="eyebrow load">{service.eyebrow}</p>
-          <h1 className={`${headingClass} load`} style={{ "--d": 1 }} id="service-title">{service.heading}</h1>
-          <p className="lead load" style={{ "--d": 2 }}>{service.intro}</p>
-          {service.byline && <p className="byline load" style={{ "--d": 2 }}>{service.byline}</p>}
-          <div className="btn-row load" style={{ "--d": 3 }}>{actions}</div>
+          <Crumbs label={t.breadcrumbLabel} items={[{ label: t.homeLabel, href: pathFor("home", locale) }, { label: service.label }]} />
+          <p className="eyebrow">{service.eyebrow}</p>
+          <h1 className={`${headingClass}`} id="service-title">{service.heading}</h1>
+          <p className="lead">{service.intro}</p>
+          {service.byline && <p className="byline">{service.byline}</p>}
+          <div className="btn-row">{actions}</div>
         </div>
         {media}
       </div>
@@ -42,7 +42,7 @@ export function SitesPage({ locale }) {
       <section className="section light" aria-labelledby="compare-title">
         <div className="wrap">
           <SectionHead eyebrow={service.compare.eyebrow} title={service.compare.title} id="compare-title" />
-          <div className="compare">
+          <div className="compare" data-reveal-group="">
             <div className="card card--feature" data-reveal="">
               <span className="badge">{full.badge}</span><h3 className="h3">{full.title}</h3>
               <ul>{full.items.map(item => <li key={item}>{item}</li>)}</ul>
@@ -78,7 +78,7 @@ export function SitesPage({ locale }) {
               <LinkArrow href={project.url} icon="out" external>{t.visitSite}</LinkArrow>
             </div>
           </div>
-          <div className="device-pair" data-reveal="">
+          <div className="device-pair" data-reveal="zoom">
             <Browser src={project.desktop} alt={project.altDesktop} host={project.domain} />
             <Phone src={project.mobile} alt={project.altMobile} />
           </div>
@@ -126,7 +126,7 @@ export function LandingPage({ locale }) {
 
       <section className="section light" id="projects" aria-labelledby="projects-title">
         <div className="wrap split">
-          <div className="device-pair" data-reveal="">
+          <div className="device-pair" data-reveal="zoom">
             <Browser src={project.desktop} alt={project.altDesktop} host={project.domain} />
             <Phone src={project.mobile} alt={project.altMobile} />
           </div>
@@ -186,7 +186,7 @@ export function CareerPage({ locale }) {
               {service.map.chapters.map(([number, title, page]) => <div className="receipt__row" key={number}><span>{number}</span><span>{title}</span><i /><span className="muted">{page}</span></div>)}
             </div>
           </div>
-          <div className="hero__media--center" data-reveal=""><div className="cover-wrap"><img className="cover cover--right" src="/assets/essencial/essencial-mapa.webp" alt={service.mapAlt} width="640" height="935" loading="lazy" decoding="async" /></div></div>
+          <div className="hero__media--center" data-reveal="zoom"><div className="cover-wrap"><img className="cover cover--right" src="/assets/essencial/essencial-mapa.webp" alt={service.mapAlt} width="640" height="935" loading="lazy" decoding="async" /></div></div>
         </div>
       </section>
 

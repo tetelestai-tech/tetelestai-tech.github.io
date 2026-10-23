@@ -57,7 +57,7 @@ function InstagramSection({ locale, copy }) {
     <section className="section light" id="instagram" aria-labelledby="instagram-title">
       <div className="wrap">
         <SectionHead eyebrow={copy.eyebrow} title={copy.title} aside={copy.aside} id="instagram-title" />
-        <div className="reels">
+        <div className="reels" data-reveal-group="">
           {INSTAGRAM_CONTENTS.map(item => (
             <article className="reel" key={item.id} aria-labelledby={`reel-${item.id}`} data-reveal="">
               <a className="reel__cover" href={item.url} target="_blank" rel="noopener noreferrer" aria-label={`${en ? "Watch on Instagram" : "Assistir no Instagram"}: ${en ? item.titleEn : item.title}`}>
@@ -95,11 +95,11 @@ export function PortfolioIndex({ locale }) {
         <Circuits />
         <div className="wrap hero__in">
           <div className="hero__text">
-            <div className="load"><Crumbs label={t.breadcrumbLabel} items={[{ label: t.homeLabel, href: pathFor("home", locale) }, { label: page.label }]} /></div>
-            <p className="eyebrow load">{page.eyebrow}</p>
-            <h1 className="h1 h1--md load" style={{ "--d": 1 }} id="portfolio-title">{page.heading}</h1>
-            <p className="lead load" style={{ "--d": 2 }}>{page.intro}</p>
-            <div className="btn-row load" style={{ "--d": 3 }}>
+            <Crumbs label={t.breadcrumbLabel} items={[{ label: t.homeLabel, href: pathFor("home", locale) }, { label: page.label }]} />
+            <p className="eyebrow">{page.eyebrow}</p>
+            <h1 className="h1 h1--md" id="portfolio-title">{page.heading}</h1>
+            <p className="lead">{page.intro}</p>
+            <div className="btn-row">
               <a className="btn" href="#projects">{page.jumpSites}</a>
               <LinkArrow href="#apps" icon="down">{page.jumpApps}</LinkArrow>
             </div>
@@ -165,11 +165,11 @@ export function CasePage({ locale, page }) {
         <Circuits />
         <div className="wrap hero__in">
           <div className="hero__text">
-            <div className="load"><Crumbs label={t.breadcrumbLabel} items={[{ label: t.homeLabel, href: pathFor("home", locale) }, { label: pages.portfolio.label, href: pages.portfolio.path }, { label: project.name }]} /></div>
-            <p className="eyebrow load">{project.eyebrow}</p>
-            <h1 className="h1 h1--md load" style={{ "--d": 1 }} id="portfolio-title">{project.name}</h1>
-            <p className="lead load" style={{ "--d": 2 }}>{project.intro}</p>
-            <div className="btn-row load" style={{ "--d": 3 }}>
+            <Crumbs label={t.breadcrumbLabel} items={[{ label: t.homeLabel, href: pathFor("home", locale) }, { label: pages.portfolio.label, href: pages.portfolio.path }, { label: project.name }]} />
+            <p className="eyebrow">{project.eyebrow}</p>
+            <h1 className="h1 h1--md" id="portfolio-title">{project.name}</h1>
+            <p className="lead">{project.intro}</p>
+            <div className="btn-row">
               <a className="btn btn--glass" href={project.url} target="_blank" rel="noopener noreferrer">{t.visitSite}<IconOut /></a>
               <WhatsAppLink message={message} className="btn">{copy.cta}</WhatsAppLink>
             </div>
@@ -182,7 +182,7 @@ export function CasePage({ locale, page }) {
       <section className="section light" id="delivery" aria-labelledby="delivery-title">
         <div className="wrap">
           <SectionHead eyebrow={copy.decisions.eyebrow} title={copy.decisions.title} id="delivery-title" />
-          <div className="grid grid--2">
+          <div className="grid grid--2" data-reveal-group="">
             {project.decisions.map(item => <div className="card" data-reveal="" key={item.title}><span className="card__k">{item.k}</span><h3 className="h3">{item.title}</h3><p>{item.text}</p></div>)}
           </div>
         </div>

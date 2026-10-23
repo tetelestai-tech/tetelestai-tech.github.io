@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import "@fontsource/michroma/400.css";
-import "@fontsource-variable/bricolage-grotesque/opsz.css";
-import "@fontsource-variable/figtree/wght.css";
-import "@fontsource-variable/jetbrains-mono/wght.css";
+import "@fontsource-variable/inter/opsz.css";
 import { LEGAL_CONTENT, LEGAL_PATHS } from "./legal-content.mjs";
 import { RECARGA_PAGES } from "./recarga-content.mjs";
 import { DE_ROLE_PAGES } from "./de-role-content.mjs";
@@ -12,7 +10,7 @@ import { EN_SERVICE_PAGES, EN_PORTFOLIO_PAGES, servicesFor, portfolioFor, equiva
 import { HOME, UI } from "./home-content.mjs";
 import { pageStructuredData, serializeStructuredData } from "./structured-data.mjs";
 import { AnalyticsConsent } from "./AnalyticsConsent.jsx";
-import { createArtMotion } from "./art-motion.mjs";
+import { createReveal } from "./reveal-kit.mjs";
 import { createCircuitMotion } from "./circuit-motion.mjs";
 import { HomePage } from "./pages/HomePage.jsx";
 import { AiPage, CareerPage, LandingPage, SitesPage } from "./pages/ServicePages.jsx";
@@ -76,9 +74,9 @@ export function App({ pathname = window.location.pathname }) {
 
   useEffect(() => {
     const root = document.querySelector(".site-shell");
-    const motion = createArtMotion(root);
+    const reveal = createReveal(root);
     const circuit = createCircuitMotion(root);
-    return () => { motion.destroy(); circuit.destroy(); };
+    return () => { reveal.destroy(); circuit.destroy(); };
   }, [locale, page]);
 
   useEffect(() => {

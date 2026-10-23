@@ -15,7 +15,8 @@ Institutional bilingual website for Tetelestai Soluções em Tecnologia Ltda.
 
 - React 19 and Vite 6.
 - Static, client-rendered interface with route-specific prebuilt HTML metadata shells.
-- Locally hosted fonts (Fontsource): Bricolage Grotesque, Figtree, JetBrains Mono and Michroma (wordmark).
+- Locally hosted fonts (Fontsource): Inter (headings and text) and Michroma (wordmark, labels and step numbers).
+- Motion: `src/reveal-kit.mjs` reveals sections once on scroll (the inline head script in `index.html` hides `[data-reveal]` only while it can run and shows everything after 3 s otherwise); sticky header that shrinks after 24 px; hover only on fine pointers; finite hero circuit pulses and the one-time closing circuit sweep (`src/circuit-motion.mjs`). Reduced motion shows everything still.
 - Inline SVG icons; one stylesheet (`src/site.css`).
 - Page components in `src/pages/`, shared layout in `src/Layout.jsx`, building blocks in `src/ui.jsx`; copy lives in the `*-content.mjs` modules.
 - No database, API, form, analytics or non-essential cookies.

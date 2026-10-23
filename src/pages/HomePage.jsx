@@ -26,7 +26,7 @@ export function CaseCard({ project, locale, heading: Heading = "h3" }) {
 
 export function PeopleGrid({ locale }) {
   return (
-    <div className="grid grid--2">
+    <div className="grid grid--2" data-reveal-group="">
       {PEOPLE[locale].map(person => (
         <div className="person" data-reveal="" key={person.name}>
           <div className="person__photo" aria-hidden="true">{person.initials}</div>
@@ -49,14 +49,14 @@ export function HomePage({ locale }) {
         <Circuits />
         <div className="wrap hero__in">
           <div className="hero__text">
-            <p className="eyebrow load" style={{ "--d": 0 }}>{home.hero.eyebrow}</p>
-            <h1 className="h1 load" style={{ "--d": 1 }} id="hero-title">{home.hero.title}</h1>
-            <p className="lead load" style={{ "--d": 2 }}>{home.hero.lead}</p>
-            <div className="btn-row load" style={{ "--d": 3 }}>
+            <p className="eyebrow">{home.hero.eyebrow}</p>
+            <h1 className="h1" id="hero-title">{home.hero.title}</h1>
+            <p className="lead">{home.hero.lead}</p>
+            <div className="btn-row">
               <WhatsAppLink message={t.waDefault}>{t.ctaWhatsApp}</WhatsAppLink>
               <LinkArrow href="#projects" icon="down">{home.hero.secondary}</LinkArrow>
             </div>
-            <div className="btn-row load" style={{ "--d": 4 }}><span className="chip chip--price">{home.hero.price}</span><span className="byline">{home.hero.byline}</span></div>
+            <div className="btn-row"><span className="chip chip--price">{home.hero.price}</span><span className="byline">{home.hero.byline}</span></div>
           </div>
           <div className="hero__media"><DevicePair project={cases[0]} eager load className={null} /></div>
         </div>
@@ -73,7 +73,7 @@ export function HomePage({ locale }) {
       <section className="section light" id="projects" aria-labelledby="projects-title">
         <div className="wrap">
           <SectionHead eyebrow={home.projects.eyebrow} title={home.projects.title} aside={home.projects.aside} id="projects-title" />
-          <div className="grid grid--2">{cases.map(item => <CaseCard project={item} locale={locale} key={item.key} />)}</div>
+          <div className="grid grid--2" data-reveal-group="">{cases.map(item => <CaseCard project={item} locale={locale} key={item.key} />)}</div>
           <p className="more" data-reveal=""><LinkArrow href={projects.portfolio.path} className="link link--arrow link--teal">{home.projects.more}</LinkArrow></p>
         </div>
       </section>
@@ -108,7 +108,7 @@ export function HomePage({ locale }) {
       <section className="section section--tight dark-2" id="solutions" aria-labelledby="solutions-title">
         <div className="wrap">
           <SectionHead eyebrow={home.fronts.eyebrow} title={home.fronts.title} aside={home.fronts.aside} id="solutions-title" />
-          <div className="grid grid--3">
+          <div className="grid grid--3" data-reveal-group="">
             {home.fronts.items.map(front => (
               <article className="card card--glass" id={front.id} data-reveal="" key={front.id}>
                 <h3 className="h3">{front.title}</h3>

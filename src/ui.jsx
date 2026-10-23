@@ -51,8 +51,8 @@ const TRACES = [
   "M1230 0 V40 L1190 80 H1060", "M960 0 V30 L930 60 H820", "M0 700 H70 L110 740 H260", "M0 140 H60 L100 100 H150",
   "M820 780 V740 L780 700 H700",
 ];
-const NODES = [[1010, 134], [1300, 300], [1320, 500], [1384, 560], [1090, 680], [900, 760], [1060, 80], [820, 60], [260, 740], [150, 100], [700, 700]];
 const PULSES = [0, 2, 1, 4, 5];
+const NODES = [[1010, 134], [1300, 300], [1320, 500], [1384, 560], [1090, 680], [900, 760], [1060, 80], [820, 60], [260, 740], [150, 100], [700, 700]];
 export function Circuits() {
   return <>
     <div className="hero__bg" aria-hidden="true">
@@ -80,6 +80,7 @@ export function Phone({ src, alt, className = "phone" }) {
   return <div className={className}><img src={src} alt={alt} width="375" height="812" loading="lazy" decoding="async" /></div>;
 }
 
+// Hero media slides in once on load (`load`); the headline and call to action never wait.
 export function DevicePair({ project, eager = false, load = false, className = "device-pair" }) {
   return (
     <div className={className || undefined}>
@@ -105,7 +106,7 @@ export function Facts({ items }) {
 
 export function CardGrid({ items, columns = 3, glass = false }) {
   return (
-    <div className={`grid grid--${columns}`}>
+    <div className={`grid grid--${columns}`} data-reveal-group="">
       {items.map(item => (
         <div className={glass ? "card card--glass" : "card"} data-reveal="" key={item.title}>
           {item.k && <span className="card__k">{item.k}</span>}
@@ -117,9 +118,10 @@ export function CardGrid({ items, columns = 3, glass = false }) {
   );
 }
 
+// Informational steps: on hover a cyan bar and tint appear, nothing moves (approved on 19/10).
 export function Steps({ items, glass = false }) {
   return (
-    <ol className="steps">
+    <ol className="steps" data-reveal-group="">
       {items.map((item, index) => (
         <li data-reveal="" key={item.title}>
           <div className={glass ? "card card--glass" : "card"}>
@@ -159,7 +161,7 @@ export function Crumbs({ label, items }) {
 // Price note: the page's signature element. Prices are stated as Carlos defined them.
 export function Receipt({ data, message }) {
   return (
-    <div className="receipt-wrap" data-reveal="receipt">
+    <div className="receipt-wrap" data-reveal="zoom">
       <div className="receipt">
         <div className="receipt__head"><span><SymbolPicture sizes="22px" width={22} height={22} loading="lazy" />Tetelestai</span><span>Brasília · DF</span></div>
         <div className="receipt__cut" />

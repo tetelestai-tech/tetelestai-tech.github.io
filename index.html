@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000c19" />
+    <!-- Motion kit: hide [data-reveal] only when the browser can reveal it; show everything after 3 s if the reveal script never ran. -->
+    <script>if('IntersectionObserver' in window&&'animate' in document.documentElement){var d=document.documentElement;d.classList.add('js');setTimeout(function(){if(!window.__reveal)d.classList.remove('js')},3000)}</script>
     <meta name="description" content="Sites e landing pages para pequenos negócios em Brasília. Landing page a partir de R$ 697, otimizada para SEO e GEO, no ar em até 2 dias úteis." />
     <meta name="robots" content="index,follow" />
     <meta property="og:type" content="website" />

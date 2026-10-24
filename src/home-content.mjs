@@ -131,7 +131,7 @@ export const HOME = {
     },
     faqTitle: { eyebrow: "Dúvidas", title: "Antes de pedir o orçamento" },
     faqs: [
-      { q: "Quanto custa uma landing page na Tetelestai?", a: "R$ 697, em 2× de R$ 348,50: metade na contratação e metade na entrega. Inclui uma página com até 5 seções, otimizada para SEO e GEO, com oferta e textos pensados para o seu negócio, versão para celular, botão de WhatsApp e uma rodada de ajustes. Domínio e hospedagem são pagos à parte." },
+      { q: "Quanto custa uma landing page na Tetelestai?", a: "R$ 697, em 2× de R$ 348,50: metade na contratação e metade na entrega. Inclui uma página com até 5 seções, otimizada para SEO e GEO, com oferta e textos pensados para o seu negócio, versão para celular, botão de WhatsApp e uma rodada de ajustes. O domínio .com.br e a hospedagem estão inclusos nos primeiros 12 meses; a partir do segundo ano, a renovação anual fica por conta da empresa." },
       { q: "Qual a diferença entre site e landing page?", a: "A landing page é uma página só, focada em uma oferta e em uma ação, como chamar no WhatsApp. O site apresenta a empresa e vários serviços, em mais de uma página, e é feito sob orçamento." },
       { q: "Em quanto tempo a página fica pronta?", a: "A landing page fica no ar em até 2 dias úteis, contados a partir do envio dos textos e das fotos. O prazo de um site completo ou de um app vem na proposta." },
       { q: "Preciso ter textos e fotos prontos?", a: "Ajuda juntar o que você já tem. A proposta deixa combinado o que será usado, o que falta preparar e quem cuida de cada parte." },
@@ -180,7 +180,7 @@ export const HOME = {
     },
     faqTitle: { eyebrow: "FAQ", title: "Before you ask for a quote" },
     faqs: [
-      { q: "How much does a landing page cost?", a: "R$ 697, or 2 × R$ 348.50: half when you hire us and half on delivery. It includes one page with up to 5 sections, optimized for SEO and GEO, with an offer and copy written for your business, a mobile version, a WhatsApp button and one round of revisions. Domain and hosting are billed separately." },
+      { q: "How much does a landing page cost?", a: "R$ 697, or 2 × R$ 348.50: half when you hire us and half on delivery. It includes one page with up to 5 sections, optimized for SEO and GEO, with an offer and copy written for your business, a mobile version, a WhatsApp button and one round of revisions. The .com.br domain and hosting are included for the first 12 months; from the second year on, the annual renewal is paid by the business." },
       { q: "What's the difference between a website and a landing page?", a: "A landing page is a single page focused on one offer and one action, such as messaging you on WhatsApp. A website presents the business and several services across multiple pages, and is quoted per project." },
       { q: "How long does it take?", a: "A landing page goes live in up to 2 business days after you send the texts and photos. The timeline for a full website or an app comes in the proposal." },
       { q: "Do I need texts and photos ready?", a: "It helps to gather what you have. The proposal states what will be used, what still needs preparing and who handles each part." },
@@ -220,11 +220,11 @@ export const LANDING_RECEIPT = {
   pt: {
     title: "Landing page", place: "Online · todo o Brasil", total: "R$ 697", split: "2× de R$ 348,50 · contratação e entrega",
     note: "O prazo conta a partir do envio dos textos e das fotos.", cta: "Quero minha landing page",
-    rows: [["Página", "1, até 5 seções"], ["Oferta e textos", "sob medida"], ["SEO e GEO", "incluso"], ["Celular e WhatsApp", "incluso"], ["Ajustes", "1 rodada"], ["Prazo", "até 2 dias úteis"], ["Domínio e hospedagem", "à parte"]],
+    rows: [["Página", "1, até 5 seções"], ["Oferta e textos", "sob medida"], ["SEO e GEO", "incluso"], ["Celular e WhatsApp", "incluso"], ["Ajustes", "1 rodada"], ["Prazo", "até 2 dias úteis"], ["Domínio e hospedagem", "1º ano incluso"]],
   },
   en: {
     title: "Landing page", place: "Online · Brazil and abroad", total: "R$ 697", split: "2 × R$ 348.50 · on hiring and on delivery",
     note: "The deadline starts when you send the texts and photos.", cta: "I want my landing page",
-    rows: [["Page", "1, up to 5 sections"], ["Offer and copy", "tailored"], ["SEO and GEO", "included"], ["Mobile + WhatsApp", "included"], ["Revisions", "1 round"], ["Delivery", "up to 2 business days"], ["Domain and hosting", "not included"]],
+    rows: [["Page", "1, up to 5 sections"], ["Offer and copy", "tailored"], ["SEO and GEO", "included"], ["Mobile + WhatsApp", "included"], ["Revisions", "1 round"], ["Delivery", "up to 2 business days"], ["Domain and hosting", "1st year included"]],
   },
 };

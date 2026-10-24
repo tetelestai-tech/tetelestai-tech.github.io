@@ -44,7 +44,7 @@ export const EN_SERVICE_PAGES = {
       { q: 'How long does it take?', a: 'The timeline comes in the proposal and starts once you send texts and photos. A landing page is ready in up to 2 business days.' },
       { q: 'Will my website show up on Google and in AI assistants?', a: 'Every site ships optimized for SEO and GEO: titles, descriptions, structured data, a sitemap and clear copy that Google and assistants such as ChatGPT, Gemini and Perplexity can understand and cite. Rankings also depend on competition and content over time.' },
       { q: 'Do I need texts and photos ready?', a: "It helps to gather what you have. The proposal states what will be used, what's missing and who handles each part." },
-      { q: 'Are domain, hosting and maintenance included?', a: 'Domain and hosting are billed separately. Updates and maintenance after delivery are agreed as needed.' },
+      { q: 'Are domain, hosting and maintenance included?', a: 'For a full website, domain and hosting are billed separately. With the R$ 697 landing page, the .com.br domain and hosting are included for the first 12 months; after that, the annual renewal is paid by the business. Updates and maintenance after delivery are agreed as needed.' },
       { q: 'Do you work with clients across Brazil?', a: 'Yes. We work online with businesses across Brazil and abroad. Tetelestai is based in Brasília.' },
     ],
     final: { title: "Let's talk about your website", text: 'Tell us which services you offer and for whom. The proposal comes with price and timeline.' },
@@ -61,7 +61,7 @@ export const EN_SERVICE_PAGES = {
     secondaryLabel: 'See a live example',
     waMessage: "Hi! I'd like the R$ 697 landing page.",
     price: '697.00',
-    facts: [['Price', 'R$ 697 or 2 × R$ 348.50'], ['Payment', 'Half on hiring, half on delivery'], ['Includes', '1 page, up to 5 sections'], ['Offer and copy', 'Tailored to your business'], ['SEO and GEO', 'Included'], ['Mobile + WhatsApp', 'Included'], ['Timeline', 'Up to 2 business days'], ['Not included', 'Domain and hosting']],
+    facts: [['Price', 'R$ 697 or 2 × R$ 348.50'], ['Payment', 'Half on hiring, half on delivery'], ['Includes', '1 page, up to 5 sections'], ['Offer and copy', 'Tailored to your business'], ['SEO and GEO', 'Included'], ['Mobile + WhatsApp', 'Included'], ['Timeline', 'Up to 2 business days'], ['Domain and hosting', 'Included for 12 months']],
     audience: {
       eyebrow: "Who it's for", title: 'For businesses that sell through conversation',
       items: [
@@ -90,7 +90,7 @@ export const EN_SERVICE_PAGES = {
     faqs: [
       { q: 'Does a landing page replace a website?', a: 'Not necessarily. It presents one specific offer, while a website presents the whole business. Both can work together, and a landing page can grow into a website later.' },
       { q: 'Do I need to run ads?', a: 'No. Share the link on WhatsApp, add it to your Instagram bio and post it anywhere. If you run ads, the page is ready for those visitors.' },
-      { q: "What's included for R$ 697?", a: 'One page with up to 5 sections, with an offer and copy written for your business, optimized for SEO and GEO, with a mobile version, a WhatsApp button and one round of revisions. Domain and hosting are billed separately.' },
+      { q: "What's included for R$ 697?", a: 'One page with up to 5 sections, with an offer and copy written for your business, optimized for SEO and GEO, with a mobile version, a WhatsApp button and one round of revisions. The .com.br domain and hosting are included for the first 12 months; from the second year on, the annual renewal is paid by the business.' },
       { q: 'What is GEO?', a: 'Generative engine optimization: preparing the page so AI assistants such as ChatGPT, Gemini and Perplexity can understand and cite it, with clear facts, questions answered on the page and structured data. It works alongside SEO for Google.' },
       { q: 'Are forms and integrations included?', a: 'That depends on the scope. If you need to collect data or connect another system, it goes into the proposal with an agreed price.' },
       { q: 'What should I send to get a proposal?', a: 'What you sell, to whom, where visitors come from, what they should do on the page and whether you already have a domain or hosting.' },

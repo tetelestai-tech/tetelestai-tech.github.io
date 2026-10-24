@@ -42,7 +42,7 @@ export const SERVICE_PAGES = {
       { q: "Quanto tempo leva para o site ficar pronto?", a: "O prazo vem na proposta e conta a partir do envio dos textos e das fotos. Uma landing page fica pronta em até 2 dias úteis." },
       { q: "O site aparece no Google e nos assistentes de IA?", a: "O site sai otimizado para SEO e GEO: títulos, descrições, dados estruturados, mapa do site e textos claros, que o Google e assistentes como ChatGPT, Gemini e Perplexity conseguem entender e citar. A posição nos resultados depende também da concorrência e do conteúdo ao longo do tempo." },
       { q: "Preciso ter textos e fotos prontos?", a: "Ajuda juntar o que você já tem. A proposta deixa combinado o que será usado, o que falta preparar e quem cuida de cada parte." },
-      { q: "Domínio, hospedagem e manutenção estão inclusos?", a: "Domínio e hospedagem são pagos à parte. Atualizações e manutenção depois da entrega são combinadas conforme a necessidade." },
+      { q: "Domínio, hospedagem e manutenção estão inclusos?", a: "No site completo, domínio e hospedagem são pagos à parte. Na landing page de R$ 697, o domínio .com.br e a hospedagem estão inclusos nos primeiros 12 meses; depois, a renovação anual fica por conta da empresa. Atualizações e manutenção depois da entrega são combinadas conforme a necessidade." },
       { q: "Vocês atendem em todo o Brasil?", a: "Sim. O atendimento é online, para negócios de todo o Brasil e de outros países. A Tetelestai fica em Brasília." },
     ],
     final: { title: "Vamos conversar sobre o seu site?", text: "Conte quais serviços você oferece e para quem. A proposta vem com preço e prazo." },
@@ -59,7 +59,7 @@ export const SERVICE_PAGES = {
     secondaryLabel: "Ver um exemplo no ar",
     waMessage: "Olá! Quero a landing page de R$ 697.",
     price: "697.00",
-    facts: [["Preço", "R$ 697 em 2× de R$ 348,50"], ["Pagamento", "Metade na contratação, metade na entrega"], ["Inclui", "1 página com até 5 seções"], ["Oferta e textos", "Sob medida para o seu negócio"], ["SEO e GEO", "Incluso"], ["Celular e WhatsApp", "Incluso"], ["Prazo", "Até 2 dias úteis após os materiais"], ["Fora do preço", "Domínio e hospedagem"]],
+    facts: [["Preço", "R$ 697 em 2× de R$ 348,50"], ["Pagamento", "Metade na contratação, metade na entrega"], ["Inclui", "1 página com até 5 seções"], ["Oferta e textos", "Sob medida para o seu negócio"], ["SEO e GEO", "Incluso"], ["Celular e WhatsApp", "Incluso"], ["Prazo", "Até 2 dias úteis após os materiais"], ["Domínio e hospedagem", "Inclusos por 12 meses"]],
     audience: {
       eyebrow: "Para quem é", title: "Para negócios que vendem pela conversa",
       items: [
@@ -88,7 +88,7 @@ export const SERVICE_PAGES = {
     faqs: [
       { q: "A landing page substitui o site da empresa?", a: "Não necessariamente. Ela apresenta uma oferta específica, enquanto o site apresenta o negócio inteiro. As duas podem funcionar juntas, e a landing page pode virar um site depois." },
       { q: "Preciso fazer anúncio?", a: "Não. Você pode mandar o link no WhatsApp, colocar na bio do Instagram e divulgar onde quiser. Se fizer anúncio, a página recebe esse visitante." },
-      { q: "O que está incluso nos R$ 697?", a: "Uma página com até 5 seções, com oferta e textos pensados para o seu negócio, otimizada para SEO e GEO, com versão para celular, botão de WhatsApp e uma rodada de ajustes. Domínio e hospedagem são pagos à parte." },
+      { q: "O que está incluso nos R$ 697?", a: "Uma página com até 5 seções, com oferta e textos pensados para o seu negócio, otimizada para SEO e GEO, com versão para celular, botão de WhatsApp e uma rodada de ajustes. O domínio .com.br e a hospedagem estão inclusos nos primeiros 12 meses; a partir do segundo ano, a renovação anual fica por conta da empresa." },
       { q: "O que é GEO?", a: "É preparar a página para ser entendida e citada por assistentes de IA, como ChatGPT, Gemini e Perplexity: informações objetivas, perguntas respondidas na própria página e dados estruturados. Funciona junto com o SEO do Google." },
       { q: "Formulários e integrações estão inclusos?", a: "Dependem do escopo. Se você precisar coletar dados ou integrar com outro sistema, isso entra na proposta com o preço combinado." },
       { q: "O que eu mando para pedir a proposta?", a: "O que você vende, para quem, de onde vêm os visitantes, o que eles devem fazer na página e se você já tem domínio ou hospedagem." },

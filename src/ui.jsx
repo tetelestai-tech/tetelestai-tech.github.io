@@ -108,8 +108,14 @@ export function SectionHead({ eyebrow, title, aside, id }) {
   );
 }
 
+// Columns that divide the item count exactly, so the grid never ends with empty cells:
+// 8 items fill 4 columns, 6 items fill 3; smaller screens use 2 columns, then 1.
+export function factsColumns(count) {
+  return count % 4 === 0 ? 4 : count % 3 === 0 ? 3 : Math.min(count, 4);
+}
+
 export function Facts({ items }) {
-  return <dl className="facts" data-reveal="">{items.map(([term, value]) => <div key={term}><dt>{term}</dt><dd>{value}</dd></div>)}</dl>;
+  return <dl className="facts" data-reveal="" style={{ "--facts-cols": factsColumns(items.length) }}>{items.map(([term, value]) => <div key={term}><dt>{term}</dt><dd>{value}</dd></div>)}</dl>;
 }
 
 export function CardGrid({ items, columns = 3, glass = false }) {

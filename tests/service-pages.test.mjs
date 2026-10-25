@@ -279,3 +279,26 @@ test("service routing preserves asset responses that are not 404", async () => {
     assert.equal(calls, 1);
   }
 });
+
+test("key facts grids end with full rows on every page that has them", async () => {
+  const renderer = await createServer({
+    appType: "custom",
+    server: { middlewareMode: true, hmr: false, ws: false, watch: null },
+    optimizeDeps: { noDiscovery: true, include: [] },
+  });
+  try {
+    const { App } = await renderer.ssrLoadModule("/src/App.jsx");
+    const { factsColumns } = await renderer.ssrLoadModule("/src/ui.jsx");
+    assert.deepEqual([6, 8, 9, 12].map(factsColumns), [3, 4, 3, 4]);
+    for (const pathname of ["/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/", "/en/website-development/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/"]) {
+      const html = renderToString(createElement(App, { pathname }));
+      const grid = html.match(/<dl class="facts"[^>]*style="--facts-cols:(\d+)"[^>]*>([\s\S]*?)<\/dl>/);
+      assert.ok(grid, `${pathname} renders a key facts grid with a column count`);
+      const cells = grid[2].match(/<dt>/g).length;
+      assert.equal(cells % Number(grid[1]), 0, `${pathname}: ${cells} facts in ${grid[1]} columns leave empty cells`);
+      assert.equal(cells % 2, 0, `${pathname}: ${cells} facts leave an empty cell in the 2-column layout`);
+    }
+  } finally {
+    await renderer.close();
+  }
+});

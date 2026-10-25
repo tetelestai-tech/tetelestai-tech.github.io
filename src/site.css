@@ -321,11 +321,14 @@ html:not(.js) .site-head{background:rgba(0,12,25,.9);border-bottom-color:var(--l
 }
 
 /* ---------- Key facts (for people and AI assistants) ---------- */
-.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));margin:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#08131F}
+.facts{display:grid;grid-template-columns:1fr;margin:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#08131F}
 .facts div{padding:18px 22px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);margin:-1px -1px 0 0;transition:background-color .25s var(--ease)}
 .facts dt,.facts dd{transition:transform .25s var(--ease),color .2s}
 /* Key facts: the cell lights up and its text rises a little under the mouse. */
 @media (hover:hover) and (pointer:fine){.facts div:hover{background-color:rgba(14,208,230,.06)}.facts div:hover dt,.facts div:hover dd{transform:translateY(-2px)}.facts div:hover dd{color:var(--cyan)}}
+/* Column count comes from the item count (see Facts in ui.jsx), so rows are always full. */
+@media (min-width:560px){.facts{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:900px){.facts{grid-template-columns:repeat(var(--facts-cols,4),1fr)}}
 .facts dt{font-family:var(--label);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
 .facts dd{margin:8px 0 0;font-size:16px;color:var(--text)}
 

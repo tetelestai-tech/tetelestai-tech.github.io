@@ -132,7 +132,7 @@ export function CardGrid({ items, columns = 3, glass = false }) {
   );
 }
 
-// Informational steps: on hover a cyan bar and tint appear, nothing moves (approved on 19/10).
+// Steps: on hover the card tints and lifts like the other cards; no cyan bar beside it (removed on 25/10).
 export function Steps({ items, glass = false }) {
   return (
     <ol className="steps" data-reveal-group="">

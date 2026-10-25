@@ -313,10 +313,9 @@ html:not(.js) .site-head{background:rgba(0,12,25,.9);border-bottom-color:var(--l
 .steps{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:24px}
 .steps > li{position:relative;display:flex}
 .steps .card{flex:1 1 auto}
-/* Steps: the cyan bar and tint approved on 19/10, plus the version 1 card lift (the text never shifts inside the card). */
-.steps > li::before{content:"";position:absolute;top:12px;bottom:12px;left:-12px;width:2px;background:var(--cyan);opacity:0;pointer-events:none;transition:opacity .2s var(--ease)}
+/* Steps: tint plus the version 1 card lift on hover (the text never shifts inside the card).
+   No cyan bar beside the card: removed on 25/10 at Carlos's request. */
 @media (hover:hover) and (pointer:fine){
-  .steps > li:hover::before{opacity:1}
   .steps > li:hover .card{background-color:rgba(14,208,230,.04)}
 }
 

@@ -302,3 +302,10 @@ test("key facts grids end with full rows on every page that has them", async () 
     await renderer.close();
   }
 });
+
+test("method steps light up on hover without a cyan bar beside the card", async () => {
+  const css = await readFile(new URL("../src/site.css", import.meta.url), "utf8");
+  assert.doesNotMatch(css, /\.steps\s*>\s*li(?::hover)?::(?:before|after)/, "steps must not draw a side bar");
+  assert.match(css, /\.steps > li:hover \.card\{background-color:/, "steps keep the hover tint");
+  assert.match(css, /\.card:hover\{transform:translateY\(-4px\)/, "cards keep the hover lift");
+});

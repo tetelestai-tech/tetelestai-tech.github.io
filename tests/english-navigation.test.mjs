@@ -17,6 +17,12 @@ export const pairs = [
   ['/projetos/bolachinhas-da-vovo-juju/','/en/projects/bolachinhas-da-vovo-juju/'],
 ];
 
+// Case pages added on 2026-10-26: reachable from the portfolio, not from the homepage, and not measured yet.
+export const newPairs = [
+  ['/projetos/afeto-nobre/','/en/projects/afeto-nobre/'],
+  ['/projetos/lalelis/','/en/projects/lalelis/'],
+];
+
 test('English home restores service shortcuts and every translated page preserves locale and equivalent selector', async () => {
   const server=await createServer({appType:'custom',server:{middlewareMode:true,hmr:false,ws:false,watch:null},optimizeDeps:{noDiscovery:true,include:[]}});
   try {
@@ -37,6 +43,13 @@ test('English home restores service shortcuts and every translated page preserve
       assert.ok(!/Conhecer o projeto|Ver portfólio completo|Página inicial em inglês|Antes de começar/.test(english));
       assert.equal(measurementPath(en),en,'approved English pages are eligible only through consent');
     }
+    const englishPortfolio=render('/en/projects/');
+    for (const [pt,en] of newPairs) {
+      const english=render(en), portuguese=render(pt);
+      assert.ok(englishPortfolio.includes(`href="${en}"`),`English portfolio links to ${en}`);
+      assert.ok(english.includes(`href="${pt}" lang="pt-BR"`) && portuguese.includes(`href="${en}" lang="en"`),`selectors ${pt}`);
+      assert.ok(!english.includes('This address does not exist'),en);
+    }
   } finally { await server.close(); }
 });
 
@@ -51,6 +64,22 @@ test('translated static pages have reciprocal metadata and English schema, and e
       const graph=JSON.parse(html.match(/id="structured-data"[^>]*>([^<]+)<\/script>/)[1])['@graph'];
       assert.equal(graph.find(n=>n['@type']==='WebPage').url,'https://tetelestai.tech'+path);
       assert.equal(graph.find(n=>n['@type']==='WebPage').inLanguage,lang);
+    }
+    for (const path of [en,en.slice(0,-1)]) for (const method of ['GET','HEAD']) {
+      const response=await worker.fetch(new Request('https://example.test'+path,{method,headers:{accept:'text/html'}}),{ASSETS:{fetch:async request=>new Response(method==='HEAD'?null:'shell',{status:new URL(request.url).pathname===en+'index.html'?200:404})}});
+      assert.equal(response.status,200,`${method} ${path}`);
+    }
+  }
+  for (const [pt,en] of newPairs) {
+    for (const [path,lang] of [[pt,'pt-BR'],[en,'en']]) {
+      const html=await readFile(new URL(`../dist/client${path}index.html`,import.meta.url),'utf8');
+      assert.ok(html.includes(`<html lang="${lang}">`));
+      assert.ok(html.includes(`rel="canonical" href="https://tetelestai.tech${path}"`));
+      assert.ok(html.includes(`hreflang="pt-BR" href="https://tetelestai.tech${pt}"`));
+      assert.ok(html.includes(`hreflang="en" href="https://tetelestai.tech${en}"`));
+      const graph=JSON.parse(html.match(/id="structured-data"[^>]*>([^<]+)<\/script>/)[1])['@graph'];
+      assert.equal(graph.find(n=>n['@type']==='WebPage').inLanguage,lang);
+      assert.equal(measurementPath(path),null,'new case pages stay outside Analytics until the scope is approved');
     }
     for (const path of [en,en.slice(0,-1)]) for (const method of ['GET','HEAD']) {
       const response=await worker.fetch(new Request('https://example.test'+path,{method,headers:{accept:'text/html'}}),{ASSETS:{fetch:async request=>new Response(method==='HEAD'?null:'shell',{status:new URL(request.url).pathname===en+'index.html'?200:404})}});

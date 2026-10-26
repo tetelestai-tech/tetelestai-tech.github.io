@@ -181,6 +181,8 @@ test("the sitemap lists the homes, service pages and approved portfolio pages ex
     "https://tetelestai.tech/projetos/",
     "https://tetelestai.tech/projetos/infinity-car-studio/",
     "https://tetelestai.tech/projetos/bolachinhas-da-vovo-juju/",
+    "https://tetelestai.tech/projetos/afeto-nobre/",
+    "https://tetelestai.tech/projetos/lalelis/",
   ].sort());
 });
 
@@ -290,7 +292,7 @@ test("key facts grids end with full rows on every page that has them", async () 
     const { App } = await renderer.ssrLoadModule("/src/App.jsx");
     const { factsColumns } = await renderer.ssrLoadModule("/src/ui.jsx");
     assert.deepEqual([6, 8, 9, 12].map(factsColumns), [3, 4, 3, 4]);
-    for (const pathname of ["/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/", "/en/website-development/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/"]) {
+    for (const pathname of ["/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/", "/en/website-development/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/", "/projetos/afeto-nobre/", "/projetos/lalelis/", "/en/projects/afeto-nobre/", "/en/projects/lalelis/"]) {
       const html = renderToString(createElement(App, { pathname }));
       const grid = html.match(/<dl class="facts"[^>]*style="--facts-cols:(\d+)"[^>]*>([\s\S]*?)<\/dl>/);
       assert.ok(grid, `${pathname} renders a key facts grid with a column count`);

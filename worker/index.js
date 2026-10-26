@@ -13,6 +13,10 @@ const routeShells = new Map([
   ["/en/projects/infinity-car-studio/", "/en/projects/infinity-car-studio/index.html"],
   ["/en/projects/bolachinhas-da-vovo-juju", "/en/projects/bolachinhas-da-vovo-juju/index.html"],
   ["/en/projects/bolachinhas-da-vovo-juju/", "/en/projects/bolachinhas-da-vovo-juju/index.html"],
+  ["/en/projects/afeto-nobre", "/en/projects/afeto-nobre/index.html"],
+  ["/en/projects/afeto-nobre/", "/en/projects/afeto-nobre/index.html"],
+  ["/en/projects/lalelis", "/en/projects/lalelis/index.html"],
+  ["/en/projects/lalelis/", "/en/projects/lalelis/index.html"],
 
   ["/projetos", "/projetos/index.html"],
   ["/projetos/", "/projetos/index.html"],
@@ -20,6 +24,10 @@ const routeShells = new Map([
   ["/projetos/infinity-car-studio/", "/projetos/infinity-car-studio/index.html"],
   ["/projetos/bolachinhas-da-vovo-juju", "/projetos/bolachinhas-da-vovo-juju/index.html"],
   ["/projetos/bolachinhas-da-vovo-juju/", "/projetos/bolachinhas-da-vovo-juju/index.html"],
+  ["/projetos/afeto-nobre", "/projetos/afeto-nobre/index.html"],
+  ["/projetos/afeto-nobre/", "/projetos/afeto-nobre/index.html"],
+  ["/projetos/lalelis", "/projetos/lalelis/index.html"],
+  ["/projetos/lalelis/", "/projetos/lalelis/index.html"],
 
   ["/de-role/suporte", "/de-role/suporte/index.html"],
   ["/de-role/suporte/", "/de-role/suporte/index.html"],

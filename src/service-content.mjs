@@ -80,8 +80,8 @@ export const SERVICE_PAGES = {
       ],
     },
     caseStudy: {
-      key: "jujuProject", eyebrow: "Exemplo no ar", title: "Bolachinhas da Vovó Juju",
-      text: "Fotos do produto logo na abertura, leitura confortável no celular e um caminho direto para o pedido pelo Instagram.",
+      key: "afetoProject", eyebrow: "Exemplo no ar", title: "Afeto Nobre",
+      text: "Landing page feita no pacote de R$ 697: vitrine de sabores, bolos sob encomenda e botões que já abrem o WhatsApp com a mensagem certa para cada pedido.",
     },
     how: { eyebrow: "Como funciona", title: "Três passos até a página no ar" },
     faqTitle: { eyebrow: "Dúvidas", title: "Perguntas sobre landing pages" },

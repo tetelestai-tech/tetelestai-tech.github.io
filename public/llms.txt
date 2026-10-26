@@ -14,8 +14,10 @@
 
 - [Home](https://tetelestai.tech/): websites, landing pages and apps for businesses of any size across Brazil
 - [Criação de sites](https://tetelestai.tech/criacao-de-sites/): multi-page business websites, quoted per project
-- [Criação de landing pages](https://tetelestai.tech/criacao-de-landing-pages/): the R$ 697 landing page offer
-- [Projetos](https://tetelestai.tech/projetos/): client websites and the De Rolê and Tempo de Recarga iOS apps
+- [Criação de landing pages](https://tetelestai.tech/criacao-de-landing-pages/): the R$ 697 landing page offer, with Afeto Nobre as the live example
+- [Projetos](https://tetelestai.tech/projetos/): client websites and landing pages, and the De Rolê and Tempo de Recarga iOS apps
+- [Afeto Nobre](https://tetelestai.tech/projetos/afeto-nobre/): handmade sweets landing page case study (R$ 697 package)
+- [LaLeLis](https://tetelestai.tech/projetos/lalelis/): personalized stationery landing page case study (R$ 697 package)
 - [Infinity Car Studio](https://tetelestai.tech/projetos/infinity-car-studio/): car detailing website case study
 - [Bolachinhas da Vovó Juju](https://tetelestai.tech/projetos/bolachinhas-da-vovo-juju/): artisan food landing page case study
 - [Carreira internacional em TI](https://tetelestai.tech/carreira-internacional/): the Essencial guide (R$ 47, 31 pages, plain-text templates and a CSV tracker; optional Word CV and cover letter templates at checkout) and Acompanhado, one-on-one coaching with three 45-minute online sessions in 30 days, sold on Kiwify for R$ 497 and including the Essencial guide and the Word templates

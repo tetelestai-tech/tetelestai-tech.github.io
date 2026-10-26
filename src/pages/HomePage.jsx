@@ -1,6 +1,6 @@
 import { HOME, HOW_STEPS, LANDING_RECEIPT, PEOPLE, UI } from "../home-content.mjs";
 import { portfolioFor, servicesFor } from "../localized-content.mjs";
-import { CLIENT_PROJECTS } from "../portfolio-content.mjs";
+import { HOME_CLIENT_KEYS } from "../portfolio-content.mjs";
 import { PageShell, pathFor } from "../Layout.jsx";
 import { Browser, Circuits, CtaFinal, DevicePair, FaqSection, LinkArrow, Receipt, SectionHead, Steps, WhatsAppLink } from "../ui.jsx";
 
@@ -41,7 +41,7 @@ export function HomePage({ locale }) {
   const t = UI[locale];
   const home = HOME[locale];
   const projects = portfolioFor(locale);
-  const cases = CLIENT_PROJECTS.map(item => projects[item.key]);
+  const cases = HOME_CLIENT_KEYS.map(key => projects[key]);
   const services = servicesFor(locale);
   return (
     <PageShell locale={locale} page="home">

@@ -3,7 +3,7 @@ import { APP_STORE_LINKS, DE_ROLE_APP_STORE } from "../app-store-links.mjs";
 import { UI } from "../home-content.mjs";
 import { INSTAGRAM_CONTENTS } from "../instagram-content.mjs";
 import { portfolioFor } from "../localized-content.mjs";
-import { APPS, CASE_COPY, CLIENT_PROJECTS } from "../portfolio-content.mjs";
+import { APPS, CASE_COPY, CLIENT_PROJECTS, nextClientKey } from "../portfolio-content.mjs";
 import { PageShell, pathFor } from "../Layout.jsx";
 import {
   Browser, Circuits, Crumbs, CtaFinal, DevicePair, Facts, IconOut, IconPlay, LinkArrow, SectionHead, WhatsAppLink,
@@ -157,7 +157,7 @@ export function CasePage({ locale, page }) {
   const copy = CASE_COPY[locale];
   const pages = portfolioFor(locale);
   const project = pages[page];
-  const other = pages[page === "infinityProject" ? "jujuProject" : "infinityProject"];
+  const other = pages[nextClientKey(page)];
   const message = copy.waMessage(project.name);
   return (
     <PageShell locale={locale} page={page} sticky={<WhatsAppLink message={message}>{copy.cta}</WhatsAppLink>}>

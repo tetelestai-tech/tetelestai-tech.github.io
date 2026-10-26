@@ -33,7 +33,7 @@ test("only the sixteen commercial pages and their explicit aliases qualify", () 
     assert.equal(measurementPath(`${path}index.html`), path);
     if (path !== "/") assert.equal(measurementPath(path.slice(0, -1)), path);
   }
-  for (const path of ["/recarga/", "/privacidade/", "/en/privacy/", "/missing/", "/en//", "/criacao-de-sites/missing/index.html", "/carreira-internacional/missing", "/capacitacao-em-ia//"]) assert.equal(measurementPath(path), null);
+  for (const path of ["/projetos/afeto-nobre/", "/projetos/lalelis/", "/en/projects/afeto-nobre/", "/en/projects/lalelis/", "/recarga/", "/privacidade/", "/en/privacy/", "/missing/", "/en//", "/criacao-de-sites/missing/index.html", "/carreira-internacional/missing", "/capacitacao-em-ia//"]) assert.equal(measurementPath(path), null);
 });
 
 test("test link marks the first view and every click without overriding consent", () => {

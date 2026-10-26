@@ -4,6 +4,7 @@ import { INSTAGRAM_URL } from "./contact.mjs";
 import { HOME, UI } from "./home-content.mjs";
 import { LEGAL_CONTENT, LEGAL_PATHS } from "./legal-content.mjs";
 import { equivalentPaths, portfolioFor, servicesFor } from "./localized-content.mjs";
+import { CLIENT_PROJECTS } from "./portfolio-content.mjs";
 import { IconArrow, IconArrowBack, SymbolPicture, WhatsAppLink } from "./ui.jsx";
 
 export function pathFor(key, locale) {
@@ -36,7 +37,7 @@ function LanguageSwitch({ locale, page }) {
   );
 }
 
-const isCurrent = (key, page) => key === page || (key === "portfolio" && ["infinityProject", "jujuProject"].includes(page));
+const isCurrent = (key, page) => key === page || (key === "portfolio" && CLIENT_PROJECTS.some(item => item.key === page));
 
 export function Header({ locale, page }) {
   const t = UI[locale];

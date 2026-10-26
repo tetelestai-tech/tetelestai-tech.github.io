@@ -1,4 +1,4 @@
-// Client inclusion authorized for portfolio review on 2026-10-14.
+// Client inclusion authorized for portfolio review on 2026-10-14 (Infinity, Juju) and 2026-10-26 (Afeto Nobre, LaLeLis).
 // Descriptions and captures checked against the public sites; no performance claims.
 export const CLIENT_PROJECTS = [
   {
@@ -17,6 +17,24 @@ export const CLIENT_PROJECTS = [
     desktop: "/assets/portfolio/juju-desktop.webp",
     mobile: "/assets/portfolio/juju-mobile.webp",
   },
+  // Added on 2026-10-26 at Carlos's request, after both sites went live. Captures taken
+  // from the published code of each site; facts checked against the public pages.
+  {
+    key: "afetoProject",
+    name: "Afeto Nobre",
+    url: "https://afetonobre.com.br/",
+    domain: "afetonobre.com.br",
+    desktop: "/assets/portfolio/afeto-desktop.webp",
+    mobile: "/assets/portfolio/afeto-mobile.webp",
+  },
+  {
+    key: "lalelisProject",
+    name: "LaLeLis",
+    url: "https://lalelis.com.br/",
+    domain: "lalelis.com.br",
+    desktop: "/assets/portfolio/lalelis-desktop.webp",
+    mobile: "/assets/portfolio/lalelis-mobile.webp",
+  },
 ];
 
 const project = key => CLIENT_PROJECTS.find(item => item.key === key);
@@ -26,7 +44,7 @@ export const PORTFOLIO_PAGES = {
     path: "/projetos/",
     label: "Projetos",
     metaTitle: "Projetos: sites e aplicativos iOS | Tetelestai",
-    metaDescription: "Veja os sites da Infinity Car Studio e da Bolachinhas da Vovó Juju e os aplicativos iOS De Rolê e Tempo de Recarga, feitos pela Tetelestai.",
+    metaDescription: "Veja os sites da Infinity Car Studio, Bolachinhas da Vovó Juju, Afeto Nobre e LaLeLis e os aplicativos iOS De Rolê e Tempo de Recarga, feitos pela Tetelestai.",
     eyebrow: "Projetos",
     heading: "Projetos no ar: sites para negócios e aplicativos na App Store",
     intro: "Abra no seu celular. É assim que o seu cliente vai ver a sua página.",
@@ -87,6 +105,48 @@ export const PORTFOLIO_PAGES = {
       { k: "Contato", title: "Pedido pelo Instagram", text: "Dúvidas sobre produtos, retirada e ingredientes seguem para o perfil da marca, com link direto." },
     ],
     delivered: ["Landing page responsiva", "Abertura com fotografia do produto", "Identidade artesanal preservada", "Caminho direto para o Instagram"],
+  },
+  afetoProject: {
+    ...project("afetoProject"),
+    path: "/projetos/afeto-nobre/",
+    label: "Afeto Nobre",
+    metaTitle: "Afeto Nobre — case de landing page | Tetelestai",
+    metaDescription: "A landing page da Afeto Nobre, doces artesanais no Guará, em Brasília: vitrine de sabores, bolos personalizados e orçamento pelo WhatsApp com a mensagem já começada.",
+    category: "Doces artesanais · Guará, Brasília",
+    summary: "Os sabores em vitrine, os bolos personalizados e o orçamento pelo WhatsApp com a mensagem já começada.",
+    eyebrow: "Case · Doces artesanais",
+    intro: "Landing page de doces artesanais e bolos sob encomenda no Guará, em Brasília: os sabores em vitrine e o orçamento pelo WhatsApp em um toque.",
+    altDesktop: "Página inicial do site da Afeto Nobre no computador",
+    altMobile: "Site da Afeto Nobre no celular",
+    facts: [["Cliente", "Afeto Nobre"], ["Segmento", "Doces artesanais e bolos"], ["Local", "Guará, Brasília-DF"], ["Tipo de projeto", "Landing page"], ["Produtos do cliente", "Brigadeiros, cajuzinho e bolos decorados"], ["Contato", "WhatsApp e Instagram"]],
+    decisions: [
+      { k: "Objetivo", title: "Mostrar os doces e facilitar a encomenda", text: "Quem procura doces para uma festa quer ver os sabores e pedir o orçamento sem rodeio. A página leva da foto ao WhatsApp." },
+      { k: "Vitrine", title: "Os sabores em fotos", text: "Uma vitrine com cada doce, do brigadeiro de pistache ao cajuzinho, com o nome e uma linha sobre o sabor. Os bolos decorados têm uma seção própria." },
+      { k: "Orçamento", title: "Mensagem de WhatsApp já começada", text: "Cada botão abre o WhatsApp com um texto pronto: para doces, com espaço para sabores, quantidade e data; para bolos, com a ideia e a data da festa." },
+      { k: "Marca irmã", title: "Ligação com a LaLeLis", text: "No fim da página, um convite para a LaLeLis, marca irmã que faz topos de bolo e papelaria personalizada, para completar a festa." },
+    ],
+    delivered: ["Landing page responsiva", "Vitrine de sabores com fotos", "Seção de bolos personalizados", "Orçamento pelo WhatsApp com mensagem pronta", "Links para o Instagram e para a LaLeLis"],
+  },
+  lalelisProject: {
+    ...project("lalelisProject"),
+    path: "/projetos/lalelis/",
+    label: "LaLeLis",
+    metaTitle: "LaLeLis — case de landing page | Tetelestai",
+    metaDescription: "A landing page da LaLeLis, papelaria personalizada no Distrito Federal: fotos das peças, uma lista para marcar os produtos e o orçamento enviado pelo WhatsApp já montado.",
+    category: "Papelaria personalizada · Distrito Federal",
+    summary: "Fotos das peças e uma lista para marcar os produtos: o cliente monta o pedido na página e a lista vira a mensagem de orçamento no WhatsApp.",
+    eyebrow: "Case · Papelaria personalizada",
+    intro: "Landing page de papelaria personalizada no Distrito Federal: o cliente marca o que precisa e envia a lista pronta pelo WhatsApp.",
+    altDesktop: "Página inicial do site da LaLeLis no computador",
+    altMobile: "Site da LaLeLis no celular",
+    facts: [["Cliente", "LaLeLis"], ["Segmento", "Papelaria personalizada"], ["Local", "Distrito Federal"], ["Tipo de projeto", "Landing page com lista de orçamento"], ["Produtos do cliente", "Topos de bolo, caixinhas, chá revelação, cadernetas e cadernos"], ["Contato", "WhatsApp e Instagram"]],
+    decisions: [
+      { k: "Objetivo", title: "Transformar a escolha em pedido", text: "Quem compra personalizados costuma pedir várias peças para a mesma festa. A página ajuda a organizar tudo antes de chamar." },
+      { k: "Fotos", title: "Peças reais, com o tema na legenda", text: "Uma galeria com fotos das peças feitas pela LaLeLis, cada uma com o produto e o tema. Um toque abre a foto inteira." },
+      { k: "Lista", title: "Marcar, preencher e enviar", text: "O cliente marca os produtos, preenche tema, nome, data e observações, e confere na própria página a mensagem que vai para o WhatsApp." },
+      { k: "Marca irmã", title: "Ligação com a Afeto Nobre", text: "No fim da página, um convite para a Afeto Nobre, marca irmã de bolos e doces artesanais, para completar a mesa da festa." },
+    ],
+    delivered: ["Landing page responsiva", "Galeria de fotos das peças", "Lista de orçamento interativa", "Mensagem de WhatsApp montada a partir da lista", "Links para o Instagram e para a Afeto Nobre"],
   },
 };
 

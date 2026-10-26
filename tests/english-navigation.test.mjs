@@ -18,8 +18,7 @@ export const pairs = [
   ['/projetos/afeto-nobre/','/en/projects/afeto-nobre/'],
   ['/projetos/lalelis/','/en/projects/lalelis/'],
 ];
-// Cases added on 2026-10-26 are not in the Analytics allowlist until the privacy notice names them.
-const unmeasured = new Set(['/en/projects/afeto-nobre/','/en/projects/lalelis/']);
+
 
 test('English home restores service shortcuts and every translated page preserves locale and equivalent selector', async () => {
   const server=await createServer({appType:'custom',server:{middlewareMode:true,hmr:false,ws:false,watch:null},optimizeDeps:{noDiscovery:true,include:[]}});
@@ -39,7 +38,7 @@ test('English home restores service shortcuts and every translated page preserve
         assert.ok(!links.some(a=>a.includes(`href="${target}"`)&&!a.includes('lang="pt-BR"')),`Unexpected PT link ${target} on ${en}`);
       }
       assert.ok(!/Conhecer o projeto|Ver portfólio completo|Página inicial em inglês|Antes de começar/.test(english));
-      assert.equal(measurementPath(en),unmeasured.has(en)?null:en,'approved English pages are eligible only through consent');
+      assert.equal(measurementPath(en),en,'approved English pages are eligible only through consent');
     }
   } finally { await server.close(); }
 });

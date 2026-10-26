@@ -9,8 +9,7 @@ import worker from '../worker/index.js';
 import { measurementPath } from '../src/analytics.mjs';
 
 const routes = ['/projetos/', '/projetos/infinity-car-studio/', '/projetos/bolachinhas-da-vovo-juju/', '/projetos/afeto-nobre/', '/projetos/lalelis/'];
-// Analytics stays limited to the pages named in the privacy notice; the 2026-10-26 cases are not measured yet.
-const measured = routes.slice(0, 3);
+
 
 test('portfolio and case pages expose verified deliveries, real links and navigation before hydration', async () => {
   const renderer = await createServer({appType:'custom',server:{middlewareMode:true,hmr:false,ws:false,watch:null},optimizeDeps:{noDiscovery:true,include:[]}});
@@ -75,7 +74,7 @@ test('portfolio exact route fallbacks preserve 404 for unknown project URLs', as
         assert.equal(calls.at(-1),`${path}index.html`);
       }
     }
-    assert.equal(measurementPath(path),measured.includes(path)?path:null,'only the portfolio pages named in the privacy notice are measured');
+    assert.equal(measurementPath(path),path,'approved portfolio pages are eligible only through consent');
   }
   for (const path of ['/projetos/desconhecido/','/projetos//','/projetos/infinity-car-studio/extra/']) {
     let calls=0;

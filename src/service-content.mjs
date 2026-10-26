@@ -80,8 +80,9 @@ export const SERVICE_PAGES = {
       ],
     },
     caseStudy: {
-      key: "jujuProject", eyebrow: "Exemplo no ar", title: "Bolachinhas da Vovó Juju",
-      text: "Fotos do produto logo na abertura, leitura confortável no celular e um caminho direto para o pedido pelo Instagram.",
+      // Since 2026-10-26 the live example is Afeto Nobre (Carlos: Juju leaves advertising, stays in the portfolio).
+      key: "afetoProject", eyebrow: "Exemplo no ar", title: "Afeto Nobre",
+      text: "Feita no pacote de R$ 697: os sabores dos doces em vitrine, os bolos personalizados e o orçamento pelo WhatsApp com a mensagem já começada.",
     },
     how: { eyebrow: "Como funciona", title: "Três passos até a página no ar" },
     faqTitle: { eyebrow: "Dúvidas", title: "Perguntas sobre landing pages" },

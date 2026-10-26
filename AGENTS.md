@@ -208,3 +208,8 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - "Next project" on case pages now walks the client list in order and returns to the first after the last.
 - Order chosen by Carlos on 2026-10-26: Infinity Car Studio, LaLeLis, Afeto Nobre, Bolachinhas da Vovó Juju (home, portfolio and "next project"). On the home client cards, the "see the case / visit the site" links sit at the bottom of each card, so cards side by side keep them on the same line.
 - Analytics (approved by Carlos on 2026-10-26, same PR): the four new case pages join the allowlist, now 20 commercial pages. The PT/EN privacy notices name the four client projects and are dated 2026-10-26. Events, consent policy v4, refusals, expiry and test mode are unchanged; no reconfirmation was required because the consent banner already covers portfolio pages generically.
+
+## Landing page example and LaLeLis captures (2026-10-26)
+
+- Carlos decided that Bolachinhas da Vovó Juju leaves all advertising and stays in the portfolio (/projetos/ and its case page). The "Live example" on `/criacao-de-landing-pages/` and `/en/landing-pages/` is now Afeto Nobre, described as built in the R$ 697 package (confirmed by Carlos).
+- Children's names on LaLeLis products are blurred in the portfolio captures (`lalelis-desktop.webp`, `lalelis-mobile.webp`). New captures of LaLeLis must blur names before use.

@@ -82,8 +82,8 @@ export const EN_SERVICE_PAGES = {
       ],
     },
     caseStudy: {
-      key: 'jujuProject', eyebrow: 'Live example', title: 'Bolachinhas da Vovó Juju',
-      text: 'Product photos right at the top, comfortable reading on mobile and a direct path to order through Instagram.',
+      key: 'afetoProject', eyebrow: 'Live example', title: 'Afeto Nobre',
+      text: 'Built in the R$ 697 package: the sweets in a showcase, custom cakes and WhatsApp quotes with the message already started.',
     },
     how: { eyebrow: 'How it works', title: 'Three steps to a live page' },
     faqTitle: { eyebrow: 'FAQ', title: 'Questions about landing pages' },

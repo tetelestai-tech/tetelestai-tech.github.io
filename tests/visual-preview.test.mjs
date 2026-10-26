@@ -31,7 +31,7 @@ test('redesign keeps one WhatsApp action in each opening, presents each front on
       const html = render(path);
       const hero = html.match(/<section id="home"[\s\S]*?<\/section>/)?.[0];
       assert.equal((hero?.match(whatsapp) ?? []).length >= 1, true, `${path}: WhatsApp action in the opening`);
-      assert.match(hero, /href="\/projetos\/(?:infinity-car-studio|bolachinhas-da-vovo-juju)\/"/, `${path}: opening links to a real project`);
+      assert.match(hero, /href="\/projetos\/(?:infinity-car-studio|afeto-nobre)\/"/, `${path}: opening links to a real project`);
       assert.ok(html.includes('id="projects"'));
     }
     for (const path of ['/carreira-internacional/', '/capacitacao-em-ia/']) {

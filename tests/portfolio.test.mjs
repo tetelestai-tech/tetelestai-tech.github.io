@@ -37,7 +37,7 @@ test('portfolio and case pages expose verified deliveries, real links and naviga
       const header = render(path).match(/<header[\s\S]*?<\/header>/)?.[0];
       assert.ok(header.includes(`href="${path === '/en/' ? '/en/projects/' : '/projetos/'}"`), 'Projects navigation must lead to the portfolio page');
     }
-    for (const [path, name] of [['/criacao-de-sites/','Infinity Car Studio'],['/criacao-de-landing-pages/','Bolachinhas da Vovó Juju']]) {
+    for (const [path, name] of [['/criacao-de-sites/','Infinity Car Studio'],['/criacao-de-landing-pages/','Afeto Nobre']]) {
       const html=render(path);
       assert.ok(html.indexOf(name) > -1 && html.indexOf(name) < html.indexOf('class="faq-section'), `${path}: a real client project appears before the FAQ`);
       assert.ok(html.indexOf('id="projects"') < html.indexOf('class="faq-section'));
@@ -60,6 +60,7 @@ test('portfolio and case pages expose verified deliveries, real links and naviga
     const order = ['Infinity Car Studio','LaLeLis','Afeto Nobre','Bolachinhas da Vovó Juju'].map(name => portfolio.indexOf(`>${name}</a>`));
     assert.deepEqual([...order].sort((x,y)=>x-y), order, 'portfolio order chosen on 2026-10-26');
     assert.ok(!/wa\.me\/556192505727/.test(afeto+lalelis), "client WhatsApp numbers stay on the clients' own sites");
+    assert.ok(!render('/criacao-de-landing-pages/').includes('Bolachinhas da Vovó Juju'), 'Juju stays in the portfolio but is no longer the landing page example');
     assert.ok(!/aumentou.{0,30}(vendas|conversão)/i.test(portfolio));
   } finally { await renderer.close(); }
 });

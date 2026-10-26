@@ -1,5 +1,6 @@
 // Client inclusion authorized for portfolio review on 2026-10-14 (Infinity, Juju) and 2026-10-26 (Afeto Nobre, LaLeLis).
 // Descriptions and captures checked against the public sites; no performance claims.
+// Display order chosen by Carlos on 2026-10-26: Infinity, LaLeLis, Afeto Nobre, Juju.
 export const CLIENT_PROJECTS = [
   {
     key: "infinityProject",
@@ -9,16 +10,16 @@ export const CLIENT_PROJECTS = [
     desktop: "/assets/portfolio/infinity-desktop.webp",
     mobile: "/assets/portfolio/infinity-mobile.webp",
   },
-  {
-    key: "jujuProject",
-    name: "Bolachinhas da Vovó Juju",
-    url: "https://bolachinhadavovojuju.com.br/",
-    domain: "bolachinhadavovojuju.com.br",
-    desktop: "/assets/portfolio/juju-desktop.webp",
-    mobile: "/assets/portfolio/juju-mobile.webp",
-  },
   // Added on 2026-10-26 at Carlos's request, after both sites went live. Captures taken
   // from the published code of each site; facts checked against the public pages.
+  {
+    key: "lalelisProject",
+    name: "LaLeLis",
+    url: "https://lalelis.com.br/",
+    domain: "lalelis.com.br",
+    desktop: "/assets/portfolio/lalelis-desktop.webp",
+    mobile: "/assets/portfolio/lalelis-mobile.webp",
+  },
   {
     key: "afetoProject",
     name: "Afeto Nobre",
@@ -28,12 +29,12 @@ export const CLIENT_PROJECTS = [
     mobile: "/assets/portfolio/afeto-mobile.webp",
   },
   {
-    key: "lalelisProject",
-    name: "LaLeLis",
-    url: "https://lalelis.com.br/",
-    domain: "lalelis.com.br",
-    desktop: "/assets/portfolio/lalelis-desktop.webp",
-    mobile: "/assets/portfolio/lalelis-mobile.webp",
+    key: "jujuProject",
+    name: "Bolachinhas da Vovó Juju",
+    url: "https://bolachinhadavovojuju.com.br/",
+    domain: "bolachinhadavovojuju.com.br",
+    desktop: "/assets/portfolio/juju-desktop.webp",
+    mobile: "/assets/portfolio/juju-mobile.webp",
   },
 ];
 

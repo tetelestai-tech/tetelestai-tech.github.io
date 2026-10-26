@@ -8,7 +8,8 @@ import { readFile } from 'node:fs/promises';
 import worker from '../worker/index.js';
 import { measurementPath } from '../src/analytics.mjs';
 
-const routes = ['/projetos/', '/projetos/infinity-car-studio/', '/projetos/bolachinhas-da-vovo-juju/'];
+const routes = ['/projetos/', '/projetos/infinity-car-studio/', '/projetos/bolachinhas-da-vovo-juju/', '/projetos/afeto-nobre/', '/projetos/lalelis/'];
+
 
 test('portfolio and case pages expose verified deliveries, real links and navigation before hydration', async () => {
   const renderer = await createServer({appType:'custom',server:{middlewareMode:true,hmr:false,ws:false,watch:null},optimizeDeps:{noDiscovery:true,include:[]}});
@@ -17,7 +18,7 @@ test('portfolio and case pages expose verified deliveries, real links and naviga
     const render = pathname => renderToStaticMarkup(createElement(App,{pathname}));
     const portfolio = render('/projetos/');
     assert.ok(!portfolio.includes('Este endereço não existe'), 'portfolio route must resolve');
-    for (const name of ['Infinity Car Studio','Bolachinhas da Vovó Juju']) assert.ok(portfolio.includes(name));
+    for (const name of ['Infinity Car Studio','Bolachinhas da Vovó Juju','Afeto Nobre','LaLeLis']) assert.ok(portfolio.includes(name));
     for (const path of routes.slice(1)) assert.ok(portfolio.includes(`href="${path}"`));
     assert.ok(portfolio.includes('Aplicativos iOS'));
     assert.ok(portfolio.includes('Tetelestai: Tempo de Recarga'));
@@ -48,6 +49,17 @@ test('portfolio and case pages expose verified deliveries, real links and naviga
     const juju=render(routes[2]);
     assert.ok(juju.includes('href="https://bolachinhadavovojuju.com.br/"'));
     assert.ok(juju.includes('Instagram'));
+    const afeto=render('/projetos/afeto-nobre/');
+    assert.ok(afeto.includes('href="https://afetonobre.com.br/"'));
+    assert.ok(afeto.includes('/assets/portfolio/afeto-desktop.webp'));
+    assert.ok(afeto.includes('href="/projetos/bolachinhas-da-vovo-juju/"'), 'Afeto Nobre points to the next project');
+    const lalelis=render('/projetos/lalelis/');
+    assert.ok(lalelis.includes('href="https://lalelis.com.br/"'));
+    assert.ok(lalelis.includes('href="/projetos/afeto-nobre/"'), 'LaLeLis points to its sister brand next');
+    assert.ok(juju.includes('href="/projetos/infinity-car-studio/"'), 'the last case returns to the first project');
+    const order = ['Infinity Car Studio','LaLeLis','Afeto Nobre','Bolachinhas da Vovó Juju'].map(name => portfolio.indexOf(`>${name}</a>`));
+    assert.deepEqual([...order].sort((x,y)=>x-y), order, 'portfolio order chosen on 2026-10-26');
+    assert.ok(!/wa\.me\/556192505727/.test(afeto+lalelis), "client WhatsApp numbers stay on the clients' own sites");
     assert.ok(!/aumentou.{0,30}(vendas|conversão)/i.test(portfolio));
   } finally { await renderer.close(); }
 });

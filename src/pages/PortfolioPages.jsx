@@ -157,7 +157,9 @@ export function CasePage({ locale, page }) {
   const copy = CASE_COPY[locale];
   const pages = portfolioFor(locale);
   const project = pages[page];
-  const other = pages[page === "infinityProject" ? "jujuProject" : "infinityProject"];
+  // "Next project" walks the client list in order and returns to the first one after the last.
+  const position = CLIENT_PROJECTS.findIndex(item => item.key === page);
+  const other = pages[CLIENT_PROJECTS[(position + 1) % CLIENT_PROJECTS.length].key];
   const message = copy.waMessage(project.name);
   return (
     <PageShell locale={locale} page={page} sticky={<WhatsAppLink message={message}>{copy.cta}</WhatsAppLink>}>

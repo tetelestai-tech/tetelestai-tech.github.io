@@ -15,7 +15,10 @@ export const pairs = [
   ['/projetos/','/en/projects/'],
   ['/projetos/infinity-car-studio/','/en/projects/infinity-car-studio/'],
   ['/projetos/bolachinhas-da-vovo-juju/','/en/projects/bolachinhas-da-vovo-juju/'],
+  ['/projetos/afeto-nobre/','/en/projects/afeto-nobre/'],
+  ['/projetos/lalelis/','/en/projects/lalelis/'],
 ];
+
 
 test('English home restores service shortcuts and every translated page preserves locale and equivalent selector', async () => {
   const server=await createServer({appType:'custom',server:{middlewareMode:true,hmr:false,ws:false,watch:null},optimizeDeps:{noDiscovery:true,include:[]}});

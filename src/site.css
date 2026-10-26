@@ -226,6 +226,8 @@ html:not(.js) .site-head{background:rgba(0,12,25,.9);border-bottom-color:var(--l
 
 /* Client cases */
 .case{display:flex;flex-direction:column;gap:20px}
+/* The links sit at the bottom of the card, so cards side by side keep them on the same line even when one summary is longer (Carlos, 26/10). */
+.case > .btn-row{margin-top:auto}
 .case__media{display:block;color:inherit;border-radius:var(--radius)}
 .case__shot{transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
 .case__shot img{transition:transform .6s var(--ease)}

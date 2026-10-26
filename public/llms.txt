@@ -18,6 +18,8 @@
 - [Projetos](https://tetelestai.tech/projetos/): client websites and the De Rolê and Tempo de Recarga iOS apps
 - [Infinity Car Studio](https://tetelestai.tech/projetos/infinity-car-studio/): car detailing website case study
 - [Bolachinhas da Vovó Juju](https://tetelestai.tech/projetos/bolachinhas-da-vovo-juju/): artisan food landing page case study
+- [Afeto Nobre](https://tetelestai.tech/projetos/afeto-nobre/): handmade sweets and cakes landing page case study (Guará, Brasília), with WhatsApp quotes
+- [LaLeLis](https://tetelestai.tech/projetos/lalelis/): custom party stationery landing page case study (Federal District), with an interactive quote list sent through WhatsApp
 - [Carreira internacional em TI](https://tetelestai.tech/carreira-internacional/): the Essencial guide (R$ 47, 31 pages, plain-text templates and a CSV tracker; optional Word CV and cover letter templates at checkout) and Acompanhado, one-on-one coaching with three 45-minute online sessions in 30 days, sold on Kiwify for R$ 497 and including the Essencial guide and the Word templates
 - [Capacitação em IA](https://tetelestai.tech/capacitacao-em-ia/): on-demand AI training for teams and professionals
 

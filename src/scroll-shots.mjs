@@ -1,17 +1,18 @@
-// Live preview inside the device frames (requested by Carlos on 2026-10-28).
-// Each frame shows the first screen of a client's site (`.shot` poster). On intent it plays the site itself:
+// Live preview inside the device frames (requested by Carlos on 2026-10-28; behaviour inverted the same day).
+// Each frame shows the first screen of a client's site (`.shot` poster). When the frame is in view it plays the
+// site itself, in a loop:
 // - a recording of the site scrolled from top to bottom, with its own videos and effects (`data-video` MP4,
 //   `data-video-webm` VP9 for browsers without H.264), whose first frame is the poster; or, when there is no
-//   recording, the whole page as a still (`data-full`), faded in over the identical poster and scrolled in CSS.
-// Intent:
-// - mouse or pen: while the pointer is over the frame's zone (`data-shot-zone`: the card or the device pair);
-//   leaving returns to the first screen;
-// - keyboard: while focus is inside the zone (same as hover);
-// - touch screens (no hover): once the zone is mostly in view, only after the visitor has scrolled, so nothing
-//   competes with the first paint; it holds at the end, returns to the first screen and plays again on the next entry.
-// Nothing is downloaded with the page. With reduced motion or Save-Data nothing loads or moves.
-export const SHOT_TIMING = { perScreen: 1.1, min: 2.4, max: 10, hold: 1400, view: 0.6, fade: 350, videoWait: 8000 };
+//   recording, the whole page as a still (`data-full`), faded in over the identical poster and scrolled down and
+//   back up in CSS.
+// Hovering the frame's zone (`data-shot-zone`: the card or the device pair) pauses it on the current frame, and so
+// does keyboard focus inside the zone; leaving resumes. Out of view it pauses too.
+// It starts only after the visitor's first interaction (scroll, mouse, touch or key), so nothing extra downloads or
+// moves during the first paint, and nothing is downloaded with the page. With reduced motion or Save-Data the
+// frames keep their poster.
+export const SHOT_TIMING = { perScreen: 1.1, min: 2.4, max: 10, view: 0.5, hide: 0.2, fade: 350, videoWait: 8000 };
 const ZONE = "[data-shot-zone]";
+const ARM_EVENTS = ["scroll", "pointermove", "pointerdown", "touchstart", "keydown", "wheel"];
 
 // Seconds to scroll the still from the first to the last screen. `frameRatio` is frame height / width
 // (889/1265 for the browser, 812/375 for the phone); the image is shown at the frame width.
@@ -37,45 +38,35 @@ export function createScrollShots(root, env = window) {
   const zones = new Map();
   for (const shot of shots) {
     const zone = shot.closest(ZONE) ?? shot;
-    if (!zones.has(zone)) zones.set(zone, { shots: [], on: false, played: false, ended: new Set() });
+    if (!zones.has(zone)) zones.set(zone, { shots: [], visible: false, hover: false, focus: false });
     zones.get(zone).shots.push(shot);
   }
   const players = new Map();
   const timers = new Set();
   const cleanups = [];
+  let armed = false;
   const listen = (target, type, handler, options) => {
     target.addEventListener(type, handler, options);
     cleanups.push(() => target.removeEventListener(type, handler, options));
   };
   const later = (fn, ms) => { const id = env.setTimeout(() => { timers.delete(id); fn(); }, ms); timers.add(id); return id; };
-  const frame = fn => (env.requestAnimationFrame ? env.requestAnimationFrame(fn) : later(fn, 16));
   const probe = doc.createElement("video");
   const canPlay = type => Boolean(probe.canPlayType?.(type));
 
-  // Recording: plays from the start; at the end it stays on the last screen until the zone stops.
-  function videoPlayer(shot, src, onEnd) {
+  // Recording, in a loop; pausing keeps the current frame on screen.
+  function videoPlayer(shot, src) {
     return new Promise(resolve => {
       const video = doc.createElement("video");
       video.className = "shot__video";
-      video.muted = true; video.defaultMuted = true; video.playsInline = true; video.preload = "auto";
+      video.muted = true; video.defaultMuted = true; video.playsInline = true; video.loop = true; video.preload = "auto";
       video.disablePictureInPicture = true; video.tabIndex = -1;
-      for (const name of ["muted", "playsinline", "aria-hidden"]) video.setAttribute(name, name === "aria-hidden" ? "true" : "");
-      let settled = false, reset = 0;
+      for (const name of ["muted", "playsinline", "loop", "aria-hidden"]) video.setAttribute(name, name === "aria-hidden" ? "true" : "");
+      let settled = false;
       const done = ok => { if (settled) return; settled = true; resolve(ok ? player : null); };
       const player = {
-        start() {
-          env.clearTimeout(reset);
-          try { video.currentTime = 0; } catch { /* not seekable yet: it is at the start anyway */ }
-          video.play()?.catch?.(() => {});
-          shot.classList.add("is-playing");
-        },
-        stop() {
-          video.pause();
-          shot.classList.remove("is-playing");
-          reset = later(() => { try { video.currentTime = 0; } catch { /* ignore */ } }, SHOT_TIMING.fade);
-        },
+        play() { video.play()?.catch?.(() => {}); shot.classList.add("is-playing"); },
+        pause() { video.pause(); },
       };
-      video.addEventListener("ended", () => onEnd(shot));
       video.addEventListener("error", () => { video.remove?.(); done(false); });
       video.addEventListener("canplay", () => done(true), { once: true });
       later(() => {
@@ -89,8 +80,8 @@ export function createScrollShots(root, env = window) {
     });
   }
 
-  // Still: the whole page fades in over the identical poster and scrolls in CSS.
-  function stillPlayer(shot, onEnd) {
+  // Still: the whole page fades in over the identical poster and scrolls down and back up (CSS animation).
+  function stillPlayer(shot) {
     return new Promise(resolve => {
       const img = doc.createElement("img");
       img.className = "shot__full";
@@ -102,86 +93,68 @@ export function createScrollShots(root, env = window) {
         try { await img.decode?.(); } catch { /* loaded; decoding again is optional */ }
         const poster = shot.querySelector(".shot__poster");
         const ratio = poster?.naturalWidth ? poster.naturalHeight / poster.naturalWidth : shot.clientHeight / shot.clientWidth;
-        shot.style.setProperty("--shot-dur", `${shotDuration(img.naturalWidth, img.naturalHeight, ratio)}s`);
+        // The animation holds at each end for 8% of its length; the scroll itself keeps the computed time.
+        shot.style.setProperty("--shot-dur", `${Math.round(shotDuration(img.naturalWidth, img.naturalHeight, ratio) / 0.84 * 10) / 10}s`);
+        shot.classList.add("is-paused");
         shot.appendChild(img);
-        void img.offsetHeight; // starts the fade and the movement from the top
-        shot.classList.add("is-ready");
-        img.addEventListener("transitionend", event => {
-          if (event.propertyName === "transform" && shot.classList.contains("is-scrolling")) onEnd(shot);
-        });
-        resolve({ start: () => shot.classList.add("is-scrolling"), stop: () => shot.classList.remove("is-scrolling") });
+        void img.offsetHeight;
+        shot.classList.add("is-ready", "is-scrolling");
+        resolve({ play: () => shot.classList.remove("is-paused"), pause: () => shot.classList.add("is-paused") });
       };
       img.src = shot.dataset.full;
     });
   }
 
-  function load(shot, state) {
+  function load(shot) {
     if (!players.has(shot)) {
-      const onEnd = ended => ended && state.on && finished(state, ended);
       const src = pickVideo(shot.dataset, canPlay);
-      const still = () => (shot.dataset.full ? stillPlayer(shot, onEnd) : Promise.resolve(null));
-      players.set(shot, src ? videoPlayer(shot, src, onEnd).then(player => player ?? still()) : still());
+      const still = () => (shot.dataset.full ? stillPlayer(shot) : Promise.resolve(null));
+      players.set(shot, src ? videoPlayer(shot, src).then(player => player ?? still()) : still());
     }
     return players.get(shot);
   }
 
-  // Touch screens: once every frame of the zone reached the end, hold, then go back to the first screen.
-  let touch = false;
-  function finished(state, shot) {
-    if (!touch) return;
-    state.ended.add(shot);
-    if (state.ended.size < state.shots.length) return;
-    later(() => { state.played = true; stopZone(state); }, SHOT_TIMING.hold);
-  }
-
-  function startZone(state) {
-    if (state.on) return;
-    state.on = true;
-    state.ended.clear();
+  const playing = state => armed && state.visible && !state.hover && !state.focus;
+  function update(state) {
     for (const shot of state.shots) {
-      load(shot, state).then(player => frame(() => {
-        if (!player) return state.ended.add(shot);
-        if (state.on) player.start();
-      }));
+      if (!players.has(shot) && !playing(state)) continue; // load only when it is about to play
+      load(shot).then(player => { if (player) (playing(state) ? player.play() : player.pause()); });
     }
-  }
-  function stopZone(state) {
-    state.on = false;
-    for (const shot of state.shots) players.get(shot)?.then(player => { if (!state.on) player?.stop(); });
   }
 
   for (const [zone, state] of zones) {
-    listen(zone, "pointerenter", event => { if (event.pointerType !== "touch") startZone(state); });
-    listen(zone, "pointerleave", event => { if (event.pointerType !== "touch") stopZone(state); });
-    listen(zone, "focusin", () => startZone(state));
-    listen(zone, "focusout", event => { if (!zone.contains(event.relatedTarget)) stopZone(state); });
+    listen(zone, "pointerenter", event => { if (event.pointerType !== "touch") { state.hover = true; update(state); } });
+    listen(zone, "pointerleave", event => { if (event.pointerType !== "touch") { state.hover = false; update(state); } });
+    listen(zone, "focusin", () => { state.focus = true; update(state); });
+    listen(zone, "focusout", event => { if (!zone.contains(event.relatedTarget)) { state.focus = false; update(state); } });
   }
 
   let observer = null;
-  if (!media("(hover: hover) and (pointer: fine)") && env.IntersectionObserver) {
-    touch = true;
+  if (env.IntersectionObserver) {
     observer = new env.IntersectionObserver(entries => {
       for (const entry of entries) {
         const state = zones.get(entry.target);
-        if (entry.isIntersecting && entry.intersectionRatio >= SHOT_TIMING.view) {
-          if (!state.played) startZone(state);
-        } else if (!entry.isIntersecting || entry.intersectionRatio < 0.1) {
-          state.played = false;
-          stopZone(state);
-        }
+        if (entry.isIntersecting && entry.intersectionRatio >= SHOT_TIMING.view) state.visible = true;
+        else if (!entry.isIntersecting || entry.intersectionRatio < SHOT_TIMING.hide) state.visible = false;
+        else continue;
+        update(state);
       }
-    }, { threshold: [0, 0.1, SHOT_TIMING.view] });
-    const arm = () => { for (const zone of zones.keys()) observer.observe(zone); };
-    // Only after the visitor scrolls: nothing extra downloads or moves during the first paint.
-    listen(env, "scroll", arm, { once: true, passive: true });
+    }, { threshold: [0, SHOT_TIMING.hide, SHOT_TIMING.view] });
+    for (const zone of zones.keys()) observer.observe(zone);
   }
+  const arm = () => {
+    if (armed) return;
+    armed = true;
+    zones.forEach(update);
+  };
+  for (const type of ARM_EVENTS) listen(env, type, arm, { once: true, passive: true });
 
   return {
     destroy() {
       cleanups.forEach(fn => fn());
       timers.forEach(id => env.clearTimeout(id));
       observer?.disconnect();
-      for (const state of zones.values()) stopZone(state);
+      for (const state of zones.values()) { state.visible = false; update(state); }
     },
   };
 }

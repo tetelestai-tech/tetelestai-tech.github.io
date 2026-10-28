@@ -12,6 +12,7 @@ import { pageStructuredData, serializeStructuredData } from "./structured-data.m
 import { AnalyticsConsent } from "./AnalyticsConsent.jsx";
 import { createReveal } from "./reveal-kit.mjs";
 import { createCircuitMotion } from "./circuit-motion.mjs";
+import { createScrollShots } from "./scroll-shots.mjs";
 import { HomePage } from "./pages/HomePage.jsx";
 import { AiPage, CareerPage, LandingPage, SitesPage } from "./pages/ServicePages.jsx";
 import { CasePage, PortfolioIndex } from "./pages/PortfolioPages.jsx";
@@ -76,7 +77,8 @@ export function App({ pathname = window.location.pathname }) {
     const root = document.querySelector(".site-shell");
     const reveal = createReveal(root);
     const circuit = createCircuitMotion(root);
-    return () => { reveal.destroy(); circuit.destroy(); };
+    const shots = createScrollShots(root);
+    return () => { reveal.destroy(); circuit.destroy(); shots.destroy(); };
   }, [locale, page]);
 
   useEffect(() => {

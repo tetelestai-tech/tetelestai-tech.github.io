@@ -91,25 +91,38 @@ export function Circuits() {
 }
 
 /* ---------- Frames ---------- */
-export function Browser({ src, alt, host, eager = false, className = "browser" }) {
+// The frame shows the first screen of the site (`src`). `video`/`videoWebm` are the site recorded while scrolled
+// (its own videos and effects playing); `full` is the whole page as a still. src/scroll-shots.mjs downloads them only
+// on intent (hover, keyboard focus or, on touch screens, when the frame comes into view) and plays the recording, or
+// scrolls the still when there is no recording. The poster stays the only image that loads with the page.
+export function Shot({ src, full, video, videoWebm, alt, width, height, eager = false }) {
   return (
-    <div className={className}>
-      <div className="browser__bar" aria-hidden="true"><i /><i /><i /><span>{host}</span></div>
-      <img src={src} alt={alt} width="1265" height="889" loading={eager ? undefined : "lazy"} fetchPriority={eager ? "high" : undefined} decoding="async" />
+    <div className="shot" data-full={full || undefined} data-video={video || undefined} data-video-webm={videoWebm || undefined}>
+      <img className="shot__poster" src={src} alt={alt} width={width} height={height} loading={eager ? undefined : "lazy"} fetchPriority={eager ? "high" : undefined} decoding="async" />
     </div>
   );
 }
 
-export function Phone({ src, alt, className = "phone" }) {
-  return <div className={className}><img src={src} alt={alt} width="375" height="812" loading="lazy" decoding="async" /></div>;
+export function Browser({ src, full, video, videoWebm, alt, host, eager = false, className = "browser" }) {
+  return (
+    <div className={className}>
+      <div className="browser__bar" aria-hidden="true"><i /><i /><i /><span>{host}</span></div>
+      <Shot src={src} full={full} video={video} videoWebm={videoWebm} alt={alt} width="1265" height="889" eager={eager} />
+    </div>
+  );
+}
+
+export function Phone({ src, full, video, videoWebm, alt, className = "phone" }) {
+  return <div className={className}><Shot src={src} full={full} video={video} videoWebm={videoWebm} alt={alt} width="375" height="812" /></div>;
 }
 
 // Hero media slides in once on load (`load`); the headline and call to action never wait.
+// Browser and phone scroll together: the pair is one hover zone (`data-shot-zone`).
 export function DevicePair({ project, eager = false, load = false, className = "device-pair" }) {
   return (
-    <div className={className || undefined}>
-      <div className={load ? "load-shot" : undefined}><Browser src={project.desktop} alt={project.altDesktop} host={project.domain} eager={eager} /></div>
-      <Phone src={project.mobile} alt={project.altMobile} className={load ? "phone load-phone" : "phone"} />
+    <div className={className || undefined} data-shot-zone="">
+      <div className={load ? "load-shot" : undefined}><Browser src={project.desktop} full={project.desktopFull} video={project.desktopVideo} videoWebm={project.desktopVideoWebm} alt={project.altDesktop} host={project.domain} eager={eager} /></div>
+      <Phone src={project.mobile} full={project.mobileFull} video={project.mobileVideo} videoWebm={project.mobileVideoWebm} alt={project.altMobile} className={load ? "phone load-phone" : "phone"} />
     </div>
   );
 }

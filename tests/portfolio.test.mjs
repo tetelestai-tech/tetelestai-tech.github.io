@@ -69,7 +69,46 @@ test('portfolio and case pages expose verified deliveries, real links and naviga
     assert.deepEqual([...order].sort((x,y)=>x-y), order, 'portfolio order chosen on 2026-10-28');
     assert.ok(!/wa\.me\/556192505727/.test(afeto+lalelis), "client WhatsApp numbers stay on the clients' own sites");
     assert.ok(!/aumentou.{0,30}(vendas|conversão)/i.test(portfolio));
+    // Scroll preview (2026-10-28): every frame names its whole-page capture, which never loads with the page.
+    for (const html of [portfolio, feijuca, home, render('/criacao-de-landing-pages/'), render('/criacao-de-sites/')]) {
+      const fulls = html.match(/data-full="[^"]+"/g) ?? [];
+      assert.ok(fulls.length > 0, 'the frames offer the whole page');
+      assert.ok(fulls.every(attr => /-(desktop|mobile)-full\.webp"$/.test(attr)));
+      assert.ok(!/<img[^>]+src="[^"]+-full\.webp"/.test(html), 'the whole-page capture is not in the initial HTML');
+    }
+    assert.equal((portfolio.match(/<article class="split case-row"[^>]*data-shot-zone/g) ?? []).length, 5, 'each portfolio row is one hover zone');
+    assert.ok(feijuca.includes('data-full="/assets/portfolio/feijuca-mobile-full.webp"'), 'the phone frame scrolls too');
+    assert.ok(feijuca.includes('data-video="/assets/portfolio/feijuca-desktop.mp4"') && feijuca.includes('data-video-webm="/assets/portfolio/feijuca-mobile.webm"'), 'Feijuca frames play the recording of the site');
+    assert.ok(!/<video[^>]+src="\/assets\/portfolio\//.test(home + portfolio + feijuca), 'the recordings are not in the initial HTML');
   } finally { await renderer.close(); }
+});
+
+test('whole-page captures and recordings match their posters and stay light', async () => {
+  const { CLIENT_PROJECTS } = await import('../src/portfolio-content.mjs');
+  const size = bytes => {
+    // WebP VP8 (lossy) frame header: width/height 14 bits after the start code.
+    const at = bytes.indexOf(Buffer.from([0x9d, 0x01, 0x2a]));
+    assert.ok(at > 0, 'lossy WebP');
+    return [bytes.readUInt16LE(at + 3) & 0x3fff, bytes.readUInt16LE(at + 5) & 0x3fff];
+  };
+  for (const project of CLIENT_PROJECTS) {
+    for (const [poster, full, width, height] of [[project.desktop, project.desktopFull, 1265, 889], [project.mobile, project.mobileFull, 375, 812]]) {
+      const [pw, ph] = size(await readFile(new URL(`../public${poster}`, import.meta.url)));
+      const fullBytes = await readFile(new URL(`../public${full}`, import.meta.url));
+      const [fw, fh] = size(fullBytes);
+      assert.deepEqual([pw, ph], [width, height], poster);
+      assert.equal(fw, width, full);
+      assert.ok(fh > height, `${full} is longer than one screen`);
+      assert.ok(fullBytes.length < 520000, `${full} stays light enough to load on hover`);
+    }
+    for (const video of [project.desktopVideo, project.mobileVideo, project.desktopVideoWebm, project.mobileVideoWebm].filter(Boolean)) {
+      const bytes = await readFile(new URL(`../public${video}`, import.meta.url));
+      assert.ok(bytes.length < 2300000, `${video} stays light enough to load on hover`);
+      if (video.endsWith('.mp4')) assert.ok(bytes.indexOf('moov') > -1 && bytes.indexOf('moov') < bytes.indexOf('mdat'), `${video} starts playing before it finishes downloading`);
+    }
+  }
+  const withVideo = CLIENT_PROJECTS.filter(project => project.desktopVideo).map(project => project.key);
+  assert.deepEqual(withVideo, ['feijucaProject', 'lalelisProject', 'afetoProject'], 'recordings exist for the sites with a repository');
 });
 
 test('portfolio exact route fallbacks preserve 404 for unknown project URLs', async () => {

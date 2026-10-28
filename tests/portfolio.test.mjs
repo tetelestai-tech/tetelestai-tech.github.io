@@ -78,10 +78,12 @@ test('portfolio and case pages expose verified deliveries, real links and naviga
     }
     assert.equal((portfolio.match(/<article class="split case-row"[^>]*data-shot-zone/g) ?? []).length, 5, 'each portfolio row is one hover zone');
     assert.ok(feijuca.includes('data-full="/assets/portfolio/feijuca-mobile-full.webp"'), 'the phone frame scrolls too');
+    assert.ok(feijuca.includes('data-video="/assets/portfolio/feijuca-desktop.mp4"') && feijuca.includes('data-video-webm="/assets/portfolio/feijuca-mobile.webm"'), 'Feijuca frames play the recording of the site');
+    assert.ok(!/<video[^>]+src="\/assets\/portfolio\//.test(home + portfolio + feijuca), 'the recordings are not in the initial HTML');
   } finally { await renderer.close(); }
 });
 
-test('whole-page captures match their first-screen posters in width and start with the same screen', async () => {
+test('whole-page captures and recordings match their posters and stay light', async () => {
   const { CLIENT_PROJECTS } = await import('../src/portfolio-content.mjs');
   const size = bytes => {
     // WebP VP8 (lossy) frame header: width/height 14 bits after the start code.
@@ -99,7 +101,14 @@ test('whole-page captures match their first-screen posters in width and start wi
       assert.ok(fh > height, `${full} is longer than one screen`);
       assert.ok(fullBytes.length < 520000, `${full} stays light enough to load on hover`);
     }
+    for (const video of [project.desktopVideo, project.mobileVideo, project.desktopVideoWebm, project.mobileVideoWebm].filter(Boolean)) {
+      const bytes = await readFile(new URL(`../public${video}`, import.meta.url));
+      assert.ok(bytes.length < 2300000, `${video} stays light enough to load on hover`);
+      if (video.endsWith('.mp4')) assert.ok(bytes.indexOf('moov') > -1 && bytes.indexOf('moov') < bytes.indexOf('mdat'), `${video} starts playing before it finishes downloading`);
+    }
   }
+  const withVideo = CLIENT_PROJECTS.filter(project => project.desktopVideo).map(project => project.key);
+  assert.deepEqual(withVideo, ['feijucaProject', 'lalelisProject', 'afetoProject'], 'recordings exist for the sites with a repository');
 });
 
 test('portfolio exact route fallbacks preserve 404 for unknown project URLs', async () => {

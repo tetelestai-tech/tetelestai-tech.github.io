@@ -9,7 +9,7 @@ export function CaseCard({ project, locale, heading: Heading = "h3", featured = 
   return (
     <article className={featured ? "case case--featured" : "case"} data-reveal="" data-shot-zone="">
       <a className="case__media" href={project.path} tabIndex={-1} aria-hidden="true">
-        <Browser src={project.desktop} full={project.desktopFull} alt="" host={project.domain} className="browser case__shot" />
+        <Browser src={project.desktop} full={project.desktopFull} video={project.desktopVideo} videoWebm={project.desktopVideoWebm} alt="" host={project.domain} className="browser case__shot" />
       </a>
       <div className="stack stack--sm">
         <p className="case__meta">{project.category}</p>

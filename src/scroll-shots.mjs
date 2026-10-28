@@ -1,19 +1,19 @@
-// Scroll preview inside the device frames (requested by Carlos on 2026-10-28).
-// Each frame shows the first screen of a client's site (`.shot` poster). On intent the whole page
-// (`data-full`) downloads, fades in over the identical poster and scrolls to the end inside the frame:
+// Live preview inside the device frames (requested by Carlos on 2026-10-28).
+// Each frame shows the first screen of a client's site (`.shot` poster). On intent it plays the site itself:
+// - a recording of the site scrolled from top to bottom, with its own videos and effects (`data-video` MP4,
+//   `data-video-webm` VP9 for browsers without H.264), whose first frame is the poster; or, when there is no
+//   recording, the whole page as a still (`data-full`), faded in over the identical poster and scrolled in CSS.
+// Intent:
 // - mouse or pen: while the pointer is over the frame's zone (`data-shot-zone`: the card or the device pair);
-//   leaving returns to the top;
-// - keyboard: while focus is inside the zone (same behaviour as hover);
-// - touch screens (no hover): once the zone is mostly in view, only after the visitor has scrolled, so the
-//   full image never competes with the first paint; it holds at the end, returns to the top and plays
-//   again the next time the zone comes into view.
-// The full capture is never downloaded with the page. With reduced motion or Save-Data nothing loads or moves.
-// The movement itself is CSS (`.shot.is-scrolling .shot__full`, src/site.css); this module only sets
-// classes and the duration, which grows with the length of the page.
-export const SHOT_TIMING = { perScreen: 1.1, min: 2.4, max: 10, hold: 1400, view: 0.6 };
+//   leaving returns to the first screen;
+// - keyboard: while focus is inside the zone (same as hover);
+// - touch screens (no hover): once the zone is mostly in view, only after the visitor has scrolled, so nothing
+//   competes with the first paint; it holds at the end, returns to the first screen and plays again on the next entry.
+// Nothing is downloaded with the page. With reduced motion or Save-Data nothing loads or moves.
+export const SHOT_TIMING = { perScreen: 1.1, min: 2.4, max: 10, hold: 1400, view: 0.6, fade: 350, videoWait: 8000 };
 const ZONE = "[data-shot-zone]";
 
-// Seconds to scroll from the first to the last screen. `frameRatio` is frame height / width
+// Seconds to scroll the still from the first to the last screen. `frameRatio` is frame height / width
 // (889/1265 for the browser, 812/375 for the phone); the image is shown at the frame width.
 export function shotDuration(naturalWidth, naturalHeight, frameRatio) {
   if (!naturalWidth || !naturalHeight || !frameRatio) return SHOT_TIMING.min;
@@ -21,94 +21,153 @@ export function shotDuration(naturalWidth, naturalHeight, frameRatio) {
   return Math.min(SHOT_TIMING.max, Math.max(SHOT_TIMING.min, Math.round(screens * SHOT_TIMING.perScreen * 10) / 10));
 }
 
+// The recording this browser can play: H.264 first (hardware decoding everywhere), VP9 otherwise.
+export function pickVideo(dataset, canPlay) {
+  if (dataset.video && canPlay('video/mp4; codecs="avc1.640028"')) return dataset.video;
+  if (dataset.videoWebm && canPlay('video/webm; codecs="vp9"')) return dataset.videoWebm;
+  return null;
+}
+
 export function createScrollShots(root, env = window) {
-  const shots = root ? [...root.querySelectorAll(".shot[data-full]")] : [];
+  const shots = root ? [...root.querySelectorAll(".shot[data-full], .shot[data-video]")] : [];
   const media = query => Boolean(env.matchMedia?.(query).matches);
   if (!shots.length || media("(prefers-reduced-motion: reduce)") || env.navigator?.connection?.saveData) return { destroy() {} };
 
+  const doc = env.document;
   const zones = new Map();
   for (const shot of shots) {
     const zone = shot.closest(ZONE) ?? shot;
-    if (!zones.has(zone)) zones.set(zone, { shots: [], on: false, played: false });
+    if (!zones.has(zone)) zones.set(zone, { shots: [], on: false, played: false, ended: new Set() });
     zones.get(zone).shots.push(shot);
   }
-  const loads = new Map();
+  const players = new Map();
   const timers = new Set();
   const cleanups = [];
   const listen = (target, type, handler, options) => {
     target.addEventListener(type, handler, options);
     cleanups.push(() => target.removeEventListener(type, handler, options));
   };
-  const later = (fn, ms) => { const id = env.setTimeout(() => { timers.delete(id); fn(); }, ms); timers.add(id); };
+  const later = (fn, ms) => { const id = env.setTimeout(() => { timers.delete(id); fn(); }, ms); timers.add(id); return id; };
   const frame = fn => (env.requestAnimationFrame ? env.requestAnimationFrame(fn) : later(fn, 16));
+  const probe = doc.createElement("video");
+  const canPlay = type => Boolean(probe.canPlayType?.(type));
 
-  function load(shot) {
-    if (!loads.has(shot)) {
-      loads.set(shot, new Promise(resolve => {
-        const img = env.document.createElement("img");
-        img.className = "shot__full";
-        img.alt = "";
-        img.setAttribute("aria-hidden", "true");
-        img.decoding = "async";
-        img.onerror = () => resolve(false);
-        img.onload = async () => {
-          try { await img.decode?.(); } catch { /* the image is loaded; decoding again is optional */ }
-          const poster = shot.querySelector(".shot__poster");
-          const ratio = poster?.naturalWidth ? poster.naturalHeight / poster.naturalWidth : shot.clientHeight / shot.clientWidth;
-          shot.style.setProperty("--shot-dur", `${shotDuration(img.naturalWidth, img.naturalHeight, ratio)}s`);
-          shot.appendChild(img);
-          void img.offsetHeight; // starts the fade and the movement from the top
-          shot.classList.add("is-ready");
-          resolve(true);
-        };
-        img.src = shot.dataset.full;
-      }));
-    }
-    return loads.get(shot);
+  // Recording: plays from the start; at the end it stays on the last screen until the zone stops.
+  function videoPlayer(shot, src, onEnd) {
+    return new Promise(resolve => {
+      const video = doc.createElement("video");
+      video.className = "shot__video";
+      video.muted = true; video.defaultMuted = true; video.playsInline = true; video.preload = "auto";
+      video.disablePictureInPicture = true; video.tabIndex = -1;
+      for (const name of ["muted", "playsinline", "aria-hidden"]) video.setAttribute(name, name === "aria-hidden" ? "true" : "");
+      let settled = false, reset = 0;
+      const done = ok => { if (settled) return; settled = true; resolve(ok ? player : null); };
+      const player = {
+        start() {
+          env.clearTimeout(reset);
+          try { video.currentTime = 0; } catch { /* not seekable yet: it is at the start anyway */ }
+          video.play()?.catch?.(() => {});
+          shot.classList.add("is-playing");
+        },
+        stop() {
+          video.pause();
+          shot.classList.remove("is-playing");
+          reset = later(() => { try { video.currentTime = 0; } catch { /* ignore */ } }, SHOT_TIMING.fade);
+        },
+      };
+      video.addEventListener("ended", () => onEnd(shot));
+      video.addEventListener("error", () => { video.remove?.(); done(false); });
+      video.addEventListener("canplay", () => done(true), { once: true });
+      later(() => {
+        if (settled) return;
+        if (video.readyState >= 3) return done(true);
+        video.removeAttribute("src"); video.load?.(); video.remove?.(); // too slow: fall back to the still
+        done(false);
+      }, SHOT_TIMING.videoWait);
+      video.src = src;
+      shot.appendChild(video);
+    });
   }
 
-  function start(zone) {
-    const state = zones.get(zone);
+  // Still: the whole page fades in over the identical poster and scrolls in CSS.
+  function stillPlayer(shot, onEnd) {
+    return new Promise(resolve => {
+      const img = doc.createElement("img");
+      img.className = "shot__full";
+      img.alt = "";
+      img.setAttribute("aria-hidden", "true");
+      img.decoding = "async";
+      img.onerror = () => resolve(null);
+      img.onload = async () => {
+        try { await img.decode?.(); } catch { /* loaded; decoding again is optional */ }
+        const poster = shot.querySelector(".shot__poster");
+        const ratio = poster?.naturalWidth ? poster.naturalHeight / poster.naturalWidth : shot.clientHeight / shot.clientWidth;
+        shot.style.setProperty("--shot-dur", `${shotDuration(img.naturalWidth, img.naturalHeight, ratio)}s`);
+        shot.appendChild(img);
+        void img.offsetHeight; // starts the fade and the movement from the top
+        shot.classList.add("is-ready");
+        img.addEventListener("transitionend", event => {
+          if (event.propertyName === "transform" && shot.classList.contains("is-scrolling")) onEnd(shot);
+        });
+        resolve({ start: () => shot.classList.add("is-scrolling"), stop: () => shot.classList.remove("is-scrolling") });
+      };
+      img.src = shot.dataset.full;
+    });
+  }
+
+  function load(shot, state) {
+    if (!players.has(shot)) {
+      const onEnd = ended => ended && state.on && finished(state, ended);
+      const src = pickVideo(shot.dataset, canPlay);
+      const still = () => (shot.dataset.full ? stillPlayer(shot, onEnd) : Promise.resolve(null));
+      players.set(shot, src ? videoPlayer(shot, src, onEnd).then(player => player ?? still()) : still());
+    }
+    return players.get(shot);
+  }
+
+  // Touch screens: once every frame of the zone reached the end, hold, then go back to the first screen.
+  let touch = false;
+  function finished(state, shot) {
+    if (!touch) return;
+    state.ended.add(shot);
+    if (state.ended.size < state.shots.length) return;
+    later(() => { state.played = true; stopZone(state); }, SHOT_TIMING.hold);
+  }
+
+  function startZone(state) {
     if (state.on) return;
     state.on = true;
+    state.ended.clear();
     for (const shot of state.shots) {
-      load(shot).then(ok => frame(() => { if (ok && state.on) shot.classList.add("is-scrolling"); }));
+      load(shot, state).then(player => frame(() => {
+        if (!player) return state.ended.add(shot);
+        if (state.on) player.start();
+      }));
     }
   }
-  function stop(zone) {
-    const state = zones.get(zone);
+  function stopZone(state) {
     state.on = false;
-    state.shots.forEach(shot => shot.classList.remove("is-scrolling"));
+    for (const shot of state.shots) players.get(shot)?.then(player => { if (!state.on) player?.stop(); });
   }
 
-  for (const zone of zones.keys()) {
-    listen(zone, "pointerenter", event => { if (event.pointerType !== "touch") start(zone); });
-    listen(zone, "pointerleave", event => { if (event.pointerType !== "touch") stop(zone); });
-    listen(zone, "focusin", () => start(zone));
-    listen(zone, "focusout", event => { if (!zone.contains(event.relatedTarget)) stop(zone); });
+  for (const [zone, state] of zones) {
+    listen(zone, "pointerenter", event => { if (event.pointerType !== "touch") startZone(state); });
+    listen(zone, "pointerleave", event => { if (event.pointerType !== "touch") stopZone(state); });
+    listen(zone, "focusin", () => startZone(state));
+    listen(zone, "focusout", event => { if (!zone.contains(event.relatedTarget)) stopZone(state); });
   }
 
   let observer = null;
   if (!media("(hover: hover) and (pointer: fine)") && env.IntersectionObserver) {
-    // Touch screens: play when the zone is in view; hold at the end, then go back to the top.
-    for (const [zone, state] of zones) {
-      for (const shot of state.shots) {
-        listen(shot, "transitionend", event => {
-          if (event.propertyName !== "transform" || !shot.classList.contains("is-scrolling")) return;
-          if (state.shots.some(other => other !== shot && other.classList.contains("is-scrolling") && !other.dataset.ended)) { shot.dataset.ended = "1"; return; }
-          state.shots.forEach(other => delete other.dataset.ended);
-          later(() => { state.played = true; stop(zone); }, SHOT_TIMING.hold);
-        });
-      }
-    }
+    touch = true;
     observer = new env.IntersectionObserver(entries => {
       for (const entry of entries) {
         const state = zones.get(entry.target);
         if (entry.isIntersecting && entry.intersectionRatio >= SHOT_TIMING.view) {
-          if (!state.played) start(entry.target);
+          if (!state.played) startZone(state);
         } else if (!entry.isIntersecting || entry.intersectionRatio < 0.1) {
           state.played = false;
-          stop(entry.target);
+          stopZone(state);
         }
       }
     }, { threshold: [0, 0.1, SHOT_TIMING.view] });
@@ -122,7 +181,7 @@ export function createScrollShots(root, env = window) {
       cleanups.forEach(fn => fn());
       timers.forEach(id => env.clearTimeout(id));
       observer?.disconnect();
-      for (const zone of zones.keys()) stop(zone);
+      for (const state of zones.values()) stopZone(state);
     },
   };
 }

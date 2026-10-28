@@ -202,14 +202,17 @@ html:not(.js) .site-head{background:rgba(0,12,25,.9);border-bottom-color:var(--l
 .browser__bar{display:flex;align-items:center;gap:8px;padding:11px 16px;border-bottom:1px solid var(--line)}
 .browser__bar i{width:10px;height:10px;border-radius:50%;background:var(--line-2)}
 .browser__bar span{margin-left:10px;font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* Scroll preview: the poster is the first screen; `.shot__full` (the whole page, added by src/scroll-shots.mjs on
-   hover, focus or, on touch screens, when in view) fades in over it and scrolls to the end. 100cqh = frame height. */
+/* Live preview: the poster is the first screen; src/scroll-shots.mjs adds the recording (`.shot__video`) or, without
+   one, the whole page as a still (`.shot__full`) on hover, focus or, on touch screens, when in view. 100cqh = frame height. */
 .shot{position:relative;overflow:hidden;container-type:size;background:#06182A}
 .browser .shot{aspect-ratio:1265/889}
 .phone .shot{aspect-ratio:375/812}
 .shot__poster{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
 .shot__full{position:absolute;left:0;top:0;width:100%;height:auto;opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .9s cubic-bezier(.4,0,.2,1)}
 .shot.is-ready .shot__full{opacity:1}
+/* Recording of the site scrolled (its own videos and effects); its first frame is the poster. */
+.shot__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
+.shot.is-playing .shot__video{opacity:1}
 .shot.is-scrolling .shot__full{transform:translateY(calc(-100% + 100cqh));transition:opacity .3s var(--ease),transform var(--shot-dur,6s) cubic-bezier(.45,.05,.4,1) .2s;will-change:transform}
 .phone{position:absolute;right:-8px;bottom:0;width:30%;min-width:120px;border-radius:26px;background:#06182A;border:6px solid #122436;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.55)}
 .device-pair{position:relative;padding-bottom:48px}
@@ -492,7 +495,7 @@ body:has(.analytics-consent) .wa-float{display:none}
   .hero__media:hover .browser,.hero__media:hover .phone{transform:none}
   .wa-float:hover,.wa-float:active{transform:none}
   .pulse,.circuit-visual__signal{display:none}
-  .shot__full{display:none}
+  .shot__full,.shot__video{display:none}
   ::view-transition-old(root),::view-transition-new(root){animation:none}
 }
 @media print{.site-head,.sticky-cta,.wa-float,.mobile-menu,.hero__bg,.hero__glow,.analytics-consent{display:none}body{background:#fff;color:#000}.js [data-reveal]:not(.is-in){opacity:1}}

@@ -113,7 +113,7 @@ export function PortfolioIndex({ locale }) {
           {cases.map((item, index) => (
             <article className="split case-row" data-reveal="" data-shot-zone="" key={item.key}>
               <a className="case__media" href={item.path} tabIndex={-1} aria-hidden="true">
-                <Browser src={item.desktop} full={item.desktopFull} alt="" host={item.domain} className="browser case__shot" />
+                <Browser src={item.desktop} full={item.desktopFull} video={item.desktopVideo} videoWebm={item.desktopVideoWebm} alt="" host={item.domain} className="browser case__shot" />
               </a>
               <div className="stack">
                 <p className="case__meta">{String(index + 1).padStart(2, "0")} · {item.category}</p>
@@ -200,7 +200,7 @@ export function CasePage({ locale, page }) {
           </div>
           <a className="card card--link" href={other.path} data-reveal="" data-shot-zone="">
             <span className="card__k">{copy.next}</span>
-            <Browser src={other.desktop} full={other.desktopFull} alt="" host={other.domain} />
+            <Browser src={other.desktop} full={other.desktopFull} video={other.desktopVideo} videoWebm={other.desktopVideoWebm} alt="" host={other.domain} />
             <h3 className="h3">{other.name}</h3>
             <span className="link link--arrow link--teal">{t.seeCase}</span>
           </a>

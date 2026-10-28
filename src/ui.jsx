@@ -91,25 +91,37 @@ export function Circuits() {
 }
 
 /* ---------- Frames ---------- */
-export function Browser({ src, alt, host, eager = false, className = "browser" }) {
+// The frame shows the first screen of the site (`src`). `full` is the whole page from the same capture:
+// src/scroll-shots.mjs downloads it only on intent (hover, keyboard focus or, on touch screens, when the
+// frame comes into view) and scrolls it inside the frame. The poster stays the image that loads with the page.
+export function Shot({ src, full, alt, width, height, eager = false }) {
   return (
-    <div className={className}>
-      <div className="browser__bar" aria-hidden="true"><i /><i /><i /><span>{host}</span></div>
-      <img src={src} alt={alt} width="1265" height="889" loading={eager ? undefined : "lazy"} fetchPriority={eager ? "high" : undefined} decoding="async" />
+    <div className="shot" data-full={full || undefined}>
+      <img className="shot__poster" src={src} alt={alt} width={width} height={height} loading={eager ? undefined : "lazy"} fetchPriority={eager ? "high" : undefined} decoding="async" />
     </div>
   );
 }
 
-export function Phone({ src, alt, className = "phone" }) {
-  return <div className={className}><img src={src} alt={alt} width="375" height="812" loading="lazy" decoding="async" /></div>;
+export function Browser({ src, full, alt, host, eager = false, className = "browser" }) {
+  return (
+    <div className={className}>
+      <div className="browser__bar" aria-hidden="true"><i /><i /><i /><span>{host}</span></div>
+      <Shot src={src} full={full} alt={alt} width="1265" height="889" eager={eager} />
+    </div>
+  );
+}
+
+export function Phone({ src, full, alt, className = "phone" }) {
+  return <div className={className}><Shot src={src} full={full} alt={alt} width="375" height="812" /></div>;
 }
 
 // Hero media slides in once on load (`load`); the headline and call to action never wait.
+// Browser and phone scroll together: the pair is one hover zone (`data-shot-zone`).
 export function DevicePair({ project, eager = false, load = false, className = "device-pair" }) {
   return (
-    <div className={className || undefined}>
-      <div className={load ? "load-shot" : undefined}><Browser src={project.desktop} alt={project.altDesktop} host={project.domain} eager={eager} /></div>
-      <Phone src={project.mobile} alt={project.altMobile} className={load ? "phone load-phone" : "phone"} />
+    <div className={className || undefined} data-shot-zone="">
+      <div className={load ? "load-shot" : undefined}><Browser src={project.desktop} full={project.desktopFull} alt={project.altDesktop} host={project.domain} eager={eager} /></div>
+      <Phone src={project.mobile} full={project.mobileFull} alt={project.altMobile} className={load ? "phone load-phone" : "phone"} />
     </div>
   );
 }

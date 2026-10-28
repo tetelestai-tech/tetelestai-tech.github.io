@@ -1,6 +1,10 @@
 // Client inclusion authorized for portfolio review on 2026-10-14 (Infinity, Juju), 2026-10-26 (Afeto Nobre, LaLeLis) and 2026-10-28 (Respeitável Feijuca).
 // Descriptions and captures checked against the public sites; no performance claims.
 // Display order: Respeitável Feijuca first (Carlos, 2026-10-28), then Infinity, LaLeLis, Afeto Nobre, Juju (2026-10-26).
+// Captures (2026-10-28): `desktop`/`mobile` are the first screen and `desktopFull`/`mobileFull` the whole page, from the
+// same capture so the frame can swap them seamlessly (scroll preview, src/scroll-shots.mjs). Desktop 1265 px wide,
+// mobile 375 px. Feijuca, LaLeLis and Afeto come from their repositories; Infinity and Juju from the public sites,
+// opened in a browser at those widths. The Feijuca hero scene is kept one screen tall in the full capture.
 export const CLIENT_PROJECTS = [
   // Added on 2026-10-28 at Carlos's request, after the site went live. Captures taken from the
   // published code (repository site-respeitavelfeijuca-com-br); facts checked against the public page.
@@ -11,6 +15,8 @@ export const CLIENT_PROJECTS = [
     domain: "respeitavelfeijuca.com.br",
     desktop: "/assets/portfolio/feijuca-desktop.webp",
     mobile: "/assets/portfolio/feijuca-mobile.webp",
+    desktopFull: "/assets/portfolio/feijuca-desktop-full.webp",
+    mobileFull: "/assets/portfolio/feijuca-mobile-full.webp",
   },
   {
     key: "infinityProject",
@@ -19,6 +25,8 @@ export const CLIENT_PROJECTS = [
     domain: "infinitycarstudio.com.br",
     desktop: "/assets/portfolio/infinity-desktop.webp",
     mobile: "/assets/portfolio/infinity-mobile.webp",
+    desktopFull: "/assets/portfolio/infinity-desktop-full.webp",
+    mobileFull: "/assets/portfolio/infinity-mobile-full.webp",
   },
   // Added on 2026-10-26 at Carlos's request, after both sites went live. Captures taken
   // from the published code of each site; facts checked against the public pages.
@@ -29,6 +37,8 @@ export const CLIENT_PROJECTS = [
     domain: "lalelis.com.br",
     desktop: "/assets/portfolio/lalelis-desktop.webp",
     mobile: "/assets/portfolio/lalelis-mobile.webp",
+    desktopFull: "/assets/portfolio/lalelis-desktop-full.webp",
+    mobileFull: "/assets/portfolio/lalelis-mobile-full.webp",
   },
   {
     key: "afetoProject",
@@ -37,6 +47,8 @@ export const CLIENT_PROJECTS = [
     domain: "afetonobre.com.br",
     desktop: "/assets/portfolio/afeto-desktop.webp",
     mobile: "/assets/portfolio/afeto-mobile.webp",
+    desktopFull: "/assets/portfolio/afeto-desktop-full.webp",
+    mobileFull: "/assets/portfolio/afeto-mobile-full.webp",
   },
   {
     key: "jujuProject",
@@ -45,6 +57,8 @@ export const CLIENT_PROJECTS = [
     domain: "bolachinhadavovojuju.com.br",
     desktop: "/assets/portfolio/juju-desktop.webp",
     mobile: "/assets/portfolio/juju-mobile.webp",
+    desktopFull: "/assets/portfolio/juju-desktop-full.webp",
+    mobileFull: "/assets/portfolio/juju-mobile-full.webp",
   },
 ];
 

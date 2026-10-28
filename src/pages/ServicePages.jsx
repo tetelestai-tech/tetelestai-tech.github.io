@@ -79,9 +79,9 @@ export function SitesPage({ locale }) {
               <LinkArrow href={project.url} icon="out" external>{t.visitSite}</LinkArrow>
             </div>
           </div>
-          <div className="device-pair" data-reveal="zoom">
-            <Browser src={project.desktop} alt={project.altDesktop} host={project.domain} />
-            <Phone src={project.mobile} alt={project.altMobile} />
+          <div className="device-pair" data-reveal="zoom" data-shot-zone="">
+            <Browser src={project.desktop} full={project.desktopFull} alt={project.altDesktop} host={project.domain} />
+            <Phone src={project.mobile} full={project.mobileFull} alt={project.altMobile} />
           </div>
         </div>
       </section>
@@ -127,9 +127,9 @@ export function LandingPage({ locale }) {
 
       <section className="section light" id="projects" aria-labelledby="projects-title">
         <div className="wrap split">
-          <div className="device-pair" data-reveal="zoom">
-            <Browser src={project.desktop} alt={project.altDesktop} host={project.domain} />
-            <Phone src={project.mobile} alt={project.altMobile} />
+          <div className="device-pair" data-reveal="zoom" data-shot-zone="">
+            <Browser src={project.desktop} full={project.desktopFull} alt={project.altDesktop} host={project.domain} />
+            <Phone src={project.mobile} full={project.mobileFull} alt={project.altMobile} />
           </div>
           <div className="stack" data-reveal="">
             <p className="eyebrow">{service.caseStudy.eyebrow}</p>

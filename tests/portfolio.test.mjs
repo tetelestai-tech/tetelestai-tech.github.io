@@ -108,7 +108,7 @@ test('whole-page captures and recordings match their posters and stay light', as
     }
   }
   const withVideo = CLIENT_PROJECTS.filter(project => project.desktopVideo).map(project => project.key);
-  assert.deepEqual(withVideo, ['feijucaProject', 'lalelisProject', 'afetoProject'], 'recordings exist for the sites with a repository');
+  assert.deepEqual(withVideo, ['feijucaProject', 'infinityProject', 'lalelisProject', 'afetoProject'], 'recordings exist for the sites whose files are available');
 });
 
 test('portfolio exact route fallbacks preserve 404 for unknown project URLs', async () => {

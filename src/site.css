@@ -228,6 +228,15 @@ html:not(.js) .site-head{background:rgba(0,12,25,.9);border-bottom-color:var(--l
 .case{display:flex;flex-direction:column;gap:20px}
 /* The links sit at the bottom of the card, so cards side by side keep them on the same line even when one summary is longer (Carlos, 26/10). */
 .case > .btn-row{margin-top:auto}
+/* Featured case (first card when the count is odd): full row; image and text side by side on wide screens. */
+.grid--2 > .case--featured{grid-column:1/-1}
+@media (min-width:900px){
+  .case--featured{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:clamp(32px,4vw,56px);row-gap:20px;align-items:start}
+  .case--featured > .case__media{grid-row:1 / span 2}
+  .case--featured > .stack{align-self:end}
+  .case--featured > .btn-row{align-self:start;margin-top:0}
+  .case--featured .case__title{font-size:clamp(28px,2.6vw,38px)}
+}
 .case__media{display:block;color:inherit;border-radius:var(--radius)}
 .case__shot{transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
 .case__shot img{transition:transform .6s var(--ease)}

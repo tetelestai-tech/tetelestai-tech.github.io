@@ -17,6 +17,8 @@ const routeShells = new Map([
   ["/en/projects/afeto-nobre/", "/en/projects/afeto-nobre/index.html"],
   ["/en/projects/lalelis", "/en/projects/lalelis/index.html"],
   ["/en/projects/lalelis/", "/en/projects/lalelis/index.html"],
+  ["/en/projects/respeitavel-feijuca", "/en/projects/respeitavel-feijuca/index.html"],
+  ["/en/projects/respeitavel-feijuca/", "/en/projects/respeitavel-feijuca/index.html"],
 
   ["/projetos", "/projetos/index.html"],
   ["/projetos/", "/projetos/index.html"],
@@ -28,6 +30,8 @@ const routeShells = new Map([
   ["/projetos/afeto-nobre/", "/projetos/afeto-nobre/index.html"],
   ["/projetos/lalelis", "/projetos/lalelis/index.html"],
   ["/projetos/lalelis/", "/projetos/lalelis/index.html"],
+  ["/projetos/respeitavel-feijuca", "/projetos/respeitavel-feijuca/index.html"],
+  ["/projetos/respeitavel-feijuca/", "/projetos/respeitavel-feijuca/index.html"],
 
   ["/de-role/suporte", "/de-role/suporte/index.html"],
   ["/de-role/suporte/", "/de-role/suporte/index.html"],

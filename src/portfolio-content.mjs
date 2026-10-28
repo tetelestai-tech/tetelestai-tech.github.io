@@ -1,7 +1,17 @@
-// Client inclusion authorized for portfolio review on 2026-10-14 (Infinity, Juju) and 2026-10-26 (Afeto Nobre, LaLeLis).
+// Client inclusion authorized for portfolio review on 2026-10-14 (Infinity, Juju), 2026-10-26 (Afeto Nobre, LaLeLis) and 2026-10-28 (Respeitável Feijuca).
 // Descriptions and captures checked against the public sites; no performance claims.
-// Display order chosen by Carlos on 2026-10-26: Infinity, LaLeLis, Afeto Nobre, Juju.
+// Display order: Respeitável Feijuca first (Carlos, 2026-10-28), then Infinity, LaLeLis, Afeto Nobre, Juju (2026-10-26).
 export const CLIENT_PROJECTS = [
+  // Added on 2026-10-28 at Carlos's request, after the site went live. Captures taken from the
+  // published code (repository site-respeitavelfeijuca-com-br); facts checked against the public page.
+  {
+    key: "feijucaProject",
+    name: "Respeitável Feijuca",
+    url: "https://respeitavelfeijuca.com.br/",
+    domain: "respeitavelfeijuca.com.br",
+    desktop: "/assets/portfolio/feijuca-desktop.webp",
+    mobile: "/assets/portfolio/feijuca-mobile.webp",
+  },
   {
     key: "infinityProject",
     name: "Infinity Car Studio",
@@ -45,7 +55,7 @@ export const PORTFOLIO_PAGES = {
     path: "/projetos/",
     label: "Projetos",
     metaTitle: "Projetos: sites e aplicativos iOS | Tetelestai",
-    metaDescription: "Veja os sites da Infinity Car Studio, Bolachinhas da Vovó Juju, Afeto Nobre e LaLeLis e os aplicativos iOS De Rolê e Tempo de Recarga, feitos pela Tetelestai.",
+    metaDescription: "Veja os sites da Respeitável Feijuca, Infinity Car Studio, LaLeLis, Afeto Nobre e Bolachinhas da Vovó Juju e os apps iOS De Rolê e Tempo de Recarga, feitos pela Tetelestai.",
     eyebrow: "Projetos",
     heading: "Projetos no ar: sites para negócios e aplicativos na App Store",
     intro: "Abra no seu celular. É assim que o seu cliente vai ver a sua página.",
@@ -64,6 +74,27 @@ export const PORTFOLIO_PAGES = {
       more: "Conhecer o IA na Prática",
     },
     final: { title: "Quer um projeto assim para o seu negócio?", text: "Conte o que você precisa. A proposta vem com preço e prazo." },
+  },
+  feijucaProject: {
+    ...project("feijucaProject"),
+    path: "/projetos/respeitavel-feijuca/",
+    label: "Respeitável Feijuca",
+    metaTitle: "Respeitável Feijuca — case de landing page | Tetelestai",
+    metaDescription: "A landing page da Respeitável Feijuca, feijoada aos sábados no Guará (DF): vídeo na abertura, combos com encomenda pelo WhatsApp, buffet para eventos e retirada no mapa.",
+    category: "Feijoada aos sábados · Guará, Brasília",
+    summary: "Vídeo da feijoada na abertura, os combos com encomenda pelo WhatsApp e o orçamento de buffet já pedindo os dados do evento.",
+    eyebrow: "Case · Gastronomia",
+    intro: "Landing page de feijoada aos sábados no Guará, em Brasília: a feijoada em vídeo na abertura, os combos e o buffet com pedido pelo WhatsApp.",
+    altDesktop: "Página inicial do site da Respeitável Feijuca no computador",
+    altMobile: "Site da Respeitável Feijuca no celular",
+    facts: [["Cliente", "Respeitável Feijuca"], ["Segmento", "Gastronomia: feijoada"], ["Local", "Guará, Brasília-DF"], ["Tipo de projeto", "Landing page com vídeos"], ["Serviços do cliente", "Delivery, retirada e buffet para eventos"], ["Contato", "WhatsApp, telefone e Instagram"]],
+    decisions: [
+      { k: "Objetivo", title: "A encomenda do sábado em poucos toques", text: "A feijoada sai só aos sábados, com produção limitada. A página mostra o que vem no combo e leva direto à encomenda pelo WhatsApp." },
+      { k: "Vídeo", title: "A feijoada em movimento", text: "O título \"Sábado tem feijoada\" traz um vídeo da feijoada sendo servida, e cada item do combo, da feijoada à couve, mostra um vídeo curto ao passar o mouse." },
+      { k: "Pedido", title: "Mensagem pronta para cada pedido", text: "Os botões do combo, da opção individual e do buffet abrem o WhatsApp com o texto do pedido. O de buffet já pede data, número de convidados e local." },
+      { k: "Onde e quando", title: "Retirada no mapa e avisos do sábado", text: "Endereço de retirada com rota no Google Maps, horário do sábado e um grupo de avisos no WhatsApp para saber quando abrem as encomendas." },
+    ],
+    delivered: ["Landing page responsiva", "Abertura com vídeo da feijoada", "Combo com vídeo em cada item", "Encomenda e orçamento de buffet pelo WhatsApp", "Mapa, rota e grupo de avisos", "Galeria de fotos do Instagram"],
   },
   infinityProject: {
     ...project("infinityProject"),

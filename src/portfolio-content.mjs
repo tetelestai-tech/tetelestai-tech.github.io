@@ -7,8 +7,9 @@
 // opened in a browser at those widths. The Feijuca hero scene is kept one screen tall in the full capture.
 // Recordings (2026-10-28, requested by Carlos so the frames show the sites' own videos and the Feijuca "open the pan"
 // scene): `*Video` (H.264 MP4) and `*VideoWebm` (VP9) are the site scrolled from top to bottom, recorded from the
-// repositories (Feijuca, LaLeLis, Afeto); their first frame is the poster. Infinity and Juju have no recording yet
-// (no repository here), so their frames scroll the whole-page image instead.
+// repositories (Feijuca, LaLeLis, Afeto) and, for Infinity, from the site files Carlos sent on 2026-10-28 (Hostinger
+// public_html); their first frame is the poster. Juju has no recording yet (no files here), so its frames scroll the
+// whole-page image instead.
 export const CLIENT_PROJECTS = [
   // Added on 2026-10-28 at Carlos's request, after the site went live. Captures taken from the
   // published code (repository site-respeitavelfeijuca-com-br); facts checked against the public page.
@@ -35,6 +36,10 @@ export const CLIENT_PROJECTS = [
     mobile: "/assets/portfolio/infinity-mobile.webp",
     desktopFull: "/assets/portfolio/infinity-desktop-full.webp",
     mobileFull: "/assets/portfolio/infinity-mobile-full.webp",
+    desktopVideo: "/assets/portfolio/infinity-desktop.mp4",
+    desktopVideoWebm: "/assets/portfolio/infinity-desktop.webm",
+    mobileVideo: "/assets/portfolio/infinity-mobile.mp4",
+    mobileVideoWebm: "/assets/portfolio/infinity-mobile.webm",
   },
   // Added on 2026-10-26 at Carlos's request, after both sites went live. Captures taken
   // from the published code of each site; facts checked against the public pages.

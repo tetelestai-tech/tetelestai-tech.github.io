@@ -18,9 +18,13 @@ test('redesign keeps one WhatsApp action in each opening, presents each front on
     for (const path of ['/', '/en/']) {
       const html = render(path);
       const hero = html.match(/<section id="home"[\s\S]*?<\/section>/)?.[0];
-      assert.equal((hero?.match(whatsapp) ?? []).length, 1, `${path}: exactly one WhatsApp action in the opening`);
-      assert.ok((hero?.match(/<a\b/g) ?? []).length <= 2, `${path}: the opening offers at most one secondary link`);
-      assert.ok(hero.includes('href="#projects"'), `${path}: the secondary link leads to live projects`);
+      // Opening chosen on 28/10 (option A): the R$ 697 landing page first, a quote second, nothing else.
+      const actions = [...(hero ?? '').matchAll(/<a\b[^>]*href="([^"]*)"/g)].map(match => match[1]);
+      assert.equal(actions.length, 2, `${path}: exactly two actions in the opening`);
+      assert.ok(actions.every(href => href.startsWith('https://wa.me/556184711930')), `${path}: both opening actions go to the company WhatsApp`);
+      assert.match(decodeURIComponent(actions[0]), /697/, `${path}: the primary action asks for the R$ 697 landing page`);
+      assert.doesNotMatch(decodeURIComponent(actions[1]), /697/, `${path}: the secondary action asks for a quote`);
+      assert.ok(hero.includes('class="trust"'), `${path}: trust facts under the actions`);
       const fronts = path === '/' ? ['Sites, landing pages e apps', 'Carreira internacional em TI', 'Capacitação em IA'] : ['Websites, landing pages and apps', 'International careers in tech', 'AI training'];
       for (const front of fronts) assert.equal((html.match(new RegExp(`>${front}</h3>`, 'g')) ?? []).length, 1, `${path}: ${front}`);
       assert.ok(html.includes('id="projects"'), 'Projects link must have a destination on each homepage');
@@ -31,7 +35,7 @@ test('redesign keeps one WhatsApp action in each opening, presents each front on
       const html = render(path);
       const hero = html.match(/<section id="home"[\s\S]*?<\/section>/)?.[0];
       assert.equal((hero?.match(whatsapp) ?? []).length >= 1, true, `${path}: WhatsApp action in the opening`);
-      assert.match(hero, /href="\/projetos\/(?:infinity-car-studio|bolachinhas-da-vovo-juju)\/"/, `${path}: opening links to a real project`);
+      assert.match(hero, /href="\/projetos\/(?:infinity-car-studio|respeitavel-feijuca)\/"/, `${path}: opening links to a real project`);
       assert.ok(html.includes('id="projects"'));
     }
     for (const path of ['/carreira-internacional/', '/capacitacao-em-ia/']) {

@@ -465,3 +465,16 @@ test("WhatsApp clicks report a safe placement and Essencial checkout clicks are 
   assert.equal(checkout[2].link_placement, "sticky");
   assert.equal(checkout[2].page_path, "/carreira-internacional/");
 });
+
+test("WhatsApp clicks tell the R$ 697 landing page apart from quotes, and the floating button has its own placement", () => {
+  const b = browser("/");
+  b.controller.choose("accepted");
+  b.controller.trackWhatsApp("hero", "landing_697");
+  b.controller.trackWhatsApp("floating", "orcamento");
+  b.controller.trackWhatsApp("hero", "<script>");
+  const [, lp, quote, unknown] = b.events();
+  assert.equal(lp[2].contact_intent, "landing_697");
+  assert.equal(quote[2].contact_intent, "orcamento");
+  assert.equal(quote[2].contact_placement, "floating");
+  assert.equal(unknown[2].contact_intent, "orcamento", "unexpected values fall back to a quote");
+});

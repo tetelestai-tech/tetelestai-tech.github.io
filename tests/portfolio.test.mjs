@@ -37,7 +37,7 @@ test('portfolio and case pages expose verified deliveries, real links and naviga
       const header = render(path).match(/<header[\s\S]*?<\/header>/)?.[0];
       assert.ok(header.includes(`href="${path === '/en/' ? '/en/projects/' : '/projetos/'}"`), 'Projects navigation must lead to the portfolio page');
     }
-    for (const [path, name] of [['/criacao-de-sites/','Infinity Car Studio'],['/criacao-de-landing-pages/','Bolachinhas da Vovó Juju']]) {
+    for (const [path, name] of [['/criacao-de-sites/','Infinity Car Studio'],['/criacao-de-landing-pages/','Respeitável Feijuca']]) {
       const html=render(path);
       assert.ok(html.indexOf(name) > -1 && html.indexOf(name) < html.indexOf('class="faq-section'), `${path}: a real client project appears before the FAQ`);
       assert.ok(html.indexOf('id="projects"') < html.indexOf('class="faq-section'));

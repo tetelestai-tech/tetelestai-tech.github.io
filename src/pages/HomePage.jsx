@@ -1,6 +1,6 @@
 import { HOME, HOW_STEPS, LANDING_RECEIPT, PEOPLE, UI } from "../home-content.mjs";
 import { portfolioFor, servicesFor } from "../localized-content.mjs";
-import { CLIENT_PROJECTS } from "../portfolio-content.mjs";
+import { APPS, CLIENT_PROJECTS } from "../portfolio-content.mjs";
 import { PageShell, pathFor } from "../Layout.jsx";
 import { Browser, Circuits, CtaFinal, DevicePair, FaqSection, LinkArrow, Receipt, SectionHead, Steps, WhatsAppLink } from "../ui.jsx";
 
@@ -53,10 +53,13 @@ export function HomePage({ locale }) {
             <h1 className="h1" id="hero-title">{home.hero.title}</h1>
             <p className="lead">{home.hero.lead}</p>
             <div className="btn-row">
-              <WhatsAppLink message={t.waDefault}>{t.ctaWhatsApp}</WhatsAppLink>
-              <LinkArrow href="#projects" icon="down">{home.hero.secondary}</LinkArrow>
+              <WhatsAppLink message={t.waLanding}>{t.ctaLandingLong}</WhatsAppLink>
+              <WhatsAppLink message={home.hero.secondaryMessage} className="btn btn--lg btn--ghost" icon={false}>{home.hero.secondary}</WhatsAppLink>
             </div>
-            <div className="btn-row"><span className="chip chip--price">{home.hero.price}</span><span className="byline">{home.hero.byline}</span></div>
+            <ul className="trust" aria-label={home.hero.trustLabel}>
+              {home.hero.trust.map(item => <li key={item}>{item.replace("{sites}", cases.length).replace("{apps}", Object.keys(APPS).length)}</li>)}
+            </ul>
+            <p className="byline">{home.hero.byline}</p>
           </div>
           <div className="hero__media"><DevicePair project={cases[0]} eager load className={null} /></div>
         </div>

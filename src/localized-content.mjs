@@ -52,7 +52,7 @@ export const EN_SERVICE_PAGES = {
   landingPages: {
     path: '/en/landing-pages/',
     label: 'Landing page development',
-    metaTitle: 'Landing pages from R$ 697 | Tetelestai',
+    metaTitle: 'Landing pages for R$ 697 | Tetelestai',
     metaDescription: 'Tailored landing pages: offer, SEO and GEO, mobile version and WhatsApp button. R$ 697, live in up to 2 business days.',
     eyebrow: 'Landing page · R$ 697',
     heading: 'Tailored landing pages: R$ 697, live in up to 2 business days',
@@ -82,8 +82,8 @@ export const EN_SERVICE_PAGES = {
       ],
     },
     caseStudy: {
-      key: 'jujuProject', eyebrow: 'Live example', title: 'Bolachinhas da Vovó Juju',
-      text: 'Product photos right at the top, comfortable reading on mobile and a direct path to order through Instagram.',
+      key: 'feijucaProject', eyebrow: 'Live example', title: 'Respeitável Feijuca',
+      text: 'Feijoada on video at the top, a short video for each combo item and WhatsApp ordering with a ready message.',
     },
     how: { eyebrow: 'How it works', title: 'Three steps to a live page' },
     faqTitle: { eyebrow: 'FAQ', title: 'Questions about landing pages' },

@@ -180,7 +180,7 @@ export function createAnalyticsController(win, doc, now = Date.now) {
   // Placement names come from the page area that holds the link (hero, header, price_note, ...).
   const placementName = value => (typeof value === "string" && /^[a-z0-9_]{1,40}$/.test(value) ? value : "contact_section");
 
-  function trackWhatsApp(placement) {
+  function trackWhatsApp(placement, intent) {
     sync();
     const path = measurementPath(win.location.pathname);
     if (!started || blocked || !path || record()?.choice !== "accepted") return;
@@ -188,6 +188,7 @@ export function createAnalyticsController(win, doc, now = Date.now) {
       ...context(path), send_to: MEASUREMENT_ID,
       page_path: path, site_language: path.startsWith("/en/") ? "en" : "pt",
       contact_placement: placementName(placement),
+      contact_intent: intent === "landing_697" ? "landing_697" : "orcamento",
     });
   }
 

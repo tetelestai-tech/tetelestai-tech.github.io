@@ -35,7 +35,7 @@ export function SitesPage({ locale }) {
   const project = portfolioFor(locale)[service.caseStudy.key];
   const [full, landing] = service.compare.options;
   return (
-    <PageShell locale={locale} page="sites" sticky={<WhatsAppLink message={service.waMessage}>{service.ctaLabel}</WhatsAppLink>}>
+    <PageShell locale={locale} page="sites" whatsapp={{ message: service.waMessage }}>
       <ServiceHero locale={locale} service={service}
         actions={<><WhatsAppLink message={service.waMessage}>{service.ctaLabel}</WhatsAppLink><LinkArrow href={project.path}>{service.secondaryLabel}</LinkArrow></>}
         media={<div className="hero__media"><DevicePair project={project} eager load className={null} /></div>} />
@@ -106,7 +106,7 @@ export function LandingPage({ locale }) {
   const service = servicesFor(locale).landingPages;
   const project = portfolioFor(locale)[service.caseStudy.key];
   return (
-    <PageShell locale={locale} page="landingPages" sticky={<WhatsAppLink message={service.waMessage}>{service.ctaLabel}</WhatsAppLink>}>
+    <PageShell locale={locale} page="landingPages" whatsapp={{ message: service.waMessage }}>
       <ServiceHero locale={locale} service={service}
         actions={<><WhatsAppLink message={service.waMessage}>{service.ctaLabel}</WhatsAppLink><LinkArrow href={project.path}>{service.secondaryLabel}</LinkArrow></>}
         media={<div className="hero__media hero__media--flat"><Receipt data={LANDING_RECEIPT[locale]} message={service.waMessage} /></div>} />
@@ -234,7 +234,7 @@ export function AiPage({ locale }) {
   const t = UI[locale];
   const service = servicesFor(locale).aiTraining;
   return (
-    <PageShell locale={locale} page="aiTraining" sticky={<WhatsAppLink message={service.waMessage}>{service.ctaLabel}</WhatsAppLink>}>
+    <PageShell locale={locale} page="aiTraining" whatsapp={{ message: service.waMessage }}>
       <ServiceHero locale={locale} service={service}
         actions={<WhatsAppLink message={service.waMessage}>{service.ctaLabel}</WhatsAppLink>}
         media={<div className="hero__media hero__media--flat"><div className="card card--glass load-shot examples"><p className="eyebrow">{service.examples.title}</p><ul>{service.examples.items.map(item => <li key={item}>{item}</li>)}</ul></div></div>} />

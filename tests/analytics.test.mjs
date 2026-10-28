@@ -27,8 +27,8 @@ function browser(path = "/", hostname = "tetelestai.tech", search = "") {
   return { controller, win, doc, stored, scripts, cookies, timers, events, setNow: value => { now = value; }, get reloads() { return reloads; } };
 }
 
-test("only the twenty commercial pages and their explicit aliases qualify", () => {
-  for (const path of ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/", "/projetos/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/", "/projetos/afeto-nobre/", "/projetos/lalelis/", "/en/projects/afeto-nobre/", "/en/projects/lalelis/", "/en/website-development/", "/en/landing-pages/", "/en/international-career/", "/en/ai-training/", "/en/projects/", "/en/projects/infinity-car-studio/", "/en/projects/bolachinhas-da-vovo-juju/"]) {
+test("only the twenty-two commercial pages and their explicit aliases qualify", () => {
+  for (const path of ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/", "/projetos/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/", "/projetos/afeto-nobre/", "/projetos/lalelis/", "/projetos/respeitavel-feijuca/", "/en/projects/afeto-nobre/", "/en/projects/lalelis/", "/en/projects/respeitavel-feijuca/", "/en/website-development/", "/en/landing-pages/", "/en/international-career/", "/en/ai-training/", "/en/projects/", "/en/projects/infinity-car-studio/", "/en/projects/bolachinhas-da-vovo-juju/"]) {
     assert.equal(measurementPath(path), path);
     assert.equal(measurementPath(`${path}index.html`), path);
     if (path !== "/") assert.equal(measurementPath(path.slice(0, -1)), path);
@@ -464,4 +464,17 @@ test("WhatsApp clicks report a safe placement and Essencial checkout clicks are 
   assert.equal(checkout[2].product_name, "essencial");
   assert.equal(checkout[2].link_placement, "sticky");
   assert.equal(checkout[2].page_path, "/carreira-internacional/");
+});
+
+test("WhatsApp clicks tell the R$ 697 landing page apart from quotes, and the floating button has its own placement", () => {
+  const b = browser("/");
+  b.controller.choose("accepted");
+  b.controller.trackWhatsApp("hero", "landing_697");
+  b.controller.trackWhatsApp("floating", "orcamento");
+  b.controller.trackWhatsApp("hero", "<script>");
+  const [, lp, quote, unknown] = b.events();
+  assert.equal(lp[2].contact_intent, "landing_697");
+  assert.equal(quote[2].contact_intent, "orcamento");
+  assert.equal(quote[2].contact_placement, "floating");
+  assert.equal(unknown[2].contact_intent, "orcamento", "unexpected values fall back to a quote");
 });

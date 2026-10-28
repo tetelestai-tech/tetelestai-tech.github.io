@@ -162,7 +162,7 @@ export function CasePage({ locale, page }) {
   const other = pages[CLIENT_PROJECTS[(position + 1) % CLIENT_PROJECTS.length].key];
   const message = copy.waMessage(project.name);
   return (
-    <PageShell locale={locale} page={page} sticky={<WhatsAppLink message={message}>{copy.cta}</WhatsAppLink>}>
+    <PageShell locale={locale} page={page} whatsapp={{ message }}>
       <section id="home" className="hero hero--page dark" aria-labelledby="portfolio-title">
         <Circuits />
         <div className="wrap hero__in">

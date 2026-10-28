@@ -37,7 +37,7 @@ export const LEGAL_CONTENT = {
         {
           title: "Analytics e suas preferências",
           paragraphs: [
-            "Usamos o Google Analytics 4 para entender as visitas e a navegação e avaliar o uso do site. A medição se limita às 20 páginas comerciais em português e inglês: páginas iniciais, de criação de sites, criação de landing pages, carreira internacional e capacitação em IA, portfólio e apresentações dos projetos Infinity Car Studio, Bolachinhas da Vovó Juju, Afeto Nobre e LaLeLis. As páginas legais e as páginas do Recarga não carregam o Analytics.",
+            "Usamos o Google Analytics 4 para entender as visitas e a navegação e avaliar o uso do site. A medição se limita às 22 páginas comerciais em português e inglês: páginas iniciais, de criação de sites, criação de landing pages, carreira internacional e capacitação em IA, portfólio e apresentações dos projetos Respeitável Feijuca, Infinity Car Studio, Bolachinhas da Vovó Juju, Afeto Nobre e LaLeLis. As páginas legais e as páginas do Recarga não carregam o Analytics.",
             "A tag do Analytics só é carregada depois que você aceita. Antes de aceitar, ou se você recusar, não enviamos dados ao Google Analytics. Recusar não impede o acesso ao site ou o contato com a Tetelestai.",
             "A inclusão dos cliques nos links do vídeo do De Rolê requer nova confirmação dos aceites anteriores. Recusas ainda vigentes continuam sendo respeitadas até sua expiração ou até você mudar sua escolha.",
             "Com seu consentimento, são enviados dados sobre visualizações de páginas, eventos de navegação, características técnicas do navegador e do dispositivo e origem da visita, limitada ao domínio de referência. Os cliques no WhatsApp e nos links da App Store também são registrados, com a página e seu idioma; nos links dos apps, distinguimos o aplicativo, o botão e o link da imagem do QR code. Nos links do vídeo do De Rolê, distinguimos o clique na capa e no texto. A medição do vídeo registra apenas o clique para abrir o arquivo, sem confirmar reprodução, progresso ou conclusão. O Analytics não recebe o conteúdo das conversas. Um clique não confirma uma conversa, um contato qualificado, uma venda ou a instalação do app. Escanear o QR code com outro aparelho não gera, por si só, um evento de clique no site.",
@@ -208,7 +208,7 @@ export const LEGAL_CONTENT = {
         {
           title: "Analytics and your preferences",
           paragraphs: [
-            "We use Google Analytics 4 to understand visits and navigation and assess how the website is used. Measurement is limited to the 20 commercial pages in Portuguese and English: homepages, website development, landing page development, international career and AI training pages, the portfolio and the Infinity Car Studio, Bolachinhas da Vovó Juju, Afeto Nobre and LaLeLis project pages. Legal pages and Recarga pages do not load Analytics.",
+            "We use Google Analytics 4 to understand visits and navigation and assess how the website is used. Measurement is limited to the 22 commercial pages in Portuguese and English: homepages, website development, landing page development, international career and AI training pages, the portfolio and the Respeitável Feijuca, Infinity Car Studio, Bolachinhas da Vovó Juju, Afeto Nobre and LaLeLis project pages. Legal pages and Recarga pages do not load Analytics.",
             "The Analytics tag only loads after you accept. Before you accept, or if you decline, we do not send data to Google Analytics. Declining does not prevent you from accessing the website or contacting Tetelestai.",
             "Adding measurement of De Rolê video link clicks requires a new confirmation of previous acceptances. Valid refusals remain effective until they expire or you change your choice.",
             "With your consent, data is sent about page views, navigation events, technical characteristics of your browser and device, and the source of your visit, limited to the referring domain. WhatsApp and App Store link clicks are also recorded, including the page and its language; app links distinguish the app, the button and the link on the QR code image. De Rolê video links distinguish clicks on the cover from clicks on the text. Video measurement records only the click to open the file, without confirming playback, progress or completion. Analytics does not receive conversation content. A click does not confirm a conversation, a qualified contact, a sale or an app installation. Scanning the QR code with another device does not itself trigger a website click event.",
@@ -370,9 +370,9 @@ LEGAL_CONTENT.pt.privacy.sections.splice(-1, 0, {
     "href": "https://www.apple.com/legal/privacy/data/en/app-store/"
   }
 });
-// 2026-10-26: Afeto Nobre and LaLeLis project pages added to the measured pages (same events and consent).
-LEGAL_CONTENT.pt.privacy.updated = "Atualizado em 26 de outubro de 2026";
-LEGAL_CONTENT.pt.privacy.updatedDate = "2026-10-26";
+// 2026-10-26: Afeto Nobre and LaLeLis; 2026-10-28: Respeitável Feijuca. Project pages added to the measured pages (same events and consent).
+LEGAL_CONTENT.pt.privacy.updated = "Atualizado em 28 de outubro de 2026";
+LEGAL_CONTENT.pt.privacy.updatedDate = "2026-10-28";
 LEGAL_CONTENT.pt.privacy.metaDescription = "Como a Tetelestai trata dados no site, no aplicativo De Rolê e no atendimento e como exercer seus direitos de privacidade.";
 LEGAL_CONTENT.en.privacy.sections.splice(-1, 0, {
   "title": "De Rolê app",
@@ -392,6 +392,6 @@ LEGAL_CONTENT.en.privacy.sections.splice(-1, 0, {
     "href": "https://www.apple.com/legal/privacy/data/en/app-store/"
   }
 });
-LEGAL_CONTENT.en.privacy.updated = "Updated on October 26, 2026";
-LEGAL_CONTENT.en.privacy.updatedDate = "2026-10-26";
+LEGAL_CONTENT.en.privacy.updated = "Updated on October 28, 2026";
+LEGAL_CONTENT.en.privacy.updatedDate = "2026-10-28";
 LEGAL_CONTENT.en.privacy.metaDescription = "How Tetelestai handles data on its website, in the De Rolê app and in customer support, and how to exercise privacy rights.";

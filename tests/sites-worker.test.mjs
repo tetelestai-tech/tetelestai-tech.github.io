@@ -345,6 +345,7 @@ test("publishes the confirmed service and contact content", async () => {
   assert.doesNotMatch(productionJavaScript, /Contact Tetelestai/);
   // Every WhatsApp entry point reports the consented whatsapp_click event.
   assert.match(uiSource, /function WhatsAppLink[\s\S]*?trackWhatsApp\(placementOf\(/);
+  assert.match(uiSource, /function FloatingWhatsApp[\s\S]*?trackWhatsApp\(placementOf\(/);
 
   assert.match(productionJavaScript, /Está consumado!/);
   assert.match(productionJavaScript, /João 19:30/);
@@ -366,7 +367,9 @@ test("publishes the confirmed service and contact content", async () => {
   assert.doesNotMatch(productionJavaScript, /People at the center\./);
 
   // The landing page offer and its written terms.
-  assert.match(productionJavaScript, /Landing page a partir de R\$/);
+  // The landing page price is fixed (Carlos, 28/10): never "a partir de" / "from".
+  assert.match(productionJavaScript, /por R\$\u00a0697/);
+  assert.doesNotMatch(productionJavaScript, /Landing pages? (?:a partir de|from) R\$/);
   assert.match(productionJavaScript, /em 2× de R\$/);
   assert.match(productionJavaScript, /Domínio e hospedagem/);
 

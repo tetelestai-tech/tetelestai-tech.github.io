@@ -5,7 +5,10 @@ import { HOME, UI } from "./home-content.mjs";
 import { LEGAL_CONTENT, LEGAL_PATHS } from "./legal-content.mjs";
 import { equivalentPaths, portfolioFor, servicesFor } from "./localized-content.mjs";
 import { CLIENT_PROJECTS } from "./portfolio-content.mjs";
-import { IconArrow, IconArrowBack, SymbolPicture, WhatsAppLink } from "./ui.jsx";
+import { FloatingWhatsApp, IconArrow, IconArrowBack, SymbolPicture, WhatsAppLink } from "./ui.jsx";
+
+// Pages whose main action is the R$ 697 landing page (primary goal, Carlos 28/10).
+const LANDING_FIRST = ["home", "landingPages"];
 
 export function pathFor(key, locale) {
   if (key === "home") return HOME[locale].path;
@@ -17,10 +20,10 @@ export function languagePaths(page) {
   return LEGAL_PATHS[page] ?? equivalentPaths(page);
 }
 
-function Brand({ locale, sizes = "42px" }) {
+function Brand({ locale, sizes = "50px" }) {
   return (
     <a className="brand" href={pathFor("home", locale)} aria-label={UI[locale].brandLabel}>
-      <SymbolPicture sizes={sizes} width={42} height={42} />
+      <SymbolPicture sizes={sizes} width={50} height={50} />
       <span className="brand__name">TETELESTAI</span>
     </a>
   );
@@ -81,14 +84,18 @@ export function Header({ locale, page }) {
         </nav>
         <div className="head-cta">
           <LanguageSwitch locale={locale} page={page} />
-          <WhatsAppLink message={t.waDefault} className="btn btn--sm btn--ghost" icon={false}>{t.cta}</WhatsAppLink>
+          {LANDING_FIRST.includes(page)
+            ? <WhatsAppLink message={t.waLanding} className="btn btn--sm" icon={false}>{t.ctaLanding}</WhatsAppLink>
+            : <WhatsAppLink message={t.waDefault} className="btn btn--sm" icon={false}>{t.cta}</WhatsAppLink>}
           <button ref={toggle} className="menu-btn" type="button" aria-expanded={open} aria-controls="mobile-menu" aria-label={open ? t.menuClose : t.menuOpen} onClick={() => setOpen(value => !value)}><span /></button>
         </div>
       </div>
     </header>
     <div ref={menu} className={`mobile-menu${open ? " is-open" : ""}`} id="mobile-menu" inert={open ? undefined : true} onClick={event => { if (event.target.closest("a")) setOpen(false); }}>
       {[["home", t.homeLabel], ...t.nav].map(([key, label]) => <a className="mm-link" href={pathFor(key, locale)} aria-current={isCurrent(key, page) ? "page" : undefined} key={key}>{label}<IconArrow /></a>)}
-      <WhatsAppLink message={t.waDefault}>{t.ctaWhatsApp}</WhatsAppLink>
+      {LANDING_FIRST.includes(page)
+        ? <WhatsAppLink message={t.waLanding}>{t.ctaLandingLong}</WhatsAppLink>
+        : <WhatsAppLink message={t.waDefault}>{t.ctaWhatsApp}</WhatsAppLink>}
       <LanguageSwitch locale={locale} page={page} />
     </div>
   </>;
@@ -147,7 +154,7 @@ export function Footer({ locale }) {
   );
 }
 
-// Mobile-only WhatsApp (or purchase) button, shown between the hero and the final call to action.
+// Mobile-only purchase bar (career page), shown between the hero and the final call to action.
 export function StickyCta({ children }) {
   const [on, setOn] = useState(false);
   useEffect(() => {
@@ -165,15 +172,18 @@ export function StickyCta({ children }) {
   return <div className={`sticky-cta${on ? " is-on" : ""}`} aria-hidden={on ? undefined : "true"} inert={on ? undefined : true}>{children}</div>;
 }
 
-export function PageShell({ locale, page, sticky, children }) {
+// `whatsapp` sets the round floating button's message and label; `sticky` keeps a purchase bar
+// instead (career page); `sticky={null}` shows neither (legal pages).
+export function PageShell({ locale, page, sticky, whatsapp, children }) {
   const t = UI[locale];
+  const contact = whatsapp ?? (LANDING_FIRST.includes(page) ? { message: t.waLanding } : { message: t.waDefault });
   return (
     <div className="site-shell">
       <a className="skip-link" href="#main-content">{t.skip}</a>
       <Header locale={locale} page={page} />
       <main id="main-content">{children}</main>
       <Footer locale={locale} />
-      {sticky !== null && <StickyCta>{sticky ?? <WhatsAppLink message={t.waDefault}>{t.ctaWhatsApp}</WhatsAppLink>}</StickyCta>}
+      {sticky ? <StickyCta>{sticky}</StickyCta> : sticky !== null && <FloatingWhatsApp message={contact.message} label={contact.label ?? t.floatLabel} />}
     </div>
   );
 }

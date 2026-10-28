@@ -17,6 +17,7 @@ export const pairs = [
   ['/projetos/bolachinhas-da-vovo-juju/','/en/projects/bolachinhas-da-vovo-juju/'],
   ['/projetos/afeto-nobre/','/en/projects/afeto-nobre/'],
   ['/projetos/lalelis/','/en/projects/lalelis/'],
+  ['/projetos/respeitavel-feijuca/','/en/projects/respeitavel-feijuca/'],
 ];
 
 

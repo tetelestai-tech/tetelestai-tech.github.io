@@ -50,7 +50,7 @@ export const SERVICE_PAGES = {
   landingPages: {
     path: "/criacao-de-landing-pages/",
     label: "Criação de landing pages",
-    metaTitle: "Criação de landing page a partir de R$ 697 | Tetelestai",
+    metaTitle: "Criação de landing page por R$ 697 | Tetelestai",
     metaDescription: "Landing page sob medida: oferta, SEO e GEO, versão para celular e botão de WhatsApp. R$ 697 em 2×, no ar em até 2 dias úteis.",
     eyebrow: "Landing page · R$ 697",
     heading: "Landing page sob medida: R$ 697, no ar em até 2 dias úteis",
@@ -80,8 +80,9 @@ export const SERVICE_PAGES = {
       ],
     },
     caseStudy: {
-      key: "jujuProject", eyebrow: "Exemplo no ar", title: "Bolachinhas da Vovó Juju",
-      text: "Fotos do produto logo na abertura, leitura confortável no celular e um caminho direto para o pedido pelo Instagram.",
+      // Since 28/10 the live example is Respeitável Feijuca (Carlos); Juju stays in the portfolio.
+      key: "feijucaProject", eyebrow: "Exemplo no ar", title: "Respeitável Feijuca",
+      text: "A feijoada em vídeo na abertura, um vídeo curto em cada item do combo e a encomenda pelo WhatsApp com a mensagem pronta.",
     },
     how: { eyebrow: "Como funciona", title: "Três passos até a página no ar" },
     faqTitle: { eyebrow: "Dúvidas", title: "Perguntas sobre landing pages" },

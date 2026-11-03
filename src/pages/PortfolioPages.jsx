@@ -51,8 +51,12 @@ function AppCard({ app, locale, storeHref, qrHref }) {
   );
 }
 
+const INSTAGRAM_PROFILE_URL = "https://www.instagram.com/ia.napratica.negocios/";
+const INSTAGRAM_PROFILE_HANDLE = "@ia.napratica.negocios";
+
 function InstagramSection({ locale, copy }) {
   const en = locale === "en";
+  if (INSTAGRAM_CONTENTS.length === 0) return null;
   return (
     <section className="section light" id="instagram" aria-labelledby="instagram-title">
       <div className="wrap">
@@ -74,11 +78,11 @@ function InstagramSection({ locale, copy }) {
               <p className="muted">{en ? item.descriptionEn : item.description}</p>
               <p className="reel__credit">{item.credit
                 ? <>{en ? "Original audio: " : "Áudio original: "}<a href={item.audio} target="_blank" rel="noopener noreferrer">@{item.credit}</a></>
-                : <>{en ? "Produced by TETELESTAI · " : "Produção TETELESTAI · "}<a href="https://www.instagram.com/ia.napratica.videos/" target="_blank" rel="noopener noreferrer">@ia.napratica.videos</a></>}</p>
+                : <>{en ? "Produced by TETELESTAI · " : "Produção TETELESTAI · "}<a href={INSTAGRAM_PROFILE_URL} target="_blank" rel="noopener noreferrer">{INSTAGRAM_PROFILE_HANDLE}</a></>}</p>
             </article>
           ))}
         </div>
-        <p className="more" data-reveal=""><LinkArrow href="https://www.instagram.com/ia.napratica.videos/" className="link link--arrow link--teal" icon="out" external>{copy.more}</LinkArrow></p>
+        <p className="more" data-reveal=""><LinkArrow href={INSTAGRAM_PROFILE_URL} className="link link--arrow link--teal" icon="out" external>{copy.more}</LinkArrow></p>
       </div>
     </section>
   );

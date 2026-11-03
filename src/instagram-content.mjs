@@ -1,30 +1,13 @@
-// User-selected links. Audio credits read from Instagram on 2026-10-15.
-// Only the third cover is a supplied/authorized Instagram image.
-export const INSTAGRAM_CONTENTS = [
-  {
-    id: 'DecE4Orp25n',
-    url: 'https://www.instagram.com/ia.napratica.videos/reel/DecE4Orp25n/',
-    title: 'Humor no cotidiano', titleEn: 'Everyday humor',
-    description: 'Uma cena de casal em um remix de humor publicado no Instagram.',
-    descriptionEn: 'A couple’s everyday moment in a humor remix on Instagram.',
-    credit: 'jose_e_mariaa3', audio: 'https://www.instagram.com/reels/audio/28323907633957968/',
-    coverClass: 'reel-cover--everyday', coverLines: ['Humor no', 'cotidiano.'], coverLinesEn: ['Everyday', 'humor.'],
-  },
-  {
-    id: 'Dec2uGYp463',
-    url: 'https://www.instagram.com/ia.napratica.videos/reel/Dec2uGYp463/',
-    title: 'Humor com Sebastian', titleEn: 'Humor with Sebastian',
-    description: 'Um remix com Sebastian, selecionado para o perfil IA na Prática.',
-    descriptionEn: 'A remix with Sebastian, selected for the IA na Prática profile.',
-    credit: 'soueusebastian', audio: 'https://www.instagram.com/reels/audio/28683150714639888/',
-    coverClass: 'reel-cover--sebastian', coverLines: ['Humor com', 'Sebastian.'], coverLinesEn: ['Humor with', 'Sebastian.'],
-  },
-  {
-    id: 'DeeuzhYJ-_i',
-    url: 'https://www.instagram.com/ia.napratica.videos/reel/DeeuzhYJ-_i/',
-    title: 'Sua empresa no digital', titleEn: 'Your business online',
-    description: 'Sites, aplicativos e automações apresentados em um vídeo autoral da TETELESTAI.',
-    descriptionEn: 'Websites, apps and automation presented in an original TETELESTAI video.',
-    image: '/assets/instagram/sua-empresa-no-digital.webp',
-  },
-];
+// Instagram content shown on /projetos/ and /en/projects/ ("Conteúdos no Instagram").
+// Empty since 2026-11-03: the three Reels selected on 2026-10-15 (DecE4Orp25n, Dec2uGYp463,
+// DeeuzhYJ-_i) were archived on 2026-11-02 when the profile was repositioned, and the profile
+// handle changed from ia.napratica.videos to ia.napratica.negocios. While this list is empty,
+// the section is not rendered. Re-populate it with new Reels (published from 2026-11-09) using
+// https://www.instagram.com/ia.napratica.negocios/reel/<code>/ and update the section copy in
+// src/portfolio-content.mjs and src/localized-content.mjs (no "remix" wording for the new content).
+//
+// Item shape kept for the next release:
+// { id, url, title, titleEn, description, descriptionEn,
+//   credit?, audio?, coverClass?, coverLines?, coverLinesEn?,   // typographic cover
+//   image? }                                                    // authorized cover image
+export const INSTAGRAM_CONTENTS = [];

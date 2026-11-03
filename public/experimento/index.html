@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Experimento: do zero a 100 mil no Instagram · TETELESTAI</title>
+    <meta name="description" content="Um perfil novo no Instagram, IA na prática para quem tem um negócio, sem anúncio e sem seguidor comprado. Os números da TETELESTAI, semana a semana." />
+    <link rel="canonical" href="https://tetelestai.tech/experimento/" />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="TETELESTAI" />
+    <meta property="og:url" content="https://tetelestai.tech/experimento/" />
+    <meta property="og:title" content="Do zero a 100 mil, em público" />
+    <meta property="og:description" content="Um perfil novo no Instagram, IA na prática para negócios, sem anúncio e sem seguidor comprado. Os números, semana a semana." />
+    <meta property="og:image" content="https://tetelestai.tech/assets/tetelestai-share.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Símbolo da TETELESTAI sobre fundo azul-marinho" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" href="/assets/tetelestai-favicon.png" />
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebPage","name":"Experimento: do zero a 100 mil no Instagram","url":"https://tetelestai.tech/experimento/","inLanguage":"pt-BR","description":"Um perfil novo no Instagram, IA na prática para quem tem um negócio, sem anúncio e sem seguidor comprado. Os números da TETELESTAI, semana a semana.","isPartOf":{"@type":"WebSite","name":"TETELESTAI","url":"https://tetelestai.tech/"},"about":{"@type":"Thing","name":"Instagram @ia.napratica.negocios","url":"https://www.instagram.com/ia.napratica.negocios/"}}
+    </script>
+    <style>
+      /* Layout: uma coluna de leitura (max 720 px) sobre o navy da marca; o painel "Agora" é o único objeto em destaque. */
+      :root {
+        --navy: #000C19; --text: #F7F6F5; --muted: #B2B5B7;
+        --cyan: #0ED0E6; --cyan-2: #62E2F0; --cyan-soft: rgba(14,208,230,.10); --cyan-line: rgba(14,208,230,.45);
+        --surface: rgba(247,246,245,.035); --line: rgba(247,246,245,.12); --line-2: rgba(247,246,245,.24);
+        --sans: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        --label: 'Michroma', var(--sans);
+        --max: 720px; --radius: 12px; --ease: cubic-bezier(.2,.7,.2,1);
+        color-scheme: dark;
+      }
+      * { box-sizing: border-box; margin: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        background: var(--navy); color: var(--text); font-family: var(--sans);
+        font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+        padding-block: 0 48px;
+        padding-left: max(16px, env(safe-area-inset-left, 0px));
+        padding-right: max(16px, env(safe-area-inset-right, 0px));
+      }
+      a { color: var(--cyan); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+      a:hover { color: var(--cyan-2); }
+      a:focus-visible, button:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; border-radius: 4px; }
+      .wrap { max-width: var(--max); margin: 0 auto; display: grid; gap: 56px; }
+      .wrap > * { min-width: 0; }
+      header.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 18px 0; }
+      .brand { display: inline-flex; align-items: center; gap: 12px; color: var(--text); text-decoration: none; }
+      .brand img { width: 40px; height: 40px; }
+      .brand span { font-family: var(--label); font-size: 13px; letter-spacing: .14em; }
+      .top .ig { font-size: 14px; }
+      .hero { display: grid; gap: 18px; padding-top: 24px; }
+      .eyebrow { font-family: var(--label); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--cyan); }
+      h1 { font-size: clamp(34px, 7vw, 54px); line-height: 1.05; letter-spacing: -.02em; font-weight: 800; text-wrap: balance; }
+      .lead { font-size: 19px; color: var(--muted); max-width: 60ch; }
+      .lead strong { color: var(--text); font-weight: 600; }
+      h2 { font-size: 24px; line-height: 1.2; letter-spacing: -.01em; font-weight: 700; margin-bottom: 16px; text-wrap: balance; }
+      h3 { font-size: 17px; font-weight: 700; }
+      p + p { margin-top: 10px; }
+      .panel {
+        border: 1px solid var(--cyan-line); background: var(--cyan-soft); border-radius: var(--radius);
+        padding: 20px; display: grid; gap: 14px;
+      }
+      .panel .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; }
+      .stat { display: grid; gap: 2px; }
+      .stat b { font-size: 34px; line-height: 1; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+      .stat span { font-size: 13px; color: var(--muted); }
+      .panel .when { font-size: 13px; color: var(--muted); }
+      ol.rules, ol.metodo { display: grid; gap: 12px; padding-left: 0; list-style: none; counter-reset: n; }
+      ol.rules li, ol.metodo li { display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: start; counter-increment: n; }
+      ol.rules li::before, ol.metodo li::before {
+        content: counter(n); font-family: var(--label); font-size: 12px; color: var(--cyan);
+        border: 1px solid var(--cyan-line); border-radius: 999px; width: 32px; height: 32px;
+        display: grid; place-items: center; margin-top: 2px;
+      }
+      ol.metodo li p { color: var(--muted); font-size: 16px; }
+      .tablewrap { overflow-x: auto; max-width: 100%; border: 1px solid var(--line); border-radius: var(--radius); -webkit-overflow-scrolling: touch; }
+      table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 15px; font-variant-numeric: tabular-nums; }
+      th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+      th { font-family: var(--label); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 400; background: var(--surface); }
+      tr:last-child td { border-bottom: 0; }
+      td.nota { color: var(--muted); min-width: 260px; }
+      .portoes { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; }
+      .portoes li { border: 1px solid var(--line-2); border-radius: 999px; padding: 8px 14px; font-size: 15px; font-variant-numeric: tabular-nums; }
+      .portoes li.on { border-color: var(--cyan); color: var(--cyan); }
+      .muted { color: var(--muted); }
+      .testes { display: grid; gap: 14px; }
+      .teste { border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: grid; gap: 10px; }
+      .teste ol { padding-left: 22px; display: grid; gap: 6px; color: var(--muted); font-size: 16px; }
+      .cta { display: grid; gap: 16px; border-top: 1px solid var(--line); padding-top: 40px; }
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 24px; border-radius: 999px;
+        background: var(--cyan); color: var(--navy); font-weight: 800; text-decoration: none; transition: transform .25s var(--ease), background .25s var(--ease);
+      }
+      .btn:hover { background: var(--cyan-2); color: var(--navy); }
+      .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line-2); }
+      .btn.ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+      footer { font-size: 13px; color: var(--muted); display: grid; gap: 6px; }
+      @media (hover: hover) and (pointer: fine) { .btn:hover { transform: translateY(-2px); } }
+      @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } .btn:hover { transform: none; } }
+      @media (max-width: 480px) { header.top { flex-direction: column; align-items: flex-start; } .stat b { font-size: 30px; } }
+
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <a class="brand" href="https://tetelestai.tech/"><img src="/assets/tetelestai-symbol-144.webp" alt="" width="40" height="40" /><span>TETELESTAI</span></a>
+        <a class="ig" href="https://www.instagram.com/ia.napratica.negocios/" rel="noopener">@ia.napratica.negocios no Instagram</a>
+      </header>
+
+      <section class="hero">
+        <p class="eyebrow">Experimento</p>
+        <h1>Do zero a 100 mil, em público</h1>
+        <p class="lead"><strong>Um perfil novo no Instagram, com Carlos em câmera e um assunto só: IA na prática para quem tem um negócio.</strong> Sem anúncio, sem seguidor comprado, sem pedir comentário. Os números entram nesta página toda semana, bons ou ruins.</p>
+        <div class="panel" id="agora" aria-live="polite">
+          <div class="grid">
+            <div class="stat"><b id="n-seguidores">6</b><span>seguidores</span></div>
+            <div class="stat"><b id="n-semana">0</b><span>de 13 semanas</span></div>
+            <div class="stat"><b id="n-reels">0</b><span>Reels no ar</span></div>
+            <div class="stat"><b id="n-portao">200</b><span>próximo portão (seguidores)</span></div>
+          </div>
+          <p class="when">Atualizado em <span id="n-data">03/11/2026</span>. Início do experimento: 09/11/2026. Fonte dos números: Insights do Instagram e Metricool.</p>
+        </div>
+      </section>
+
+      <section id="regras">
+        <h2>As regras</h2>
+        <ol class="rules">
+          <li>Nenhum anúncio, impulsionamento ou verba paga.</li>
+          <li>Nenhum seguidor comprado, grupo de engajamento ou troca de curtidas.</li>
+          <li>Nenhum vídeo pede comentário, marcação ou salvamento.</li>
+          <li>Só vídeo original, gravado pelo próprio Carlos. Nada republicado.</li>
+          <li>O que der errado também entra aqui, com o número.</li>
+        </ol>
+      </section>
+
+      <section id="metodo">
+        <h2>O método: 7 vídeos por semana</h2>
+        <ol class="metodo">
+          <li><div><h3>Saiu hoje, de segunda a sexta</h3><p>A novidade de IA das últimas 24 horas, o que ela muda para quem tem um salão, uma loja ou um consultório, e como usar. 30 a 60 segundos.</p></div></li>
+          <li><div><h3>Testei na prática, aos sábados</h3><p>Uma tarefa real de negócio pequeno resolvida com IA, com o resultado na tela e o tempo que levou. O passo a passo fica nesta página.</p></div></li>
+          <li><div><h3>Diário do experimento, aos domingos</h3><p>Os números da semana, o vídeo que mais trouxe seguidor e o que mudou no método.</p></div></li>
+        </ol>
+      </section>
+
+      <section id="numeros">
+        <h2>Semana a semana</h2>
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr><th scope="col">Semana</th><th scope="col">Período</th><th scope="col">Reels</th><th scope="col">Seguidores</th><th scope="col">Alcance de não seguidores</th><th scope="col">Envios por alcance</th><th scope="col">O que aprendemos</th></tr>
+            </thead>
+            <tbody id="linhas">
+              <tr><td>0</td><td>até 02/11/2026</td><td>0</td><td>5</td><td>—</td><td>—</td><td class="nota">Linha de base. 6 Reels antigos, com apresentador de IA, alcançaram em média 128 contas cada e foram arquivados em 02/11; o experimento começa em 09/11 com Carlos em câmera.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted" style="margin-top:12px;font-size:14px;">Alcance e envios são os números do Instagram para os Reels da semana, lidos 72 horas depois da publicação. Seguidores é o total no fim da semana.</p>
+      </section>
+
+      <section id="portoes">
+        <h2>Os portões</h2>
+        <p class="muted">Não há data prometida para os 100 mil. Cada portão é lido quando chega, e o ritmo seguinte vem do que os números mostraram.</p>
+        <ul class="portoes" id="lista-portoes" style="margin-top:14px;">
+          <li class="on">200</li><li>1.000</li><li>3.000 a 10.000 (dia 90)</li><li>50.000</li><li>100.000</li>
+        </ul>
+        <p class="muted" style="margin-top:12px;font-size:14px;">Revisões públicas em 08/12/2026, 07/01/2027 e 06/02/2027.</p>
+      </section>
+
+      <section id="testes">
+        <h2>Testes práticos, passo a passo</h2>
+        <div class="testes" id="lista-testes">
+          <p class="muted">O primeiro teste entra em 14/11/2026: a IA do WhatsApp Business respondendo clientes.</p>
+        </div>
+      </section>
+
+      <section class="cta" id="contato">
+        <h2>Quer isso no seu negócio?</h2>
+        <p class="muted">A TETELESTAI faz sites, landing pages e automações com IA para negócios de qualquer tamanho. Se o experimento te deu uma ideia, a conversa começa no WhatsApp.</p>
+        <div class="actions">
+          <a class="btn" href="https://wa.me/556184711930?text=Ol%C3%A1%21%20Vi%20o%20experimento%20do%20zero%20a%20100%20mil%20e%20quero%20conversar%20sobre%20o%20Instagram%20do%20meu%20neg%C3%B3cio." rel="noopener">Falar no WhatsApp</a>
+          <a class="btn ghost" href="https://www.instagram.com/ia.napratica.negocios/" rel="noopener">Seguir o experimento</a>
+        </div>
+      </section>
+
+      <footer>
+        <p>TETELESTAI · Brasília, atendimento on-line em todo o Brasil · <a href="https://tetelestai.tech/">tetelestai.tech</a></p>
+        <p>Esta página não usa cookies nem ferramentas de medição.</p>
+      </footer>
+    </div>
+
+    <script id="dados" type="application/json">{"atualizado": "2026-11-03", "inicio": "2026-11-09", "seguidores": 6, "semana": 0, "reels_no_ar": 0, "proximo_portao": "200 seguidores", "semanas": [{"semana": 0, "periodo": "até 02/11/2026", "reels": 0, "seguidores": 5, "alcance": "—", "envios": "—", "nota": "Linha de base. 6 Reels antigos, com apresentador de IA, alcançaram em média 128 contas cada e foram arquivados em 02/11; o experimento começa em 09/11 com Carlos em câmera."}], "testes": []}</script>
+    <script>
+      (function () {
+        try {
+          var d = JSON.parse(document.getElementById("dados").textContent);
+          var br = function (iso) { var p = iso.split("-"); return p[2] + "/" + p[1] + "/" + p[0]; };
+          var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+          set("n-seguidores", d.seguidores.toLocaleString("pt-BR"));
+          set("n-semana", d.semana);
+          set("n-reels", d.reels_no_ar);
+          set("n-portao", String(d.proximo_portao).replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+          set("n-data", br(d.atualizado));
+          var tb = document.getElementById("linhas");
+          if (tb && d.semanas && d.semanas.length) {
+            tb.textContent = "";
+            d.semanas.slice().sort(function (a, b) { return b.semana - a.semana; }).forEach(function (s) {
+              var tr = document.createElement("tr");
+              [s.semana, s.periodo, s.reels, s.seguidores, s.alcance, s.envios].forEach(function (v) {
+                var td = document.createElement("td"); td.textContent = v; tr.appendChild(td);
+              });
+              var nota = document.createElement("td"); nota.className = "nota"; nota.textContent = s.nota || ""; tr.appendChild(nota);
+              tb.appendChild(tr);
+            });
+          }
+          var lt = document.getElementById("lista-testes");
+          if (lt && d.testes && d.testes.length) {
+            lt.textContent = "";
+            d.testes.forEach(function (t) {
+              var box = document.createElement("article"); box.className = "teste";
+              var h = document.createElement("h3"); h.textContent = t.titulo; box.appendChild(h);
+              var meta = document.createElement("p"); meta.className = "muted"; meta.textContent = t.data + " · " + t.tempo + (t.reel ? " · " : "");
+              if (t.reel) { var a = document.createElement("a"); a.href = t.reel; a.rel = "noopener"; a.textContent = "ver o Reel"; meta.appendChild(a); }
+              box.appendChild(meta);
+              if (t.resultado) { var r = document.createElement("p"); r.textContent = t.resultado; box.appendChild(r); }
+              if (t.passos && t.passos.length) { var ol = document.createElement("ol"); t.passos.forEach(function (p) { var li = document.createElement("li"); li.textContent = p; ol.appendChild(li); }); box.appendChild(ol); }
+              lt.appendChild(box);
+            });
+          }
+          var gates = [200, 1000, 3000, 50000, 100000];
+          var next = parseInt(String(d.proximo_portao).replace(/\D/g, ""), 10);
+          var items = document.querySelectorAll("#lista-portoes li");
+          items.forEach(function (li, i) { li.classList.toggle("on", gates[i] === next); });
+        } catch (e) { /* a página já tem os números no HTML */ }
+      })();
+    </script>
+
+  </body>
+</html>

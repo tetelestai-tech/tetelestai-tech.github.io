@@ -2,7 +2,7 @@
 
 ## Conversion redesign (2026-10-23, pending review)
 
-- Build: `npm run build` passes; `npm run test:sites` 98/98 and `node --test tests/fao-*.test.mjs` 223/223.
+- Build: `npm run build` passes; `npm run test:sites` 98/98.
 - Browser pass (Chromium, production build served statically) at 1440 px and 390 px for the PT/EN homes, the four PT service pages, portfolio, a case page, privacy, Recarga support, De Rolê support and an unknown route: no console or hydration errors, no horizontal overflow, one `h1` per page, no broken images, every reveal settles at full opacity, all four self-hosted font families load.
 - Interaction: mobile menu opens with focus on its first link, locks scrolling, closes with Escape and returns focus to the toggle; the consent banner hides the mobile sticky button until a choice is made; decline stores the v4 refusal; footer cookie preferences reopen the banner with focus on its title; the sticky WhatsApp/purchase button appears after the hero and hides at the closing call to action.
 - Automated accessibility (axe-core 4.10, WCAG 2 A/AA + best practices) on the same pages at both widths: no violations after fixes (support-page chip contrast, focusable screenshot strip, unique case-page landmarks).
@@ -86,13 +86,13 @@ Follow-up polish (P3):
 - `/en/privacy/` exposed `Privacy | Tetelestai`, `noindex,nofollow`, English accessible names, a skip link and a PT counterpart at `/privacidade/`.
 - An unknown `/en/unknown-page` rendered an English not-found view with a descriptive title and `noindex,nofollow`; the production worker test independently verifies HTTP `404` behavior.
 - A FAQ disclosure opened and exposed its answer.
-- The Pass 2 browser run recorded three telephone links using `tel:+5561998821206`; this historical evidence was superseded by the approved WhatsApp change below.
+- The Pass 2 browser run recorded three telephone links to the number used before the company WhatsApp; this historical evidence was superseded by the approved WhatsApp change below.
 
 ## Approved WhatsApp update
 
 - Option A was approved: the contact card keeps only one WhatsApp button, and the displayed telephone number was removed from both the card and footer.
 - The Portuguese and English labels are `Conversar pelo WhatsApp` and `Chat on WhatsApp`.
-- The single external contact destination is `https://wa.me/5561998821206`.
+- The single external contact destination was a `wa.me` link to that earlier number; it was later replaced by the confirmed company WhatsApp `https://wa.me/556184711930`.
 - The Portuguese and English privacy notices identify WhatsApp as the interim privacy channel.
 - Production regression coverage rejects the former `tel:` link and displayed telephone number.
 - The regenerated production bundle contains the confirmed WhatsApp destination and the routing/contact suite passes `6/6` tests.

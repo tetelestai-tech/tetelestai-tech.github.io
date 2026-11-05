@@ -334,11 +334,12 @@ test("publishes the confirmed service and contact content", async () => {
   const homeContent = await readFile(new URL("../src/home-content.mjs", import.meta.url), "utf8");
   const uiSource = await readFile(new URL("../src/ui.jsx", import.meta.url), "utf8");
 
-  // Confirmed company WhatsApp only; never the extra mobile digit or an old number.
+  // Confirmed company WhatsApp only: every wa.me link uses it, never the extra mobile digit, another number or a phone link.
   assert.match(productionJavaScript, /https:\/\/wa\.me\//);
-  assert.match(productionJavaScript, /556184711930/);
+  const whatsAppNumbers = new Set([...productionJavaScript.matchAll(/wa\.me\/(\d+)/g)].map((match) => match[1]));
+  assert.deepEqual([...whatsAppNumbers], ["556184711930"]);
   assert.doesNotMatch(productionJavaScript, /5561984711930/);
-  assert.doesNotMatch(productionJavaScript, /5561998821206/);
+  assert.doesNotMatch(productionJavaScript, /tel:\+?\d/);
   assert.match(productionJavaScript, /Pedir orçamento no WhatsApp/);
   assert.match(productionJavaScript, /Get a quote on WhatsApp/);
   assert.doesNotMatch(productionJavaScript, /["']Conversar com a Tetelestai["']/);

@@ -81,4 +81,4 @@ See `design-qa.md` for the browser, visual comparison, interaction and accessibi
 
 ## Deployment
 
-See `DEPLOYMENT.md` for the recommended GitHub organization, GitHub Pages and Hostinger DNS sequence. DNS values must be rechecked against the linked official documentation at deployment time.
+Every merge into `main` runs `.github/workflows/deploy-pages.yml`: it installs, builds, runs `npm run test:sites` and publishes `dist/client` to GitHub Pages. The domain `tetelestai.tech` stays registered at Hostinger, whose DNS points to GitHub Pages; recheck the records against GitHub's documentation before any DNS change.

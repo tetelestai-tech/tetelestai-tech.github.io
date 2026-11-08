@@ -178,7 +178,7 @@ export const MENTORIA_PAGE = {
   contrato: { eyebrow: "Contrato de 1 página", aceite: "Ao pagar, você aceita estes termos." },
   dados: {
     title: "Seus dados",
-    texto: "TETELESTAI Soluções em Tecnologia Ltda. · CNPJ 58.138.258/0001-39 · contato@tetelestai.tech. Nome, e-mail, WhatsApp e respostas do filtro são usados só para este contato sobre a mentoria e ficam guardados no Brasil. Se você não contratar, são apagados em até 90 dias. Você pode pedir acesso, correção ou exclusão a qualquer momento pelo e-mail ou pelo WhatsApp.",
+    texto: "TETELESTAI Soluções em Tecnologia Ltda. · CNPJ 58.138.258/0001-39 · contato@tetelestai.tech. Nome, e-mail, WhatsApp e respostas do filtro são usados só para este contato sobre a mentoria e ficam no Supabase (servidores em São Paulo) e na planilha de acompanhamento da equipe. Se você não contratar, são apagados em até 90 dias. Você pode pedir acesso, correção ou exclusão a qualquer momento pelo e-mail ou pelo WhatsApp.",
     privacidade: "Política de privacidade",
   },
 };

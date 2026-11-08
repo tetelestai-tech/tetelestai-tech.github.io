@@ -395,3 +395,46 @@ LEGAL_CONTENT.en.privacy.sections.splice(-1, 0, {
 LEGAL_CONTENT.en.privacy.updated = "Updated on October 28, 2026";
 LEGAL_CONTENT.en.privacy.updatedDate = "2026-10-28";
 LEGAL_CONTENT.en.privacy.metaDescription = "How Tetelestai handles data on its website, in the De Rolê app and in customer support, and how to exercise privacy rights.";
+// 2026-11-08: mentoria test (/mentoria/, 11 to 25/11/2026). The career guide page was retired; the mentoria filter
+// stores answers in Supabase (São Paulo) and the page may load the Meta pixel after consent (policy v5).
+{
+  const replaceParagraph = (section, from, to) => {
+    const index = section.paragraphs.findIndex(text => text.startsWith(from));
+    if (index < 0) throw new Error(`Missing privacy paragraph: ${from}`);
+    section.paragraphs[index] = to;
+  };
+  const pt = LEGAL_CONTENT.pt.privacy.sections;
+  replaceParagraph(pt[0], "O site é informativo e não possui formulário.", "O site é informativo. O único formulário é o filtro da mentoria, descrito abaixo. O uso de analytics nas páginas indicadas abaixo depende do seu consentimento.");
+  replaceParagraph(pt[1], "Usamos o Google Analytics 4", "Usamos o Google Analytics 4 para entender as visitas e a navegação e avaliar o uso do site. A medição se limita às 21 páginas comerciais em português e inglês: páginas iniciais, de criação de sites, criação de landing pages, mentoria e capacitação em IA, portfólio e apresentações dos projetos Respeitável Feijuca, Infinity Car Studio, Bolachinhas da Vovó Juju, Afeto Nobre e LaLeLis. As páginas legais e as páginas do Recarga não carregam o Analytics.");
+  replaceParagraph(pt[1], "A inclusão dos cliques nos links do vídeo do De Rolê", "A inclusão do pixel da Meta na página da mentoria requer nova confirmação dos aceites anteriores. Recusas ainda vigentes continuam sendo respeitadas até sua expiração ou até você mudar sua escolha.");
+  pt.splice(2, 0, {
+    title: "Filtro da mentoria e pixel da Meta",
+    paragraphs: [
+      "Na página da mentoria (tetelestai.tech/mentoria), o filtro de 5 perguntas pede nome, e-mail e WhatsApp, além das respostas sobre experiência, linguagens, inglês, situação de trabalho e horas livres. O envio exige seu aceite. Também guardamos a origem da visita informada nos parâmetros do link (utm_source, utm_medium e utm_campaign), quando existir.",
+      "Esses dados são usados só para responder ao seu interesse na mentoria, agendar o diagnóstico e prestar o serviço contratado. Eles ficam no Supabase, em servidores em São Paulo, acessíveis apenas à equipe da Tetelestai. Se você não contratar, são apagados em até 90 dias após o envio; se contratar, em até 90 dias após o último encontro, salvo obrigação fiscal.",
+      "Se você aceitar as métricas, a página da mentoria também carrega o pixel da Meta, que registra a visita e o envio do filtro, com o resultado (passou ou não), para medir os anúncios da Meta. O pixel não recebe seu nome, e-mail, telefone nem suas respostas. A Meta trata esses dados conforme as políticas dela. Se você recusar, o pixel não é carregado.",
+    ],
+  });
+  const services = pt.find(section => section.title === "Serviços envolvidos e acesso aos dados");
+  services.paragraphs.push("As respostas do filtro da mentoria são guardadas no Supabase (servidores em São Paulo). Com seu consentimento, a página da mentoria envia à Meta os eventos do pixel descritos acima.");
+
+  const en = LEGAL_CONTENT.en.privacy.sections;
+  replaceParagraph(en[0], "The website is informational and has no form.", "The website is informational. Its only form is the mentoring filter described below. Analytics on the pages listed below depends on your consent.");
+  replaceParagraph(en[1], "We use Google Analytics 4", "We use Google Analytics 4 to understand visits and navigation and assess how the website is used. Measurement is limited to the 21 commercial pages in Portuguese and English: homepages, website development, landing page development, mentoring and AI training pages, the portfolio and the Respeitável Feijuca, Infinity Car Studio, Bolachinhas da Vovó Juju, Afeto Nobre and LaLeLis project pages. Legal pages and Recarga pages do not load Analytics.");
+  replaceParagraph(en[1], "Adding measurement of De Rolê video link clicks", "Adding the Meta pixel to the mentoring page requires a new confirmation of previous acceptances. Valid refusals remain effective until they expire or you change your choice.");
+  en.splice(2, 0, {
+    title: "Mentoring filter and Meta pixel",
+    paragraphs: [
+      "On the mentoring page (tetelestai.tech/mentoria, in Portuguese), the 5-question filter asks for your name, email and WhatsApp number, plus your answers about experience, programming languages, English, work situation and free hours. Submitting requires your agreement. We also store the visit source given in the link parameters (utm_source, utm_medium and utm_campaign), when present.",
+      "This data is used only to respond to your interest in the mentoring, schedule the diagnosis session and deliver the contracted service. It is stored in Supabase, on servers in São Paulo, and only Tetelestai's team can access it. If you do not hire the service, it is deleted within 90 days of submission; if you do, within 90 days of the last session, unless a tax obligation applies.",
+      "If you accept analytics, the mentoring page also loads the Meta pixel, which records the visit and the filter submission, with its result (passed or not), to measure Meta ads. The pixel does not receive your name, email, phone number or answers. Meta handles this data under its own policies. If you decline, the pixel is not loaded.",
+    ],
+  });
+  const enServices = en.find(section => section.title === "Services involved and data access");
+  enServices.paragraphs.push("Mentoring filter answers are stored in Supabase (servers in São Paulo). With your consent, the mentoring page sends Meta the pixel events described above.");
+
+  LEGAL_CONTENT.pt.privacy.updated = "Atualizado em 8 de novembro de 2026";
+  LEGAL_CONTENT.pt.privacy.updatedDate = "2026-11-08";
+  LEGAL_CONTENT.en.privacy.updated = "Updated on November 8, 2026";
+  LEGAL_CONTENT.en.privacy.updatedDate = "2026-11-08";
+}

@@ -22,8 +22,8 @@ export function placementOf(element) {
   return id ? `section_${id.replace(/[^a-z0-9]+/gi, "_").toLowerCase()}`.slice(0, 40) : "content";
 }
 
-// What the visitor asked for: the R$ 697 landing page (primary goal) or a quote (secondary goal).
-export const intentOf = message => (/697/.test(message ?? "") ? "landing_697" : "orcamento");
+// What the visitor asked for: the R$ 697 landing page (primary goal), the mentoria, or a quote (secondary goal).
+export const intentOf = message => (/697/.test(message ?? "") ? "landing_697" : /mentoria/i.test(message ?? "") ? "mentoria" : "orcamento");
 
 // Every WhatsApp entry point reports the same consented `whatsapp_click` event, with its placement and intent.
 export function WhatsAppLink({ message, className = "btn btn--lg", children, icon = true }) {
@@ -162,9 +162,9 @@ export function CardGrid({ items, columns = 3, glass = false }) {
 }
 
 // Steps: on hover the card tints and lifts like the other cards; no cyan bar beside it (removed on 25/10).
-export function Steps({ items, glass = false }) {
+export function Steps({ items, glass = false, className = "steps" }) {
   return (
-    <ol className="steps" data-reveal-group="">
+    <ol className={className} data-reveal-group="">
       {items.map((item, index) => (
         <li data-reveal="" key={item.title}>
           <div className={glass ? "card card--glass" : "card"}>

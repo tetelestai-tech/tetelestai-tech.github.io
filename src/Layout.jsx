@@ -4,6 +4,7 @@ import { INSTAGRAM_URL } from "./contact.mjs";
 import { HOME, UI } from "./home-content.mjs";
 import { LEGAL_CONTENT, LEGAL_PATHS } from "./legal-content.mjs";
 import { equivalentPaths, portfolioFor, servicesFor } from "./localized-content.mjs";
+import { SERVICE_PAGES } from "./service-content.mjs";
 import { CLIENT_PROJECTS } from "./portfolio-content.mjs";
 import { FloatingWhatsApp, IconArrow, IconArrowBack, SymbolPicture, WhatsAppLink } from "./ui.jsx";
 
@@ -13,7 +14,13 @@ const LANDING_FIRST = ["home", "landingPages"];
 export function pathFor(key, locale) {
   if (key === "home") return HOME[locale].path;
   if (key === "apps") return `${portfolioFor(locale).portfolio.path}#apps`;
-  return servicesFor(locale)[key]?.path ?? portfolioFor(locale)[key]?.path ?? LEGAL_PATHS[key]?.[locale] ?? HOME[locale].path;
+  // Portuguese-only pages (the mentoria) keep their PT address from the English site too.
+  return servicesFor(locale)[key]?.path ?? portfolioFor(locale)[key]?.path ?? LEGAL_PATHS[key]?.[locale] ?? SERVICE_PAGES[key]?.path ?? HOME[locale].path;
+}
+
+// Links from the English site to a Portuguese-only page say so (lang/hrefLang).
+export function linkLang(key, locale) {
+  return locale === "en" && !servicesFor("en")[key] && SERVICE_PAGES[key] ? { lang: "pt-BR", hrefLang: "pt-BR" } : {};
 }
 
 export function languagePaths(page) {
@@ -80,11 +87,13 @@ export function Header({ locale, page }) {
       <div className="wrap site-head__in">
         <Brand locale={locale} />
         <nav className="nav" aria-label={t.navLabel}>
-          {t.nav.map(([key, label]) => <a className="nav__link" href={pathFor(key, locale)} aria-current={isCurrent(key, page) ? "page" : undefined} key={key}>{label}</a>)}
+          {t.nav.map(([key, label]) => <a className="nav__link" href={pathFor(key, locale)} {...linkLang(key, locale)} aria-current={isCurrent(key, page) ? "page" : undefined} key={key}>{label}</a>)}
         </nav>
         <div className="head-cta">
           <LanguageSwitch locale={locale} page={page} />
-          {LANDING_FIRST.includes(page)
+          {page === "career"
+            ? <a className="btn btn--sm" href="#filtro">{t.ctaMentoria}</a>
+            : LANDING_FIRST.includes(page)
             ? <WhatsAppLink message={t.waLanding} className="btn btn--sm" icon={false}>{t.ctaLanding}</WhatsAppLink>
             : <WhatsAppLink message={t.waDefault} className="btn btn--sm" icon={false}>{t.cta}</WhatsAppLink>}
           <button ref={toggle} className="menu-btn" type="button" aria-expanded={open} aria-controls="mobile-menu" aria-label={open ? t.menuClose : t.menuOpen} onClick={() => setOpen(value => !value)}><span /></button>
@@ -92,8 +101,10 @@ export function Header({ locale, page }) {
       </div>
     </header>
     <div ref={menu} className={`mobile-menu${open ? " is-open" : ""}`} id="mobile-menu" inert={open ? undefined : true} onClick={event => { if (event.target.closest("a")) setOpen(false); }}>
-      {[["home", t.homeLabel], ...t.nav].map(([key, label]) => <a className="mm-link" href={pathFor(key, locale)} aria-current={isCurrent(key, page) ? "page" : undefined} key={key}>{label}<IconArrow /></a>)}
-      {LANDING_FIRST.includes(page)
+      {[["home", t.homeLabel], ...t.nav].map(([key, label]) => <a className="mm-link" href={pathFor(key, locale)} {...linkLang(key, locale)} aria-current={isCurrent(key, page) ? "page" : undefined} key={key}>{label}<IconArrow /></a>)}
+      {page === "career"
+        ? <a className="btn btn--lg" href="#filtro">{t.ctaMentoria}</a>
+        : LANDING_FIRST.includes(page)
         ? <WhatsAppLink message={t.waLanding}>{t.ctaLandingLong}</WhatsAppLink>
         : <WhatsAppLink message={t.waDefault}>{t.ctaWhatsApp}</WhatsAppLink>}
       <LanguageSwitch locale={locale} page={page} />
@@ -130,7 +141,7 @@ export function Footer({ locale }) {
             {f.columns.map(([title, links]) => (
               <div className="site-foot__col" key={title}>
                 <h2>{title}</h2>
-                {links.map(([key, label]) => <a href={pathFor(key, locale)} key={key}>{label}</a>)}
+                {links.map(([key, label]) => <a href={pathFor(key, locale)} {...linkLang(key, locale)} key={key}>{label}</a>)}
               </div>
             ))}
             <div className="site-foot__col">
@@ -154,7 +165,7 @@ export function Footer({ locale }) {
   );
 }
 
-// Mobile-only purchase bar (career page), shown between the hero and the final call to action.
+// Mobile-only purchase bar, shown between the hero and the final call to action (unused since the career page became the mentoria).
 export function StickyCta({ children }) {
   const [on, setOn] = useState(false);
   useEffect(() => {
@@ -173,7 +184,7 @@ export function StickyCta({ children }) {
 }
 
 // `whatsapp` sets the round floating button's message and label; `sticky` keeps a purchase bar
-// instead (career page); `sticky={null}` shows neither (legal pages).
+// instead; `sticky={null}` shows neither (legal pages and the mentoria, where WhatsApp opens only after the filter).
 export function PageShell({ locale, page, sticky, whatsapp, children }) {
   const t = UI[locale];
   const contact = whatsapp ?? (LANDING_FIRST.includes(page) ? { message: t.waLanding } : { message: t.waDefault });

@@ -14,7 +14,8 @@ import { createReveal } from "./reveal-kit.mjs";
 import { createCircuitMotion } from "./circuit-motion.mjs";
 import { createScrollShots } from "./scroll-shots.mjs";
 import { HomePage } from "./pages/HomePage.jsx";
-import { AiPage, CareerPage, LandingPage, SitesPage } from "./pages/ServicePages.jsx";
+import { AiPage, LandingPage, SitesPage } from "./pages/ServicePages.jsx";
+import { MentoriaPage } from "./pages/MentoriaPage.jsx";
 import { CasePage, PortfolioIndex } from "./pages/PortfolioPages.jsx";
 import { DeRolePage, LegalPage, NotFoundPage, RecargaPage } from "./pages/DocumentPages.jsx";
 
@@ -50,7 +51,7 @@ function resolveRoute(pathname) {
   return { locale: normalizedPath.startsWith("/en/") ? "en" : "pt", page: "notFound" };
 }
 
-const SERVICE_VIEWS = { sites: SitesPage, landingPages: LandingPage, career: CareerPage, aiTraining: AiPage };
+const SERVICE_VIEWS = { sites: SitesPage, landingPages: LandingPage, career: MentoriaPage, aiTraining: AiPage };
 
 function PageView({ locale, page }) {
   if (DE_ROLE_PAGES[page]) return <DeRolePage page={page} />;
@@ -111,7 +112,8 @@ export function App({ pathname = window.location.pathname }) {
     updateMeta('link[hreflang="pt-BR"]', "href", `https://tetelestai.tech${paths.pt}`);
     updateMeta('link[hreflang="en"]', "href", `https://tetelestai.tech${paths.en}`);
     updateMeta('link[hreflang="x-default"]', "href", `https://tetelestai.tech${paths.pt}`);
-    if (deRole || recarga) {
+    // Portuguese-only pages (the mentoria) have no translation: no hreflang alternates.
+    if (deRole || recarga || paths.ptOnly) {
       document.querySelectorAll('link[rel="alternate"][hreflang]').forEach((link) => link.remove());
       document.querySelector('meta[property="og:locale:alternate"]')?.remove();
     }

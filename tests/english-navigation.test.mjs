@@ -10,7 +10,6 @@ import { measurementPath } from '../src/analytics.mjs';
 export const pairs = [
   ['/criacao-de-sites/','/en/website-development/'],
   ['/criacao-de-landing-pages/','/en/landing-pages/'],
-  ['/carreira-internacional/','/en/international-career/'],
   ['/capacitacao-em-ia/','/en/ai-training/'],
   ['/projetos/','/en/projects/'],
   ['/projetos/infinity-car-studio/','/en/projects/infinity-car-studio/'],
@@ -40,7 +39,12 @@ test('English home restores service shortcuts and every translated page preserve
       }
       assert.ok(!/Conhecer o projeto|Ver portfólio completo|Página inicial em inglês|Antes de começar/.test(english));
       assert.equal(measurementPath(en),en,'approved English pages are eligible only through consent');
+      // The mentoria is Portuguese only (08/11/2026): English pages link to it, marked as Portuguese.
+      const mentoria=[...english.matchAll(/<a\b[^>]*href="\/mentoria\/"[^>]*>/g)].map(m=>m[0]);
+      assert.ok(mentoria.length>0,`${en} links to the mentoria`);
+      assert.ok(mentoria.every(a=>a.includes('lang="pt-BR"')),`${en} marks the mentoria link as Portuguese`);
     }
+    assert.ok(!home.includes('/en/international-career/'),'The retired English career page is gone');
   } finally { await server.close(); }
 });
 

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { SERVICE_PAGES } from "../src/service-content.mjs";
+import { equivalentPaths } from "../src/localized-content.mjs";
 
 const origin = "https://tetelestai.tech";
 const services = Object.values(SERVICE_PAGES);
@@ -58,7 +59,9 @@ test("sharing metadata remains specific to the page and the PT/EN content", asyn
     assert.equal(meta(html, "twitter:description"), meta(html, "description"));
     assert.equal(meta(html, "twitter:image"), `${origin}/assets/tetelestai-share.png`);
     assert.equal(meta(html, "twitter:image:alt"), meta(html, "og:image:alt"));
-    assert.equal(meta(html, "og:locale:alternate"), english ? "pt_BR" : "en_US");
+    // Portuguese-only pages (the mentoria) have no alternate locale.
+    const ptOnly = Object.entries(SERVICE_PAGES).some(([key, service]) => service.path === pathname && equivalentPaths(key).ptOnly);
+    assert.equal(meta(html, "og:locale:alternate"), ptOnly ? undefined : english ? "pt_BR" : "en_US");
   }
 });
 
@@ -72,6 +75,12 @@ test("the homes answer price and format questions and every visible FAQ matches 
   for (const pathname of paths) {
     const html = await readPage(pathname);
     const faqSection = html.match(/<section class="faq-section[^"]*"[^>]*>([\s\S]*?)<\/section>/)?.[1];
+    // The mentoria follows the guide's 10 blocks, without an FAQ; then it must not claim one in its data.
+    if (!services.find(service => service.path === pathname)?.faqs && !["/", "/en/"].includes(pathname)) {
+      assert.ok(!faqSection, pathname);
+      assert.ok(!graphOf(html).some(node => node["@type"] === "FAQPage"), pathname);
+      continue;
+    }
     assert.ok(faqSection, pathname);
     const questions = [...faqSection.matchAll(/<summary>([\s\S]*?)<\/summary>/g)].map(match => decode(match[1]));
     assert.ok(questions.length >= 4, pathname);

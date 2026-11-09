@@ -76,11 +76,11 @@ export function avaliarFiltro(respostas) {
 export const MENTORIA_CONTRATO = {
   titulo: "Mentoria individual — termos do teste de novembro de 2026",
   itens: [
-    "O que é: 4 encontros individuais de 60 minutos pelo Google Meet com Carlos Viegas, mais 30 dias de suporte por WhatsApp a partir do 1º encontro, prestados pela TETELESTAI (CNPJ 58.138.258/0001-39), com nota fiscal.",
+    "O que é: 4 encontros individuais de 45 minutos pelo Google Meet com Carlos Viegas, mais 30 dias de suporte por WhatsApp a partir do 1º encontro, prestados pela TETELESTAI (CNPJ 58.138.258/0001-39), com nota fiscal.",
     "O que é ensinado: o caminho que Carlos percorreu para prestar serviços de treinamento de IA a plataformas estrangeiras: escolha de plataformas conforme o perfil, estrutura de empresa e recebimento, preparação para entrevistas e testes, e rotina de trabalho nas horas vagas.",
     "O que não é prometido: aprovação em qualquer plataforma, disponibilidade de projetos, volume de horas ou qualquer valor de renda. Os resultados de Carlos são pessoais e não representam o que o cliente obterá. As plataformas decidem sozinhas quem aprovam, quanto pagam e quando há trabalho, e mudam essas regras sem aviso.",
     "Indicação: Carlos pode indicar o cliente em plataformas que têm programa de indicação, apenas se o cliente tiver perfil compatível. Algumas plataformas pagam a Carlos uma comissão por isso. Essa comissão é paga pela plataforma e não altera o preço nem os ganhos do cliente. A indicação não garante aprovação.",
-    "Valor e pagamento: R$ 3.297 pelo pacote, ou R$ 597 pelo diagnóstico avulso de 60 minutos (abatido integralmente se o pacote for contratado em até 30 dias). Pagamento por Pix antes do 1º encontro.",
+    "Valor e pagamento: R$ 3.297 pelo pacote, ou R$ 597 pelo diagnóstico avulso de 45 minutos (abatido integralmente se o pacote for contratado em até 30 dias). Pagamento por Pix antes do 1º encontro.",
     "Arrependimento: o cliente pode desistir em até 7 dias corridos após o pagamento, com devolução integral, conforme o art. 49 do Código de Defesa do Consumidor.",
     "Agenda: encontros marcados em comum acordo, à noite ou no fim de semana; remarcação com 24 h de antecedência; falta sem aviso conta como encontro realizado.",
     "Confidencialidade: Carlos não revela conteúdo de projetos, nomes de clientes finais nem material protegido por contrato com as plataformas. O cliente se compromete a não redistribuir o material da mentoria.",
@@ -105,7 +105,7 @@ export const MENTORIA_PAGE = {
     ["O trabalho", "Avaliar, corrigir e escrever código para empresas que treinam IA"],
     ["Como", "Por hora, como PJ, para plataformas americanas"],
     ["Quando", "Nas horas vagas, quando há projeto"],
-    ["Mentoria", "4 encontros individuais de 60 min no Meet"],
+    ["Mentoria", "4 encontros individuais de 45 min no Meet"],
     ["Suporte", "30 dias de WhatsApp"],
     ["Turma do teste", "5 vagas"],
   ],
@@ -120,7 +120,7 @@ export const MENTORIA_PAGE = {
   },
   encontros: {
     eyebrow: "Os 4 encontros",
-    title: "Quatro encontros individuais de uma hora, pelo Google Meet",
+    title: "Quatro encontros individuais de 45 minutos, pelo Google Meet",
     aside: "Entre os encontros, 30 dias de WhatsApp comigo para dúvidas.",
     items: [
       { k: "Encontro 1", title: "Seu perfil e por onde entrar", text: "Cada plataforma paga diferente e pede coisas diferentes; decidimos onde você tenta primeiro." },
@@ -166,10 +166,10 @@ export const MENTORIA_PAGE = {
     title: "Mentoria individual", place: "Online · Google Meet", total: "R$ 3.297",
     split: "Pix antes do 1º encontro · 7 dias de arrependimento",
     cta: "Agendar pelo WhatsApp",
-    rows: [["Encontros", "4 × 60 min, individuais"], ["WhatsApp", "30 dias"], ["Diagnóstico avulso", "R$ 597, abatido no pacote"], ["Pagamento", "Pix, antes do 1º encontro"], ["Arrependimento", "7 dias, devolução integral"]],
+    rows: [["Encontros", "4 × 45 min, individuais"], ["WhatsApp", "30 dias"], ["Diagnóstico avulso", "R$ 597, abatido no pacote"], ["Pagamento", "Pix, antes do 1º encontro"], ["Arrependimento", "7 dias, devolução integral"]],
     // FIXO (vídeo 2): aviso de comissão visível antes do Pix.
     note: "Lembrando: se você entrar pela minha indicação, eu recebo uma comissão da plataforma. Isso não muda o que você paga nem o que você recebe.",
-    diagnostico: "Prefere começar só com um diagnóstico de uma hora? São R$ 597, abatidos inteiros se você fechar o pacote em até 30 dias.",
+    diagnostico: "Prefere começar só com um diagnóstico de 45 minutos? São R$ 597, abatidos inteiros se você fechar o pacote em até 30 dias.",
     vagas: "Vagas restantes nesta turma: {restantes} de {total}",
     fechada: "A turma do teste fechou. Entre na lista de espera e eu aviso quando abrir a próxima.",
     esperaCta: "Entrar na lista de espera",

@@ -21,7 +21,7 @@
 - [Bolachinhas da Vovó Juju](https://tetelestai.tech/projetos/bolachinhas-da-vovo-juju/): artisan food landing page case study
 - [Afeto Nobre](https://tetelestai.tech/projetos/afeto-nobre/): handmade sweets and cakes landing page case study (Guará, Brasília), with WhatsApp quotes
 - [LaLeLis](https://tetelestai.tech/projetos/lalelis/): custom party stationery landing page case study (Federal District), with an interactive quote list sent through WhatsApp
-- [Mentoria](https://tetelestai.tech/mentoria/): one-on-one mentoring (4 online sessions of 45 minutes plus 30 days of WhatsApp support) for developers in Brazil who program well and can interview in English, on how Carlos trains AI models for US platforms in his spare time as a contractor, without leaving his job. A 5-question filter comes first; no promise of earnings, approval or projects. Test cohort of 5 people in November 2026
+- [Mentoria](https://tetelestai.tech/mentoria/): one-on-one mentoring (4 online sessions of 45 minutes plus 30 days of WhatsApp support) for developers in Brazil who program well and can interview in English, on how Carlos trains AI models for US platforms in his spare time as a contractor, without leaving his job. A 5-question filter comes first; no promise of earnings, approval or projects. Up to 5 mentees in November 2026
 - [Capacitação em IA](https://tetelestai.tech/capacitacao-em-ia/): on-demand AI training for teams and professionals
 
 ## Pages (English)

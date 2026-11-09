@@ -107,7 +107,7 @@ export const MENTORIA_PAGE = {
     ["Quando", "Nas horas vagas, quando há projeto"],
     ["Mentoria", "4 encontros individuais de 45 min no Meet"],
     ["Suporte", "30 dias de WhatsApp"],
-    ["Vagas", "5 mentorados"],
+    ["Vagas", "5 mentorados por mês"],
   ],
   quem: {
     eyebrow: "Antes de tudo",
@@ -170,8 +170,8 @@ export const MENTORIA_PAGE = {
     // FIXO (vídeo 2): aviso de comissão visível antes do Pix.
     note: "Lembrando: se você entrar pela minha indicação, eu recebo uma comissão da plataforma. Isso não muda o que você paga nem o que você recebe.",
     diagnostico: "Prefere começar só com um diagnóstico de 45 minutos? São R$ 597, abatidos inteiros se você fechar o pacote em até 30 dias.",
-    vagas: "Vagas disponíveis para mentorados: {restantes} de {total}",
-    fechada: "As vagas para mentorados estão preenchidas. Entre na lista de espera e eu aviso quando abrir novas vagas.",
+    vagas: "Atendo no máximo 5 mentorados por mês.",
+    fechada: "As vagas deste mês estão preenchidas. Entre na lista de espera e eu aviso quando abrir novas vagas.",
     esperaCta: "Entrar na lista de espera",
     agendarTexto: "Quem responde primeiro é a minha equipe, que confirma o seu horário, manda o contrato de uma página e o Pix.",
   },

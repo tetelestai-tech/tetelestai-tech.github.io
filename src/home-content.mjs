@@ -1,5 +1,5 @@
 // Shared interface copy and homepage content (PT/EN).
-// Redesign 2026-10: the homepage leads with the R$ 697 landing page offer for small
+// Redesign 2026-10: the homepage leads with the landing page offer (R$ 297 + R$ 97/month since 09/11) for small
 // businesses; career and AI training remain as separate fronts with their own pages.
 // Statements marked CONFIRM in AGENTS.md must be confirmed by Carlos before publishing.
 
@@ -18,10 +18,10 @@ export const UI = {
     appsLabel: "Apps iOS e Android",
     ctaWhatsApp: "Pedir orçamento no WhatsApp",
     waDefault: "Olá! Vim pelo site da Tetelestai e quero um orçamento.",
-    // Primary goal (Carlos, 28/10): hiring the R$ 697 landing page through WhatsApp.
-    ctaLanding: "Landing page R$ 697",
+    // Primary goal (Carlos, 28/10): hiring the landing page through WhatsApp (R$ 297 + R$ 97/month since 09/11).
+    ctaLanding: "Landing page R$ 297 + R$ 97/mês",
     ctaLandingLong: "Quero minha landing page",
-    waLanding: "Olá! Quero a landing page de R$ 697.",
+    waLanding: "Olá! Quero a landing page de R$ 297 + R$ 97/mês.",
     floatLabel: "Conversar no WhatsApp",
     menuOpen: "Abrir menu",
     menuClose: "Fechar menu",
@@ -65,9 +65,9 @@ export const UI = {
     appsLabel: "iOS and Android apps",
     ctaWhatsApp: "Get a quote on WhatsApp",
     waDefault: "Hi! I found Tetelestai's website and I'd like a quote.",
-    ctaLanding: "Landing page R$ 697",
+    ctaLanding: "Landing page R$ 297 + R$ 97/month",
     ctaLandingLong: "I want my landing page",
-    waLanding: "Hi! I'd like the R$ 697 landing page.",
+    waLanding: "Hi! I'd like the R$ 297 + R$ 97/month landing page.",
     floatLabel: "Chat on WhatsApp",
     menuOpen: "Open menu",
     menuClose: "Close menu",
@@ -103,15 +103,15 @@ export const HOME = {
   pt: {
     path: "/",
     metaTitle: "Sites, landing pages e apps para empresas | Tetelestai",
-    metaDescription: "Landing page sob medida por R$ 697, no ar em até 2 dias úteis, com SEO, GEO e botão de WhatsApp. Sites e apps para empresas de todo o Brasil sob orçamento.",
-    // Opening chosen by Carlos on 28/10 (option A): the R$ 697 landing page first, quotes second.
+    metaDescription: "Landing page sob medida por R$ 297 de entrada + R$ 97/mês, no ar em até 2 dias úteis, com SEO, GEO e botão de WhatsApp. Sites e apps para empresas de todo o Brasil sob orçamento.",
+    // Opening chosen by Carlos on 28/10 (option A): the landing page first, quotes second. Price changed on 09/11.
     hero: {
       eyebrow: "Landing page sob medida · todo o Brasil",
-      title: "Sua landing page no ar em até 2 dias úteis, por R$ 697",
+      title: "Sua landing page no ar em até 2 dias úteis: R$ 297 de entrada + R$ 97/mês",
       lead: "Oferta, textos, SEO e GEO e botão de WhatsApp, feitos para o seu negócio. O prazo conta a partir do envio dos textos e das fotos. Sites e apps completos sob orçamento.",
       secondary: "Orçamento de site ou app",
       secondaryMessage: "Olá! Vim pelo site da Tetelestai e quero um orçamento de site ou app.",
-      trust: ["Metade na contratação, metade na entrega", "Domínio e hospedagem no 1º ano", "{sites} sites de clientes no ar", "{apps} apps na App Store"],
+      trust: ["Hospedagem e 1 atualização por mês", "Domínio .com.br no 1º ano", "{sites} sites de clientes no ar", "{apps} apps na App Store"],
       trustLabel: "Por que contratar",
       byline: "Feito por Carlos Viegas, 22 anos de engenharia de software",
     },
@@ -127,7 +127,7 @@ export const HOME = {
       lead: "Você sabe quanto vai pagar e o que vai receber antes de começar. A landing page é a forma mais rápida de ter um endereço para mandar quando o cliente pergunta “como funciona?”.",
       other: "Precisa de um site com várias páginas, um app iOS ou Android, um sistema ou uma automação? O orçamento sai depois de uma conversa.",
       otherLink: "Ver criação de sites",
-      waMessage: "Olá! Quero a landing page de R$ 697.",
+      waMessage: "Olá! Quero a landing page de R$ 297 + R$ 97/mês.",
     },
     how: { eyebrow: "Como funciona", title: "Três passos, do WhatsApp à página no ar" },
     who: { eyebrow: "Quem faz", title: "Duas pessoas, do primeiro contato à entrega" },
@@ -143,7 +143,7 @@ export const HOME = {
     },
     faqTitle: { eyebrow: "Dúvidas", title: "Antes de pedir o orçamento" },
     faqs: [
-      { q: "Quanto custa uma landing page na Tetelestai?", a: "R$ 697, em 2× de R$ 348,50: metade na contratação e metade na entrega. Inclui uma página com até 5 seções, otimizada para SEO e GEO, com oferta e textos pensados para o seu negócio, versão para celular, botão de WhatsApp e uma rodada de ajustes. O domínio .com.br e a hospedagem estão inclusos nos primeiros 12 meses; a partir do segundo ano, a renovação anual fica por conta da empresa." },
+      { q: "Quanto custa uma landing page na Tetelestai?", a: "R$ 297 de entrada, na contratação, e R$ 97 por mês desde o 1º mês. A entrada inclui uma página com até 5 seções, otimizada para SEO e GEO, com oferta e textos pensados para o seu negócio, versão para celular, botão de WhatsApp e uma rodada de ajustes. Depois, a mensalidade de R$ 97 inclui hospedagem, SSL, backup, uma atualização por mês, relatório mensal e SEO local básico, e o domínio .com.br fica incluso nos primeiros 12 meses, registrado no nome da empresa." },
       { q: "Qual a diferença entre site e landing page?", a: "A landing page é uma página só, focada em uma oferta e em uma ação, como chamar no WhatsApp. O site apresenta a empresa e vários serviços, em mais de uma página, e é feito sob orçamento." },
       { q: "Em quanto tempo a página fica pronta?", a: "A landing page fica no ar em até 2 dias úteis, contados a partir do envio dos textos e das fotos. O prazo de um site completo ou de um app vem na proposta." },
       { q: "Preciso ter textos e fotos prontos?", a: "Ajuda juntar o que você já tem. A proposta deixa combinado o que será usado, o que falta preparar e quem cuida de cada parte." },
@@ -155,14 +155,14 @@ export const HOME = {
   en: {
     path: "/en/",
     metaTitle: "Websites, landing pages and apps for businesses | Tetelestai",
-    metaDescription: "A tailored landing page for R$ 697, live in up to 2 business days, with SEO, GEO and a WhatsApp button. Websites and apps for businesses, quoted per project.",
+    metaDescription: "A tailored landing page for R$ 297 upfront + R$ 97/month, live in up to 2 business days, with SEO, GEO and a WhatsApp button. Websites and apps for businesses, quoted per project.",
     hero: {
       eyebrow: "Tailored landing pages · Brazil and abroad",
-      title: "Your landing page live in up to 2 business days, for R$ 697",
+      title: "Your landing page live in up to 2 business days: R$ 297 upfront + R$ 97/month",
       lead: "Offer, copy, SEO and GEO and a WhatsApp button, made for your business. The timeline starts when you send texts and photos. Full websites and apps are quoted per project.",
       secondary: "Website or app quote",
       secondaryMessage: "Hi! I found Tetelestai's website and I'd like a quote for a website or app.",
-      trust: ["Half on hiring, half on delivery", "Domain and hosting in the first year", "{sites} client websites live", "{apps} apps on the App Store"],
+      trust: ["Hosting and 1 update a month", ".com.br domain in the first year", "{sites} client websites live", "{apps} apps on the App Store"],
       trustLabel: "Why hire us",
       byline: "Built by Carlos Viegas, 22 years in software engineering",
     },
@@ -178,7 +178,7 @@ export const HOME = {
       lead: "You know what you'll pay and what you'll get before we start. A landing page is the fastest way to have a link to send when a customer asks “how does it work?”.",
       other: "Need a multi-page website, an iOS or Android app, a system or an automation? We quote it after a quick conversation.",
       otherLink: "See website development",
-      waMessage: "Hi! I'd like the R$ 697 landing page.",
+      waMessage: "Hi! I'd like the R$ 297 + R$ 97/month landing page.",
     },
     how: { eyebrow: "How it works", title: "Three steps, from WhatsApp to a live page" },
     who: { eyebrow: "Who we are", title: "Two people, from first message to delivery" },
@@ -194,7 +194,7 @@ export const HOME = {
     },
     faqTitle: { eyebrow: "FAQ", title: "Before you ask for a quote" },
     faqs: [
-      { q: "How much does a landing page cost?", a: "R$ 697, or 2 × R$ 348.50: half when you hire us and half on delivery. It includes one page with up to 5 sections, optimized for SEO and GEO, with an offer and copy written for your business, a mobile version, a WhatsApp button and one round of revisions. The .com.br domain and hosting are included for the first 12 months; from the second year on, the annual renewal is paid by the business." },
+      { q: "How much does a landing page cost?", a: "R$ 297 upfront when you hire us, then R$ 97 a month from the first month. The upfront payment includes one page with up to 5 sections, optimized for SEO and GEO, with an offer and copy written for your business, a mobile version, a WhatsApp button and one round of revisions. After that, the R$ 97 monthly fee covers hosting, SSL, backups, one update a month, a monthly report and basic local SEO, and the .com.br domain is included for the first 12 months, registered in the client's name." },
       { q: "What's the difference between a website and a landing page?", a: "A landing page is a single page focused on one offer and one action, such as messaging you on WhatsApp. A website presents the business and several services across multiple pages, and is quoted per project." },
       { q: "How long does it take?", a: "A landing page goes live in up to 2 business days after you send the texts and photos. The timeline for a full website or an app comes in the proposal." },
       { q: "Do I need texts and photos ready?", a: "It helps to gather what you have. The proposal states what will be used, what still needs preparing and who handles each part." },
@@ -209,13 +209,13 @@ export const HOME = {
 export const HOW_STEPS = {
   pt: [
     { k: "Passo 1", title: "Você conta o que vende", text: "Pelo WhatsApp: o que você oferece, para quem e o que o cliente precisa fazer depois de ler a página." },
-    { k: "Passo 2", title: "Você recebe a proposta", text: "Preço, prazo e o que está incluso, por escrito. Metade do valor na contratação." },
-    { k: "Passo 3", title: "A página vai ao ar", text: "Você manda textos e fotos, revisa uma prévia, pede os ajustes e a página entra no ar. A outra metade, na entrega." },
+    { k: "Passo 2", title: "Você recebe a proposta", text: "Preço, prazo e o que está incluso, por escrito. A entrada de R$ 297 é paga na contratação." },
+    { k: "Passo 3", title: "A página vai ao ar", text: "Você manda textos e fotos, revisa uma prévia, pede os ajustes e a página entra no ar. A mensalidade de R$ 97 cobre hospedagem, backup e uma atualização por mês." },
   ],
   en: [
     { k: "Step 1", title: "Tell us what you sell", text: "On WhatsApp: what you offer, who it's for and what customers should do after reading the page." },
-    { k: "Step 2", title: "Get a written proposal", text: "Price, timeline and what's included, in writing. Half is paid when you hire us." },
-    { k: "Step 3", title: "Your page goes live", text: "You send texts and photos, review a preview, ask for changes and the page goes live. The other half is paid on delivery." },
+    { k: "Step 2", title: "Get a written proposal", text: "Price, timeline and what's included, in writing. The R$ 297 upfront payment is made when you hire us." },
+    { k: "Step 3", title: "Your page goes live", text: "You send texts and photos, review a preview, ask for changes and the page goes live. The R$ 97 monthly fee covers hosting, backups and one update a month." },
   ],
 };
 
@@ -232,12 +232,12 @@ export const PEOPLE = {
 
 export const LANDING_RECEIPT = {
   pt: {
-    title: "Landing page", place: "Online · todo o Brasil", total: "R$ 697", split: "2× de R$ 348,50 · contratação e entrega",
+    title: "Landing page", place: "Online · todo o Brasil", total: "R$ 297", split: "de entrada + R$ 97/mês desde o 1º mês",
     note: "O prazo conta a partir do envio dos textos e das fotos.", cta: "Quero minha landing page",
-    rows: [["Página", "1, até 5 seções"], ["Oferta e textos", "sob medida"], ["SEO e GEO", "incluso"], ["Celular e WhatsApp", "incluso"], ["Ajustes", "1 rodada"], ["Prazo", "até 2 dias úteis"], ["Domínio e hospedagem", "1º ano incluso"]],
+    rows: [["Página", "1, até 5 seções"], ["Oferta e textos", "sob medida"], ["SEO e GEO", "incluso"], ["Celular e WhatsApp", "incluso"], ["Ajustes", "1 rodada"], ["Prazo", "até 2 dias úteis"], ["Mensalidade", "hospedagem, SSL, backup, 1 atualização"], ["Domínio .com.br", "1º ano incluso"]],
   },
   en: {
-    title: "Landing page", place: "Online · Brazil and abroad", total: "R$ 697", split: "2 × R$ 348.50 · on hiring and on delivery",
+    title: "Landing page", place: "Online · Brazil and abroad", total: "R$ 297", split: "upfront + R$ 97/month from the first month",
     note: "The deadline starts when you send the texts and photos.", cta: "I want my landing page",
     rows: [["Page", "1, up to 5 sections"], ["Offer and copy", "tailored"], ["SEO and GEO", "included"], ["Mobile + WhatsApp", "included"], ["Revisions", "1 round"], ["Delivery", "up to 2 business days"], ["Domain and hosting", "1st year included"]],
   },

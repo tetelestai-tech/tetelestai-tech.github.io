@@ -4,7 +4,7 @@
 
 ## Key facts
 
-- Landing page: R$ 697, paid in 2 × R$ 348.50 (half when hiring, half on delivery). One page with up to 5 sections, an offer and copy written for the business, SEO and GEO optimization, mobile version, WhatsApp button and one round of revisions. Live in up to 2 business days after the client sends texts and photos. The .com.br domain and hosting are included for the first 12 months; from the second year on, the annual renewal is paid by the business.
+- Landing page: R$ 297 upfront when hiring, plus R$ 97 a month from the first month (since 9 November 2026). One page with up to 5 sections, an offer and copy written for the business, SEO and GEO optimization, mobile version, WhatsApp button and one round of revisions. Live in up to 2 business days after the client sends texts and photos. The R$ 97 monthly fee covers hosting, SSL, backups, one update a month, a monthly report and basic local SEO; the .com.br domain is included for the first 12 months, registered in the business's name.
 - Multi-page websites, iOS and Android apps, systems and automations are quoted in writing after a conversation.
 - Founders: Carlos Viegas (Co-Founder & CTO; software engineer for more than 22 years, 14 of them as a tech lead at Banco do Brasil) and Gabriela Rosa (Co-Founder & CEO).
 - Service is delivered online, in Portuguese or English, to clients across Brazil and abroad.
@@ -14,7 +14,7 @@
 
 - [Home](https://tetelestai.tech/): websites, landing pages and apps for businesses of any size across Brazil
 - [Criação de sites](https://tetelestai.tech/criacao-de-sites/): multi-page business websites, quoted per project
-- [Criação de landing pages](https://tetelestai.tech/criacao-de-landing-pages/): the R$ 697 landing page offer
+- [Criação de landing pages](https://tetelestai.tech/criacao-de-landing-pages/): the landing page offer (R$ 297 + R$ 97/month)
 - [Projetos](https://tetelestai.tech/projetos/): client websites and the De Rolê and Tempo de Recarga iOS apps
 - [Respeitável Feijuca](https://tetelestai.tech/projetos/respeitavel-feijuca/): Saturday feijoada landing page case study (Guará, Brasília), with videos and WhatsApp orders
 - [Infinity Car Studio](https://tetelestai.tech/projetos/infinity-car-studio/): car detailing website case study

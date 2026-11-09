@@ -261,3 +261,10 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - Commits are authored as `Carlos Viegas <110425666+carloshsrosa@users.noreply.github.com>`. Carlos turned on "Keep my email addresses private" and "Block command line pushes that expose my email", so a push whose latest commit uses his personal address is rejected.
 - Prospect presentations live on `https://sites.tetelestai.tech/proposta/<slug>/` (Hostinger, noindex), not here. The FAO Clássicos preview moved there on 2026-11-05; `/sites/faoclassicos/`, `/sites/faoclassicos/consignacao/` and `/sites/faoclassicos/historia/` are noindex redirect pages to the matching new address. Its last source in this repository is the parent of the commit that removed it.
 - The obsolete first-deployment plan (`DEPLOYMENT.md`) was removed; the README describes the current deployment. `design-qa.md` no longer names the number used before the company WhatsApp, and the production test now requires every `wa.me` link to use `556184711930` and rejects phone links.
+
+## Landing page price changed on 2026-11-09
+
+- Decided by Carlos on 2026-11-09 (Plano 90 dias, "Ofertas vigentes"): the landing page costs R$ 297 upfront when hiring plus R$ 97 a month from the first month. The monthly fee covers hosting, SSL, backups, one update a month, a monthly report and basic local SEO; the .com.br domain is included for the first 12 months, registered in the client's name. This supersedes the R$ 697 (2 × R$ 348,50) price and the "domain and hosting included for 12 months" wording in the entries above. Clients who already hired keep the terms in their proposal.
+- The pilot condition for the 8 portfolio clients (R$ 297 + R$ 97/month with a testimonial) was withdrawn the same day.
+- `intentOf` now detects the landing page by the words "landing page" in the WhatsApp message instead of the number 697; the GA4 value stays `landing_697` so reports keep one series.
+- `/grupos/` keeps working but its message no longer quotes a price (the groups art with R$ 697 was retired).

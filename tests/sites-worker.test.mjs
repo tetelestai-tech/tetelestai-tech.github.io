@@ -368,11 +368,12 @@ test("publishes the confirmed service and contact content", async () => {
   assert.doesNotMatch(productionJavaScript, /People at the center\./);
 
   // The landing page offer and its written terms.
-  // The landing page price is fixed (Carlos, 28/10): never "a partir de" / "from".
-  assert.match(productionJavaScript, /por R\$\u00a0697/);
+  // The landing page price is fixed: never "a partir de" / "from". Since 09/11: R$ 297 upfront + R$ 97/month.
+  assert.match(productionJavaScript, /R\$\u00a0297 de entrada \+ R\$\u00a097\/mês/);
+  assert.doesNotMatch(productionJavaScript, /R\$\u00a0697/);
   assert.doesNotMatch(productionJavaScript, /Landing pages? (?:a partir de|from) R\$/);
-  assert.match(productionJavaScript, /em 2× de R\$/);
-  assert.match(productionJavaScript, /Domínio e hospedagem/);
+  assert.match(productionJavaScript, /Hospedagem, SSL, backup/);
+  assert.match(productionJavaScript, /Domínio \.com\.br/);
 
   assert.match(homeContent, /id: "solucoes-digitais"/);
   assert.match(homeContent, /id: "digital-solutions"/);

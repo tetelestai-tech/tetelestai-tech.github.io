@@ -7,7 +7,7 @@ import { equivalentPaths, portfolioFor, servicesFor } from "./localized-content.
 import { CLIENT_PROJECTS } from "./portfolio-content.mjs";
 import { FloatingWhatsApp, IconArrow, IconArrowBack, SymbolPicture, WhatsAppLink } from "./ui.jsx";
 
-// Pages whose main action is the R$ 697 landing page (primary goal, Carlos 28/10).
+// Pages whose main action is the landing page (primary goal, Carlos 28/10).
 const LANDING_FIRST = ["home", "landingPages"];
 
 export function pathFor(key, locale) {

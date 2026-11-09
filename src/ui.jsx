@@ -22,8 +22,9 @@ export function placementOf(element) {
   return id ? `section_${id.replace(/[^a-z0-9]+/gi, "_").toLowerCase()}`.slice(0, 40) : "content";
 }
 
-// What the visitor asked for: the R$ 697 landing page (primary goal) or a quote (secondary goal).
-export const intentOf = message => (/697/.test(message ?? "") ? "landing_697" : "orcamento");
+// What the visitor asked for: the landing page (primary goal) or a quote (secondary goal).
+// The GA4 value stays "landing_697" so reports keep one series after the 09/11 price change.
+export const intentOf = message => (/landing page/i.test(message ?? "") ? "landing_697" : "orcamento");
 
 // Every WhatsApp entry point reports the same consented `whatsapp_click` event, with its placement and intent.
 export function WhatsAppLink({ message, className = "btn btn--lg", children, icon = true }) {

@@ -20,7 +20,7 @@ const servicePages = [
   },
   {
     path: "/criacao-de-landing-pages/",
-    heading: "Landing page sob medida: R$\u00a0697, no ar em até 2 dias úteis",
+    heading: "Landing page sob medida: R$\u00a0297 de entrada + R$\u00a097/mês, no ar em até 2 dias úteis",
     titlePattern: /criação de landing page/i,
     canonical: "https://tetelestai.tech/criacao-de-landing-pages/",
     shell: "/criacao-de-landing-pages/index.html",

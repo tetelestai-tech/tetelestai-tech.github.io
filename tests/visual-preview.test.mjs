@@ -18,12 +18,12 @@ test('redesign keeps one WhatsApp action in each opening, presents each front on
     for (const path of ['/', '/en/']) {
       const html = render(path);
       const hero = html.match(/<section id="home"[\s\S]*?<\/section>/)?.[0];
-      // Opening chosen on 28/10 (option A): the R$ 697 landing page first, a quote second, nothing else.
+      // Opening chosen on 28/10 (option A): the landing page first, a quote second, nothing else.
       const actions = [...(hero ?? '').matchAll(/<a\b[^>]*href="([^"]*)"/g)].map(match => match[1]);
       assert.equal(actions.length, 2, `${path}: exactly two actions in the opening`);
       assert.ok(actions.every(href => href.startsWith('https://wa.me/556184711930')), `${path}: both opening actions go to the company WhatsApp`);
-      assert.match(decodeURIComponent(actions[0]), /697/, `${path}: the primary action asks for the R$ 697 landing page`);
-      assert.doesNotMatch(decodeURIComponent(actions[1]), /697/, `${path}: the secondary action asks for a quote`);
+      assert.match(decodeURIComponent(actions[0]), /landing page/i, `${path}: the primary action asks for the landing page`);
+      assert.doesNotMatch(decodeURIComponent(actions[1]), /landing page/i, `${path}: the secondary action asks for a quote`);
       assert.ok(hero.includes('class="trust"'), `${path}: trust facts under the actions`);
       const fronts = path === '/' ? ['Sites, landing pages e apps', 'Carreira internacional em TI', 'Capacitação em IA'] : ['Websites, landing pages and apps', 'International careers in tech', 'AI training'];
       for (const front of fronts) assert.equal((html.match(new RegExp(`>${front}</h3>`, 'g')) ?? []).length, 1, `${path}: ${front}`);

@@ -112,9 +112,10 @@ export const MENTORIA_PAGE = {
     title: "Quatro encontros individuais de 45 minutos, pelo Google Meet",
     aside: "Entre os encontros, 30 dias de WhatsApp comigo para dúvidas.",
     items: [
-      { k: "Encontro 1", title: "Seu perfil e por onde entrar", text: "Cada plataforma paga diferente e pede coisas diferentes; decidimos onde você tenta primeiro." },
-      { k: "Encontro 2", title: "A parte de empresa", text: "Nota fiscal, recebimento em dólar e imposto, e o erro do começo que me custou caro." },
-      { k: "Encontro 3", title: "Entrevista e testes", text: "Ensaio com o que eu vi funcionar e com o que me derrubou." },
+      // Ordem do Carlos, 09/11: aplicar já no 1º encontro e treinar entrevista no 2º; a empresa só pesa antes do 1º pagamento.
+      { k: "Encontro 1", title: "Seu perfil e por onde entrar", text: "Cada plataforma paga diferente e pede coisas diferentes; decidimos onde você tenta primeiro, e você já pode fazer as primeiras candidaturas." },
+      { k: "Encontro 2", title: "Entrevista e testes", text: "Ensaio com o que eu vi funcionar e com o que me derrubou." },
+      { k: "Encontro 3", title: "A parte de empresa", text: "Nota fiscal, recebimento em dólar e imposto, e o erro do começo que me custou caro." },
       { k: "Encontro 4", title: "A sua rotina", text: "Como fazer isso caber nas horas vagas sem destruir a sua semana." },
     ],
   },
@@ -136,6 +137,12 @@ export const MENTORIA_PAGE = {
     enviar: "Enviar respostas",
     enviando: "Enviando…",
     obrigatorio: "Responda todas as perguntas e marque o aceite para enviar.",
+  },
+  // Título do lado esquerdo depois que a pessoa passa (Carlos, 09/11): parabéns, sem prometer aprovação.
+  aprovado: {
+    eyebrow: "Resultado do filtro",
+    title: "Parabéns: você tem os requisitos para se candidatar nas plataformas",
+    lead: "Pelas suas respostas, o seu perfil está alinhado com o que as plataformas pedem hoje. Isso não garante aprovação: quem decide são as entrevistas e os testes delas.",
   },
   passou: {
     eyebrow: "Seu perfil faz sentido",

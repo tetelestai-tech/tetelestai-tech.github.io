@@ -162,12 +162,15 @@ function Passou({ status, email }) {
   const copy = MENTORIA_PAGE.passou;
   const vagas = MENTORIA_PAGE.vagas;
   const aberta = MENTORIA_TURMA.vagasRestantes > 0;
-  const texto = status === "error" ? copy.erro : status === "remembered" || !email ? copy.lembrado : copy.enviado.replace("{email}", email);
+  const enviado = status !== "error" && status !== "remembered" && Boolean(email);
+  const [antes, depois] = copy.enviado.split("{email}");
   return (
     <div className="card card--feature resultado__ok stack">
       <p className="eyebrow">{copy.eyebrow}</p>
       <h2 className="h2" id="resultado-title" tabIndex={-1}>{copy.title}</h2>
-      <p className="lead">{texto}</p>
+      <p className="lead">{enviado
+        ? <>{antes}<strong className="resultado__email">{email}</strong>{depois}</>
+        : status === "error" ? copy.erro : copy.lembrado}</p>
       {status !== "error" && <p className="muted">{copy.spam}</p>}
       {!aberta && <p className="muted">{vagas.fechada}</p>}
       <div className="btn-row">
@@ -279,9 +282,10 @@ export function MentoriaPage({ locale = "pt" }) {
       <section className="section dark-2" id="filtro" aria-labelledby="filtro-title">
         <div className="wrap filtro-wrap">
           <div className="stack">
-            <p className="eyebrow">{page.filtro.eyebrow}</p>
-            <h2 className="h2" id="filtro-title">{page.filtro.title}</h2>
-            <p className="lead">{page.filtro.lead}</p>
+            {/* After a pass, the left column congratulates instead of asking again. */}
+            <p className="eyebrow">{result?.passou ? page.aprovado.eyebrow : page.filtro.eyebrow}</p>
+            <h2 className="h2" id="filtro-title">{result?.passou ? page.aprovado.title : page.filtro.title}</h2>
+            <p className="lead">{result?.passou ? page.aprovado.lead : page.filtro.lead}</p>
             {PREVIEW && <p className="note">Prévia: nesta cópia o envio não grava nada no banco.</p>}
           </div>
           <div ref={resultRef} className="resultado-slot" aria-live="polite">

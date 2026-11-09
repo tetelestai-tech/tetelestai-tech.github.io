@@ -519,6 +519,7 @@ body:has(.analytics-consent) .wa-float{display:none}
 .resultado__nao{gap:16px}
 .resultado__nao ul{gap:10px}
 .resultado__ok{gap:14px}
+.resultado__email{color:var(--cyan);font-weight:650;overflow-wrap:anywhere}
 .resultado-slot{scroll-margin-top:calc(var(--head-h,72px) + 16px)}
 .direcionamento{display:flex;flex-direction:column;gap:12px;padding:clamp(16px,2.4vw,22px);border:1px solid var(--cyan-line);border-radius:14px;background:var(--cyan-soft)}
 .direcionamento p{margin:0}

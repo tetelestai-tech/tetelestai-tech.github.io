@@ -347,6 +347,9 @@ test("the mentoria keeps the guide's fixed texts; prices, numbers and contract g
   assert.equal(page.naoPassou.direcionamento.preco, "R$ 397");
   assert.match(page.naoPassou.direcionamento.texto, /45 minutos/);
   assert.match(page.naoPassou.direcionamento.termos, /CDC art\. 49/);
+  // Decision of 09/11/2026: the direcionamento becomes a one-time discount on the package for 7 days (same e-mail).
+  assert.match(page.naoPassou.direcionamento.termos, /em até 7 dias depois desta compra, com o mesmo e-mail, os R\$ 397 saem do valor dela, uma vez só/);
+  assert.doesNotMatch(page.naoPassou.direcionamento.termos, /não dá desconto/);
   assert.equal(content.MENTORIA_TURMA.vagasTotal, 5);
   assert.equal(content.MENTORIA_WHATSAPP.naoRecebi, "https://wa.me/556184711930?text=Ol%C3%A1%21%20Passei%20no%20filtro%20da%20mentoria%20e%20n%C3%A3o%20recebi%20o%20e-mail.");
   const pass = { experiencia: "3_8", linguagens: "Python", ingles: "com_esforco", situacao: "emprego_fixo", horas: "5_10" };

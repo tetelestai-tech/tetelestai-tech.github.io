@@ -169,7 +169,7 @@ export const MENTORIA_PAGE = {
       pagamento: "Pix à vista, sem juros, ou cartão em até 12x (+3,49% a.m.)",
       cta: "Comprar o direcionamento",
       ctaWhatsApp: "Quero o direcionamento",
-      termos: "Pagamento pela Kiwify antes do encontro, marcado à noite ou no fim de semana. 7 dias para desistir, com devolução integral (CDC art. 49). Não substitui a mentoria, não muda o resultado do filtro e não dá desconto no pacote. Sem promessa de aprovação nas plataformas, de projeto ou de renda.",
+      termos: "Pagamento pela Kiwify antes do encontro, marcado à noite ou no fim de semana. 7 dias para desistir, com devolução integral (CDC art. 49). Não substitui a mentoria e não muda o resultado do filtro. Se você refizer o filtro, passar e contratar a mentoria em até 7 dias depois desta compra, com o mesmo e-mail, os R$ 397 saem do valor dela, uma vez só. Sem promessa de aprovação nas plataformas, de projeto ou de renda.",
     },
   },
   vagas: {

@@ -25,11 +25,13 @@ test('redesign keeps one WhatsApp action in each opening, presents each front on
       assert.match(decodeURIComponent(actions[0]), /697/, `${path}: the primary action asks for the R$ 697 landing page`);
       assert.doesNotMatch(decodeURIComponent(actions[1]), /697/, `${path}: the secondary action asks for a quote`);
       assert.ok(hero.includes('class="trust"'), `${path}: trust facts under the actions`);
-      const fronts = path === '/' ? ['Sites, landing pages e apps', 'Carreira internacional em TI', 'Capacitação em IA'] : ['Websites, landing pages and apps', 'International careers in tech', 'AI training'];
+      // 08/11/2026: the career front became the mentoria; the home keeps its front and links to /mentoria/.
+      const fronts = path === '/' ? ['Sites, landing pages e apps', 'Mentoria: renda em dólar treinando IA', 'Capacitação em IA'] : ['Websites, landing pages and apps', 'Mentoring for developers', 'AI training'];
       for (const front of fronts) assert.equal((html.match(new RegExp(`>${front}</h3>`, 'g')) ?? []).length, 1, `${path}: ${front}`);
       assert.ok(html.includes('id="projects"'), 'Projects link must have a destination on each homepage');
       assert.ok(!html.includes('id="ios-apps-title"'), 'app presentation stays on the full portfolio page');
       assert.ok(html.includes('class="receipt"'), 'the price note is visible on the homepage');
+      assert.ok(html.includes('href="/mentoria/"'), `${path}: the home has a block pointing to the mentoria`);
     }
     for (const path of ['/criacao-de-sites/', '/criacao-de-landing-pages/']) {
       const html = render(path);
@@ -38,7 +40,7 @@ test('redesign keeps one WhatsApp action in each opening, presents each front on
       assert.match(hero, /href="\/projetos\/(?:infinity-car-studio|respeitavel-feijuca)\/"/, `${path}: opening links to a real project`);
       assert.ok(html.includes('id="projects"'));
     }
-    for (const path of ['/carreira-internacional/', '/capacitacao-em-ia/']) {
+    for (const path of ['/mentoria/', '/capacitacao-em-ia/']) {
       assert.ok(!render(path).includes('id="projects"'), `${path}: no unrelated delivery claims`);
     }
   } finally {

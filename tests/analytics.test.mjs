@@ -1,8 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createAnalyticsController, CONSENT_KEY, CONSENT_DURATION, MEASUREMENT_ID, measurementPath } from "../src/analytics.mjs";
+import { createAnalyticsController, CONSENT_KEY, CONSENT_DURATION, CONSENT_POLICY_VERSION, MEASUREMENT_ID, META_PIXEL_ID, measurementPath } from "../src/analytics.mjs";
 
-function browser(path = "/", hostname = "tetelestai.tech", search = "") {
+function browser(path = "/", hostname = "tetelestai.tech", search = "", options = {}) {
   let now = 1000;
   const stored = new Map();
   const scripts = [];
@@ -22,18 +22,18 @@ function browser(path = "/", hostname = "tetelestai.tech", search = "") {
     get cookie() { return "_ga=abc; _ga_VKJKP1MBYF=def; essential=keep"; },
     set cookie(value) { cookies.push(value); },
   };
-  const controller = createAnalyticsController(win, doc, () => now);
+  const controller = createAnalyticsController(win, doc, () => now, options);
   const events = () => (win.dataLayer ?? []).map(v => Array.from(v)).filter(v => v[0] === "event");
   return { controller, win, doc, stored, scripts, cookies, timers, events, setNow: value => { now = value; }, get reloads() { return reloads; } };
 }
 
-test("only the twenty-two commercial pages and their explicit aliases qualify", () => {
-  for (const path of ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/", "/projetos/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/", "/projetos/afeto-nobre/", "/projetos/lalelis/", "/projetos/respeitavel-feijuca/", "/en/projects/afeto-nobre/", "/en/projects/lalelis/", "/en/projects/respeitavel-feijuca/", "/en/website-development/", "/en/landing-pages/", "/en/international-career/", "/en/ai-training/", "/en/projects/", "/en/projects/infinity-car-studio/", "/en/projects/bolachinhas-da-vovo-juju/"]) {
+test("only the twenty-one commercial pages and their explicit aliases qualify", () => {
+  for (const path of ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/mentoria/", "/capacitacao-em-ia/", "/projetos/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/", "/projetos/afeto-nobre/", "/projetos/lalelis/", "/projetos/respeitavel-feijuca/", "/en/projects/afeto-nobre/", "/en/projects/lalelis/", "/en/projects/respeitavel-feijuca/", "/en/website-development/", "/en/landing-pages/", "/en/ai-training/", "/en/projects/", "/en/projects/infinity-car-studio/", "/en/projects/bolachinhas-da-vovo-juju/"]) {
     assert.equal(measurementPath(path), path);
     assert.equal(measurementPath(`${path}index.html`), path);
     if (path !== "/") assert.equal(measurementPath(path.slice(0, -1)), path);
   }
-  for (const path of ["/projetos/afeto-nobre/extra/", "/projetos/lalelis//", "/recarga/", "/privacidade/", "/en/privacy/", "/missing/", "/en//", "/criacao-de-sites/missing/index.html", "/carreira-internacional/missing", "/capacitacao-em-ia//"]) assert.equal(measurementPath(path), null);
+  for (const path of ["/projetos/afeto-nobre/extra/", "/projetos/lalelis//", "/recarga/", "/privacidade/", "/en/privacy/", "/missing/", "/en//", "/criacao-de-sites/missing/index.html", "/mentoria/missing", "/capacitacao-em-ia//", "/carreira-internacional/", "/en/international-career/"]) assert.equal(measurementPath(path), null);
 });
 
 test("test link marks the first view and every click without overriding consent", () => {
@@ -185,7 +185,7 @@ test("malformed consent and storage failures fail closed", () => {
 
 test("returning visitors receive only the remaining consent duration for cookies", () => {
   const b = browser();
-  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 1000 + 3600 * 1000, policyVersion: 4 }));
+  b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 1000 + 3600 * 1000, policyVersion: CONSENT_POLICY_VERSION }));
   b.controller.sync();
   const config = b.win.dataLayer.map(v => Array.from(v)).find(v => v[0] === "config")[2];
   assert.equal(config.cookie_expires, 3600);
@@ -225,7 +225,7 @@ test("a changed preference from another tab stops collection", () => {
 });
 
 test("earlier acceptances do not authorize the expanded scope until explicit confirmation", () => {
-  const b = browser("/carreira-internacional/");
+  const b = browser("/mentoria/");
   b.stored.set(CONSENT_KEY, JSON.stringify({ choice: "accepted", expiresAt: 10000 }));
   b.controller.sync();
   b.controller.trackWhatsApp();
@@ -233,7 +233,7 @@ test("earlier acceptances do not authorize the expanded scope until explicit con
   assert.equal(b.scripts.length, 0);
   assert.deepEqual(b.events(), []);
   assert.equal(b.controller.choose("accepted"), true);
-  assert.equal(JSON.parse(b.stored.get(CONSENT_KEY)).policyVersion, 4);
+  assert.equal(JSON.parse(b.stored.get(CONSENT_KEY)).policyVersion, 5);
   assert.equal(b.scripts.length, 1);
   assert.deepEqual(b.events().map(e => e[1]), ["page_view"]);
 });
@@ -252,7 +252,7 @@ test("earlier refusals remain effective for the rest of their original duration"
 });
 
 test("new service pages send only the existing minimal events after acceptance", () => {
-  for (const path of ["/carreira-internacional/", "/capacitacao-em-ia/"]) {
+  for (const path of ["/mentoria/", "/capacitacao-em-ia/"]) {
     const b = browser(path);
     b.controller.sync();
     b.controller.trackWhatsApp();
@@ -327,20 +327,20 @@ test("De Rolê clicks use their own app ID and retain consent and test separatio
   assert.deepEqual(b.events(), []);
 });
 
-test("video scope requires a fresh acceptance of v4 but preserves a valid v3 refusal", () => {
+test("pixel scope requires a fresh acceptance of v5 but preserves a valid v4 refusal", () => {
   const accepted = browser("/projetos/");
-  const oldAcceptance = JSON.stringify({ choice: "accepted", expiresAt: 10000, policyVersion: 3 });
+  const oldAcceptance = JSON.stringify({ choice: "accepted", expiresAt: 10000, policyVersion: 4 });
   accepted.stored.set(CONSENT_KEY, oldAcceptance);
   accepted.controller.sync();
-  assert.equal(accepted.scripts.length, 0, "the prior App Store-only acceptance must not enable the expanded scope");
+  assert.equal(accepted.scripts.length, 0, "the prior acceptance without the Meta pixel must not enable the expanded scope");
   assert.equal(accepted.controller.choice(), null);
   assert.equal(accepted.stored.get(CONSENT_KEY), oldAcceptance, "inspection must not silently renew consent");
   assert.equal(accepted.controller.choose("accepted"), true);
-  assert.equal(JSON.parse(accepted.stored.get(CONSENT_KEY)).policyVersion, 4);
+  assert.equal(JSON.parse(accepted.stored.get(CONSENT_KEY)).policyVersion, 5);
   assert.deepEqual(accepted.events().map(e => e[1]), ["page_view"], "previous clicks must not be replayed");
 
   const refused = browser("/projetos/");
-  const oldRefusal = JSON.stringify({ choice: "rejected", expiresAt: 10000, policyVersion: 3 });
+  const oldRefusal = JSON.stringify({ choice: "rejected", expiresAt: 10000, policyVersion: 4 });
   refused.stored.set(CONSENT_KEY, oldRefusal);
   refused.controller.sync();
   assert.equal(refused.controller.choice(), "rejected");
@@ -443,27 +443,75 @@ test("a test-mode change blocks video clicks from the earlier tag instead of mis
   assert.equal(b.reloads, 1);
 });
 
-test("WhatsApp clicks report a safe placement and Essencial checkout clicks are measured after consent", () => {
-  const b = browser("/carreira-internacional/");
-  b.controller.trackCheckout("hero");
+test("WhatsApp clicks report a safe placement and the mentoria filter sends one contato event after consent", () => {
+  const b = browser("/mentoria/");
+  b.controller.trackContact(true, "anuncio_mentoria");
   assert.equal(b.events().length, 0, "nothing is sent before consent");
   b.controller.choose("accepted");
-  b.controller.trackWhatsApp("price_note");
+  b.controller.trackWhatsApp("section_resultado", "mentoria");
   b.controller.trackWhatsApp("<script>");
-  b.controller.trackWhatsApp();
-  b.controller.trackCheckout("sticky");
-  b.controller.trackCheckout("section_coaching", "acompanhado");
-  b.controller.trackCheckout("hero", "other");
-  const [, wa1, wa2, wa3, checkout, coaching, unknown] = b.events();
-  assert.equal(coaching[2].product_name, "acompanhado");
-  assert.equal(unknown[2].product_name, "essencial", "unknown products fall back");
-  assert.equal(wa1[2].contact_placement, "price_note");
+  b.controller.trackContact(true, "anuncio_mentoria");
+  b.controller.trackContact(false, "bio_mentoria");
+  b.controller.trackContact(true, "<script>");
+  b.controller.trackContact(false);
+  const [, wa1, wa2, passed, failed, other, direct] = b.events();
+  assert.equal(wa1[2].contact_intent, "mentoria");
+  assert.equal(wa1[2].contact_placement, "section_resultado");
   assert.equal(wa2[2].contact_placement, "contact_section", "unexpected values fall back");
-  assert.equal(wa3[2].contact_placement, "contact_section");
-  assert.equal(checkout[1], "checkout_click");
-  assert.equal(checkout[2].product_name, "essencial");
-  assert.equal(checkout[2].link_placement, "sticky");
-  assert.equal(checkout[2].page_path, "/carreira-internacional/");
+  assert.equal(passed[1], "contato");
+  assert.equal(passed[2].filtro_resultado, "passou");
+  assert.equal(passed[2].origem, "anuncio_mentoria");
+  assert.equal(passed[2].page_path, "/mentoria/");
+  assert.equal(failed[2].filtro_resultado, "nao_passou");
+  assert.equal(failed[2].origem, "bio_mentoria");
+  assert.equal(other[2].origem, "outra", "unknown campaigns are bounded");
+  assert.equal(direct[2].origem, "direto");
+  assert.doesNotMatch(JSON.stringify(b.win.dataLayer), /@|556184711930|nome|email/);
+});
+
+test("contato fires only on the mentoria page", () => {
+  const b = browser("/");
+  b.controller.choose("accepted");
+  b.controller.trackContact(true, "bio_mentoria");
+  assert.deepEqual(b.events().map(e => e[1]), ["page_view"]);
+});
+
+test("the Meta pixel stays off until Carlos sets the dataset ID", () => {
+  assert.equal(META_PIXEL_ID, "", "update this test when the real dataset ID is set");
+  const b = browser("/mentoria/");
+  b.controller.choose("accepted");
+  assert.equal(b.scripts.length, 1, "only the Google tag loads");
+  assert.equal(b.win.fbq, undefined);
+});
+
+test("the Meta pixel loads only on /mentoria/, after consent, outside test mode, without automatic events", () => {
+  const before = browser("/mentoria/", "tetelestai.tech", "", { pixelId: "123456789" });
+  before.controller.sync();
+  assert.equal(before.win.fbq, undefined, "no pixel before consent");
+  before.controller.choose("accepted");
+  assert.equal(before.scripts.length, 2);
+  assert.match(before.scripts[1].src, /^https:\/\/connect\.facebook\.net\/en_US\/fbevents\.js$/);
+  const queue = before.win.fbq.queue.map(v => Array.from(v));
+  assert.deepEqual(queue.slice(0, 3), [["set", "autoConfig", false, "123456789"], ["init", "123456789"], ["track", "PageView"]]);
+  before.controller.trackContact(true, "anuncio_mentoria");
+  const contact = before.win.fbq.queue.map(v => Array.from(v)).at(-1);
+  assert.deepEqual(contact, ["track", "Contact", { content_name: "filtro_mentoria", filtro: "passou" }]);
+
+  const home = browser("/", "tetelestai.tech", "", { pixelId: "123456789" });
+  home.controller.choose("accepted");
+  assert.equal(home.win.fbq, undefined, "other pages never load the pixel");
+
+  const refused = browser("/mentoria/", "tetelestai.tech", "", { pixelId: "123456789" });
+  refused.controller.choose("rejected");
+  assert.equal(refused.win.fbq, undefined);
+
+  const tester = browser("/mentoria/", "tetelestai.tech", "?modo_teste=1", { pixelId: "123456789" });
+  tester.controller.choose("accepted");
+  assert.equal(tester.win.fbq, undefined, "internal tests never reach the ad optimization");
+
+  const preview = browser("/mentoria/", "localhost", "", { pixelId: "123456789" });
+  preview.controller.choose("accepted");
+  assert.equal(preview.win.fbq, undefined);
 });
 
 test("WhatsApp clicks tell the R$ 697 landing page apart from quotes, and the floating button has its own placement", () => {

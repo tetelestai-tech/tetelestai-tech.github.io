@@ -55,8 +55,9 @@ const routeShells = [
     canonical: `https://tetelestai.tech${page.path}`,
     robots: "noindex,nofollow",
   })),
+  // Portuguese-only service pages (the mentoria) carry no hreflang alternates.
   ...Object.entries(SERVICE_PAGES).map(([key,page]) => ({
-    alternatePt:`https://tetelestai.tech${page.path}`, alternateEn:`https://tetelestai.tech${equivalentPaths(key).en}`,
+    ...(equivalentPaths(key).ptOnly ? {} : { alternatePt:`https://tetelestai.tech${page.path}`, alternateEn:`https://tetelestai.tech${equivalentPaths(key).en}` }),
     output: `${page.path.slice(1)}index.html`,
     pathname: page.path,
     lang: "pt-BR",

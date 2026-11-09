@@ -1,7 +1,7 @@
 import { HOME, HOW_STEPS, LANDING_RECEIPT, PEOPLE, UI } from "../home-content.mjs";
 import { portfolioFor, servicesFor } from "../localized-content.mjs";
 import { APPS, CLIENT_PROJECTS } from "../portfolio-content.mjs";
-import { PageShell, pathFor } from "../Layout.jsx";
+import { PageShell, linkLang, pathFor } from "../Layout.jsx";
 import { Browser, Circuits, CtaFinal, DevicePair, FaqSection, LinkArrow, Receipt, SectionHead, Steps, WhatsAppLink } from "../ui.jsx";
 
 export function CaseCard({ project, locale, heading: Heading = "h3", featured = false }) {
@@ -118,7 +118,7 @@ export function HomePage({ locale }) {
                 <h3 className="h3">{front.title}</h3>
                 <p>{front.text}</p>
                 <div className="card__links">
-                  {front.links.map(key => <LinkArrow href={pathFor(key, locale)} className="link link--arrow link--white" key={key}>{services[key]?.label ?? t.appsLabel}</LinkArrow>)}
+                  {front.links.map(key => <LinkArrow href={pathFor(key, locale)} {...linkLang(key, locale)} className="link link--arrow link--white" key={key}>{front.linkLabels?.[key] ?? services[key]?.label ?? t.appsLabel}</LinkArrow>)}
                 </div>
               </article>
             ))}

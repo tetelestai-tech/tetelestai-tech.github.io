@@ -98,67 +98,6 @@ export const EN_SERVICE_PAGES = {
     ],
     final: { title: 'Want your landing page?', text: 'Send a message telling us what you sell. The proposal comes with price and timeline.' },
   },
-  career: {
-    path: '/en/international-career/',
-    label: 'International careers in tech',
-    metaTitle: 'English CV and international tech jobs guide | Tetelestai',
-    metaDescription: 'A 31-page guide (in Portuguese) with a 7-day plan, English templates and an application tracker for tech professionals in Brazil. R$ 47 via Kiwify.',
-    eyebrow: 'International careers in tech · Essencial',
-    heading: 'English CV, LinkedIn and job applications, organized for international tech roles',
-    intro: 'A 31-page guide in Portuguese with a 7-day plan, fill-in English templates and a spreadsheet to track every application.',
-    byline: 'By Carlos Viegas, a software engineer for 22 years who works from Brazil for international AI companies.',
-    buyLabel: 'Buy the Essencial for R$ 47',
-    buyShort: 'Buy for R$ 47',
-    secondaryLabel: "See what's inside",
-    productName: 'Candidaturas internacionais em TI — Essencial',
-    price: '47.00',
-    coverAlt: 'Cover of the Candidaturas internacionais em TI guide, edition 02',
-    mapAlt: 'Guide map page listing the 7 stages',
-    facts: [['Format', '31-page PDF, templates and tracker'], ["Who it's for", 'Tech professionals in Brazil'], ['Price', 'R$ 47 via Kiwify'], ['Payment', 'One-time purchase, no subscription; card installments'], ['Checkout add-on', 'Word templates: English CV and cover letter, R$ 9.90'], ['Language', 'Portuguese, with English templates'], ['Edition', '02 · October 2026'], ['Author', 'Carlos Viegas']],
-    build: {
-      eyebrow: "What you'll build", title: 'Six pieces that tell the same story',
-      items: [
-        { k: '01', title: 'Target definition', text: 'One sentence stating the role you want, the work model and the skills you can actually demonstrate.' },
-        { k: '02', title: 'Experience inventory', text: 'Real decisions, problems and deliveries that become evidence on your CV.' },
-        { k: '03', title: 'English CV', text: 'With examples and a fill-in template, without inventing levels or experience.' },
-        { k: '04', title: 'LinkedIn profile', text: 'Consistent with your CV: dates, roles, technologies and language level all matching.' },
-        { k: '05', title: 'Outreach messages', text: 'English templates for recruiters and referral requests.' },
-        { k: '06', title: 'Application tracker', text: 'A spreadsheet to follow each role, reply and next step.' },
-      ],
-    },
-    map: {
-      eyebrow: 'Guide map', title: 'From choosing a role to following up',
-      chapters: [['01', 'Define your target and vet the role', 'p. 4'], ['02', 'Prepare your CV and LinkedIn', 'p. 10'], ['03', 'Show projects and start conversations', 'p. 15'], ['04', 'Apply and track replies', 'p. 17'], ['05', 'Prepare for interviews and avoid scams', 'p. 22'], ['06', 'Run the 7-day plan and review', 'p. 24'], ['07', 'Checklist, templates and references', 'p. 26']],
-    },
-    author: {
-      eyebrow: 'Who wrote it', name: 'Carlos Viegas',
-      paragraphs: [
-        'Carlos Viegas has been a software engineer for more than 22 years. He started in 2004 building high-volume systems for banks and telecom companies and was a tech lead at Banco do Brasil for 14 years.',
-        'Since 2025 he has worked remotely from Brasília, evaluating the quality of artificial intelligence models for international companies. Getting there meant going through the steps this guide organizes: an English CV, LinkedIn, eligibility forms and hiring processes at foreign companies.',
-      ],
-    },
-    notIncluded: {
-      eyebrow: 'To be clear', title: "What the Essencial doesn't include",
-      text: "It doesn't include video lessons, meetings, individual reviews, submitting applications, referrals or job placement. It's a study and organization guide, with no guarantee of interviews, hiring, salary or visas. People and companies in the examples are fictitious.",
-    },
-    coaching: {
-      eyebrow: 'Acompanhado · one-on-one coaching', title: 'Three one-on-one sessions in 30 days: R$ 497',
-      text: 'Three 45-minute online sessions in 30 days with Carlos (in Portuguese) to work on your English CV, your LinkedIn and your application strategy. Includes the Essencial guide and the Word templates. You book the sessions after purchase.',
-      cta: 'Buy Acompanhado', question: 'Ask on WhatsApp',
-      waMessage: "Hi! I'd like to know how Acompanhado (one-on-one career coaching) works.",
-    },
-    faqTitle: { eyebrow: 'FAQ', title: 'Before you buy' },
-    faqs: [
-      { q: 'Who is the Essencial for?', a: 'Tech professionals in Brazil who want to apply for international roles, remote or relocating. Examples focus on software development, and the process also works for data, infrastructure, QA and other roles.' },
-      { q: 'Is the guide in English?', a: 'The guide is written in Portuguese. The CV and outreach templates are in English.' },
-      { q: 'How do I get the material?', a: 'You buy through Kiwify: a one-time purchase, no subscription, with card installments available. Once payment is confirmed, you get access to the PDF, the plain-text templates and the application tracker (CSV).' },
-      { q: 'What are the Word templates at checkout?', a: 'An optional R$ 9.90 add-on when you check out: an English CV and cover letter laid out in Word (.docx, A4), with fields to fill in. The guide already includes plain-text templates; the Word files save you the formatting step.' },
-      { q: 'Can I get a refund?', a: 'Yes. Brazilian consumer law gives you 7 days to cancel online purchases and request a refund.' },
-      { q: 'Does it guarantee interviews, a job or a visa?', a: "No. Interviews and hiring depend on employers. The guide doesn't provide immigration legal advice." },
-      { q: 'Does it include a review of my CV?', a: 'No. Individual reviews are part of Acompanhado: three 45-minute online sessions in 30 days, based on the Essencial files and the Word templates.' },
-    ],
-    final: { title: 'Start with the right target', text: '31 pages, from choosing a role to tracking every application.' },
-  },
   aiTraining: {
     path: '/en/ai-training/',
     label: 'AI training',
@@ -335,7 +274,9 @@ export const portfolioFor = locale => locale === 'en' ? EN_PORTFOLIO_PAGES : POR
 export function equivalentPaths(page) {
   const pt = SERVICE_PAGES[page] ?? PORTFOLIO_PAGES[page];
   const en = EN_SERVICE_PAGES[page] ?? EN_PORTFOLIO_PAGES[page];
-  return pt && en ? { pt: pt.path, en: en.path } : { pt: '/', en: '/en/' };
+  if (pt && en) return { pt: pt.path, en: en.path };
+  // Portuguese-only page (the mentoria, 08/11/2026): no English equivalent, so EN points to the English homepage.
+  return pt ? { pt: pt.path, en: '/en/', ptOnly: true } : { pt: '/', en: '/en/' };
 }
 
-export const COMMERCIAL_TRANSLATIONS = [...Object.keys(SERVICE_PAGES), ...Object.keys(PORTFOLIO_PAGES)].map(equivalentPaths);
+export const COMMERCIAL_TRANSLATIONS = [...Object.keys(SERVICE_PAGES), ...Object.keys(PORTFOLIO_PAGES)].map(equivalentPaths).filter(paths => !paths.ptOnly);

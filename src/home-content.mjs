@@ -1,6 +1,7 @@
 // Shared interface copy and homepage content (PT/EN).
 // Redesign 2026-10: the homepage leads with the R$ 697 landing page offer for small
 // businesses; career and AI training remain as separate fronts with their own pages.
+// 08/11/2026: the career front is the mentoria test (/mentoria/); the home keeps its front and gains one block.
 // Statements marked CONFIRM in AGENTS.md must be confirmed by Carlos before publishing.
 
 export const UI = {
@@ -12,11 +13,12 @@ export const UI = {
     navLabel: "Navegação principal",
     nav: [
       ["sites", "Sites"], ["landingPages", "Landing pages"], ["portfolio", "Projetos"],
-      ["career", "Carreira"], ["aiTraining", "IA"],
+      ["career", "Mentoria"], ["aiTraining", "IA"],
     ],
     cta: "Pedir orçamento",
     appsLabel: "Apps iOS e Android",
     ctaWhatsApp: "Pedir orçamento no WhatsApp",
+    ctaMentoria: "Responder o filtro",
     waDefault: "Olá! Vim pelo site da Tetelestai e quero um orçamento.",
     // Primary goal (Carlos, 28/10): hiring the R$ 697 landing page through WhatsApp.
     ctaLanding: "Landing page R$ 697",
@@ -35,7 +37,7 @@ export const UI = {
       people: "Carlos Viegas · Gabriela Rosa · Brasília-DF · atendimento online em todo o Brasil",
       columns: [
         ["Serviços", [["sites", "Criação de sites"], ["landingPages", "Landing pages"], ["apps", "Apps iOS e Android"], ["portfolio", "Projetos"]]],
-        ["Outras frentes", [["career", "Carreira internacional em TI"], ["aiTraining", "Capacitação em IA"]]],
+        ["Outras frentes", [["career", "Mentoria: renda em dólar treinando IA"], ["aiTraining", "Capacitação em IA"]]],
       ],
       contact: "Contato",
       company: "Tetelestai Soluções em Tecnologia Ltda. · CNPJ 58.138.258/0001-39",
@@ -59,11 +61,12 @@ export const UI = {
     navLabel: "Primary navigation",
     nav: [
       ["sites", "Websites"], ["landingPages", "Landing pages"], ["portfolio", "Projects"],
-      ["career", "Career"], ["aiTraining", "AI"],
+      ["career", "Mentoring (PT)"], ["aiTraining", "AI"],
     ],
     cta: "Get a quote",
     appsLabel: "iOS and Android apps",
     ctaWhatsApp: "Get a quote on WhatsApp",
+    ctaMentoria: "Answer the filter (PT)",
     waDefault: "Hi! I found Tetelestai's website and I'd like a quote.",
     ctaLanding: "Landing page R$ 697",
     ctaLandingLong: "I want my landing page",
@@ -81,7 +84,7 @@ export const UI = {
       people: "Carlos Viegas · Gabriela Rosa · Based in Brasília, working online across Brazil and abroad",
       columns: [
         ["Services", [["sites", "Website development"], ["landingPages", "Landing pages"], ["apps", "iOS and Android apps"], ["portfolio", "Projects"]]],
-        ["More from Tetelestai", [["career", "International careers in tech"], ["aiTraining", "AI training"]]],
+        ["More from Tetelestai", [["career", "Mentoring for developers (in Portuguese)"], ["aiTraining", "AI training"]]],
       ],
       contact: "Contact",
       company: "Tetelestai Soluções em Tecnologia Ltda. · CNPJ 58.138.258/0001-39",
@@ -137,7 +140,7 @@ export const HOME = {
       aside: "Tecnologia com propósito. Oportunidades sem fronteiras.",
       items: [
         { id: "solucoes-digitais", title: "Sites, landing pages e apps", text: "Sites e apps que apresentam o negócio e geram vendas, e landing pages que levam o cliente ao WhatsApp. Apps iOS e Android sob orçamento.", links: ["sites", "landingPages", "apps"] },
-        { id: "carreira-internacional", title: "Carreira internacional em TI", text: "Guia Essencial: currículo em inglês, LinkedIn e candidaturas organizadas. R$ 47.", links: ["career"] },
+        { id: "mentoria", title: "Mentoria: renda em dólar treinando IA", text: "Para desenvolvedores que programam bem e fazem entrevista em inglês: o caminho para treinar modelos de IA para plataformas americanas nas horas vagas, como PJ, sem largar o emprego. Mentoria individual, sem promessa de ganho.", links: ["career"], linkLabels: { career: "Ver a mentoria" } },
         { id: "capacitacao-ia", title: "Capacitação em IA", text: "Treinamento prático de inteligência artificial para equipes e profissionais, sob demanda.", links: ["aiTraining"] },
       ],
     },
@@ -188,7 +191,7 @@ export const HOME = {
       aside: "Technology with purpose. Opportunities without borders.",
       items: [
         { id: "digital-solutions", title: "Websites, landing pages and apps", text: "Websites and apps that present your business and drive sales, and landing pages that bring customers to WhatsApp. iOS and Android apps quoted per project.", links: ["sites", "landingPages", "apps"] },
-        { id: "international-career", title: "International careers in tech", text: "The Essencial guide: English CV, LinkedIn and an organized job search (in Portuguese).", links: ["career"] },
+        { id: "mentoring", title: "Mentoring for developers", text: "One-on-one mentoring in Portuguese for developers in Brazil who program well and interview in English: training AI models for US platforms in their spare time, as a contractor, without leaving their job. No promise of earnings.", links: ["career"], linkLabels: { career: "See the mentoring page (in Portuguese)" } },
         { id: "practical-ai", title: "AI training", text: "Hands-on artificial intelligence training for teams and professionals, on demand.", links: ["aiTraining"] },
       ],
     },

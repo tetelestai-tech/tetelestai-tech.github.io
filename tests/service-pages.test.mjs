@@ -28,13 +28,16 @@ const servicePages = [
     contentPattern: /landing page/i,
   },
   {
-    path: "/carreira-internacional/",
-    heading: "Currículo em inglês, LinkedIn e candidaturas organizados para vagas internacionais em TI",
-    titlePattern: /carreira internacional/i,
-    canonical: "https://tetelestai.tech/carreira-internacional/",
-    shell: "/carreira-internacional/index.html",
-    fixture: "career page",
-    contentPattern: /currículo em inglês/i,
+    // Since 08/11/2026 the career front is the mentoria test; Portuguese only, WhatsApp only after the filter.
+    path: "/mentoria/",
+    heading: "Renda em dólar treinando IA nas horas vagas, sem largar o emprego",
+    titlePattern: /mentoria/i,
+    canonical: "https://tetelestai.tech/mentoria/",
+    shell: "/mentoria/index.html",
+    fixture: "mentoria page",
+    contentPattern: /sem promessa de ganho/i,
+    ptOnly: true,
+    filterFirst: true,
   },
   {
     path: "/capacitacao-em-ia/",
@@ -87,7 +90,7 @@ test("explicit index documents render the same page as their known directory rou
   try {
     const { App } = await renderer.ssrLoadModule("/src/App.jsx");
     const render = (pathname) => renderToString(createElement(App, { pathname }));
-    for (const pathname of ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/", "/privacidade/", "/en/privacy/", "/recarga/suporte/"]) {
+    for (const pathname of ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/mentoria/", "/capacitacao-em-ia/", "/privacidade/", "/en/privacy/", "/recarga/suporte/"]) {
       assert.equal(render(`${pathname}index.html`), render(pathname), `${pathname}index.html must preserve its page during hydration`);
     }
     assert.match(render("/unknown-service/index.html"), /Página não encontrada/);
@@ -109,11 +112,18 @@ for (const page of servicePages) {
       .map((match) => textContent(match[1]));
     assert.ok(paragraphs.some((text) => page.contentPattern.test(text)),
       "Service copy must be present in the initial HTML, not only in a JavaScript bundle");
-    const career = page.path === "/carreira-internacional/";
-    assert.ok(tags(main, "a").some((tag) => isConfirmedWhatsApp(attribute(tag, "href")?.replaceAll("&amp;", "&"))),
-      "The initial service content must link to the confirmed WhatsApp address");
-    if (career) assert.ok(tags(main, "a").some((tag) => attribute(tag, "href") === "https://pay.kiwify.com.br/CVpvQ3c"),
-      "The career guide must link to its checkout");
+    if (page.filterFirst) {
+      // The mentoria opens WhatsApp, price and contract only to people who pass the 5-question filter.
+      // The footer keeps the general contact channel (also used for data requests); the page body does not.
+      assert.ok(!tags(main, "a").some((tag) => /wa\.me/.test(attribute(tag, "href") ?? "")), "No WhatsApp link in the page before the filter");
+      assert.ok(!html.includes('class="wa-float"'), "No floating WhatsApp button on the mentoria");
+      assert.ok(/<form\b[^>]*class="filtro/.test(main), "The filter form is in the initial HTML");
+      assert.doesNotMatch(textContent(main), /3\.297|597|US\$|d[óo]lares\s+\d|\d+\s*mil d[óo]lares/i, "No price or dollar amount in the open part");
+      assert.ok(!tags(html, "a").some((tag) => /kiwify/.test(attribute(tag, "href") ?? "")), "Retired Kiwify products are gone");
+    } else {
+      assert.ok(tags(main, "a").some((tag) => isConfirmedWhatsApp(attribute(tag, "href")?.replaceAll("&amp;", "&"))),
+        "The initial service content must link to the confirmed WhatsApp address");
+    }
   });
 
   test(`${page.path} has its own indexable Portuguese metadata with its equivalent English translation`, async () => {
@@ -129,7 +139,8 @@ for (const page of servicePages) {
     const links = tags(html, "link");
     assert.deepEqual(links.filter((tag) => attribute(tag, "rel") === "canonical")
       .map((tag) => attribute(tag, "href")), [page.canonical]);
-    assert.ok(links.some(tag => attribute(tag,"hreflang")==="en" && attribute(tag,"href")===`https://tetelestai.tech${COMMERCIAL_TRANSLATIONS.find(p=>p.pt===page.path).en}`), "Each service has its actual English equivalent");
+    if (page.ptOnly) assert.ok(!links.some(tag => attribute(tag, "hreflang")), "A Portuguese-only page must not claim an English equivalent");
+    else assert.ok(links.some(tag => attribute(tag,"hreflang")==="en" && attribute(tag,"href")===`https://tetelestai.tech${COMMERCIAL_TRANSLATIONS.find(p=>p.pt===page.path).en}`), "Each service has its actual English equivalent");
   });
 
   test(`${page.path} falls back to its own HTML for exact GET and HEAD routes`, async () => {
@@ -176,7 +187,7 @@ test("the sitemap lists the homes, service pages and approved portfolio pages ex
     ...COMMERCIAL_TRANSLATIONS.map(pair=>`https://tetelestai.tech${pair.en}`),
     "https://tetelestai.tech/criacao-de-sites/",
     "https://tetelestai.tech/criacao-de-landing-pages/",
-    "https://tetelestai.tech/carreira-internacional/",
+    "https://tetelestai.tech/mentoria/",
     "https://tetelestai.tech/capacitacao-em-ia/",
     "https://tetelestai.tech/projetos/",
     "https://tetelestai.tech/projetos/infinity-car-studio/",
@@ -199,9 +210,11 @@ test("unknown, malformed and asset paths never enter the service route fallback"
     "/criacao-de-sites/missing.js",
     "/criacao-de-landing-pages/missing.css",
     "/assets/missing.js",
-    "/carreira-internacional//",
+    "/mentoria//",
     "/capacitacao-em-ia/missing",
-    "/en/carreira-internacional/",
+    "/en/mentoria/",
+    "/carreira-internacional",
+    "/en/international-career",
     "/capacitacao-em-ia/missing.js",
   ]) {
     let calls = 0;
@@ -219,7 +232,7 @@ test("the English home contains its translated content and contact before JavaSc
   const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
   assert.ok(main, "The English home must include initial main content");
   assert.match(textContent(main), /Technology with purpose/);
-  assert.match(textContent(main), /International career/);
+  assert.match(textContent(main), /Mentoring for developers/);
   assert.ok(tags(main, "a").some(tag => isConfirmedWhatsApp(attribute(tag, "href")?.replaceAll("&amp;", "&"))));
   assert.equal(attribute(tags(html, "html")[0], "lang"), "en");
 });
@@ -227,7 +240,7 @@ test("the English home contains its translated content and contact before JavaSc
 test("home service links remain grouped under the offer they describe", async () => {
   const html = await readBuiltHtml("/");
   const groups = {
-    "carreira-internacional": ["/carreira-internacional/"],
+    "mentoria": ["/mentoria/"],
     "solucoes-digitais": ["/criacao-de-sites/", "/criacao-de-landing-pages/"],
     "capacitacao-ia": ["/capacitacao-em-ia/"],
   };
@@ -241,7 +254,7 @@ test("home service links remain grouped under the offer they describe", async ()
 });
 
 test("digital projects are not presented as proof of career or training services", async () => {
-  for (const pathname of ["/carreira-internacional/", "/capacitacao-em-ia/"]) {
+  for (const pathname of ["/mentoria/", "/capacitacao-em-ia/"]) {
     const html = await readBuiltHtml(pathname);
     assert.ok(!html.includes('id="projects"'), `${pathname} must not inherit digital project claims`);
     assert.ok(!html.includes("Outro serviço digital"));
@@ -293,7 +306,7 @@ test("key facts grids end with full rows on every page that has them", async () 
     const { App } = await renderer.ssrLoadModule("/src/App.jsx");
     const { factsColumns } = await renderer.ssrLoadModule("/src/ui.jsx");
     assert.deepEqual([6, 8, 9, 12].map(factsColumns), [3, 4, 3, 4]);
-    for (const pathname of ["/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/", "/en/website-development/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/", "/projetos/afeto-nobre/", "/projetos/lalelis/", "/en/projects/lalelis/", "/projetos/respeitavel-feijuca/"]) {
+    for (const pathname of ["/criacao-de-sites/", "/criacao-de-landing-pages/", "/mentoria/", "/capacitacao-em-ia/", "/en/website-development/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/", "/projetos/afeto-nobre/", "/projetos/lalelis/", "/en/projects/lalelis/", "/projetos/respeitavel-feijuca/"]) {
       const html = renderToString(createElement(App, { pathname }));
       const grid = html.match(/<dl class="facts"[^>]*style="--facts-cols:(\d+)"[^>]*>([\s\S]*?)<\/dl>/);
       assert.ok(grid, `${pathname} renders a key facts grid with a column count`);
@@ -304,6 +317,56 @@ test("key facts grids end with full rows on every page that has them", async () 
   } finally {
     await renderer.close();
   }
+});
+
+test("the retired career addresses redirect to the mentoria and stay out of the index", async () => {
+  for (const pathname of ["/carreira-internacional/", "/en/international-career/"]) {
+    const html = await readBuiltHtml(pathname);
+    assert.match(html, /<meta http-equiv="refresh" content="0; url=\/mentoria\/" \/>/);
+    assert.match(html, /<link rel="canonical" href="https:\/\/tetelestai\.tech\/mentoria\/" \/>/);
+    assert.match(html, /<meta name="robots" content="noindex,follow" \/>/);
+    assert.match(html, /location\.replace\("\/mentoria\/"/);
+    assert.doesNotMatch(html, /Essencial|Kit Word|Acompanhado|kiwify/i);
+  }
+});
+
+test("the mentoria keeps the guide's fixed texts; prices, numbers and contract go only by e-mail", async () => {
+  const content = await import("../src/mentoria-content.mjs");
+  const page = content.MENTORIA_PAGE;
+  assert.equal(page.semPromessa.texto, "O que eu não prometo: que você vai ser aprovado, que vai ter projeto toda semana, ou que vai ganhar o que eu ganhei. O meu resultado é meu, com 22 anos de experiência e 16 meses de histórico. O seu depende do seu perfil e do seu desempenho nas entrevistas.");
+  assert.match(page.semPromessa.comissao, /^Transparência: algumas plataformas pagam a quem indica profissionais\./);
+  // Decision of 09/11/2026: vídeo 2, earnings, prices and the contract are e-mailed by the mentoria-filtro
+  // function to people who pass; the public repository and the page bundle carry none of them.
+  const source = await readFile(new URL("../src/mentoria-content.mjs", import.meta.url), "utf8");
+  assert.doesNotMatch(source, /3\.297|R\$ ?597|US\$|61\.944|video2|MENTORIA_CONTRATO/);
+  assert.equal(content.MENTORIA_VIDEOS.video2, undefined);
+  assert.match(content.MENTORIA_ENVIO.url, /^https:\/\/vjslazmwbbcsfnixvpyf\.supabase\.co\/functions\/v1\/mentoria-filtro$/);
+  assert.match(page.filtro.lead, /no seu e-mail o segundo vídeo/);
+  assert.match(page.passou.enviado, /\{email\}/);
+  // People who do not pass see the feedback and the R$ 397 direcionamento (45 min), never the package.
+  assert.equal(page.naoPassou.direcionamento.preco, "R$ 397");
+  assert.match(page.naoPassou.direcionamento.texto, /45 minutos/);
+  assert.match(page.naoPassou.direcionamento.termos, /CDC art\. 49/);
+  // Decision of 09/11/2026: the direcionamento becomes a one-time discount on the package for 7 days (same e-mail).
+  assert.match(page.naoPassou.direcionamento.termos, /em até 7 dias depois desta compra, com o mesmo e-mail, os R\$ 397 saem do valor dela, uma vez só/);
+  assert.doesNotMatch(page.naoPassou.direcionamento.termos, /não dá desconto/);
+  assert.equal(content.MENTORIA_TURMA.vagasTotal, 5);
+  assert.equal(content.MENTORIA_WHATSAPP.naoRecebi, "https://wa.me/556184711930?text=Ol%C3%A1%21%20Passei%20no%20filtro%20da%20mentoria%20e%20n%C3%A3o%20recebi%20o%20e-mail.");
+  const pass = { experiencia: "3_8", linguagens: "Python", ingles: "com_esforco", situacao: "emprego_fixo", horas: "5_10" };
+  assert.equal(content.avaliarFiltro(pass).passou, true);
+  for (const [name, value] of [["experiencia", "1_3"], ["linguagens", "  "], ["ingles", "trava"], ["situacao", "desempregado"], ["horas", "menos_5"]]) {
+    const result = content.avaliarFiltro({ ...pass, [name]: value });
+    assert.equal(result.passou, false, `${name}=${value} must not pass`);
+    assert.equal(result.volte.length, 1);
+  }
+  assert.equal(content.avaliarFiltro({ ...pass, situacao: "autonomo", experiencia: "mais_8", horas: "mais_10", ingles: "tranquilo" }).passou, true);
+});
+
+test("no platform names anywhere in the mentoria source or page", async () => {
+  const platforms = /mercor|outlier|alignerr|scale ai|remotasks|dataannotation|data annotation|turing|appen|toloka/i;
+  const source = await readFile(new URL("../src/mentoria-content.mjs", import.meta.url), "utf8");
+  assert.doesNotMatch(source, platforms);
+  assert.doesNotMatch(await readBuiltHtml("/mentoria/"), platforms);
 });
 
 test("method steps light up on hover without a cyan bar beside the card", async () => {

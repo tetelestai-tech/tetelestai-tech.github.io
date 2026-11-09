@@ -1,11 +1,17 @@
 export const MEASUREMENT_ID = "G-VKJKP1MBYF";
 export const CONSENT_KEY = "tetelestai:analytics-consent:v1";
-export const CONSENT_POLICY_VERSION = 4;
+export const CONSENT_POLICY_VERSION = 5;
 export const CONSENT_DURATION = 180 * 24 * 60 * 60 * 1000;
 export const PREFERENCES_EVENT = "tetelestai:cookie-preferences";
 export const TEST_MODE_KEY = "tetelestai:test-mode:v1";
+// Meta pixel (dataset) for the mentoria test, 11 to 25/11/2026. Empty = disabled until Carlos creates the
+// dataset in Events Manager and sends its ID. It loads only on /mentoria/, only after consent, never in test mode.
+export const META_PIXEL_ID = "";
+const PIXEL_PATHS = ["/mentoria/"];
+// UTM campaigns defined in the mentoria guide (section 5); anything else is reported as "outra".
+const MENTORIA_CAMPAIGNS = ["bio_mentoria", "anuncio_mentoria", "reel_mentoria"];
 
-const PAGE_PATHS = ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/carreira-internacional/", "/capacitacao-em-ia/", "/projetos/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/", "/projetos/afeto-nobre/", "/projetos/lalelis/", "/projetos/respeitavel-feijuca/", "/en/website-development/", "/en/landing-pages/", "/en/international-career/", "/en/ai-training/", "/en/projects/", "/en/projects/infinity-car-studio/", "/en/projects/bolachinhas-da-vovo-juju/", "/en/projects/afeto-nobre/", "/en/projects/lalelis/", "/en/projects/respeitavel-feijuca/"];
+const PAGE_PATHS = ["/", "/en/", "/criacao-de-sites/", "/criacao-de-landing-pages/", "/mentoria/", "/capacitacao-em-ia/", "/projetos/", "/projetos/infinity-car-studio/", "/projetos/bolachinhas-da-vovo-juju/", "/projetos/afeto-nobre/", "/projetos/lalelis/", "/projetos/respeitavel-feijuca/", "/en/website-development/", "/en/landing-pages/", "/en/ai-training/", "/en/projects/", "/en/projects/infinity-car-studio/", "/en/projects/bolachinhas-da-vovo-juju/", "/en/projects/afeto-nobre/", "/en/projects/lalelis/", "/en/projects/respeitavel-feijuca/"];
 
 export function measurementPath(pathname) {
   return PAGE_PATHS.find(path => pathname === path || pathname === `${path}index.html` ||
@@ -20,9 +26,11 @@ function referrerOrigin(value) {
 }
 
 // No browser access at module scope: this module also participates in prerendering.
-export function createAnalyticsController(win, doc, now = Date.now) {
+export function createAnalyticsController(win, doc, now = Date.now, { pixelId = META_PIXEL_ID } = {}) {
   const disableKey = `ga-disable-${MEASUREMENT_ID}`;
   let script;
+  let pixelScript;
+  let pixelStarted = false;
   let timer;
   let started = false;
   let blocked = false;
@@ -81,7 +89,7 @@ export function createAnalyticsController(win, doc, now = Date.now) {
   function clearCookies() {
     for (const cookie of doc.cookie.split(";")) {
       const name = cookie.trim().split("=")[0];
-      if (name !== "_ga" && !name.startsWith("_ga_")) continue;
+      if (name !== "_ga" && !name.startsWith("_ga_") && !["_fbp", "_fbc"].includes(name)) continue;
       for (const domain of ["", win.location.hostname, ".tetelestai.tech"]) {
         doc.cookie = `${name}=; Max-Age=0; path=/;${domain ? ` domain=${domain};` : ""} SameSite=Lax; Secure`;
       }
@@ -94,6 +102,7 @@ export function createAnalyticsController(win, doc, now = Date.now) {
     win.clearTimeout(timer);
     if (win.dataLayer) win.dataLayer.length = 0;
     script?.remove();
+    pixelScript?.remove();
     clearCookies();
     // Removing a script element does not unload its code or listeners.
     if (started && reload) win.location.reload();
@@ -127,7 +136,7 @@ export function createAnalyticsController(win, doc, now = Date.now) {
     if (!save(consent)) { stop(false); return; }
     win.clearTimeout(timer);
     timer = win.setTimeout(sync, Math.min(consent.expiresAt - now(), 2_147_483_647));
-    if (started) return;
+    if (started) { startPixel(path); return; }
     modeAtStart = mode;
     started = true;
     win[disableKey] = false;
@@ -154,6 +163,24 @@ export function createAnalyticsController(win, doc, now = Date.now) {
     script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
     script.referrerPolicy = "origin";
     doc.head.appendChild(script);
+    startPixel(path);
+  }
+
+  // Meta pixel: same consent as Analytics (policy v5), only on the mentoria page, no automatic events.
+  function startPixel(path) {
+    if (pixelStarted || blocked || !pixelId || !PIXEL_PATHS.includes(path) || modeAtStart === "internal") return;
+    pixelStarted = true;
+    const fbq = function () { if (fbq.callMethod) fbq.callMethod.apply(fbq, arguments); else fbq.queue.push(arguments); };
+    fbq.push = fbq; fbq.loaded = true; fbq.version = "2.0"; fbq.queue = [];
+    win.fbq = fbq;
+    if (!win._fbq) win._fbq = fbq;
+    fbq("set", "autoConfig", false, pixelId);
+    fbq("init", pixelId);
+    fbq("track", "PageView");
+    pixelScript = doc.createElement("script");
+    pixelScript.async = true;
+    pixelScript.src = "https://connect.facebook.net/en_US/fbevents.js";
+    doc.head.appendChild(pixelScript);
   }
 
   function choose(choice) {
@@ -188,19 +215,22 @@ export function createAnalyticsController(win, doc, now = Date.now) {
       ...context(path), send_to: MEASUREMENT_ID,
       page_path: path, site_language: path.startsWith("/en/") ? "en" : "pt",
       contact_placement: placementName(placement),
-      contact_intent: intent === "landing_697" ? "landing_697" : "orcamento",
+      contact_intent: ["landing_697", "mentoria"].includes(intent) ? intent : "orcamento",
     });
   }
 
-  // Click on the Kiwify checkout link for the Essencial guide (the purchase itself happens on Kiwify).
-  function trackCheckout(placement, product = "essencial") {
+  // "contato" = mentoria filter sent (guide, section 2): one event per complete submission, passed or not.
+  // GA4 receives the result and the campaign; the Meta pixel receives the standard Contact event.
+  function trackContact(passou, campaign) {
     sync();
     const path = measurementPath(win.location.pathname);
-    if (!started || blocked || !path || record()?.choice !== "accepted") return;
-    win.gtag("event", "checkout_click", {
+    if (!started || blocked || path !== "/mentoria/" || record()?.choice !== "accepted") return;
+    const origem = MENTORIA_CAMPAIGNS.includes(campaign) ? campaign : campaign ? "outra" : "direto";
+    win.gtag("event", "contato", {
       ...context(path), send_to: MEASUREMENT_ID, page_path: path,
-      product_name: ["essencial", "acompanhado"].includes(product) ? product : "essencial", link_placement: placementName(placement),
+      filtro_resultado: passou ? "passou" : "nao_passou", origem,
     });
+    if (pixelStarted && typeof win.fbq === "function") win.fbq("track", "Contact", { content_name: "filtro_mentoria", filtro: passou ? "passou" : "nao_passou" });
   }
 
   function trackAppStore(placement, appId = "6815378368") {
@@ -227,7 +257,7 @@ export function createAnalyticsController(win, doc, now = Date.now) {
     });
   }
 
-  return { choice: () => record()?.choice ?? null, choose, sync, trackWhatsApp, trackCheckout, trackAppStore, trackAppVideo,
+  return { choice: () => record()?.choice ?? null, choose, sync, trackWhatsApp, trackContact, trackAppStore, trackAppVideo,
     testMode, modeCommand: () => modeCommand };
 }
 

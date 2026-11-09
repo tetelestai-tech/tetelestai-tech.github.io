@@ -179,21 +179,22 @@ function Passou({ status, email }) {
   );
 }
 
+// The offer sits right under the title, inside the same card: people who do not pass read the
+// title and leave (Carlos, 09/11), so the button has to be on the first screen.
 function Direcionamento() {
   const copy = MENTORIA_PAGE.naoPassou.direcionamento;
   const checkout = MENTORIA_CHECKOUT.direcionamento;
   return (
-    <div className="card card--feature direcionamento stack">
+    <div className="direcionamento">
       <p className="eyebrow">{copy.eyebrow}</p>
-      <h3 className="h3">{copy.title}</h3>
-      <p>{copy.texto}</p>
-      <p className="direcionamento__preco"><strong>{copy.preco}</strong> <span className="muted">{copy.pagamento}</span></p>
-      <div className="btn-row">
+      <p><strong>{copy.title}.</strong> {copy.texto}</p>
+      <div className="direcionamento__acao">
+        <strong className="direcionamento__preco">{copy.preco}</strong>
         {checkout
-          ? <a className="btn btn--lg" href={checkout} target="_blank" rel="noopener noreferrer">{copy.cta}</a>
-          : <MentoriaWhatsApp href={MENTORIA_WHATSAPP.direcionamento}>{copy.ctaWhatsApp}</MentoriaWhatsApp>}
+          ? <a className="btn" href={checkout} target="_blank" rel="noopener noreferrer">{copy.cta}</a>
+          : <MentoriaWhatsApp href={MENTORIA_WHATSAPP.direcionamento} className="btn">{copy.ctaWhatsApp}</MentoriaWhatsApp>}
       </div>
-      <p className="muted direcionamento__termos">{copy.termos}</p>
+      <p className="direcionamento__termos">{copy.pagamento}. {copy.termos}</p>
     </div>
   );
 }
@@ -201,16 +202,14 @@ function Direcionamento() {
 function NaoPassou({ volte }) {
   const copy = MENTORIA_PAGE.naoPassou;
   return (
-    <div className="stack">
-      <div className="card resultado__nao">
-        <p className="eyebrow">{copy.eyebrow}</p>
-        <h2 className="h2" id="resultado-title" tabIndex={-1}>{copy.title}</h2>
-        <p>{copy.sincero}</p>
-        <p>{copy.volte}:</p>
-        <ul>{volte.map(item => <li key={item}>{item}.</li>)}</ul>
-        <p>{copy.fecho}</p>
-      </div>
+    <div className="card resultado__nao">
+      <p className="eyebrow">{copy.eyebrow}</p>
+      <h2 className="h3" id="resultado-title" tabIndex={-1}>{copy.title}</h2>
+      <p>{copy.sincero}</p>
       <Direcionamento />
+      <p>{copy.volte}:</p>
+      <ul>{volte.map(item => <li key={item}>{item}.</li>)}</ul>
+      <p className="muted">{copy.fecho}</p>
     </div>
   );
 }
@@ -285,7 +284,7 @@ export function MentoriaPage({ locale = "pt" }) {
             <p className="lead">{page.filtro.lead}</p>
             {PREVIEW && <p className="note">Prévia: nesta cópia o envio não grava nada no banco.</p>}
           </div>
-          <div ref={resultRef} aria-live="polite">
+          <div ref={resultRef} className="resultado-slot" aria-live="polite">
             {!result && <Filtro onDone={setResult} />}
             {result && !result.passou && <NaoPassou volte={result.volte} />}
             {result?.passou && <Passou status={result.status} email={result.email} />}

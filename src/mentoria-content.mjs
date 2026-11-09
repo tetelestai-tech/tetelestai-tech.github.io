@@ -151,17 +151,18 @@ export const MENTORIA_PAGE = {
     eyebrow: "Obrigado por responder",
     title: "Pelo que você respondeu, este caminho ainda não é para você",
     sincero: "Prefiro ser sincero: hoje, o seu perfil ainda não está alinhado com o trabalho que eu ensino.",
-    volte: "Volte quando tiver",
+    volte: "Para a mentoria, volte quando tiver",
     fecho: "Não desanime. Desenvolva esses pontos e responda o filtro de novo: fico à disposição para uma mentoria quando fizer sentido. Suas respostas ficam guardadas só para este contato e são apagadas em até 90 dias.",
+    // Carlos, 09/11: a oferta fica colada no título, porque quem não passa lê o título e fecha a página.
     direcionamento: {
-      eyebrow: "Se você precisa de um caminho agora",
+      eyebrow: "Um caminho agora",
       title: "Direcionamento de carreira internacional",
-      texto: "Um encontro individual de 45 minutos comigo, pelo Google Meet, para olhar o seu momento e decidir o que desenvolver primeiro. Não substitui a mentoria e não muda o resultado do filtro.",
+      texto: "Um encontro individual de 45 minutos comigo, pelo Google Meet, para olhar o seu momento e decidir o que desenvolver primeiro.",
       preco: "R$ 397",
       pagamento: "Pix à vista, sem juros, ou cartão em até 12x (+3,49% a.m.)",
       cta: "Comprar o direcionamento",
       ctaWhatsApp: "Quero o direcionamento",
-      termos: "Pagamento pela Kiwify antes do encontro, marcado à noite ou no fim de semana. Você tem 7 dias para desistir, com devolução integral (CDC art. 49). Sem promessa de aprovação nas plataformas, de projeto ou de renda. Não dá desconto no pacote da mentoria.",
+      termos: "Pagamento pela Kiwify antes do encontro, marcado à noite ou no fim de semana. 7 dias para desistir, com devolução integral (CDC art. 49). Não substitui a mentoria, não muda o resultado do filtro e não dá desconto no pacote. Sem promessa de aprovação nas plataformas, de projeto ou de renda.",
     },
   },
   vagas: {

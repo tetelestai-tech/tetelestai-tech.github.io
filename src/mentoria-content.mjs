@@ -2,8 +2,11 @@
 // Fonte única dos textos: "Mentoria — Guia do teste de 14 dias", seções 4 e 5. Os trechos marcados
 // FIXO são literais do guia e não mudam sem o Carlos. Regras da página:
 // - nenhum nome de plataforma; nenhum valor em dólar, extrato ou nota fiscal na parte aberta;
-// - vídeo 2, preço, contrato e WhatsApp só aparecem para quem passa no filtro;
-// - o aviso de comissão de indicação aparece antes do preço e de novo antes do Pix.
+// - vídeo 2, números, preços e contrato vão só por e-mail, para quem passa no filtro (decisão de 09/11):
+//   a função mentoria-filtro do Supabase grava a resposta e envia o e-mail (o texto do e-mail e o
+//   contrato ficam lá, fora deste repositório público);
+// - o aviso de comissão de indicação aparece no e-mail antes dos valores;
+// - quem não passa vê o retorno na tela e a opção do direcionamento de carreira internacional.
 
 // Vagas para mentorados. "vagasRestantes" é real: muda só quando um pacote é pago (Gabriela avisa).
 export const MENTORIA_TURMA = { vagasTotal: 5, vagasRestantes: 5 };
@@ -11,19 +14,22 @@ export const MENTORIA_TURMA = { vagasTotal: 5, vagasRestantes: 5 };
 // Vídeos: null mostra o espaço reservado até a edição chegar (guia, seção 6, pedido D).
 export const MENTORIA_VIDEOS = {
   video1: { src: null, poster: null, label: "Vídeo 1 · aberto · 3 a 4 min" },
-  video2: { src: null, poster: null, label: "Vídeo 2 · provas e oferta · 4 a 5 min" },
 };
 
-// Respostas do filtro: tabela public.mentoria_filtro no Supabase "TETELESTAI Marketing — São Paulo".
-// A chave publicável só permite inserir (RLS e permissões por coluna); ninguém lê pelo site.
-export const MENTORIA_STORE = {
-  url: "https://vjslazmwbbcsfnixvpyf.supabase.co/rest/v1/mentoria_filtro",
-  key: "sb_publishable_IZHHH8VTVcTFMrgWP9lgZQ_5qSO1Bgz",
+// Respostas do filtro: função mentoria-filtro do Supabase "TETELESTAI Marketing — São Paulo".
+// Ela grava em public.mentoria_filtro (o site não grava nem lê direto) e, para quem passa,
+// manda o e-mail com o link do vídeo 2 (bucket privado, link de 7 dias).
+export const MENTORIA_ENVIO = {
+  url: "https://vjslazmwbbcsfnixvpyf.supabase.co/functions/v1/mentoria-filtro",
 };
+
+// Checkout na Kiwify (decisão de 09/11). null mantém o WhatsApp até o link existir.
+export const MENTORIA_CHECKOUT = { direcionamento: null };
 
 // Mesmo formato do link que já funciona no site (guia, seção 5, bloco 9).
 export const MENTORIA_WHATSAPP = {
-  agendar: "https://wa.me/556184711930?text=Ol%C3%A1%21%20Respondi%20o%20filtro%20da%20mentoria%20e%20quero%20agendar.",
+  naoRecebi: "https://wa.me/556184711930?text=Ol%C3%A1%21%20Passei%20no%20filtro%20da%20mentoria%20e%20n%C3%A3o%20recebi%20o%20e-mail.",
+  direcionamento: "https://wa.me/556184711930?text=Ol%C3%A1%21%20Respondi%20o%20filtro%20da%20mentoria%20e%20quero%20o%20direcionamento%20de%20carreira%20internacional.",
   espera: "https://wa.me/556184711930?text=Ol%C3%A1%21%20Respondi%20o%20filtro%20da%20mentoria%20e%20quero%20entrar%20na%20lista%20de%20espera.",
 };
 
@@ -71,23 +77,6 @@ export function avaliarFiltro(respostas) {
   const falhas = MENTORIA_FILTRO.filter(item => !item.passa(String(respostas[item.name] ?? "")));
   return { passou: falhas.length === 0, volte: falhas.map(item => item.volte) };
 }
-
-// Contrato de 1 página: texto literal do guia (seção 5). O contador confere antes de ir ao ar.
-export const MENTORIA_CONTRATO = {
-  titulo: "Mentoria individual — termos do teste de novembro de 2026",
-  itens: [
-    "O que é: 4 encontros individuais de 45 minutos pelo Google Meet com Carlos Viegas, mais 30 dias de suporte por WhatsApp a partir do 1º encontro, prestados pela TETELESTAI (CNPJ 58.138.258/0001-39), com nota fiscal.",
-    "O que é ensinado: o caminho que Carlos percorreu para prestar serviços de treinamento de IA a plataformas estrangeiras: escolha de plataformas conforme o perfil, estrutura de empresa e recebimento, preparação para entrevistas e testes, e rotina de trabalho nas horas vagas.",
-    "O que não é prometido: aprovação em qualquer plataforma, disponibilidade de projetos, volume de horas ou qualquer valor de renda. Os resultados de Carlos são pessoais e não representam o que o cliente obterá. As plataformas decidem sozinhas quem aprovam, quanto pagam e quando há trabalho, e mudam essas regras sem aviso.",
-    "Indicação: Carlos pode indicar o cliente em plataformas que têm programa de indicação, apenas se o cliente tiver perfil compatível. Algumas plataformas pagam a Carlos uma comissão por isso. Essa comissão é paga pela plataforma e não altera o preço nem os ganhos do cliente. A indicação não garante aprovação.",
-    "Valor e pagamento: R$ 3.297 pelo pacote, ou R$ 597 pela avaliação de perfil, um encontro avulso de 45 minutos. Quem faz a avaliação e contrata o pacote em até 15 dias paga R$ 597 a menos. Pagamento antes do 1º encontro, pela Kiwify: Pix à vista ou cartão de crédito em até 12 vezes, com o acréscimo do parcelamento pago por quem compra.",
-    "Arrependimento: o cliente pode desistir em até 7 dias corridos após o pagamento, com devolução integral, conforme o art. 49 do Código de Defesa do Consumidor.",
-    "Agenda: encontros marcados em comum acordo, à noite ou no fim de semana; remarcação com 24 h de antecedência; falta sem aviso conta como encontro realizado.",
-    "Confidencialidade: Carlos não revela conteúdo de projetos, nomes de clientes finais nem material protegido por contrato com as plataformas. O cliente se compromete a não redistribuir o material da mentoria.",
-    "Dados: nome, e-mail, WhatsApp e respostas do filtro são usados só para esta mentoria e apagados em até 90 dias após o último encontro, salvo obrigação fiscal.",
-    "Aceite: o pagamento confirma a leitura e o aceite destes termos.",
-  ],
-};
 
 export const MENTORIA_PAGE = {
   path: "/mentoria/",
@@ -141,8 +130,8 @@ export const MENTORIA_PAGE = {
   filtro: {
     eyebrow: "Filtro",
     title: "Responda 5 perguntas",
-    lead: "Leva dois minutos. Se o seu perfil fizer sentido, você libera o segundo vídeo, o valor da mentoria, o contrato de uma página e o botão para agendar.",
-    contatoTitulo: "Seus dados para o contato",
+    lead: "Leva dois minutos. Se o seu perfil fizer sentido, eu mando no seu e-mail o segundo vídeo, os números, os valores e o contrato de uma página.",
+    contatoTitulo: "Para onde eu mando o resultado",
     lgpd: "Concordo que a TETELESTAI use meu nome, e-mail, WhatsApp e estas respostas só para este contato sobre a mentoria. Se eu não contratar, os dados são apagados em até 90 dias.",
     enviar: "Enviar respostas",
     enviando: "Enviando…",
@@ -150,35 +139,38 @@ export const MENTORIA_PAGE = {
   },
   passou: {
     eyebrow: "Seu perfil faz sentido",
-    title: "Este é o segundo vídeo",
-    lead: "Nele eu mostro os comprovantes do que eu recebi, as faixas de quem está começando no Brasil, o valor da mentoria e como ela funciona.",
-    // FIXO (vídeo 2): toda peça que cita número leva esta frase.
-    resultado: "Resultado meu. O seu depende do seu perfil e das entrevistas.",
+    title: "O segundo vídeo está indo para o seu e-mail",
+    // {email} vira o endereço digitado, para a pessoa notar um erro de digitação.
+    enviado: "Mandei para {email} o segundo vídeo, com os números, os valores e o contrato de uma página. O link é só seu e vale por 7 dias.",
+    lembrado: "Você já respondeu o filtro. O segundo vídeo foi para o e-mail que você informou; o link é só seu e vale por 7 dias.",
+    spam: "Não chegou em alguns minutos? Olhe no spam e na aba Promoções. Se não estiver lá, fale com a minha equipe pelo WhatsApp.",
+    erro: "Não consegui enviar as suas respostas agora. Fale com a minha equipe pelo WhatsApp que a gente manda o vídeo para você.",
+    whatsapp: "Não recebi o e-mail",
   },
   naoPassou: {
     eyebrow: "Obrigado por responder",
     title: "Pelo que você respondeu, este caminho ainda não é para você",
+    sincero: "Prefiro ser sincero: hoje, o seu perfil ainda não está alinhado com o trabalho que eu ensino.",
     volte: "Volte quando tiver",
-    fecho: "Prefiro dizer isso agora do que vender algo que não vai funcionar para você. Suas respostas ficam guardadas só para este contato e são apagadas em até 90 dias.",
+    fecho: "Não desanime. Desenvolva esses pontos e responda o filtro de novo: fico à disposição para uma mentoria quando fizer sentido. Suas respostas ficam guardadas só para este contato e são apagadas em até 90 dias.",
+    direcionamento: {
+      eyebrow: "Se você precisa de um caminho agora",
+      title: "Direcionamento de carreira internacional",
+      texto: "Um encontro individual de 45 minutos comigo, pelo Google Meet, para olhar o seu momento e decidir o que desenvolver primeiro. Não substitui a mentoria e não muda o resultado do filtro.",
+      preco: "R$ 397",
+      pagamento: "Pix à vista, sem juros, ou cartão em até 12x (+3,49% a.m.)",
+      cta: "Comprar o direcionamento",
+      ctaWhatsApp: "Quero o direcionamento",
+      termos: "Pagamento pela Kiwify antes do encontro, marcado à noite ou no fim de semana. Você tem 7 dias para desistir, com devolução integral (CDC art. 49). Sem promessa de aprovação nas plataformas, de projeto ou de renda. Não dá desconto no pacote da mentoria.",
+    },
   },
-  preco: {
-    // Formato da nota de preço do site (Receipt); valores da tabela "Ofertas vigentes" do plano.
-    title: "Mentoria individual", place: "Online · Google Meet", total: "R$ 3.297",
-    split: "Pix à vista, sem juros · cartão em até 12x · 7 dias de arrependimento",
-    cta: "Agendar pelo WhatsApp",
-    rows: [["Encontros", "4 × 45 min, individuais"], ["WhatsApp", "30 dias"], ["Avaliação de perfil", "R$ 597, descontada do pacote em até 15 dias"], ["Pagamento", "Pix à vista ou cartão em até 12x (+3,49% a.m.)"], ["Arrependimento", "7 dias, devolução integral"]],
-    // FIXO (vídeo 2): aviso de comissão visível antes do pagamento.
-    note: "Lembrando: se você entrar pela minha indicação, eu recebo uma comissão da plataforma. Isso não muda o que você paga nem o que você recebe.",
-    diagnostico: "Prefere começar só com uma avaliação de perfil de 45 minutos? São R$ 597, descontados do pacote se você fechar em até 15 dias.",
-    vagas: "Atendo no máximo 5 mentorados por mês.",
+  vagas: {
     fechada: "As vagas deste mês estão preenchidas. Entre na lista de espera e eu aviso quando abrir novas vagas.",
     esperaCta: "Entrar na lista de espera",
-    agendarTexto: "Quem responde primeiro é a minha equipe, que confirma o seu horário, manda o contrato de uma página e o Pix.",
   },
-  contrato: { eyebrow: "Contrato de 1 página", aceite: "Ao pagar, você aceita estes termos." },
   dados: {
     title: "Seus dados",
-    texto: "TETELESTAI Soluções em Tecnologia Ltda. · CNPJ 58.138.258/0001-39 · contato@tetelestai.tech. Nome, e-mail, WhatsApp e respostas do filtro são usados só para este contato sobre a mentoria e ficam no Supabase (servidores em São Paulo) e na planilha de acompanhamento da equipe. Se você não contratar, são apagados em até 90 dias. Você pode pedir acesso, correção ou exclusão a qualquer momento pelo e-mail ou pelo WhatsApp.",
+    texto: "TETELESTAI Soluções em Tecnologia Ltda. · CNPJ 58.138.258/0001-39 · contato@tetelestai.tech. Nome, e-mail, WhatsApp e respostas do filtro são usados só para este contato sobre a mentoria e ficam no Supabase (servidores em São Paulo) e na planilha de acompanhamento da equipe. Quem passa no filtro recebe o resultado por e-mail, enviado pelo Brevo. Se você não contratar, são apagados em até 90 dias. Você pode pedir acesso, correção ou exclusão a qualquer momento pelo e-mail ou pelo WhatsApp.",
     privacidade: "Política de privacidade",
   },
 };

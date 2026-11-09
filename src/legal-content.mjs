@@ -411,12 +411,12 @@ LEGAL_CONTENT.en.privacy.metaDescription = "How Tetelestai handles data on its w
     title: "Filtro da mentoria e pixel da Meta",
     paragraphs: [
       "Na página da mentoria (tetelestai.tech/mentoria), o filtro de 5 perguntas pede nome, e-mail e WhatsApp, além das respostas sobre experiência, linguagens, inglês, situação de trabalho e horas livres. O envio exige seu aceite. Também guardamos a origem da visita informada nos parâmetros do link (utm_source, utm_medium e utm_campaign), quando existir.",
-      "Esses dados são usados só para responder ao seu interesse na mentoria, agendar o diagnóstico e prestar o serviço contratado. Eles ficam no Supabase, em servidores em São Paulo, e na planilha de acompanhamento da equipe no Google Drive, acessíveis apenas à equipe da Tetelestai. Se você não contratar, são apagados em até 90 dias após o envio; se contratar, em até 90 dias após o último encontro, salvo obrigação fiscal.",
+      "Esses dados são usados só para responder ao seu interesse na mentoria, enviar o resultado do filtro, agendar a avaliação de perfil, o direcionamento ou os encontros e prestar o serviço contratado. Eles ficam no Supabase, em servidores em São Paulo, e na planilha de acompanhamento da equipe no Google Drive, acessíveis apenas à equipe da Tetelestai. Se o seu perfil passar no filtro, enviamos o resultado e um link pessoal para o segundo vídeo, válido por 7 dias, ao e-mail informado, pelo Brevo, serviço de envio de e-mails; o Brevo registra a entrega e pode registrar a abertura do e-mail e os cliques nos links. Pagamentos são processados pela Kiwify, que recebe os dados que você informar no checkout. Se você não contratar, são apagados em até 90 dias após o envio; se contratar, em até 90 dias após o último encontro, salvo obrigação fiscal.",
       "Se você aceitar as métricas, a página da mentoria também carrega o pixel da Meta, que registra a visita e o envio do filtro, com o resultado (passou ou não), para medir os anúncios da Meta. O pixel não recebe seu nome, e-mail, telefone nem suas respostas. A Meta trata esses dados conforme as políticas dela. Se você recusar, o pixel não é carregado.",
     ],
   });
   const services = pt.find(section => section.title === "Serviços envolvidos e acesso aos dados");
-  services.paragraphs.push("As respostas do filtro da mentoria são guardadas no Supabase (servidores em São Paulo) e o acompanhamento dos contatos, numa planilha do Google Drive. Com seu consentimento, a página da mentoria envia à Meta os eventos do pixel descritos acima.");
+  services.paragraphs.push("As respostas do filtro da mentoria são guardadas no Supabase (servidores em São Paulo) e o acompanhamento dos contatos, numa planilha do Google Drive. O e-mail com o resultado do filtro é enviado pelo Brevo, e os pagamentos são processados pela Kiwify. Com seu consentimento, a página da mentoria envia à Meta os eventos do pixel descritos acima.");
 
   const en = LEGAL_CONTENT.en.privacy.sections;
   replaceParagraph(en[0], "The website is informational and has no form.", "The website is informational. Its only form is the mentoring filter described below. Analytics on the pages listed below depends on your consent.");
@@ -426,15 +426,15 @@ LEGAL_CONTENT.en.privacy.metaDescription = "How Tetelestai handles data on its w
     title: "Mentoring filter and Meta pixel",
     paragraphs: [
       "On the mentoring page (tetelestai.tech/mentoria, in Portuguese), the 5-question filter asks for your name, email and WhatsApp number, plus your answers about experience, programming languages, English, work situation and free hours. Submitting requires your agreement. We also store the visit source given in the link parameters (utm_source, utm_medium and utm_campaign), when present.",
-      "This data is used only to respond to your interest in the mentoring, schedule the diagnosis session and deliver the contracted service. It is stored in Supabase, on servers in São Paulo, and in the team's tracking spreadsheet on Google Drive, and only Tetelestai's team can access it. If you do not hire the service, it is deleted within 90 days of submission; if you do, within 90 days of the last session, unless a tax obligation applies.",
+      "This data is used only to respond to your interest in the mentoring, send the filter result, schedule the profile assessment, the career direction session or the meetings, and deliver the contracted service. It is stored in Supabase, on servers in São Paulo, and in the team's tracking spreadsheet on Google Drive, and only Tetelestai's team can access it. If your profile passes the filter, we send the result and a personal link to the second video, valid for 7 days, to the email you provided, through Brevo, an email delivery service; Brevo records the delivery and may record when the email is opened and links are clicked. Payments are processed by Kiwify, which receives the data you enter at checkout. If you do not hire the service, it is deleted within 90 days of submission; if you do, within 90 days of the last session, unless a tax obligation applies.",
       "If you accept analytics, the mentoring page also loads the Meta pixel, which records the visit and the filter submission, with its result (passed or not), to measure Meta ads. The pixel does not receive your name, email, phone number or answers. Meta handles this data under its own policies. If you decline, the pixel is not loaded.",
     ],
   });
   const enServices = en.find(section => section.title === "Services involved and data access");
-  enServices.paragraphs.push("Mentoring filter answers are stored in Supabase (servers in São Paulo), and contact follow-up in a Google Drive spreadsheet. With your consent, the mentoring page sends Meta the pixel events described above.");
+  enServices.paragraphs.push("Mentoring filter answers are stored in Supabase (servers in São Paulo), and contact follow-up in a Google Drive spreadsheet. The email with the filter result is sent through Brevo, and payments are processed by Kiwify. With your consent, the mentoring page sends Meta the pixel events described above.");
 
-  LEGAL_CONTENT.pt.privacy.updated = "Atualizado em 8 de novembro de 2026";
-  LEGAL_CONTENT.pt.privacy.updatedDate = "2026-11-08";
-  LEGAL_CONTENT.en.privacy.updated = "Updated on November 8, 2026";
-  LEGAL_CONTENT.en.privacy.updatedDate = "2026-11-08";
+  LEGAL_CONTENT.pt.privacy.updated = "Atualizado em 9 de novembro de 2026";
+  LEGAL_CONTENT.pt.privacy.updatedDate = "2026-11-09";
+  LEGAL_CONTENT.en.privacy.updated = "Updated on November 9, 2026";
+  LEGAL_CONTENT.en.privacy.updatedDate = "2026-11-09";
 }

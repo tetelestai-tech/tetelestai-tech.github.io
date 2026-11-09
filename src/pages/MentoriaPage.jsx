@@ -3,7 +3,7 @@ import { getAnalytics } from "../analytics.mjs";
 import { UI } from "../home-content.mjs";
 import { PageShell, pathFor } from "../Layout.jsx";
 import {
-  MENTORIA_CONTRATO, MENTORIA_FILTRO, MENTORIA_PAGE, MENTORIA_STORE, MENTORIA_TURMA, MENTORIA_VIDEOS, MENTORIA_WHATSAPP,
+  MENTORIA_CHECKOUT, MENTORIA_ENVIO, MENTORIA_FILTRO, MENTORIA_PAGE, MENTORIA_TURMA, MENTORIA_VIDEOS, MENTORIA_WHATSAPP,
   avaliarFiltro,
 } from "../mentoria-content.mjs";
 import { Circuits, Crumbs, Facts, IconDown, IconWhatsApp, LinkArrow, SectionHead, Steps, SymbolPicture, placementOf } from "../ui.jsx";
@@ -40,18 +40,18 @@ function rememberPass() {
   try { window.localStorage.setItem(PASSED_KEY, JSON.stringify({ passou: true, em: Date.now() })); } catch { /* the result still shows on this page */ }
 }
 
-// Stores the answers (insert only). A network failure never hides the result from the visitor.
-async function store(answers, contact, utm) {
+// Sends the answers to the mentoria-filtro function, which stores them and, for people who pass,
+// e-mails the private link to vídeo 2. A network failure never hides the result from the visitor.
+async function enviar(answers, contact, utm, trap) {
   if (PREVIEW) return "preview";
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000);
+  const timer = setTimeout(() => controller.abort(), 15000);
   try {
-    const response = await fetch(MENTORIA_STORE.url, {
+    const response = await fetch(MENTORIA_ENVIO.url, {
       method: "POST",
-      headers: { apikey: MENTORIA_STORE.key, "Content-Type": "application/json", Prefer: "return=minimal" },
-      body: JSON.stringify({ ...contact, ...answers, aceite_lgpd: true, ...utm }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...contact, ...answers, aceite_lgpd: true, ...utm, empresa_site: trap }),
       signal: controller.signal,
-      keepalive: true,
     });
     return response.ok ? "ok" : "error";
   } catch { return "error"; } finally { clearTimeout(timer); }
@@ -123,12 +123,13 @@ function Filtro({ onDone }) {
     const result = avaliarFiltro(answers);
     const utm = readUtm();
     // Bots fill the hidden field; people never see it.
-    const status = trap.current?.value ? "skipped" : await store(answers, { nome: contact.nome.trim(), email: contact.email.trim(), whatsapp: contact.whatsapp.trim() }, utm);
+    const email = contact.email.trim();
+    const status = trap.current?.value ? "skipped" : await enviar(answers, { nome: contact.nome.trim(), email, whatsapp: contact.whatsapp.trim() }, utm, "");
     // "contato" = filtro enviado (guia, seção 2): fires for every complete submission, with the result.
     getAnalytics()?.trackContact(result.passou, utm.utm_campaign);
     if (result.passou) rememberPass();
     setSending(false);
-    onDone({ ...result, status });
+    onDone({ ...result, status, email });
   }
 
   const update = (name, value) => setAnswers(current => ({ ...current, [name]: value }));
@@ -157,65 +158,59 @@ function Filtro({ onDone }) {
   );
 }
 
-function Passou() {
+function Passou({ status, email }) {
   const copy = MENTORIA_PAGE.passou;
-  const preco = MENTORIA_PAGE.preco;
-  const { vagasRestantes, vagasTotal } = MENTORIA_TURMA;
-  const aberta = vagasRestantes > 0;
-  return <>
-    <div className="split resultado__video">
-      <div className="stack">
-        <p className="eyebrow">{copy.eyebrow}</p>
-        <h2 className="h2" id="resultado-title" tabIndex={-1}>{copy.title}</h2>
-        <p className="lead">{copy.lead}</p>
-        <p className="resultado__aviso">{copy.resultado}</p>
-      </div>
-      <div className="hero__media--center"><VideoFrame video={MENTORIA_VIDEOS.video2} /></div>
-    </div>
-
-    <div className="split resultado__oferta" id="preco">
-      <div className="receipt-wrap">
-        <div className="receipt">
-          <div className="receipt__head"><span><SymbolPicture sizes="22px" width={22} height={22} loading="lazy" />Tetelestai</span><span>{preco.place}</span></div>
-          <div className="receipt__cut" />
-          <p className="receipt__title">{preco.title}</p>
-          <div className="receipt__rows">
-            {preco.rows.map(([label, value]) => <div className="receipt__row" key={label}><span>{label}</span><i /><span>{value}</span></div>)}
-          </div>
-          <div className="receipt__cut receipt__cut--total" />
-          <div className="receipt__total"><span>Pacote</span><strong>{preco.total}</strong></div>
-          <p className="receipt__split">{preco.split}</p>
-          <p className="receipt__split">{preco.vagas.replace("{restantes}", vagasRestantes).replace("{total}", vagasTotal)}</p>
-        </div>
-      </div>
-      <div className="stack">
-        <p className="muted">{preco.diagnostico}</p>
-        <div className="card card--feature"><p>{preco.note}</p></div>
+  const vagas = MENTORIA_PAGE.vagas;
+  const aberta = MENTORIA_TURMA.vagasRestantes > 0;
+  const texto = status === "error" ? copy.erro : status === "remembered" || !email ? copy.lembrado : copy.enviado.replace("{email}", email);
+  return (
+    <div className="card card--feature resultado__ok stack">
+      <p className="eyebrow">{copy.eyebrow}</p>
+      <h2 className="h2" id="resultado-title" tabIndex={-1}>{copy.title}</h2>
+      <p className="lead">{texto}</p>
+      {status !== "error" && <p className="muted">{copy.spam}</p>}
+      {!aberta && <p className="muted">{vagas.fechada}</p>}
+      <div className="btn-row">
         {aberta
-          ? <><p className="muted">{preco.agendarTexto}</p><div className="btn-row"><MentoriaWhatsApp href={MENTORIA_WHATSAPP.agendar}>{preco.cta}</MentoriaWhatsApp></div></>
-          : <><p className="muted">{preco.fechada}</p><div className="btn-row"><MentoriaWhatsApp href={MENTORIA_WHATSAPP.espera}>{preco.esperaCta}</MentoriaWhatsApp></div></>}
-        <LinkArrow href="#contrato" icon="down">Ler o contrato de 1 página</LinkArrow>
+          ? <MentoriaWhatsApp href={MENTORIA_WHATSAPP.naoRecebi} className="btn btn--ghost">{copy.whatsapp}</MentoriaWhatsApp>
+          : <MentoriaWhatsApp href={MENTORIA_WHATSAPP.espera}>{vagas.esperaCta}</MentoriaWhatsApp>}
       </div>
     </div>
+  );
+}
 
-    <article className="contrato card" id="contrato" aria-labelledby="contrato-title">
-      <p className="eyebrow">{MENTORIA_PAGE.contrato.eyebrow}</p>
-      <h3 className="h3" id="contrato-title">{MENTORIA_CONTRATO.titulo}</h3>
-      <ol>{MENTORIA_CONTRATO.itens.map(item => <li key={item.slice(0, 24)}>{item}</li>)}</ol>
-      <p className="contrato__aceite">{MENTORIA_PAGE.contrato.aceite}</p>
-    </article>
-  </>;
+function Direcionamento() {
+  const copy = MENTORIA_PAGE.naoPassou.direcionamento;
+  const checkout = MENTORIA_CHECKOUT.direcionamento;
+  return (
+    <div className="card card--feature direcionamento stack">
+      <p className="eyebrow">{copy.eyebrow}</p>
+      <h3 className="h3">{copy.title}</h3>
+      <p>{copy.texto}</p>
+      <p className="direcionamento__preco"><strong>{copy.preco}</strong> <span className="muted">{copy.pagamento}</span></p>
+      <div className="btn-row">
+        {checkout
+          ? <a className="btn btn--lg" href={checkout} target="_blank" rel="noopener noreferrer">{copy.cta}</a>
+          : <MentoriaWhatsApp href={MENTORIA_WHATSAPP.direcionamento}>{copy.ctaWhatsApp}</MentoriaWhatsApp>}
+      </div>
+      <p className="muted direcionamento__termos">{copy.termos}</p>
+    </div>
+  );
 }
 
 function NaoPassou({ volte }) {
   const copy = MENTORIA_PAGE.naoPassou;
   return (
-    <div className="card resultado__nao">
-      <p className="eyebrow">{copy.eyebrow}</p>
-      <h2 className="h2" id="resultado-title" tabIndex={-1}>{copy.title}</h2>
-      <p>{copy.volte}:</p>
-      <ul>{volte.map(item => <li key={item}>{item}.</li>)}</ul>
-      <p>{copy.fecho}</p>
+    <div className="stack">
+      <div className="card resultado__nao">
+        <p className="eyebrow">{copy.eyebrow}</p>
+        <h2 className="h2" id="resultado-title" tabIndex={-1}>{copy.title}</h2>
+        <p>{copy.sincero}</p>
+        <p>{copy.volte}:</p>
+        <ul>{volte.map(item => <li key={item}>{item}.</li>)}</ul>
+        <p>{copy.fecho}</p>
+      </div>
+      <Direcionamento />
     </div>
   );
 }
@@ -293,16 +288,10 @@ export function MentoriaPage({ locale = "pt" }) {
           <div ref={resultRef} aria-live="polite">
             {!result && <Filtro onDone={setResult} />}
             {result && !result.passou && <NaoPassou volte={result.volte} />}
-            {result?.passou && <div className="card card--feature"><p>Respostas enviadas. O segundo vídeo, o valor e o contrato estão logo abaixo.</p><a className="link link--arrow" href="#resultado">Ir para o resultado</a></div>}
+            {result?.passou && <Passou status={result.status} email={result.email} />}
           </div>
         </div>
       </section>
-
-      {result?.passou && (
-        <section className="section light resultado" id="resultado" aria-labelledby="resultado-title" ref={node => { if (node && result.status !== "remembered") resultRef.current = node; }}>
-          <div className="wrap stack"><Passou /></div>
-        </section>
-      )}
 
       <section className="section section--tight dark mentoria-dados" aria-labelledby="dados-title">
         <div className="wrap stack stack--sm">

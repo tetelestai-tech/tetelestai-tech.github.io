@@ -518,14 +518,11 @@ body:has(.analytics-consent) .wa-float{display:none}
 @media (hover:hover) and (pointer:fine){.filtro__option:hover{border-color:var(--cyan-line)}}
 .resultado__nao{gap:16px}
 .resultado__nao ul{gap:10px}
-.resultado__aviso{padding:12px 16px;border-left:3px solid var(--cyan);color:var(--text);font-weight:600;background:var(--cyan-soft);border-radius:0 10px 10px 0}
-.resultado__oferta{margin-top:clamp(40px,6vw,72px);align-items:flex-start}
-.resultado__oferta .receipt__split + .receipt__split{margin-top:-16px}
-.contrato{margin-top:clamp(40px,6vw,72px);max-width:860px;gap:16px}
-.contrato ol{display:flex;flex-direction:column;gap:12px;padding-left:1.4em;color:var(--muted);font-size:16px}
-.contrato li{display:list-item}
-.contrato li::before{content:none}
-.contrato__aceite{font-weight:650;color:var(--text)!important}
+.resultado__ok{gap:14px}
+.direcionamento{gap:14px}
+.direcionamento__preco{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:0}
+.direcionamento__preco strong{font-size:clamp(28px,4vw,36px);line-height:1.1;color:var(--text);white-space:nowrap}
+.direcionamento__termos{font-size:14px}
 .mentoria-dados p{max-width:880px;font-size:15px}
 
 /* ---------- Scroll reveal (motion kit): the CSS only hides; the movement runs in JS and ends ---------- */

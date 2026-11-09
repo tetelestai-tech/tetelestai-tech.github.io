@@ -330,18 +330,25 @@ test("the retired career addresses redirect to the mentoria and stay out of the 
   }
 });
 
-test("the mentoria keeps the guide's fixed texts, prices and contract word for word", async () => {
+test("the mentoria keeps the guide's fixed texts; prices, numbers and contract go only by e-mail", async () => {
   const content = await import("../src/mentoria-content.mjs");
   const page = content.MENTORIA_PAGE;
   assert.equal(page.semPromessa.texto, "O que eu não prometo: que você vai ser aprovado, que vai ter projeto toda semana, ou que vai ganhar o que eu ganhei. O meu resultado é meu, com 22 anos de experiência e 16 meses de histórico. O seu depende do seu perfil e do seu desempenho nas entrevistas.");
   assert.match(page.semPromessa.comissao, /^Transparência: algumas plataformas pagam a quem indica profissionais\./);
-  assert.equal(page.preco.total, "R$ 3.297");
-  assert.match(page.preco.diagnostico, /R\$ 597/);
-  assert.equal(content.MENTORIA_CONTRATO.itens.length, 10);
-  assert.match(content.MENTORIA_CONTRATO.itens[4], /R\$ 3\.297 pelo pacote, ou R\$ 597/);
-  assert.match(content.MENTORIA_CONTRATO.itens[5], /art\. 49 do Código de Defesa do Consumidor/);
+  // Decision of 09/11/2026: vídeo 2, earnings, prices and the contract are e-mailed by the mentoria-filtro
+  // function to people who pass; the public repository and the page bundle carry none of them.
+  const source = await readFile(new URL("../src/mentoria-content.mjs", import.meta.url), "utf8");
+  assert.doesNotMatch(source, /3\.297|R\$ ?597|US\$|61\.944|video2|MENTORIA_CONTRATO/);
+  assert.equal(content.MENTORIA_VIDEOS.video2, undefined);
+  assert.match(content.MENTORIA_ENVIO.url, /^https:\/\/vjslazmwbbcsfnixvpyf\.supabase\.co\/functions\/v1\/mentoria-filtro$/);
+  assert.match(page.filtro.lead, /no seu e-mail o segundo vídeo/);
+  assert.match(page.passou.enviado, /\{email\}/);
+  // People who do not pass see the feedback and the R$ 397 direcionamento (45 min), never the package.
+  assert.equal(page.naoPassou.direcionamento.preco, "R$ 397");
+  assert.match(page.naoPassou.direcionamento.texto, /45 minutos/);
+  assert.match(page.naoPassou.direcionamento.termos, /CDC art\. 49/);
   assert.equal(content.MENTORIA_TURMA.vagasTotal, 5);
-  assert.equal(content.MENTORIA_WHATSAPP.agendar, "https://wa.me/556184711930?text=Ol%C3%A1%21%20Respondi%20o%20filtro%20da%20mentoria%20e%20quero%20agendar.");
+  assert.equal(content.MENTORIA_WHATSAPP.naoRecebi, "https://wa.me/556184711930?text=Ol%C3%A1%21%20Passei%20no%20filtro%20da%20mentoria%20e%20n%C3%A3o%20recebi%20o%20e-mail.");
   const pass = { experiencia: "3_8", linguagens: "Python", ingles: "com_esforco", situacao: "emprego_fixo", horas: "5_10" };
   assert.equal(content.avaliarFiltro(pass).passou, true);
   for (const [name, value] of [["experiencia", "1_3"], ["linguagens", "  "], ["ingles", "trava"], ["situacao", "desempregado"], ["horas", "menos_5"]]) {

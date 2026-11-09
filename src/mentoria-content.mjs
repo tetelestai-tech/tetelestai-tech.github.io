@@ -5,7 +5,7 @@
 // - vídeo 2, preço, contrato e WhatsApp só aparecem para quem passa no filtro;
 // - o aviso de comissão de indicação aparece antes do preço e de novo antes do Pix.
 
-// Vagas para mentorados. "vagasRestantes" é real: muda só quando um Pix do pacote cai (Gabriela avisa).
+// Vagas para mentorados. "vagasRestantes" é real: muda só quando um pacote é pago (Gabriela avisa).
 export const MENTORIA_TURMA = { vagasTotal: 5, vagasRestantes: 5 };
 
 // Vídeos: null mostra o espaço reservado até a edição chegar (guia, seção 6, pedido D).
@@ -80,7 +80,7 @@ export const MENTORIA_CONTRATO = {
     "O que é ensinado: o caminho que Carlos percorreu para prestar serviços de treinamento de IA a plataformas estrangeiras: escolha de plataformas conforme o perfil, estrutura de empresa e recebimento, preparação para entrevistas e testes, e rotina de trabalho nas horas vagas.",
     "O que não é prometido: aprovação em qualquer plataforma, disponibilidade de projetos, volume de horas ou qualquer valor de renda. Os resultados de Carlos são pessoais e não representam o que o cliente obterá. As plataformas decidem sozinhas quem aprovam, quanto pagam e quando há trabalho, e mudam essas regras sem aviso.",
     "Indicação: Carlos pode indicar o cliente em plataformas que têm programa de indicação, apenas se o cliente tiver perfil compatível. Algumas plataformas pagam a Carlos uma comissão por isso. Essa comissão é paga pela plataforma e não altera o preço nem os ganhos do cliente. A indicação não garante aprovação.",
-    "Valor e pagamento: R$ 3.297 pelo pacote, ou R$ 597 pelo diagnóstico avulso de 45 minutos (abatido integralmente se o pacote for contratado em até 30 dias). Pagamento por Pix antes do 1º encontro.",
+    "Valor e pagamento: R$ 3.297 pelo pacote, ou R$ 597 pela avaliação de perfil, um encontro avulso de 45 minutos. Quem faz a avaliação e contrata o pacote em até 15 dias paga R$ 597 a menos. Pagamento antes do 1º encontro, pela Kiwify: Pix à vista ou cartão de crédito em até 12 vezes, com o acréscimo do parcelamento pago por quem compra.",
     "Arrependimento: o cliente pode desistir em até 7 dias corridos após o pagamento, com devolução integral, conforme o art. 49 do Código de Defesa do Consumidor.",
     "Agenda: encontros marcados em comum acordo, à noite ou no fim de semana; remarcação com 24 h de antecedência; falta sem aviso conta como encontro realizado.",
     "Confidencialidade: Carlos não revela conteúdo de projetos, nomes de clientes finais nem material protegido por contrato com as plataformas. O cliente se compromete a não redistribuir o material da mentoria.",
@@ -164,12 +164,12 @@ export const MENTORIA_PAGE = {
   preco: {
     // Formato da nota de preço do site (Receipt); valores da tabela "Ofertas vigentes" do plano.
     title: "Mentoria individual", place: "Online · Google Meet", total: "R$ 3.297",
-    split: "Pix antes do 1º encontro · 7 dias de arrependimento",
+    split: "Pix à vista, sem juros · cartão em até 12x · 7 dias de arrependimento",
     cta: "Agendar pelo WhatsApp",
-    rows: [["Encontros", "4 × 45 min, individuais"], ["WhatsApp", "30 dias"], ["Diagnóstico avulso", "R$ 597, abatido no pacote"], ["Pagamento", "Pix, antes do 1º encontro"], ["Arrependimento", "7 dias, devolução integral"]],
-    // FIXO (vídeo 2): aviso de comissão visível antes do Pix.
+    rows: [["Encontros", "4 × 45 min, individuais"], ["WhatsApp", "30 dias"], ["Avaliação de perfil", "R$ 597, descontada do pacote em até 15 dias"], ["Pagamento", "Pix à vista ou cartão em até 12x (+3,49% a.m.)"], ["Arrependimento", "7 dias, devolução integral"]],
+    // FIXO (vídeo 2): aviso de comissão visível antes do pagamento.
     note: "Lembrando: se você entrar pela minha indicação, eu recebo uma comissão da plataforma. Isso não muda o que você paga nem o que você recebe.",
-    diagnostico: "Prefere começar só com um diagnóstico de 45 minutos? São R$ 597, abatidos inteiros se você fechar o pacote em até 30 dias.",
+    diagnostico: "Prefere começar só com uma avaliação de perfil de 45 minutos? São R$ 597, descontados do pacote se você fechar em até 15 dias.",
     vagas: "Atendo no máximo 5 mentorados por mês.",
     fechada: "As vagas deste mês estão preenchidas. Entre na lista de espera e eu aviso quando abrir novas vagas.",
     esperaCta: "Entrar na lista de espera",

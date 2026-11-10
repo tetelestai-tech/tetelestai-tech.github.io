@@ -268,3 +268,10 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - The pilot condition for the 8 portfolio clients (R$ 297 + R$ 97/month with a testimonial) was withdrawn the same day.
 - `intentOf` now detects the landing page by the words "landing page" in the WhatsApp message instead of the number 697; the GA4 value stays `landing_697` so reports keep one series.
 - `/grupos/` keeps working but its message no longer quotes a price (the groups art with R$ 697 was retired).
+
+## Neutral career page approved on 2026-11-09
+
+- Carlos retired the Essencial guide, the Word kit add-on and Acompanhado on 2026-11-08 and chose a neutral career page on 2026-11-09. `/carreira-internacional/` and `/en/international-career/` keep their URLs, menu entry and home row, but sell nothing: no product names, prices, Kiwify checkout links or Product structured data. The page states that the front is being reworked, keeps the author block and the no-guarantee notes, and offers only the WhatsApp contact.
+- Do not announce the replacement offer, its dates or its price on the site until Carlos gives a launch date. When it launches, this page becomes that offer.
+- `trackCheckout` stays in `src/analytics.mjs` (unused by any page) for a future checkout; the cover images under `public/assets/essencial/` stay on disk and are no longer referenced.
+- Supersedes the career copy scope of the 2026-10-09 SEO expansion and the Essencial references in later sections.

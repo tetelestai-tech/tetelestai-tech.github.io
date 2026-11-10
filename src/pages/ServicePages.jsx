@@ -1,11 +1,9 @@
-import { CHECKOUT_ACOMPANHADO, CHECKOUT_ESSENCIAL } from "../contact.mjs";
-import { getAnalytics } from "../analytics.mjs";
 import { HOW_STEPS, LANDING_RECEIPT, UI } from "../home-content.mjs";
 import { portfolioFor, servicesFor } from "../localized-content.mjs";
 import { PageShell, pathFor } from "../Layout.jsx";
 import {
-  Browser, CardGrid, Circuits, Crumbs, CtaFinal, DevicePair, Facts, FaqSection, IconCart, LinkArrow,
-  Phone, Receipt, SectionHead, Steps, WhatsAppLink, placementOf,
+  Browser, CardGrid, Circuits, Crumbs, CtaFinal, DevicePair, Facts, FaqSection, LinkArrow,
+  Phone, Receipt, SectionHead, Steps, WhatsAppLink,
 } from "../ui.jsx";
 
 function ServiceHero({ locale, service, actions, media, headingClass = "h1 h1--md" }) {
@@ -159,38 +157,15 @@ export function LandingPage({ locale }) {
   );
 }
 
-// Kiwify checkout links; each click reports `checkout_click` with the product name.
-function BuyLink({ children, className = "btn btn--lg", href = CHECKOUT_ESSENCIAL, product = "essencial" }) {
-  return <a className={className} href={href} target="_blank" rel="noopener noreferrer" onClick={event => getAnalytics()?.trackCheckout(placementOf(event.currentTarget), product)}><IconCart />{children}</a>;
-}
-
+// Neutral career page (2026-11-09): the guide and the coaching went off sale; no checkout, no prices.
 export function CareerPage({ locale }) {
+  const t = UI[locale];
   const service = servicesFor(locale).career;
   return (
-    <PageShell locale={locale} page="career" sticky={<BuyLink>{service.buyShort}</BuyLink>}>
+    <PageShell locale={locale} page="career" whatsapp={{ message: service.waMessage }}>
       <ServiceHero locale={locale} service={service} headingClass="h1 h1--sm"
-        actions={<><BuyLink>{service.buyLabel}</BuyLink><LinkArrow href="#guide" icon="down">{service.secondaryLabel}</LinkArrow></>}
-        media={<div className="hero__media hero__media--center"><div className="load-shot cover-wrap"><img className="cover" src="/assets/essencial/essencial-capa.webp" alt={service.coverAlt} width="640" height="935" fetchPriority="high" decoding="async" /></div></div>} />
-
-      <section className="section light" id="guide" aria-labelledby="guide-title">
-        <div className="wrap">
-          <SectionHead eyebrow={service.build.eyebrow} title={service.build.title} id="guide-title" />
-          <CardGrid items={service.build.items} />
-        </div>
-      </section>
-
-      <section className="section dark" aria-labelledby="map-title">
-        <div className="wrap split">
-          <div className="stack" data-reveal="">
-            <p className="eyebrow">{service.map.eyebrow}</p>
-            <h2 className="h2" id="map-title">{service.map.title}</h2>
-            <div className="card card--glass chapters">
-              {service.map.chapters.map(([number, title, page]) => <div className="receipt__row" key={number}><span>{number}</span><span>{title}</span><i /><span className="muted">{page}</span></div>)}
-            </div>
-          </div>
-          <div className="hero__media--center" data-reveal="zoom"><div className="cover-wrap"><img className="cover" src="/assets/essencial/essencial-mapa.webp" alt={service.mapAlt} width="640" height="935" loading="lazy" decoding="async" /></div></div>
-        </div>
-      </section>
+        actions={<WhatsAppLink message={service.waMessage}>{service.ctaLabel}</WhatsAppLink>}
+        media={<div className="hero__media hero__media--flat"><div className="card card--glass load-shot examples"><p className="eyebrow">{service.clear.title}</p><ul>{service.clear.items.map(item => <li key={item}>{item}</li>)}</ul></div></div>} />
 
       <section className="section light" aria-labelledby="author-title">
         <div className="wrap split">
@@ -203,28 +178,16 @@ export function CareerPage({ locale }) {
             </div>
           </div>
           <div className="card" data-reveal="">
-            <p className="eyebrow">{service.notIncluded.eyebrow}</p>
-            <h3 className="h3">{service.notIncluded.title}</h3>
-            <p>{service.notIncluded.text}</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="section section--tight dark-2" id="acompanhado" aria-labelledby="coaching-title">
-        <div className="wrap">
-          <div className="card card--glass card--wide" data-reveal="">
-            <div className="stack stack--sm"><p className="eyebrow">{service.coaching.eyebrow}</p><h2 className="h2" id="coaching-title">{service.coaching.title}</h2><p>{service.coaching.text}</p></div>
-            <div className="btn-row">
-              <BuyLink href={CHECKOUT_ACOMPANHADO} product="acompanhado">{service.coaching.cta}</BuyLink>
-              <WhatsAppLink message={service.coaching.waMessage} className="link link--arrow" icon={false}>{service.coaching.question}</WhatsAppLink>
-            </div>
+            <p className="eyebrow">{service.status.eyebrow}</p>
+            <h3 className="h3">{service.status.title}</h3>
+            <p>{service.status.text}</p>
           </div>
         </div>
       </section>
 
       <FaqSection eyebrow={service.faqTitle.eyebrow} title={service.faqTitle.title} items={service.faqs} />
-      <CtaFinal title={service.final.title} text={service.final.text}>
-        <BuyLink>{service.buyShort}</BuyLink>
+      <CtaFinal title={service.final.title} text={service.final.text} note={t.safety}>
+        <WhatsAppLink message={service.waMessage}>{service.ctaLabel}</WhatsAppLink>
       </CtaFinal>
     </PageShell>
   );

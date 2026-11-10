@@ -2,7 +2,7 @@ import { servicesFor, portfolioFor } from './localized-content.mjs';
 import { HOME, UI } from './home-content.mjs';
 import { APPS, CLIENT_PROJECTS } from './portfolio-content.mjs';
 import { APP_STORE_LINKS, DE_ROLE_APP_STORE } from './app-store-links.mjs';
-import { CHECKOUT_ESSENCIAL, INSTAGRAM_URL, ORIGIN, WHATSAPP_LINK } from './contact.mjs';
+import { INSTAGRAM_URL, ORIGIN, WHATSAPP_LINK } from './contact.mjs';
 
 const ORGANIZATION_ID = `${ORIGIN}/#organization`;
 const WEBSITE_ID = `${ORIGIN}/#website`;
@@ -101,19 +101,6 @@ export function pageStructuredData({ page, locale, title, description }) {
     if (page === "landingPages") node.offers = { "@type": "Offer", price: service.price, priceCurrency: "BRL", url, availability: "https://schema.org/InStock" };
     graph.push(node);
     webpage.mainEntity = { "@id": serviceId };
-    if (page === "career") {
-      graph.push({
-        "@type": "Product",
-        "@id": `${url}#essencial`,
-        name: service.productName,
-        description: service.metaDescription,
-        image: `${ORIGIN}/assets/essencial/essencial-capa.webp`,
-        brand: { "@id": ORGANIZATION_ID },
-        category: "E-book",
-        inLanguage: "pt-BR",
-        offers: { "@type": "Offer", price: service.price, priceCurrency: "BRL", url: CHECKOUT_ESSENCIAL, availability: "https://schema.org/InStock", seller: { "@id": ORGANIZATION_ID } },
-      });
-    }
   }
 
   const faqs = service?.faqs ?? (page === "home" ? HOME[locale].faqs : null);

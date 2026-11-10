@@ -137,7 +137,7 @@ export const HOME = {
       aside: "Tecnologia com propósito. Oportunidades sem fronteiras.",
       items: [
         { id: "solucoes-digitais", title: "Sites, landing pages e apps", text: "Sites e apps que apresentam o negócio e geram vendas, e landing pages que levam o cliente ao WhatsApp. Apps iOS e Android sob orçamento.", links: ["sites", "landingPages", "apps"] },
-        { id: "carreira-internacional", title: "Carreira internacional em TI", text: "Guia Essencial: currículo em inglês, LinkedIn e candidaturas organizadas. R$ 47.", links: ["career"] },
+        { id: "carreira-internacional", title: "Carreira internacional em TI", text: "Frente em reformulação. O guia e o acompanhamento individual saíram de venda.", links: ["career"] },
         { id: "capacitacao-ia", title: "Capacitação em IA", text: "Treinamento prático de inteligência artificial para equipes e profissionais, sob demanda.", links: ["aiTraining"] },
       ],
     },
@@ -188,7 +188,7 @@ export const HOME = {
       aside: "Technology with purpose. Opportunities without borders.",
       items: [
         { id: "digital-solutions", title: "Websites, landing pages and apps", text: "Websites and apps that present your business and drive sales, and landing pages that bring customers to WhatsApp. iOS and Android apps quoted per project.", links: ["sites", "landingPages", "apps"] },
-        { id: "international-career", title: "International careers in tech", text: "The Essencial guide: English CV, LinkedIn and an organized job search (in Portuguese).", links: ["career"] },
+        { id: "international-career", title: "International careers in tech", text: "This front is being reworked. The guide and the one-on-one coaching are no longer on sale.", links: ["career"] },
         { id: "practical-ai", title: "AI training", text: "Hands-on artificial intelligence training for teams and professionals, on demand.", links: ["aiTraining"] },
       ],
     },

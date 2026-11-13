@@ -1,14 +1,14 @@
 # Tetelestai
 
-> Tetelestai (Tetelestai Soluções em Tecnologia Ltda., CNPJ 58.138.258/0001-39) is a small technology studio based in Brasília, Brazil, that works online with clients across Brazil and abroad. It builds websites, landing pages and iOS/Android apps for businesses, publishes its own iOS apps, sells a guide for tech professionals applying to international jobs, and runs on-demand AI training. Contact is through WhatsApp (+55 61 98471-1930) or contato@tetelestai.tech.
+> Tetelestai (Tetelestai Soluções em Tecnologia Ltda., CNPJ 58.138.258/0001-39) is a small technology studio based in Brasília, Brazil, that works online with clients across Brazil and abroad. It builds websites, landing pages and iOS/Android apps for businesses, publishes its own iOS apps, and runs on-demand AI training. Contact is through WhatsApp (+55 61 98471-1930) or contato@tetelestai.tech.
 
 ## Key facts
 
-- Landing page: R$ 297 upfront when hiring, plus R$ 97 a month from the first month (since 9 November 2026). One page with up to 5 sections, an offer and copy written for the business, SEO and GEO optimization, mobile version, WhatsApp button and one round of revisions. Live in up to 2 business days after the client sends texts and photos. The R$ 97 monthly fee covers hosting, SSL, backups, one update a month, a monthly report and basic local SEO; the .com.br domain is included for the first 12 months, registered in the business's name.
+- Landing page: R$ 297 upfront when hiring, plus R$ 97 a month from the first month (since 9 November 2026). One page with up to 5 sections, an offer and copy written for the business, SEO and GEO optimization, mobile version, WhatsApp button and one round of revisions. Live in up to 2 business days after the client sends texts and photos. The R$ 97 monthly fee covers hosting, SSL, backups, one update a month, a monthly report and basic local SEO; the .com.br domain is included for the first 12 months, registered in the business's name. There is no minimum term: the client can cancel with 30 days' notice and no fee; when the notice ends the site leaves Tetelestai's hosting, the domain stays with the client and the site files are handed over.
 - Multi-page websites, iOS and Android apps, systems and automations are quoted in writing after a conversation.
 - Founders: Carlos Viegas (Co-Founder & CTO; software engineer for more than 22 years, 14 of them as a tech lead at Banco do Brasil) and Gabriela Rosa (Co-Founder & CEO).
 - Service is delivered online, in Portuguese or English, to clients across Brazil and abroad.
-- The career guide and AI training do not guarantee interviews, hiring, salaries or visas, and do not include immigration legal advice.
+- The career front and AI training do not guarantee interviews, hiring, salaries or visas, and do not include immigration legal advice.
 
 ## Pages (Portuguese)
 
@@ -21,7 +21,7 @@
 - [Bolachinhas da Vovó Juju](https://tetelestai.tech/projetos/bolachinhas-da-vovo-juju/): artisan food landing page case study
 - [Afeto Nobre](https://tetelestai.tech/projetos/afeto-nobre/): handmade sweets and cakes landing page case study (Guará, Brasília), with WhatsApp quotes
 - [LaLeLis](https://tetelestai.tech/projetos/lalelis/): custom party stationery landing page case study (Federal District), with an interactive quote list sent through WhatsApp
-- [Carreira internacional em TI](https://tetelestai.tech/carreira-internacional/): the Essencial guide (R$ 47, 31 pages, plain-text templates and a CSV tracker; optional Word CV and cover letter templates at checkout) and Acompanhado, one-on-one coaching with three 45-minute online sessions in 30 days, sold on Kiwify for R$ 497 and including the Essencial guide and the Word templates
+- [Carreira internacional em TI](https://tetelestai.tech/carreira-internacional/): this front is being reworked; the earlier guide and one-on-one coaching went off sale in November 2026 and nothing is sold on this page
 - [Capacitação em IA](https://tetelestai.tech/capacitacao-em-ia/): on-demand AI training for teams and professionals
 
 ## Pages (English)

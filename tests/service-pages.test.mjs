@@ -29,7 +29,7 @@ const servicePages = [
   },
   {
     path: "/carreira-internacional/",
-    heading: "Currículo em inglês, LinkedIn e candidaturas organizados para vagas internacionais em TI",
+    heading: "Carreira internacional em TI: frente em reformulação",
     titlePattern: /carreira internacional/i,
     canonical: "https://tetelestai.tech/carreira-internacional/",
     shell: "/carreira-internacional/index.html",
@@ -112,8 +112,12 @@ for (const page of servicePages) {
     const career = page.path === "/carreira-internacional/";
     assert.ok(tags(main, "a").some((tag) => isConfirmedWhatsApp(attribute(tag, "href")?.replaceAll("&amp;", "&"))),
       "The initial service content must link to the confirmed WhatsApp address");
-    if (career) assert.ok(tags(main, "a").some((tag) => attribute(tag, "href") === "https://pay.kiwify.com.br/CVpvQ3c"),
-      "The career guide must link to its checkout");
+    if (career) {
+      assert.ok(!/kiwify/i.test(html), "The neutral career page must not link to any checkout");
+      for (const retired of [/Essencial/, /Acompanhado/, /Kit Word/, /R\$\s?47\b/, /R\$\s?497\b/, /9,90/]) {
+        assert.ok(!retired.test(textContent(main)), `The career page must not mention retired products or prices (${retired})`);
+      }
+    }
   });
 
   test(`${page.path} has its own indexable Portuguese metadata with its equivalent English translation`, async () => {

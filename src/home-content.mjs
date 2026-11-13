@@ -251,7 +251,8 @@ export const PEOPLE = {
 
 // Profile links under each person in "Quem faz". An empty address renders nothing: the site never shows a
 // placeholder or a guessed profile. Carlos (13/11): his LinkedIn now, carlosviegas.dev once it is live; no GitHub.
-export const PROFILES = { carlosLinkedIn: "", carlosSite: "" };
+// LinkedIn address sent by Carlos on 13/11; carlosSite stays empty until that page is live.
+export const PROFILES = { carlosLinkedIn: "https://www.linkedin.com/in/carloshsrosa/", carlosSite: "" };
 const PROFILE_LINKS = {
   pt: { CV: [["carlosLinkedIn", "Carlos no LinkedIn"], ["carlosSite", "Página pessoal de Carlos"]] },
   en: { CV: [["carlosLinkedIn", "Carlos on LinkedIn"], ["carlosSite", "Carlos's personal page"]] },

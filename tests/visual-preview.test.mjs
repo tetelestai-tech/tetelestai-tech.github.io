@@ -91,8 +91,16 @@ test('the monthly fee exit rule is stated beside the price and in the FAQs, in b
       assert.deepEqual(gabriela.links, []);
       assert.equal(peopleFor(locale).length, PEOPLE[locale].length);
     }
-    const about = render('/').match(/<section[^>]*id="about"[\s\S]*?<\/section>/)?.[0] ?? '';
-    assert.ok(!/github\.com/.test(about), 'GitHub stays out of the team block');
+    // Published profile: Carlos's LinkedIn (address sent by him on 13/11); the personal page is not live yet.
+    for (const [path, label] of [['/', 'Carlos no LinkedIn'], ['/en/', 'Carlos on LinkedIn']]) {
+      const about = render(path).match(/<section[^>]*id="about"[\s\S]*?<\/section>/)?.[0] ?? '';
+      const links = about.match(/<a [^>]*href="https:\/\/www\.linkedin\.com\/in\/carloshsrosa\/"[^>]*>[\s\S]*?<\/a>/g) ?? [];
+      assert.equal(links.length, 1, `${path}: one LinkedIn link in the team block`);
+      assert.ok(links[0].includes(label), `${path}: localized label`);
+      assert.match(links[0], /target="_blank"/, `${path}: opens in a new tab`);
+      assert.match(links[0], /rel="[^"]*noopener[^"]*"/, `${path}: noopener`);
+      assert.ok(!/\?locale=|carlosviegas\.dev|github\.com/.test(about), `${path}: no tracking parameter, unpublished page or GitHub`);
+    }
   } finally {
     await renderer.close();
   }

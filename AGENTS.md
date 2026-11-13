@@ -289,3 +289,13 @@ Build app UI in `src/`. Preserve the verified localized-shell and strict-route b
 - Local clones on Windows need `git config core.autocrlf false` (or the Recarga release hash check in `npm run build` fails on converted line endings).
 - Published on 2026-11-13: Carlos reviewed the local preview (desktop and mobile, PT and EN) and authorized the merge by name. PR #37 was merged into `main` (merge `287d72d`) and carried the two commits of PR #36, so the neutral career page went live with it. The deployed pages were checked afterwards: exit rule on the PT/EN home and landing pages, neutral career page, `llms.txt`, sitemap dates, compact consent notice on mobile, no Analytics before acceptance and strict 404.
 - Decided by Carlos on 2026-11-13 after the release: keep the two-line consent notice with "Ler tudo" / "Read all" on mobile. Any later change needs its own review and named authorization.
+
+## Full list of services for small businesses, approved on 2026-11-13 (pending review)
+
+- Carlos said on 2026-11-13 that Tetelestai serves small businesses with websites and landing pages, apps, automations, systems and digital marketing management, and asked for the site to say so. He accepted six recommendations the same day.
+- Where the list appears, PT/EN: the first card of the home fronts block ("Serviços para pequenas empresas" / "Services for small businesses"), a note under the footer "Serviços" column, the quote sentence beside the price, the home meta description (also the Organization description) and `llms.txt`. English wording: "websites, apps, automations, software systems and digital marketing management".
+- The home `<title>` stays "Sites, landing pages e apps para empresas | Tetelestai". The R$ 297 + R$ 97/month landing page stays the entry offer and the home highlight.
+- Automations, systems and digital marketing management have no page, route, price, deadline, case or scope description: they are quoted per project over WhatsApp. Do not detail what digital marketing management includes until Carlos defines it.
+- "Pequenas empresas" is used only in the fronts block and `llms.txt`; the rest of the site keeps the 23/10 wording (businesses of any size) until Carlos decides the general positioning.
+- No route, sitemap, Analytics or consent change. `/`, `/en/`, `/projetos/` and `/en/projects/` must keep their addresses: `carlosviegas.dev` links to them.
+- Nothing is published until Carlos reviews the preview and authorizes the merge by name.

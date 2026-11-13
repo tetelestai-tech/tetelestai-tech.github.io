@@ -127,10 +127,11 @@ export function Footer({ locale }) {
             <p className="site-foot__people">{f.people}</p>
           </div>
           <div className="site-foot__cols">
-            {f.columns.map(([title, links]) => (
+            {f.columns.map(([title, links, note]) => (
               <div className="site-foot__col" key={title}>
                 <h2>{title}</h2>
                 {links.map(([key, label]) => <a href={pathFor(key, locale)} key={key}>{label}</a>)}
+                {note && <p className="site-foot__note">{note}</p>}
               </div>
             ))}
             <div className="site-foot__col">

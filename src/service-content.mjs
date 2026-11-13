@@ -94,6 +94,7 @@ export const SERVICE_PAGES = {
       { q: "Formulários e integrações estão inclusos?", a: "Dependem do escopo. Se você precisar coletar dados ou integrar com outro sistema, isso entra na proposta com o preço combinado." },
       { q: "O que eu mando para pedir a proposta?", a: "O que você vende, para quem, de onde vêm os visitantes, o que eles devem fazer na página e se você já tem domínio ou hospedagem." },
       { q: "Como funciona o pagamento?", a: "R$ 297 de entrada, na contratação, e R$ 97 por mês desde o 1º mês." },
+      { q: "Posso cancelar a mensalidade quando quiser?", a: "Sim. Não há prazo mínimo nem multa: basta avisar com 30 dias de antecedência. Ao fim do aviso, o site sai da hospedagem da Tetelestai. O domínio, que já está registrado no nome da empresa, continua com você, e você recebe os arquivos do site." },
     ],
     final: { title: "Quer a sua landing page?", text: "Mande uma mensagem contando o que você vende. A proposta vem com preço e prazo." },
   },

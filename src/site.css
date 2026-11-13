@@ -337,6 +337,12 @@ html:not(.js) .site-head{background:rgba(0,12,25,.9);border-bottom-color:var(--l
 .receipt__note{margin-top:14px;font-size:12px;line-height:1.5;color:var(--ink-muted);text-align:center}
 .receipt .btn{font-family:var(--sans)}
 .receipt :focus-visible{outline-color:var(--ink)}
+/* Exit rule of the monthly fee, beside the price (13/11). A quiet panel: no accent bar beside it. */
+.exit-rule{padding:20px 22px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--line)}
+.exit-rule__title{margin:0 0 12px;font-size:18px;font-weight:640;letter-spacing:-.01em;line-height:1.3}
+.exit-rule ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.exit-rule li{position:relative;padding-left:18px;font-size:15.5px;line-height:1.55;color:var(--muted)}
+.exit-rule li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--cyan)}
 
 /* Guide chapter list (same dotted-leader language as the price note) */
 .chapters{display:flex;flex-direction:column;gap:14px;font-family:var(--mono)}
@@ -388,6 +394,7 @@ html:not(.js) .site-head{background:rgba(0,12,25,.9);border-bottom-color:var(--l
 .person{display:flex;gap:22px;align-items:flex-start}
 .person__photo{flex:0 0 104px;width:104px;height:104px;border-radius:50%;border:1px solid var(--line-2);background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:var(--label);font-size:24px;letter-spacing:.06em;color:var(--cyan);transition:transform .3s var(--ease),border-color .3s,background-color .3s}
 .person h2,.person h3{transition:color .2s}
+.person__links{display:flex;flex-wrap:wrap;gap:0 18px;margin:0}
 @media (max-width:520px){.person{gap:16px}.person__photo{flex-basis:72px;width:72px;height:72px;font-size:18px}}
 @media (hover:hover) and (pointer:fine){.person:hover .person__photo{border-color:var(--cyan);background:rgba(14,208,230,.08);transform:scale(1.05)}.person:hover h3{color:var(--cyan)}}
 
@@ -483,7 +490,17 @@ body:has(.analytics-consent) .wa-float{display:none}
 .analytics-consent__actions button{min-height:44px;padding:10px 18px;border:1px solid var(--cyan);border-radius:10px;background:transparent;color:var(--text);font-size:15px;font-weight:600;cursor:pointer;transition:background-color .2s,color .2s}
 .analytics-consent__actions .analytics-consent__close{border-color:var(--line-2)}
 @media (hover:hover) and (pointer:fine){.analytics-consent__actions button:hover{background:var(--cyan-soft)}}
-@media (max-width:760px){.analytics-consent{flex-direction:column;align-items:stretch;gap:16px;padding:18px}.analytics-consent__actions button{flex:1}}
+/* Small screens (13/11): a compact notice, so the opening actions stay in view. The text is the same and stays in
+   the page for assistive technology; it shows two lines until "Ler tudo" opens it. Both choices keep equal weight. */
+.analytics-consent__more{display:none}
+@media (max-width:760px){
+  .analytics-consent{flex-direction:column;align-items:stretch;gap:10px;inset:auto 10px 10px;padding:12px 16px;background:var(--navy)}
+  .analytics-consent h2{margin-bottom:4px;font-size:15px}
+  .analytics-consent p{font-size:13px;line-height:1.45}
+  .analytics-consent .is-clamped .analytics-consent__text{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
+  .analytics-consent .is-clamped .analytics-consent__more{display:inline-block;min-height:28px;margin:2px 14px 0 0;padding:4px 0;border:0;background:none;color:var(--text);font:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+  .analytics-consent__actions button{flex:1;padding:8px 12px;font-size:14px}
+}
 .analytics-test-status{position:fixed;z-index:81;top:calc(var(--head-h) + 10px);right:16px;display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:999px;border:1px solid var(--cyan);background:rgba(0,12,25,.92);font-family:var(--mono);font-size:12px;color:var(--text)}
 .analytics-test-status a,.analytics-test-status button{color:var(--cyan);background:none;border:0;padding:0;cursor:pointer;font-size:12px;text-decoration:underline}
 

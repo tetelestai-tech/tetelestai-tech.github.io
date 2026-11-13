@@ -95,6 +95,7 @@ export const EN_SERVICE_PAGES = {
       { q: 'Are forms and integrations included?', a: 'That depends on the scope. If you need to collect data or connect another system, it goes into the proposal with an agreed price.' },
       { q: 'What should I send to get a proposal?', a: 'What you sell, to whom, where visitors come from, what they should do on the page and whether you already have a domain or hosting.' },
       { q: 'How does payment work?', a: 'R$ 297 upfront when you hire us, then R$ 97 a month from the first month.' },
+      { q: 'Can I cancel the monthly fee whenever I want?', a: "Yes. There is no minimum term and no cancellation fee: just give 30 days' notice. When the notice ends, the site leaves Tetelestai's hosting. The domain, already registered in the client's name, stays with you, and you receive the site files." },
     ],
     final: { title: 'Want your landing page?', text: 'Send a message telling us what you sell. The proposal comes with price and timeline.' },
   },

@@ -1,4 +1,4 @@
-import { HOME, HOW_STEPS, LANDING_RECEIPT, PEOPLE, UI } from "../home-content.mjs";
+import { HOME, HOW_STEPS, LANDING_RECEIPT, peopleFor, UI } from "../home-content.mjs";
 import { portfolioFor, servicesFor } from "../localized-content.mjs";
 import { APPS, CLIENT_PROJECTS } from "../portfolio-content.mjs";
 import { PageShell, pathFor } from "../Layout.jsx";
@@ -27,10 +27,12 @@ export function CaseCard({ project, locale, heading: Heading = "h3", featured = 
 export function PeopleGrid({ locale }) {
   return (
     <div className="grid grid--2" data-reveal-group="">
-      {PEOPLE[locale].map(person => (
+      {peopleFor(locale).map(person => (
         <div className="person" data-reveal="" key={person.name}>
           <div className="person__photo" aria-hidden="true">{person.initials}</div>
-          <div className="stack stack--sm"><h3 className="h3">{person.name}</h3><p className="case__meta">{person.role}</p><p className="muted">{person.bio}</p></div>
+          <div className="stack stack--sm"><h3 className="h3">{person.name}</h3><p className="case__meta">{person.role}</p><p className="muted">{person.bio}</p>
+            {person.links.length > 0 && <p className="person__links">{person.links.map(link => <LinkArrow href={link.href} icon="out" external key={link.href}>{link.label}</LinkArrow>)}</p>}
+          </div>
         </div>
       ))}
     </div>
@@ -88,6 +90,10 @@ export function HomePage({ locale }) {
             <p className="eyebrow">{home.price.eyebrow}</p>
             <h2 className="h2" id="price-title">{home.price.title}</h2>
             <p className="lead">{home.price.lead}</p>
+            <div className="exit-rule">
+              <h3 className="exit-rule__title">{home.price.exit.title}</h3>
+              <ul>{home.price.exit.items.map(item => <li key={item}>{item}</li>)}</ul>
+            </div>
             <p className="muted">{home.price.other} <LinkArrow href={services.sites.path}>{home.price.otherLink}</LinkArrow></p>
           </div>
           <Receipt data={LANDING_RECEIPT[locale]} message={home.price.waMessage} />

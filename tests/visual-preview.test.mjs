@@ -25,7 +25,7 @@ test('redesign keeps one WhatsApp action in each opening, presents each front on
       assert.match(decodeURIComponent(actions[0]), /landing page/i, `${path}: the primary action asks for the landing page`);
       assert.doesNotMatch(decodeURIComponent(actions[1]), /landing page/i, `${path}: the secondary action asks for a quote`);
       assert.ok(hero.includes('class="trust"'), `${path}: trust facts under the actions`);
-      const fronts = path === '/' ? ['Sites, landing pages e apps', 'Carreira internacional em TI', 'Capacitação em IA'] : ['Websites, landing pages and apps', 'International careers in tech', 'AI training'];
+      const fronts = path === '/' ? ['Serviços para pequenas empresas', 'Carreira internacional em TI', 'Capacitação em IA'] : ['Services for small businesses', 'International careers in tech', 'AI training'];
       for (const front of fronts) assert.equal((html.match(new RegExp(`>${front}</h3>`, 'g')) ?? []).length, 1, `${path}: ${front}`);
       assert.ok(html.includes('id="projects"'), 'Projects link must have a destination on each homepage');
       assert.ok(!html.includes('id="ios-apps-title"'), 'app presentation stays on the full portfolio page');
@@ -91,8 +91,35 @@ test('the monthly fee exit rule is stated beside the price and in the FAQs, in b
       assert.deepEqual(gabriela.links, []);
       assert.equal(peopleFor(locale).length, PEOPLE[locale].length);
     }
-    const about = render('/').match(/<section[^>]*id="about"[\s\S]*?<\/section>/)?.[0] ?? '';
-    assert.ok(!/github\.com/.test(about), 'GitHub stays out of the team block');
+    // Full list of services for small businesses (Carlos, 13/11): fronts block, footer, quote sentence and description, PT and EN.
+    const SERVICES = {
+      '/': { front: 'Serviços para pequenas empresas', words: ['automações', 'sistemas', 'gerenciamento de marketing digital'] },
+      '/en/': { front: 'Services for small businesses', words: ['automations', 'software systems', 'digital marketing management'] },
+    };
+    for (const [path, want] of Object.entries(SERVICES)) {
+      const html = render(path);
+      const fronts = html.match(/<section[^>]*id="fronts"[\s\S]*?<\/section>/)?.[0] ?? html;
+      assert.ok(fronts.includes(want.front), `${path}: services front title`);
+      const foot = html.match(/<footer[\s\S]*?<\/footer>/)?.[0] ?? '';
+      for (const word of want.words) {
+        assert.ok(fronts.toLowerCase().includes(word), `${path}: ${word} in the fronts block`);
+        assert.ok(foot.toLowerCase().includes(word), `${path}: ${word} in the footer`);
+      }
+      assert.doesNotMatch(fronts, /a partir de|starting at|from R\$/i, `${path}: no invented price for quoted services`);
+    }
+    const { HOME: HOME_COPY } = await renderer.ssrLoadModule('/src/home-content.mjs');
+    assert.match(HOME_COPY.pt.metaDescription, /automações, sistemas e gerenciamento de marketing digital sob orçamento/);
+    assert.match(HOME_COPY.en.metaDescription, /automations, software systems and digital marketing management, quoted per project/);
+    // Published profile: Carlos's LinkedIn (address sent by him on 13/11); the personal page is not live yet.
+    for (const [path, label] of [['/', 'Carlos no LinkedIn'], ['/en/', 'Carlos on LinkedIn']]) {
+      const about = render(path).match(/<section[^>]*id="about"[\s\S]*?<\/section>/)?.[0] ?? '';
+      const links = about.match(/<a [^>]*href="https:\/\/www\.linkedin\.com\/in\/carloshsrosa\/"[^>]*>[\s\S]*?<\/a>/g) ?? [];
+      assert.equal(links.length, 1, `${path}: one LinkedIn link in the team block`);
+      assert.ok(links[0].includes(label), `${path}: localized label`);
+      assert.match(links[0], /target="_blank"/, `${path}: opens in a new tab`);
+      assert.match(links[0], /rel="[^"]*noopener[^"]*"/, `${path}: noopener`);
+      assert.ok(!/\?locale=|carlosviegas\.dev|github\.com/.test(about), `${path}: no tracking parameter, unpublished page or GitHub`);
+    }
   } finally {
     await renderer.close();
   }

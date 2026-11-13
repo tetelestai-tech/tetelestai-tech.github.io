@@ -34,7 +34,7 @@ export const UI = {
       tagline: "Tecnologia com propósito. Oportunidades sem fronteiras.",
       people: "Carlos Viegas · Gabriela Rosa · Brasília-DF · atendimento online em todo o Brasil",
       columns: [
-        ["Serviços", [["sites", "Criação de sites"], ["landingPages", "Landing pages"], ["apps", "Apps iOS e Android"], ["portfolio", "Projetos"]]],
+        ["Serviços", [["sites", "Criação de sites"], ["landingPages", "Landing pages"], ["apps", "Apps iOS e Android"], ["portfolio", "Projetos"]], "Automações, sistemas e gerenciamento de marketing digital: sob orçamento, pelo WhatsApp."],
         ["Outras frentes", [["career", "Carreira internacional em TI"], ["aiTraining", "Capacitação em IA"]]],
       ],
       contact: "Contato",
@@ -80,7 +80,7 @@ export const UI = {
       tagline: "Technology with purpose. Opportunities without borders.",
       people: "Carlos Viegas · Gabriela Rosa · Based in Brasília, working online across Brazil and abroad",
       columns: [
-        ["Services", [["sites", "Website development"], ["landingPages", "Landing pages"], ["apps", "iOS and Android apps"], ["portfolio", "Projects"]]],
+        ["Services", [["sites", "Website development"], ["landingPages", "Landing pages"], ["apps", "iOS and Android apps"], ["portfolio", "Projects"]], "Automations, software systems and digital marketing management: quoted per project, over WhatsApp."],
         ["More from Tetelestai", [["career", "International careers in tech"], ["aiTraining", "AI training"]]],
       ],
       contact: "Contact",
@@ -103,7 +103,7 @@ export const HOME = {
   pt: {
     path: "/",
     metaTitle: "Sites, landing pages e apps para empresas | Tetelestai",
-    metaDescription: "Landing page sob medida por R$ 297 de entrada + R$ 97/mês, no ar em até 2 dias úteis, com SEO, GEO e botão de WhatsApp. Sites e apps para empresas de todo o Brasil sob orçamento.",
+    metaDescription: "Landing page sob medida por R$ 297 de entrada + R$ 97/mês, no ar em até 2 dias úteis, com SEO, GEO e botão de WhatsApp. Sites, apps, automações, sistemas e gerenciamento de marketing digital sob orçamento.",
     // Opening chosen by Carlos on 28/10 (option A): the landing page first, quotes second. Price changed on 09/11.
     hero: {
       eyebrow: "Landing page sob medida · todo o Brasil",
@@ -125,7 +125,7 @@ export const HOME = {
       eyebrow: "Preço",
       title: "O preço está aqui. Sem “sob consulta”.",
       lead: "Você sabe quanto vai pagar e o que vai receber antes de começar. A landing page é a forma mais rápida de ter um endereço para mandar quando o cliente pergunta “como funciona?”.",
-      other: "Precisa de um site com várias páginas, um app iOS ou Android, um sistema ou uma automação? O orçamento sai depois de uma conversa.",
+      other: "Precisa de um site com várias páginas, um app iOS ou Android, um sistema, uma automação ou gerenciamento de marketing digital? O orçamento sai depois de uma conversa.",
       otherLink: "Ver criação de sites",
       // Exit rule decided by Carlos on 11/11 (Plano 90 dias, "Ofertas vigentes"); on the site since the 13/11 review.
       exit: {
@@ -145,7 +145,7 @@ export const HOME = {
       title: "Três frentes, o mesmo cuidado",
       aside: "Tecnologia com propósito. Oportunidades sem fronteiras.",
       items: [
-        { id: "solucoes-digitais", title: "Sites, landing pages e apps", text: "Sites e apps que apresentam o negócio e geram vendas, e landing pages que levam o cliente ao WhatsApp. Apps iOS e Android sob orçamento.", links: ["sites", "landingPages", "apps"] },
+        { id: "solucoes-digitais", title: "Serviços para pequenas empresas", text: "Sites e landing pages, apps iOS e Android, automações, sistemas e gerenciamento de marketing digital. A landing page tem preço fechado; os demais serviços são feitos sob orçamento.", links: ["sites", "landingPages", "apps"] },
         { id: "carreira-internacional", title: "Carreira internacional em TI", text: "Frente em reformulação. O guia e o acompanhamento individual saíram de venda.", links: ["career"] },
         { id: "capacitacao-ia", title: "Capacitação em IA", text: "Treinamento prático de inteligência artificial para equipes e profissionais, sob demanda.", links: ["aiTraining"] },
       ],
@@ -165,7 +165,7 @@ export const HOME = {
   en: {
     path: "/en/",
     metaTitle: "Websites, landing pages and apps for businesses | Tetelestai",
-    metaDescription: "A tailored landing page for R$ 297 upfront + R$ 97/month, live in up to 2 business days, with SEO, GEO and a WhatsApp button. Websites and apps for businesses, quoted per project.",
+    metaDescription: "A tailored landing page for R$ 297 upfront + R$ 97/month, live in up to 2 business days, with SEO, GEO and a WhatsApp button. Websites, apps, automations, software systems and digital marketing management, quoted per project.",
     hero: {
       eyebrow: "Tailored landing pages · Brazil and abroad",
       title: "Your landing page live in up to 2 business days: R$ 297 upfront + R$ 97/month",
@@ -186,7 +186,7 @@ export const HOME = {
       eyebrow: "Pricing",
       title: "The price is right here. No “contact us for pricing”.",
       lead: "You know what you'll pay and what you'll get before we start. A landing page is the fastest way to have a link to send when a customer asks “how does it work?”.",
-      other: "Need a multi-page website, an iOS or Android app, a system or an automation? We quote it after a quick conversation.",
+      other: "Need a multi-page website, an iOS or Android app, a software system, an automation or digital marketing management? We quote it after a quick conversation.",
       otherLink: "See website development",
       exit: {
         title: "No minimum term, no cancellation fee",
@@ -205,7 +205,7 @@ export const HOME = {
       title: "Three fronts, the same care",
       aside: "Technology with purpose. Opportunities without borders.",
       items: [
-        { id: "digital-solutions", title: "Websites, landing pages and apps", text: "Websites and apps that present your business and drive sales, and landing pages that bring customers to WhatsApp. iOS and Android apps quoted per project.", links: ["sites", "landingPages", "apps"] },
+        { id: "digital-solutions", title: "Services for small businesses", text: "Websites and landing pages, iOS and Android apps, automations, software systems and digital marketing management. The landing page has a set price; the other services are quoted per project.", links: ["sites", "landingPages", "apps"] },
         { id: "international-career", title: "International careers in tech", text: "This front is being reworked. The guide and the one-on-one coaching are no longer on sale.", links: ["career"] },
         { id: "practical-ai", title: "AI training", text: "Hands-on artificial intelligence training for teams and professionals, on demand.", links: ["aiTraining"] },
       ],
@@ -251,7 +251,8 @@ export const PEOPLE = {
 
 // Profile links under each person in "Quem faz". An empty address renders nothing: the site never shows a
 // placeholder or a guessed profile. Carlos (13/11): his LinkedIn now, carlosviegas.dev once it is live; no GitHub.
-export const PROFILES = { carlosLinkedIn: "", carlosSite: "" };
+// LinkedIn address sent by Carlos on 13/11; carlosSite stays empty until that page is live.
+export const PROFILES = { carlosLinkedIn: "https://www.linkedin.com/in/carloshsrosa/", carlosSite: "" };
 const PROFILE_LINKS = {
   pt: { CV: [["carlosLinkedIn", "Carlos no LinkedIn"], ["carlosSite", "Página pessoal de Carlos"]] },
   en: { CV: [["carlosLinkedIn", "Carlos on LinkedIn"], ["carlosSite", "Carlos's personal page"]] },

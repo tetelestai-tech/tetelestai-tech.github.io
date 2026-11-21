@@ -104,7 +104,7 @@ export function App({ pathname = window.location.pathname }) {
     updateMeta('meta[property="og:url"]', "content", canonicalUrl);
     updateMeta('meta[property="og:locale"]', "content", locale === "en" ? "en_US" : "pt_BR");
     updateMeta('meta[property="og:locale:alternate"]', "content", locale === "en" ? "pt_BR" : "en_US");
-    const imageAlt = locale === "en" ? "Tetelestai's original symbol on a navy background." : "Símbolo original da Tetelestai sobre fundo azul-marinho.";
+    const imageAlt = locale === "en" ? "Tetelestai's original symbol on a light background." : "Símbolo original da Tetelestai sobre fundo claro.";
     updateMeta('meta[property="og:image:alt"]', "content", imageAlt);
     updateMeta('meta[name="twitter:title"]', "content", title);
     updateMeta('meta[name="twitter:description"]', "content", description);

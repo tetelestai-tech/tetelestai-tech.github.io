@@ -50,7 +50,7 @@ test("the initial home uses responsive WebP sources without preloading their PNG
 test("image optimization retains the exact protected originals", async () => {
   const expected = {
     "tetelestai-symbol.png": "2d9c7c3c12403aa55de0b8092cb78c7898615d084e0fd7bfedcb922dd7c063fd",
-    "tetelestai-share.png": "4ad291462b2a3af07c0300dd6ac786978bd7fa3535392539779b72ec0d8bf508",
+    "tetelestai-share.png": "fc9e105f2b00cdcf3eecb92d53176d83db91df058edae3328539138929752768",
   };
   for (const [name, hash] of Object.entries(expected)) {
     assert.equal(createHash("sha256").update(await readFile(asset(name))).digest("hex"), hash);
